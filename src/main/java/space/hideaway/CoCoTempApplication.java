@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CoCoTempApplication {
 
     public static void main(String[] args) {
+
+        //Start the Spring instance.
         SpringApplication.run(CoCoTempApplication.class, args);
     }
 }

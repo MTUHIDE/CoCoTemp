@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
+    /**
+     * All requests to the index location are routed to the index.html template.
+     *
+     * @return The name of the template to be used.
+     */
     @GetMapping("/")
     public String index() {
         return "index";

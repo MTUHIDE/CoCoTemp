@@ -11,8 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        /*
+        By default, Spring enables basic authentication requiring
+        all requests to log in. This disables that functionality.
+        */
         httpSecurity.authorizeRequests().anyRequest().permitAll();
     }
 }

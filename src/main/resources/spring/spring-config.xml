@@ -3,6 +3,7 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--Register the Thymeleaf template renderer.-->
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/templates/"/>
@@ -10,6 +11,7 @@
         <property name="templateMode" value="HTML5"/>
     </bean>
 
+    <!--use the Thymeleaf template renderer.-->
     <bean id="templateEngine"
           class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
