@@ -11,11 +11,15 @@ var map = L.map('bgmap', {
     dragging: true,
     zoomControl: false
 });
-map.setView([40, -85], 6);
+map.setView([35, -100], 5);
 map.setMaxBounds(maxBounds);
+//Because Piper needed zoom buttons
+L.control.zoom({
+    position:'topright'
+}).addTo(map);
 
 /* Style layer from MapBox */
-L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/citzzhm4m002f2in5jfc102im/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw',
+L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw',
     {
         maxZoom: 18
     }).addTo(map);

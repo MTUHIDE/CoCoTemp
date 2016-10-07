@@ -32,15 +32,31 @@ body {
   position: fixed;
   border-radius: 0;
   height: 100%; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-fixed-left {
+      height: 100px;
+      width: 100%; } }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar-nav > ul {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-left: 150px; } }
 .navbar-nav > li {
   float: none;
   width: 139px; }
-.navbar-nav > li > .dropdown-menu {
-  margin-top: -50px;
-  margin-left: 140px; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-nav > li {
+      text-align: center;
+      float: left; } }
+.navbar-nav > li a {
+  color: white; }
 .navbar-nav + .container {
   padding-left: 160px; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-nav + .container {
+      padding: 0; } }
 
 .navbar-brand {
   display: block;
@@ -48,13 +64,8 @@ body {
   font: 32px "Bitter", sans-serif;
   text-align: center;
   color: #79D0B3 !important; }
-
-.navbar-brand:hover {
-  color: white; }
-
-.hspace:before {
-  height: 50px;
-  padding-bottom: 50px; }
+  .navbar-brand:hover a {
+    color: white; }
 
 .divhr {
   margin-top: 75px;
@@ -64,25 +75,40 @@ body {
   border-top: none;
   border-bottom: 2px solid #003e65; }
 
-.navbutton {
-  width: 239px; }
-  .navbutton:hover {
-    background-color: #3ba884; }
+.loginButton {
+  width: 239px;
+  color: white;
+  margin-top: 25px;
+  background-color: #286090; }
+  .loginButton:hover {
+    background-color: #79D0B3; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .loginButton {
+      width: auto;
+      margin-top: 0;
+      margin-bottom: 0; } }
 
 #bgmap {
   height: 100vh;
   width: 100vw; }
 
 .bottom {
+  margin: 0 auto;
   z-index: 666;
   position: absolute;
   background-color: white;
   bottom: 0;
-  left: 255px;
+  left: 240px;
   overflow: auto;
   text-overflow: ellipsis;
-  padding: 10px;
-  width: 100%; }
+  padding: 10px; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .bottom {
+      left: 0;
+      padding-left: 50px;
+      padding-top: 5px;
+      width: 100vw;
+      height: auto; } }
 
 #login-modal .modal-dialog {
   width: 350px; }
@@ -157,11 +183,11 @@ input[type=password] {
   .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
     outline: none; }
 
-.btn-lg, .btn-group-lg > .btn {
+.modal .btn-lg, .btn-group-lg > .btn {
   background-color: #79D0B3;
   border-radius: 0;
   border-color: #349575; }
-  .btn-lg:hover, .btn-group-lg > .btn:hover {
+  .modal .btn-lg:hover, .btn-group-lg > .btn:hover {
     background-color: #3ba884; }
 
 .btn-link {

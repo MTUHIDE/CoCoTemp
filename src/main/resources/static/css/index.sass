@@ -5,6 +5,8 @@ $header-font: 'Bitter', sans-serif
 $paragraph-font: 'Roboto', sans-serif
 $navbar-width: 240px
 $cool-version-of-white-color: white
+$tablet: "(min-width: 768px) and (max-width: 1023px)"
+$desktop: "(min-width: 1024px)"
 
 @for $index from 1 through 6
   h#{$index}
@@ -27,16 +29,29 @@ body
   position: fixed
   border-radius: 0
   height: 100%
+  @media #{$tablet}
+    height: 100px
+    width: 100%
 
 .navbar-nav
+  > ul
+    @media #{$tablet}
+      width: 100%
+      text-align: center
+      margin: 0 auto
+      padding-left: 150px
   > li
     float: none
     width: 139px
-  > li > .dropdown-menu
-    margin-top: -50px
-    margin-left: 140px
+    @media #{$tablet}
+      text-align: center
+      float: left
+  > li a
+    color: $cool-version-of-white-color
   + .container
     padding-left: 160px
+    @media #{$tablet}
+      padding: 0
 
 .navbar-brand
   display: block
@@ -44,13 +59,8 @@ body
   font: 32px $header-font
   text-align: center
   color: $primary-color !important
-
-.navbar-brand:hover
-  color: $cool-version-of-white-color
-
-.hspace:before
-  height: 50px
-  padding-bottom: 50px
+  &:hover a
+    color: $cool-version-of-white-color
 
 .divhr
   margin-top: 75px
@@ -60,25 +70,39 @@ body
   border-top: none
   border-bottom: 2px solid darken($secondary-color, 1%)
 
-.navbutton
+.loginButton
   width: $navbar-width - 1 // Subtract border size
+  color: white
+  margin-top: 25px
+  background-color: #286090
   &:hover
-    background-color: darken($primary-color, 20%)
+    background-color: $primary-color
+  @media #{$tablet}
+    width: auto
+    margin-top: 0
+    margin-bottom: 0
 
 #bgmap
   height: 100vh
   width: 100vw
 
 .bottom
+  margin: 0 auto
   z-index: 666
   position: absolute
   background-color: $cool-version-of-white-color
   bottom: 0
-  left: 255px
+  left: 240px
   overflow: auto
   text-overflow: ellipsis
   padding: 10px
-  width: 100%
+  @media #{$tablet}
+    left: 0
+    padding-left: 50px
+    padding-top: 5px
+    width: 100vw
+    height: auto
+
 
 
 
@@ -174,7 +198,7 @@ input[type=password]
   &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus
     outline: none
 
-.btn-lg, .btn-group-lg > .btn
+.modal .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
   border-radius: 0
   border-color: darken($primary-color, 25%)
@@ -194,3 +218,6 @@ input[type=password]
 .form-control
   border-radius: 0
 //End Modal Styles
+
+//Mobile Style Time
+

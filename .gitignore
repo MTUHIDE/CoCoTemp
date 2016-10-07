@@ -21,3 +21,4 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+src/main/resources/static/css/.sass-cache/de9206537df85735e4d2508a2aaed132fce141ba/index.sassc
