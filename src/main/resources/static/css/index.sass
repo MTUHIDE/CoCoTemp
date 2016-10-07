@@ -1,8 +1,10 @@
 $primary-color: #79D0B3
-$secondary-color: #38352F
+$secondary-color: #00416A
 //Like my personality
 $header-font: 'Bitter', sans-serif
 $paragraph-font: 'Roboto', sans-serif
+$navbar-width: 240px
+$cool-version-of-white-color: white
 
 @for $index from 1 through 6
   h#{$index}
@@ -10,12 +12,18 @@ $paragraph-font: 'Roboto', sans-serif
 
 p
   font-family: $paragraph-font
+  font-size: 1em
+
+body
+  overflow: hidden
 
 .navbar
   background-color: $secondary-color
+  //Praise
+  z-index: 666
 
 .navbar-fixed-left
-  width: 240px
+  width: $navbar-width
   position: fixed
   border-radius: 0
   height: 100%
@@ -38,10 +46,11 @@ p
   color: $primary-color !important
 
 .navbar-brand:hover
-  color: white
+  color: $cool-version-of-white-color
 
-.hspace
+.hspace:before
   height: 50px
+  padding-bottom: 50px
 
 .divhr
   margin-top: 75px
@@ -49,20 +58,49 @@ p
   height: 1px
   width: 100%
   border-top: none
-  border-bottom: 2px solid darken($secondary-color, 2%)
+  border-bottom: 2px solid darken($secondary-color, 1%)
 
 .navbutton
-  width: 100%
+  width: $navbar-width - 1 // Subtract border size
+  &:hover
+    background-color: darken($primary-color, 20%)
 
 #bgmap
   height: 100vh
   width: 100vw
-  //Praise
-  z-index: -666
-  overflow: hidden
 
-  //Begin Modal Styles
-  #login-modal
+.bottom
+  z-index: 666
+  position: absolute
+  background-color: $cool-version-of-white-color
+  bottom: 0
+  left: 255px
+  overflow: auto
+  text-overflow: ellipsis
+  padding: 10px
+  width: 100%
+
+
+
+
+
+
+
+
+
+
+//  Pause for dramatic effect
+
+
+
+
+
+
+
+
+
+//Begin Modal Styles
+#login-modal
   .modal-dialog
     width: 350px
   input[type=text]
@@ -139,9 +177,9 @@ input[type=password]
 .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
   border-radius: 0
-  border-color: darken($primary-color,25%)
+  border-color: darken($primary-color, 25%)
   &:hover
-    background-color: darken($primary-color,20%)
+    background-color: darken($primary-color, 20%)
 
 .btn-link
   padding: 5px 10px 0 0

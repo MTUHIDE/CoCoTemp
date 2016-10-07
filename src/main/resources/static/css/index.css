@@ -17,10 +17,15 @@ h6 {
   font-family: "Bitter", sans-serif; }
 
 p {
-  font-family: "Roboto", sans-serif; }
+  font-family: "Roboto", sans-serif;
+  font-size: 1em; }
+
+body {
+  overflow: hidden; }
 
 .navbar {
-  background-color: #38352F; }
+  background-color: #00416A;
+  z-index: 666; }
 
 .navbar-fixed-left {
   width: 240px;
@@ -47,8 +52,9 @@ p {
 .navbar-brand:hover {
   color: white; }
 
-.hspace {
-  height: 50px; }
+.hspace:before {
+  height: 50px;
+  padding-bottom: 50px; }
 
 .divhr {
   margin-top: 75px;
@@ -56,20 +62,32 @@ p {
   height: 1px;
   width: 100%;
   border-top: none;
-  border-bottom: 2px solid #32302a; }
+  border-bottom: 2px solid #003e65; }
 
 .navbutton {
-  width: 100%; }
+  width: 239px; }
+  .navbutton:hover {
+    background-color: #3ba884; }
 
 #bgmap {
   height: 100vh;
-  width: 100vw;
-  z-index: -666;
-  overflow: hidden; }
-  #bgmap .modal-dialog {
-    width: 350px; }
-  #bgmap input[type=text] {
-    margin-top: 10px; }
+  width: 100vw; }
+
+.bottom {
+  z-index: 666;
+  position: absolute;
+  background-color: white;
+  bottom: 0;
+  left: 255px;
+  overflow: auto;
+  text-overflow: ellipsis;
+  padding: 10px;
+  width: 100%; }
+
+#login-modal .modal-dialog {
+  width: 350px; }
+#login-modal input[type=text] {
+  margin-top: 10px; }
 
 input[type=password] {
   margin-top: 10px; }
