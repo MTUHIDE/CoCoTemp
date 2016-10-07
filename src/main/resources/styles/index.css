@@ -1,0 +1,15 @@
+.navbar-fixed-left {
+  width: 140px;
+  position: fixed;
+  border-radius: 0;
+  height: 100%; }
+  .navbar-fixed-left .navbar-nav > li {
+    float: none;
+    width: 139px; }
+  .navbar-fixed-left .navbar-nav > li > .dropdown-menu {
+    margin-top: -50px;
+    margin-left: 140px; }
+  .navbar-fixed-left + .container {
+    padding-left: 160px; }
+
+/*# sourceMappingURL=index.css.map */
