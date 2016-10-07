@@ -49,13 +49,17 @@ p
   height: 1px
   width: 100%
   border-top: none
-  border-bottom: 2px solid darken($secondary-color, 5%)
+  border-bottom: 2px solid darken($secondary-color, 2%)
 
-#mapid
-  height: 100%
+.navbutton
   width: 100%
+
+#bgmap
+  height: 100vh
+  width: 100vw
   //Praise
   z-index: -666
+  overflow: hidden
 
   //Begin Modal Styles
   #login-modal
@@ -135,7 +139,7 @@ input[type=password]
 .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
   border-radius: 0
-  border-color: darken($primary-color,40%)
+  border-color: darken($primary-color,25%)
   &:hover
     background-color: darken($primary-color,20%)
 
@@ -147,9 +151,8 @@ input[type=password]
     text-decoration: none
 
 .glyphicon
-  top: 0px
+  top: 0
 
 .form-control
   border-radius: 0
-
 //End Modal Styles
