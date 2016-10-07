@@ -56,15 +56,19 @@ p {
   height: 1px;
   width: 100%;
   border-top: none;
-  border-bottom: 2px solid #2a2823; }
+  border-bottom: 2px solid #32302a; }
 
-#mapid {
-  height: 100%;
-  width: 100%;
-  z-index: -666; }
-  #mapid .modal-dialog {
+.navbutton {
+  width: 100%; }
+
+#bgmap {
+  height: 100vh;
+  width: 100vw;
+  z-index: -666;
+  overflow: hidden; }
+  #bgmap .modal-dialog {
     width: 350px; }
-  #mapid input[type=text] {
+  #bgmap input[type=text] {
     margin-top: 10px; }
 
 input[type=password] {
@@ -138,7 +142,7 @@ input[type=password] {
 .btn-lg, .btn-group-lg > .btn {
   background-color: #79D0B3;
   border-radius: 0;
-  border-color: #205d49; }
+  border-color: #349575; }
   .btn-lg:hover, .btn-group-lg > .btn:hover {
     background-color: #3ba884; }
 
@@ -150,7 +154,7 @@ input[type=password] {
     text-decoration: none; }
 
 .glyphicon {
-  top: 0px; }
+  top: 0; }
 
 .form-control {
   border-radius: 0; }
