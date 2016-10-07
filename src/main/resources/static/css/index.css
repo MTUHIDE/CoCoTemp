@@ -1,0 +1,57 @@
+h1 {
+  font: "Bitter", sans-serif; }
+
+h2 {
+  font: "Bitter", sans-serif; }
+
+h3 {
+  font: "Bitter", sans-serif; }
+
+h4 {
+  font: "Bitter", sans-serif; }
+
+h5 {
+  font: "Bitter", sans-serif; }
+
+h6 {
+  font: "Bitter", sans-serif; }
+
+p {
+  font: "Roboto", sans-serif; }
+
+.navbar {
+  background-color: #38352F; }
+
+.navbar-fixed-left {
+  width: 240px;
+  position: fixed;
+  border-radius: 0;
+  height: 100%; }
+
+.navbar-nav > li {
+  float: none;
+  width: 139px; }
+.navbar-nav > li > .dropdown-menu {
+  margin-top: -50px;
+  margin-left: 140px; }
+.navbar-nav + .container {
+  padding-left: 160px; }
+
+.navbar-brand {
+  display: block;
+  width: 100%;
+  font: 32px "Bitter", sans-serif;
+  text-align: center;
+  color: #79D0B3; }
+
+.navbar-brand:hover {
+  color: white; }
+
+.hspace {
+  height: 50px; }
+
+.divhr {
+  border-width: 3px;
+  color: #cccccc; }
+
+/*# sourceMappingURL=index.css.map */

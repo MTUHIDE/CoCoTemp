@@ -1,0 +1,49 @@
+$primary-color: #79D0B3
+$secondary-color: #38352F
+//Like my personality
+$header-font: 'Bitter', sans-serif
+$paragraph-font: 'Roboto', sans-serif
+
+@for $index from 1 through 6
+  h#{$index}
+    font: $header-font
+
+p
+  font: $paragraph-font
+
+.navbar
+  background-color: $secondary-color
+
+.navbar-fixed-left
+  width: 240px
+  position: fixed
+  border-radius: 0
+  height: 100%
+
+.navbar-nav
+  > li
+    float: none
+    width: 139px
+  > li > .dropdown-menu
+    margin-top: -50px
+    margin-left: 140px
+  + .container
+    padding-left: 160px
+
+.navbar-brand
+  display: block
+  width: 100%
+  font: 32px $header-font
+  text-align: center
+  color: $primary-color
+
+.navbar-brand:hover
+  color: white
+
+.hspace
+  height: 50px
+
+.divhr
+  border-width: 3px
+  color: #cccccc
+
