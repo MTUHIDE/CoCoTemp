@@ -54,4 +54,9 @@ p {
   border-width: 3px;
   color: #cccccc; }
 
+#mapid {
+  height: 100vh;
+  width: 100vw;
+  z-index: -666; }
+
 /*# sourceMappingURL=index.css.map */

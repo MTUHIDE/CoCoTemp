@@ -19,5 +19,6 @@
     </bean>
 
     <mvc:resources mapping="/css/**" location="/static/css"/>
+    <mvc:resources mapping="/js/**" location="/static/js"/>
 
 </beans>
