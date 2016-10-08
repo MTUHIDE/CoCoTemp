@@ -6,6 +6,7 @@ var maxBounds = L.latLngBounds(
     L.latLng(5.499550, -167.276413), //Southwest
     L.latLng(83.162102, -52.233040)  //Northeast
 );
+
 /* Initialize Map */
 var map = L.map('bgmap', {
     dragging: true,
@@ -13,6 +14,7 @@ var map = L.map('bgmap', {
 });
 map.setView([35, -100], 5);
 map.setMaxBounds(maxBounds);
+
 //Because Piper needed zoom buttons
 L.control.zoom({
     position:'topright'
@@ -23,3 +25,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p
     {
         maxZoom: 18
     }).addTo(map);
+
+/* Add Weather Station Points */
+L.marker([47.11, -88.54]).addTo(map).bindPopup("<b>Station 666</b><br>Michigan Technological University <br>Michigan, 49931");
+L.marker([44.75, -85.60]).addTo(map).bindPopup("<b>Station 42</b><br>Traverse City<br>Michigan, 49684");
+L.marker([39.69, -105.20]).addTo(map).bindPopup("<b>Station 69</b><br>Denver<br> Colorado, 80123");
