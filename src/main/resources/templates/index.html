@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:include="headerFragment" th:remove="tag"></div>
+    <div th:include="fragmentTemplate :: header" th:remove="tag"></div>
     <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css"/>
     <title>CoCoTemp Home</title>
 </head>
 <body>
-<div th:include="navbarInject"></div>
+<div th:include="injectTemplate :: navbar" th:remove="tag"></div>
 <div class="container">
-   <div th:include="modalInject"></div>
+   <div th:include="injectTemplate :: modal" th:remove="tag"></div>
     <div class="row bottom">
         <div class="hspace">&nbsp;</div>
         <h1>Title</h1>
@@ -23,7 +23,7 @@
     </div>
 </div>
 <div id="bgmap"></div>
-<div th:include="footerFragment" th-remove="tag"></div>
+<div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
 <script th:src="@{/js/map.js}" type="text/javascript"></script>
 </body>
 </html>

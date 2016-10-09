@@ -11,69 +11,6 @@ $desktop: "(min-width: 1024px)"
 body
   overflow: hidden
 
-.navbar
-  background-color: $secondary-color
-  //Praise
-  z-index: 666
-
-.navbar-fixed-left
-  width: $navbar-width
-  position: fixed
-  border-radius: 0
-  height: 100%
-  @media #{$tablet}
-    height: 100px
-    width: 100%
-
-.navbar-nav
-  > ul
-    @media #{$tablet}
-      width: 100%
-      text-align: center
-      margin: 0 auto
-      padding-left: 150px
-  > li
-    float: none
-    width: 139px
-    @media #{$tablet}
-      text-align: center
-      float: left
-  > li a
-    color: $cool-version-of-white-color
-  + .container
-    padding-left: 160px
-    @media #{$tablet}
-      padding: 0
-
-.navbar-brand
-  display: block
-  width: 100%
-  font: 32px $header-font
-  text-align: center
-  color: $primary-color !important
-  &:hover a
-    color: $cool-version-of-white-color
-
-.divhr
-  margin-top: 75px
-  display: block
-  height: 1px
-  width: 100%
-  border-top: none
-  border-bottom: 2px solid darken($secondary-color, 1%)
-
-.loginButton
-  width: $navbar-width - 1 // Subtract border size
-  color: white
-  margin-top: 25px
-  background-color: #286090
-  &:hover
-    background-color: $primary-color
-  @media #{$tablet}
-    width: auto
-    margin-top: 0
-    margin-bottom: 0
-
 #bgmap
   height: 100vh
   width: 100vw

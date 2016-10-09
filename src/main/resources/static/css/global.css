@@ -20,6 +20,71 @@ p {
   font-family: "Roboto", sans-serif;
   font-size: 1em; }
 
+.navbar {
+  background-color: #00416A;
+  z-index: 666; }
+
+.navbar-fixed-left {
+  width: 240px;
+  position: fixed;
+  border-radius: 0;
+  height: 100%; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-fixed-left {
+      height: 100px;
+      width: 100%; } }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar-nav > ul {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-left: 150px; } }
+.navbar-nav > li {
+  float: none;
+  width: 139px; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-nav > li {
+      text-align: center;
+      float: left; } }
+.navbar-nav > li a {
+  color: white; }
+.navbar-nav + .container {
+  padding-left: 160px; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-nav + .container {
+      padding: 0; } }
+
+.navbar-brand {
+  display: block;
+  width: 100%;
+  font: 32px "Bitter", sans-serif;
+  text-align: center;
+  color: #79D0B3 !important; }
+  .navbar-brand:hover a {
+    color: white; }
+
+.divhr {
+  margin-top: 75px;
+  display: block;
+  height: 1px;
+  width: 100%;
+  border-top: none;
+  border-bottom: 2px solid #003e65; }
+
+.loginButton {
+  width: 239px;
+  color: white;
+  margin-top: 25px;
+  background-color: #286090; }
+  .loginButton:hover {
+    background-color: #79D0B3; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .loginButton {
+      width: auto;
+      margin-top: 0;
+      margin-bottom: 0; } }
+
 #login-modal .modal-dialog {
   width: 350px; }
 #login-modal input[type=text] {
