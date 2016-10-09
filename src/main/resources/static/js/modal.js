@@ -94,3 +94,12 @@ $(function() {
         }, $msgShowTime);
     }
 });
+
+/* Code for URL #login Popup */
+var hash = (window.location.hash).replace('#', '');
+    if(hash === "login"){
+        hashClick();
+    }
+function hashClick() {
+    document.getElementById("login-button").click(); // Click on the checkbox
+}
