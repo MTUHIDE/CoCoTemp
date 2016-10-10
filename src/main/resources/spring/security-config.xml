@@ -6,12 +6,12 @@
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref="userDetailsServiceImpl">
+        <security:authentication-provider user-service-ref="userDetailsServiceImplementation">
             <security:password-encoder ref="encoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
 
-    <bean id="userDetailsServiceImpl" class="space.hideaway.services.UserDetailsServiceImpl"/>
+    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
 
     <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11"/>
