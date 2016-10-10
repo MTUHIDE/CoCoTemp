@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
@@ -20,6 +21,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {"space"})
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")
+@PropertySource("classpath:/spring/application.properties")
 public class CoCoTempApplication {
 
     public static void main(String[] args) {

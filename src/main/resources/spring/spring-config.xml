@@ -14,11 +14,11 @@
     <mvc:resources mapping="/js/**" location="/static/js"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="driverClassName" value="${spring.datasource.driver-class-name}"/>
         <property name="url"
-                  value="jdbc:mysql://cocotemp-db.cglpd85lamj9.us-west-2.rds.amazonaws.com:3306/cocotemp_db"/>
-        <property name="username" value="cocotemp"/>
-        <property name="password" value="bLEu-#Dv-M8s6S3m"/>
+                  value="${spring.datasource.url}"/>
+        <property name="username" value="${spring.datasource.username}"/>
+        <property name="password" value="${spring.datasource.password}"/>
     </bean>
 
     <bean name="entityManagerFactory" id="entityManagerFactory"
@@ -64,7 +64,7 @@
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/templates/"/>
         <property name="suffix" value=".html"/>
-        <property name="templateMode" value="HTML5"/>
+        <property name="templateMode" value="HTML"/>
     </bean>
 
     <bean id="templateEngine"
