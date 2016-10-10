@@ -9,20 +9,6 @@
     <tx:annotation-driven/>
     <jpa:repositories base-package="space.hideaway.repositories"/>
 
-    <!--Register the Thymeleaf template renderer.-->
-    <bean id="templateResolver"
-          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-        <property name="prefix" value="/templates/"/>
-        <property name="suffix" value=".html"/>
-        <property name="templateMode" value="HTML5"/>
-    </bean>
-
-    <!--use the Thymeleaf template renderer.-->
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring4.SpringTemplateEngine">
-        <property name="templateResolver" ref="templateResolver"/>
-    </bean>
-
     <!--Allow access to serving static files.-->
     <mvc:resources mapping="/css/**" location="/static/css"/>
     <mvc:resources mapping="/js/**" location="/static/js"/>
@@ -72,6 +58,22 @@
 
     <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11"/>
+    </bean>
+
+    <bean id="templateResolver"
+          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
     </bean>
 
 
