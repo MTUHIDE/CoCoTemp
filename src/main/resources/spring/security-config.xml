@@ -1,8 +1,10 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:security="http://www.springframework.org/schema/security"
+<beans xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
     <security:http auto-config="true">
+        <security:intercept-url pattern="/" access="permitAll"/>
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
