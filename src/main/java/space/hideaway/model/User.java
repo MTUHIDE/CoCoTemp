@@ -1,7 +1,5 @@
 package space.hideaway.model;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
+
     private Long id;
     private String username;
     private String password;

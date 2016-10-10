@@ -6,17 +6,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import space.hideaway.model.Role;
 import space.hideaway.model.User;
 import space.hideaway.repositories.UserRepository;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by dough on 10/9/2016.
  */
+@Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
     @Autowired
@@ -38,10 +39,7 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        Set<GrantedAuthority> grantedAuthoritySet = new HashSet<>();
-        for (Role role :user.getRoleSet()) {
-            grantedAuthoritySet.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        Set<GrantedAuthority> grantedAuthoritySet = user.getRoleSet().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthoritySet);
     }
 }

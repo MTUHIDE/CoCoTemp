@@ -1,21 +1,5 @@
-<beans xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans">
 
-    <security:http auto-config="true">
-        <security:intercept-url pattern="/" access="permitAll"/>
-    </security:http>
-
-    <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref="userDetailsServiceImplementation">
-            <security:password-encoder ref="encoder"/>
-        </security:authentication-provider>
-    </security:authentication-manager>
-
-    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
-
-    <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <constructor-arg name="strength" value="11"/>
-    </bean>
 </beans>

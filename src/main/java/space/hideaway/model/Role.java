@@ -1,7 +1,5 @@
 package space.hideaway.model;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -33,7 +31,7 @@ public class Role {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roleSet")
     public Set<User> getUserSet() {
         return userSet;
     }
