@@ -12,6 +12,9 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class,
@@ -23,6 +26,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ImportResource("classpath:/spring/spring-config.xml")
 @PropertySource("classpath:/spring/application.properties")
 public class CoCoTempApplication {
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     public static void main(String[] args) {
 

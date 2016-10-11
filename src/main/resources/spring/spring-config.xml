@@ -44,6 +44,8 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
+    <bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>
+
 
     <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
 
