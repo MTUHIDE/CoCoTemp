@@ -24,4 +24,9 @@ public class RouteController {
             return "about";
     }
 
+    @GetMapping("/appLogin")
+    public String appLogin(){
+        return "appLogin";
+    }
+
 }
