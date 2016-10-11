@@ -21,12 +21,16 @@ public class RouteController {
 
     @GetMapping("/about")
     public String about() {
-            return "about";
+        return "about";
     }
 
     @GetMapping("/appLogin")
-    public String appLogin(){
+    public String appLogin() {
         return "appLogin";
     }
 
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
 }

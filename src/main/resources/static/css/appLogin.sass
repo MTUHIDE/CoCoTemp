@@ -1,7 +1,12 @@
+$primary-color: #79D0B3
+
 body
-  background-color: #43cea2 /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #43cea2 , #185a9d) /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #43cea2 , #185a9d) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-color: #43cea2
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #43cea2, #185a9d)
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #43cea2, #185a9d)
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background: linear-gradient(270deg, #3bd9b0, #2f2d92)
   background-size: 400% 400%
   -webkit-animation: bgAnimate 59s ease infinite
@@ -12,6 +17,12 @@ body
 h1
   color: white
   text-align: center
+
+.appForm
+  padding-top: 10px
+  background-color: transparent
+  background-color: rgba(255, 255, 255, 0.2)
+  border-radius: 25px
 
 .appForm input
   border-radius: 5px
@@ -24,6 +35,13 @@ h1
   overflow: hidden
   margin: 0 auto
   text-align: center
+
+.btn-lg
+  border-radius: 10px
+  background-color: darken($primary-color,15%)
+  border-color: darken($primary-color,30%)
+  &:hover
+    background-color: darken($primary-color,20%)
 
 #div-login-msg, #div-register-msg, #div-lost-msg
   background-color: white

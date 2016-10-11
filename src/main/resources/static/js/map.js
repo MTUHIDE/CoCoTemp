@@ -4,7 +4,7 @@
 
 /* Limit map view to the USA */
 var maxBounds = L.latLngBounds(
-    L.latLng( 5.090944175, -172.44140625), //Southwest
+    L.latLng(5.090944175, -172.44140625), //Southwest
     L.latLng(71.8014103014, -32.16796875)  //Northeast
 );
 
@@ -13,7 +13,7 @@ var map = L.map('bgmap', {
     dragging: true,
     zoomControl: false,
     maxZoom: 18,
-    minZoom:4
+    minZoom: 4
 });
 map.setView([35, -100], 5);
 map.setMaxBounds(maxBounds);
@@ -21,7 +21,7 @@ map.setZoom(0);
 
 //Because Piper needed zoom buttons
 L.control.zoom({
-    position:'topright'
+    position: 'topright'
 }).addTo(map);
 
 /* Style layer from MapBox */
