@@ -117,3 +117,22 @@
         </ul>
     </div>
 </div>
+
+<div th:fragment="usernavbar">
+    <div class="navbar navbar-inverse navbar-fixed-left">
+        <a class="navbar-brand" href="#">CoCo Temp</a>
+        <div class="profileImg">
+            <img src="https://placekitten.com/g/100/100" width="100px" height="100px"/>
+        </div>
+        <ul class="nav navbar-nav">
+            <li>
+                <button data-toggle="modal" data-target="#login-modal" id="manage-button" type="button"
+                        class="btn btn-primary btn-lg btn-block loginButton">Manage Account
+                </button>
+            </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="#">Link5</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+body {
+  overflow: hidden; }
+
+.bottom {
+  margin: 0 auto;
+  z-index: 666;
+  position: absolute;
+  background-color: white;
+  bottom: 0;
+  left: 240px;
+  overflow: auto;
+  text-overflow: ellipsis;
+  padding: 10px; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .bottom {
+      left: 0;
+      padding-left: 50px;
+      padding-top: 5px;
+      width: 100vw;
+      height: auto; } }
+
+.profileImg {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 50px; }
+
+.profileImg img {
+  border-radius: 100%;
+  width: 100px;
+  height: 100px; }
+
+/*# sourceMappingURL=dashboard.css.map */
