@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         HibernateJpaAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
         SecurityAutoConfiguration.class})
-@ComponentScan(basePackages = {"space", "spring"})
+@ComponentScan(basePackages = {"space"})
 @EnableJpaRepositories(basePackages = {"space"})
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")

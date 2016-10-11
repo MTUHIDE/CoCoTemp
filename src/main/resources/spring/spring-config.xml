@@ -13,6 +13,11 @@
     <mvc:resources mapping="/css/**" location="/static/css"/>
     <mvc:resources mapping="/js/**" location="/static/js"/>
 
+
+    <security:http auto-config="true" use-expressions="true">
+        <security:intercept-url pattern="/" access="permitAll"/>
+    </security:http>
+
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${spring.datasource.driver-class-name}"/>
         <property name="url"
@@ -44,9 +49,6 @@
 
     <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
 
-    <security:http auto-config="true" use-expressions="true">
-        <security:intercept-url pattern="/" access="permitAll"/>
-    </security:http>
 
 
     <security:authentication-manager alias="authenticationManager">
@@ -58,22 +60,6 @@
 
     <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11"/>
-    </bean>
-
-    <bean id="templateResolver"
-          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-        <property name="prefix" value="/templates/"/>
-        <property name="suffix" value=".html"/>
-        <property name="templateMode" value="HTML"/>
-    </bean>
-
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring4.SpringTemplateEngine">
-        <property name="templateResolver" ref="templateResolver"/>
-    </bean>
-
-    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
-        <property name="templateEngine" ref="templateEngine"/>
     </bean>
 
 
