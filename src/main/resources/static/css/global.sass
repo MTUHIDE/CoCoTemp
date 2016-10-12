@@ -57,6 +57,7 @@ p
   font: 32px $header-font
   text-align: center
   color: $primary-color !important
+  margin-bottom: 25px
   &:hover a
     color: $cool-version-of-white-color
 
@@ -68,12 +69,14 @@ p
   border-top: none
   border-bottom: 2px solid darken($secondary-color, 1%)
 
-.loginButton
+.menuButton
   width: $navbar-width - 1
   // Subtract border size
   color: white
-  margin-top: 25px
-  background-color: #286090
+  //margin-top: 25px
+  background-color: darken($secondary-color,2%)
+  border: 0
+  border-top: 2px solid lighten($secondary-color,2%)
   &:hover
     background-color: $primary-color
   @media #{$tablet}

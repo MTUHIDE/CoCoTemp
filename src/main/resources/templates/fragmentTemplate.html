@@ -1,3 +1,7 @@
+<!-- Literally didn't realize Thymeleaf used fragment as a word until I made this file.
+     In this instance fragments are pieces of code that do not belong in a div and are inserted
+     as a piece (fragment) of code, such as the header information, or script loads. -->
+
 <div th:fragment="header">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- Temporary Since I can't Find Default Path -->
@@ -5,7 +9,7 @@
     <!-- Style Resources -->
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" th:href="@{https://unpkg.com/leaflet@1.0.1/dist/leaflet.css}" />
+    <link rel="stylesheet" th:href="@{https://unpkg.com/leaflet@1.0.1/dist/leaflet.css}"/>
     <link th:href="@{/css/modal.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/global.css}" rel="stylesheet" type="text/css"/>
     <!-- Font Resources -->

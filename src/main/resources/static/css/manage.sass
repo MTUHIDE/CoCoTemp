@@ -1,0 +1,105 @@
+$primary-color: #79D0B3
+$secondary-color: #00416A
+//Like my personality
+$header-font: 'Bitter', sans-serif
+$paragraph-font: 'Roboto', sans-serif
+$navbar-width: 240px
+$cool-version-of-white-color: white
+$tablet: "(min-width: 768px) and (max-width: 1023px)"
+$desktop: "(min-width: 1024px)"
+
+body
+  overflow: hidden
+
+.bottom
+  margin: 0 auto
+  z-index: 666
+  position: absolute
+  background-color: $cool-version-of-white-color
+  bottom: 0
+  left: 240px
+  overflow: auto
+  text-overflow: ellipsis
+  padding: 10px
+  @media #{$tablet}
+    left: 0
+    padding-left: 50px
+    padding-top: 5px
+    width: 100vw
+    height: auto
+
+.profileImg
+  margin: 0 auto
+  text-align: center
+  margin-top: 10px
+
+.profileImg img
+  border-radius: 100%
+  width: 100px
+  height: 100px
+  border: 2px solid lighten($secondary-color,10%)
+
+.welcomeLine
+  text-align: center
+  padding-bottom: 10px
+  margin-top: 20px
+  color: white
+
+.topShade
+  background-color: darken($secondary-color,2%)
+
+/***
+ *Bootstrap Line Tabs by @keenthemes
+ *A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+ *Licensed under MIT
+ ***
+
+/* Tabs panel
+
+.tabbable-panel
+  border: 1px solid #eee
+  padding: 10px
+
+/* Default mode
+
+.tabbable-line >
+.nav-tabs
+  border: none
+  margin: 0px
+  > li
+    margin-right: 2px
+    > a
+      border: 0
+      margin-right: 0
+      color: #737373
+      > i
+        color: #a6a6a6
+    &.open, &:hover
+      border-bottom: 4px solid lighten($secondary-color,10%)
+    &.open > a, &:hover > a
+      border: 0
+      background: none !important
+      color: #333333
+    &.open > a > i, &:hover > a > i
+      color: #a6a6a6
+    &.open .dropdown-menu, &:hover .dropdown-menu
+      margin-top: 0px
+    &.active
+      border-bottom: 4px solid $secondary-color
+      position: relative
+      > a
+        border: 0
+        color: #333333
+        > i
+          color: #404040
+  .tab-content
+    margin-top: -3px
+    background-color: #fff
+    border: 0
+    border-top: 1px solid #eee
+    padding: 15px 0
+.tab-content
+  padding-top: 25px
+
+.portlet .tabbable-line > .tab-content
+  padding-bottom: 0
