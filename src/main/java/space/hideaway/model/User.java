@@ -15,6 +15,7 @@ public class User {
     private String password;
     private String confirmationPassword;
     private Set<Role> roleSet;
+    private Set<Device> deviceSet;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,5 +60,15 @@ public class User {
 
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    public Set<Device> getDeviceSet() {
+        return deviceSet;
+    }
+
+    public void setDeviceSet(Set<Device> deviceSet) {
+        this.deviceSet = deviceSet;
     }
 }
