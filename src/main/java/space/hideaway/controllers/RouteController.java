@@ -1,7 +1,10 @@
 package space.hideaway.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * UI model for basic static routes that contain no other logic than to display a template.
@@ -15,6 +18,11 @@ public class RouteController {
     @GetMapping("/")
     public String index() {
         return "index";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(Model model, String error) {
+        return "dashboard";
     }
 
     @GetMapping("/about")
