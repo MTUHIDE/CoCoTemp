@@ -52,7 +52,7 @@ p {
       width: auto;
       margin-left: 20px; } }
 .navbar-nav > li a {
-  color: white; }
+  color: #fafafa; }
 .navbar-nav + .container {
   padding-left: 160px; }
   @media (min-width: 768px) and (max-width: 1023px) {
@@ -67,7 +67,7 @@ p {
   color: #79D0B3 !important;
   margin-bottom: 25px; }
   .navbar-brand:hover a {
-    color: white; }
+    color: #fafafa; }
 
 .divhr {
   margin-top: 75px;
