@@ -20,7 +20,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "value")
     public Long getId() {
         return id;
     }
@@ -29,7 +28,6 @@ public class User {
         this.id = id;
     }
 
-    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -38,7 +36,6 @@ public class User {
         this.username = username;
     }
 
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
