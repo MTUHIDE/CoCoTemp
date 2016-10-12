@@ -28,7 +28,7 @@ p
   border-radius: 0
   height: 100%
   @media #{$tablet}
-    height: 100px
+    height: 110px
     width: 100%
 
 .navbar-nav
@@ -38,12 +38,16 @@ p
       text-align: center
       margin: 0 auto
       padding-left: 150px
+      margin-top: -25px
+      background-color: $secondary-color
   > li
     float: none
     width: 139px
     @media #{$tablet}
       text-align: center
       float: left
+      width: auto
+      margin-left: 20px
   > li a
     color: $cool-version-of-white-color
   + .container
@@ -81,8 +85,8 @@ p
     background-color: $primary-color
   @media #{$tablet}
     width: auto
-    margin-top: 0
-    margin-bottom: 0
+    float: left
+    margin-top: -12px
 
 //Begin Modal Styles
 #login-modal
@@ -131,6 +135,9 @@ input[type=password]
   filter: alpha(opacity=50)
   opacity: .8
 
+.modal-body input
+  border-radius: 10px
+
 .modal-content
   background-color: #ececec
   border: 1px solid #bdc3c7
@@ -161,7 +168,7 @@ input[type=password]
 
 .modal .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
-  border-radius: 0
+  border-radius: 25px
   border-color: darken($primary-color, 25%)
   &:hover
     background-color: darken($primary-color, 20%)
@@ -179,3 +186,12 @@ input[type=password]
 .form-control
   border-radius: 0
 //End Modal Styles
+
+#icon-login-msg, #icon-lost-msg, #icon-register-msg
+  border-radius: 25px
+
+#div-login-msg, #div-register-msg, #div-lost-msg
+  background-color: white
+  opacity: 0.7
+  margin-bottom: 25px
+  border-radius: 15px

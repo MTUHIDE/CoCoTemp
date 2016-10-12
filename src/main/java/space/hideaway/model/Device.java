@@ -16,6 +16,11 @@ public class Device {
     private String deviceUUID;
 
 
+    /**
+     * Get the ID for the user in the database.
+     *
+     * @return The ID of the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
