@@ -33,4 +33,7 @@ public class RouteController {
     @GetMapping("/manage")
     public String manage() {return "manage";}
 
+    @GetMapping("/contact")
+    public String contact() {return "contact";}
+
 }
