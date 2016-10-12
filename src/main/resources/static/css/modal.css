@@ -118,7 +118,7 @@
     outline: none;
 }
 
-.btn-lg, .btn-group-lg>.btn {
+.btn-lg, .btn-group-lg > .btn {
     border-radius: 0px;
 }
 

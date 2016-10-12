@@ -9,11 +9,20 @@
     <tx:annotation-driven/>
     <jpa:repositories base-package="space.hideaway.repositories"/>
 
+    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:/spring/application.properties"/>
+    </bean>
+
     <!--Allow access to serving static files.-->
     <mvc:resources mapping="/static/**" location="/static/"/>
 
     <security:http auto-config="true" use-expressions="true">
-        <security:intercept-url pattern="/" access="permitAll"/>
+        <security:form-login login-page="/#login" login-processing-url="/login" default-target-url="/dashboard"
+                             username-parameter="username" password-parameter="password"/>
+        <security:intercept-url pattern="/dashboard" access="isFullyAuthenticated()"/>
+        <security:intercept-url pattern="/login" access="permitAll()"/>
+        <security:intercept-url pattern="/**" access="permitAll()"/>
+        <security:csrf disabled="true"/>
     </security:http>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

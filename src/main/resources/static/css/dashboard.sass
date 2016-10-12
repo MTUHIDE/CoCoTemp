@@ -1,0 +1,49 @@
+$primary-color: #79D0B3
+$secondary-color: #00416A
+//Like my personality
+$header-font: 'Bitter', sans-serif
+$paragraph-font: 'Roboto', sans-serif
+$navbar-width: 240px
+$cool-version-of-white-color: white
+$tablet: "(min-width: 768px) and (max-width: 1023px)"
+$desktop: "(min-width: 1024px)"
+
+body
+  overflow: hidden
+
+.bottom
+  margin: 0 auto
+  z-index: 666
+  position: absolute
+  background-color: $cool-version-of-white-color
+  bottom: 0
+  left: 240px
+  overflow: auto
+  text-overflow: ellipsis
+  padding: 10px
+  @media #{$tablet}
+    left: 0
+    padding-left: 50px
+    padding-top: 5px
+    width: 100vw
+    height: auto
+
+.profileImg
+  margin: 0 auto
+  text-align: center
+  margin-top: 10px
+
+.profileImg img
+  border-radius: 100%
+  width: 100px
+  height: 100px
+  border: 2px solid lighten($secondary-color,10%)
+
+.welcomeLine
+  text-align: center
+  padding-bottom: 10px
+  margin-top: 20px
+  color: white
+
+.topShade
+  background-color: darken($secondary-color,2%)

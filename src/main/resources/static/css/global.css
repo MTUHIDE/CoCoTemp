@@ -60,7 +60,8 @@ p {
   width: 100%;
   font: 32px "Bitter", sans-serif;
   text-align: center;
-  color: #79D0B3 !important; }
+  color: #79D0B3 !important;
+  margin-bottom: 25px; }
   .navbar-brand:hover a {
     color: white; }
 
@@ -72,15 +73,16 @@ p {
   border-top: none;
   border-bottom: 2px solid #003e65; }
 
-.loginButton {
+.menuButton {
   width: 239px;
   color: white;
-  margin-top: 25px;
-  background-color: #286090; }
-  .loginButton:hover {
+  background-color: #003b60;
+  border: 0;
+  border-top: 2px solid #004774; }
+  .menuButton:hover {
     background-color: #79D0B3; }
   @media (min-width: 768px) and (max-width: 1023px) {
-    .loginButton {
+    .menuButton {
       width: auto;
       margin-top: 0;
       margin-bottom: 0; } }

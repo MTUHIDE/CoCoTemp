@@ -5,15 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by dough on 9/21/2016.
+ * Enhanced by caden on 10/09/2016.
  */
 @Controller
 public class RouteController {
 
-    /**
-     * All requests to the index location are routed to the index.html template.
-     *
-     * @return The name of the template to be used.
-     */
     @GetMapping("/")
     public String index() {
         return "index";
@@ -21,7 +17,20 @@ public class RouteController {
 
     @GetMapping("/about")
     public String about() {
-            return "about";
+        return "about";
     }
+
+    @GetMapping("/appLogin")
+    public String appLogin() {
+        return "appLogin";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
+
+    @GetMapping("/manage")
+    public String manage() {return "manage";}
 
 }
