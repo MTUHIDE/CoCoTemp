@@ -1,3 +1,5 @@
+<!-- Inject fragments are for larger components of code that inject an element into the page.
+     An example would be like the navbar, where it injects the navbar into the correct spot. -->
 <div th:fragment="modal">
     <!-- BEGIN # MODAL LOGIN -->
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" style="display: none;">
@@ -9,10 +11,8 @@
                     </button>
                     <h1>CoCoTemp</h1>
                 </div>
-
                 <!-- Begin # DIV Form -->
                 <div id="div-forms">
-
                     <!-- Begin # Login Form -->
                     <form id="login-form">
                         <div class="modal-body">
@@ -61,6 +61,7 @@
                             </div>
                             <div>
                                 <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
+                                <br/>
                                 <button id="lost_register_btn" type="button" class="btn btn-link">Don't have an account?
                                     <b>Register</b></button>
                             </div>
@@ -86,6 +87,7 @@
                             </div>
                             <div>
                                 <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
+                                <br/>
                                 <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?
                                 </button>
                             </div>
@@ -108,30 +110,63 @@
         <ul class="nav navbar-nav">
             <li>
                 <button data-toggle="modal" data-target="#login-modal" id="login-button" type="button"
-                        class="btn btn-primary btn-lg btn-block loginButton">Enter Site
+                        class="btn btn-primary btn-lg btn-block menuButton">Enter Site
                 </button>
             </li>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="#">Link5</a></li>
+            <li>
+                <button id="home-button" type="button"
+                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/'">
+                    Home
+                </button>
+            </li>
+            <li>
+                <button id="about-button" type="button"
+                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/about'">
+                    About
+                </button>
+            </li>
+            <li>
+                <button id="something-button" type="button"
+                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                    Something
+                </button>
+            </li>
+            <li>
+                <button id="contact-button" type="button"
+                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                    Contact
+                </button>
+            </li>
         </ul>
     </div>
 </div>
 
 <div th:fragment="usernavbar">
     <div class="navbar navbar-inverse navbar-fixed-left">
-        <a class="navbar-brand" href="#">CoCo Temp</a>
-        <div class="profileImg">
-            <img src="https://placekitten.com/g/100/100" width="100px" height="100px"/>
+        <div class="topShade">
+            <a class="navbar-brand" href="#">CoCo Temp</a>
+            <div class="profileImg">
+                <img src="https://placekitten.com/g/100/100" width="100px" height="100px"/>
+            </div>
+            <div class="welcomeLine">Welcome back <b>{User}</b>!</div>
         </div>
         <ul class="nav navbar-nav">
             <li>
-                <button data-toggle="modal" data-target="#login-modal" id="manage-button" type="button"
-                        class="btn btn-primary btn-lg btn-block loginButton">Manage Account
+                <button id="manage-button" type="button"
+                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                    Manage Account
                 </button>
             </li>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
+            <li>
+            <button id="dashboard-button" type="button"
+                    class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/dashboard'">
+                Dashboard
+            </button>
+            </li>
+            <li>  <button id="user-about-button" type="button"
+                          class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/about'">
+                Contact
+            </button></li>
             <li><a href="#">Link5</a></li>
         </ul>
     </div>
