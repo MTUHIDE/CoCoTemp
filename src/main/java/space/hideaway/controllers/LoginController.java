@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
+    /**
+     * Login is routed via intercept-url in the config files, but this code allows
+     * the controller to inject attributes. In other words, validation of fields in the
+     * form.
+     *
+     * @param model The active model injected by Spring MVC.
+     * @return The name of the template to be directed to, assuming no errors.
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(Model model, String error) {
+    public String login(Model model) {
         return "dashboard";
     }
 }

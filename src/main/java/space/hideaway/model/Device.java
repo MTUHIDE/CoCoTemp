@@ -15,6 +15,7 @@ public class Device {
     private String deviceLocation;
     private String deviceUUID;
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -61,4 +62,5 @@ public class Device {
     public void setDeviceUUID(String deviceUUID) {
         this.deviceUUID = deviceUUID;
     }
+
 }
