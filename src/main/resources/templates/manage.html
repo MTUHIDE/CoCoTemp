@@ -3,73 +3,69 @@
 <head>
     <div th:include="fragmentTemplate :: header" th:remove="tag"></div>
     <link th:href="@{/css/manage.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/sideNav.css}" rel="stylesheet" type="text/css"/>
     <title>CoCoTemp Manage</title>
 </head>
 <body>
-<div th:include="injectTemplate :: usernavbar" th:remove="tag"></div>
-<div class="container">
-    <div class="row">
-        <div class="hspace">&nbsp;</div>
-        <h1>Manage Account</h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a posuere turpis. Praesent non lectus sed lorem
-            efficitur dictum. Maecenas iaculis ante cursus interdum commodo. Suspendisse id mauris ex. Cum sociis
-            natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id tristique nisi, nec
-            elementum elit. Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum, eget consequat
-            nulla placerat. Sed fringilla fermentum erat, quis cursus est hendrerit nec. Pellentesque risus metus,
-            vehicula ut dui vehicula, egestas euismod augue.
-        </p>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Settings</h3>
+<div id="wrapper">
+    <div th:include="injectTemplate :: usernavbar" th:remove="tag"></div>
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Manage Account</h1>
+                    <p>Le Account Management</p>
 
-            <div class="tabbable-panel">
-                <div class="tabbable-line">
-                    <ul class="nav nav-tabs ">
-                        <li class="active">
-                            <a href="#tab_default_1" data-toggle="tab">
-                                Tab 1 </a>
-                        </li>
-                        <li>
-                            <a href="#tab_default_2" data-toggle="tab">
-                                Tab 2 </a>
-                        </li>
-                        <li>
-                            <a href="#tab_default_3" data-toggle="tab">
-                                Tab 3 </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_default_1">
-                            <p>
-                                I'm in Tab 1.
-                            </p>
-                            <p>
-                                Duis autem eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.
-                            </p>
-                        </div>
-                        <div class="tab-pane" id="tab_default_2">
-                            <p>
-                                Howdy, I'm in Tab 2.
-                            </p>
-                            <p>
-                                Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.
-                            </p>
-                        </div>
-                        <div class="tab-pane" id="tab_default_3">
-                            <p>
-                                Howdy, I'm in Tab 3.
-                            </p>
-                            <p>
-                                Duis autem vel eum iriure dolor in hendrerit in vulputate. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat
-                            </p>
+                    <h3>Settings</h3>
+
+                    <div class="tabbable-panel">
+                        <div class="tabbable-line">
+                            <ul class="nav nav-tabs ">
+                                <li class="active">
+                                    <a href="#tab_default_1" data-toggle="tab">
+                                        Tab 1 </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_default_2" data-toggle="tab">
+                                        Tab 2 </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_default_3" data-toggle="tab">
+                                        Tab 3 </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_default_1">
+                                    <p>
+                                        I'm in Tab 1.
+                                    </p>
+                                    <p>
+                                        Duis autem eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="tab_default_2">
+                                    <p>
+                                        Howdy, I'm in Tab 2.
+                                    </p>
+                                    <p>
+                                        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="tab_default_3">
+                                    <p>
+                                        Howdy, I'm in Tab 3.
+                                    </p>
+                                    <p>
+                                        Duis autem vel eum iriure dolor in hendrerit in vulputate. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-        </div>
 </div>
 <div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
 </body>

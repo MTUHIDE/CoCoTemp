@@ -28,36 +28,39 @@ p {
   width: 240px;
   position: fixed;
   border-radius: 0;
-  height: 100%; }
+  height: 100%;
+  left: 0; }
   @media (min-width: 768px) and (max-width: 1023px) {
     .navbar-fixed-left {
       height: 110px;
       width: 100%; } }
 
-@media (min-width: 768px) and (max-width: 1023px) {
-  .navbar-nav > ul {
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    padding-left: 150px;
-    margin-top: -25px;
-    background-color: #00416A; } }
-.navbar-nav > li {
-  float: none;
-  width: 139px; }
+.navbar-nav {
+  margin: 7.5px -15px !important; }
   @media (min-width: 768px) and (max-width: 1023px) {
-    .navbar-nav > li {
+    .navbar-nav > ul {
+      width: 100%;
       text-align: center;
-      float: left;
-      width: auto;
-      margin-left: 20px; } }
-.navbar-nav > li a {
-  color: #fafafa; }
-.navbar-nav + .container {
-  padding-left: 160px; }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .navbar-nav + .container {
-      padding: 0; } }
+      margin: 0 auto;
+      padding-left: 150px;
+      margin-top: -25px;
+      background-color: #00416A; } }
+  .navbar-nav > li {
+    float: none;
+    width: 139px; }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .navbar-nav > li {
+        text-align: center;
+        float: left;
+        width: auto;
+        margin-left: 20px; } }
+  .navbar-nav > li a {
+    color: #fafafa; }
+  .navbar-nav + .container {
+    padding-left: 160px; }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .navbar-nav + .container {
+        padding: 0; } }
 
 .navbar-brand {
   display: block;

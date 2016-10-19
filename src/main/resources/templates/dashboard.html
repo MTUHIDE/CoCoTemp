@@ -3,22 +3,21 @@
 <head>
     <div th:include="fragmentTemplate :: header" th:remove="tag"></div>
     <link th:href="@{/css/dashboard.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/sideNav.css}" rel="stylesheet" type="text/css"/>
     <title>CoCoTemp Dashboard</title>
 </head>
 <body>
-<div th:include="injectTemplate :: usernavbar" th:remove="tag"></div>
-<div class="container">
-    <div class="row">
-        <div class="hspace">&nbsp;</div>
-        <h1>Dashboard</h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a posuere turpis. Praesent non lectus sed lorem
-            efficitur dictum. Maecenas iaculis ante cursus interdum commodo. Suspendisse id mauris ex. Cum sociis
-            natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id tristique nisi, nec
-            elementum elit. Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum, eget consequat
-            nulla placerat. Sed fringilla fermentum erat, quis cursus est hendrerit nec. Pellentesque risus metus,
-            vehicula ut dui vehicula, egestas euismod augue.
-        </p>
+<div id="wrapper">
+    <div th:include="injectTemplate :: usernavbar" th:remove="tag"></div>
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Dashboard</h1>
+                    <p>Le Dashboard</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div th:include="fragmentTemplate :: footer" th-remove="tag"></div>

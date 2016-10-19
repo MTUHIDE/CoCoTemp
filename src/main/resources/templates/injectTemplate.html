@@ -107,7 +107,7 @@
 </div>
 
 <div th:fragment="navbar">
-    <div class="navbar navbar-inverse navbar-fixed-left">
+    <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
         <a class="navbar-brand" href="#">CoCoTemp</a>
         <ul class="nav navbar-nav">
             <li>
@@ -143,13 +143,11 @@
     </div>
 </div>
 
+
 <div th:fragment="usernavbar">
-    <div class="navbar navbar-inverse navbar-fixed-left">
+    <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
         <div class="topShade">
             <a class="navbar-brand" href="#">CoCo Temp</a>
-            <div class="profileImg">
-                <img src="https://placekitten.com/g/100/100" width="100px" height="100px"/>
-            </div>
             <div class="welcomeLine">Welcome, <span sec:authentication="name"></span>!</div>
         </div>
         <ul class="nav navbar-nav">

@@ -22,9 +22,7 @@ public class StartupService {
      * implemented accordingly.
      */
     public void initialize() {
-        for (Device doughepi : userRepository.findByUsername("doughepi").getDeviceSet()) {
-            System.out.println(doughepi);
-        }
+
     }
 
 }
