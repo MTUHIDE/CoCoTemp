@@ -51,7 +51,7 @@ p
       width: auto
       margin-left: 20px
   > li a
-    color: $cool-version-of-white-color
+    color: $cool-version-of-white-color !important
   + .container
     padding-left: 160px
     @media #{$tablet}
@@ -80,9 +80,9 @@ p
   // Subtract border size
   color: white
   //margin-top: 25px
-  background-color: darken($secondary-color,2%)
+  background-color: darken($secondary-color, 2%)
   border: 0
-  border-top: 2px solid lighten($secondary-color,2%)
+  border-top: 2px solid lighten($secondary-color, 2%)
   &:hover
     background-color: $primary-color
   @media #{$tablet}
@@ -165,6 +165,7 @@ input[type=password]
 
 .btn
   border-radius: 0
+  color: white
   &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus
     outline: none
 

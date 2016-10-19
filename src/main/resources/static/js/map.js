@@ -35,7 +35,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p
 
 function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
-        layer.bindPopup(feature.properties.popupContent);
+    layer.bindPopup(feature.properties.popupContent);
 }
 
 /* GeoJSON Data */

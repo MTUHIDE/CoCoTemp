@@ -38,6 +38,8 @@ public class RouteController {
     }
 
     @GetMapping("/contact")
-    public String contact() {return "contact";}
+    public String contact() {
+        return "contact";
+    }
 
 }

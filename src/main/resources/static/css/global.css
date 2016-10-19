@@ -55,7 +55,7 @@ p {
         width: auto;
         margin-left: 20px; } }
   .navbar-nav > li a {
-    color: #fafafa; }
+    color: #fafafa !important; }
   .navbar-nav + .container {
     padding-left: 160px; }
     @media (min-width: 768px) and (max-width: 1023px) {
@@ -166,7 +166,8 @@ input[type=password] {
   margin-bottom: 0; }
 
 .btn {
-  border-radius: 0; }
+  border-radius: 0;
+  color: white; }
   .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
     outline: none; }
 

@@ -2,7 +2,6 @@ package space.hideaway;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import space.hideaway.model.Device;
 import space.hideaway.repositories.UserRepository;
 
 /**
