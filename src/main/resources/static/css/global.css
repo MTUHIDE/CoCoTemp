@@ -171,6 +171,14 @@ input[type=password] {
   .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
     outline: none; }
 
+.standard {
+  border-radius: 25px;
+  color: white;
+  background-color: #79D0B3;
+  border-color: #42bb92; }
+  .standard:hover {
+    background-color: #3ba884; }
+
 .modal .btn-lg, .btn-group-lg > .btn {
   background-color: #79D0B3;
   border-radius: 25px;

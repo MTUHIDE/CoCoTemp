@@ -163,11 +163,20 @@ input[type=password]
 .checkbox
   margin-bottom: 0
 
+
 .btn
   border-radius: 0
   color: white
   &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus
     outline: none
+
+.standard
+  border-radius: 25px
+  color: white
+  background-color: $primary-color
+  border-color: darken($primary-color,15%)
+  &:hover
+    background-color: darken($primary-color,20%)
 
 .modal .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
