@@ -208,4 +208,12 @@ input[type=password] {
   margin-bottom: 25px;
   border-radius: 15px; }
 
+.modal-content {
+  padding: 15px; }
+
+.center {
+  display: block;
+  margin: 0 auto;
+  text-align: center; }
+
 /*# sourceMappingURL=global.css.map */
