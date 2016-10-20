@@ -3,7 +3,6 @@ package space.hideaway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import space.hideaway.model.User;
@@ -37,7 +36,7 @@ public class UserValidator implements Validator {
         }
 
         if (!user.getConfirmationPassword().equals(user.getPassword())) {
-            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
+            errors.rejectValue("confirmationPassword", "Diff.userForm.passwordConfirm");
         }
     }
 }

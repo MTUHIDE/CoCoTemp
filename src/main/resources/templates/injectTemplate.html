@@ -76,7 +76,8 @@
 
                         <!-- Begin | Register Form -->
                         <!--/*@thymesVar id="userForm" type="space.hideaway.model.User"*/-->
-                        <form id="register-form" style="display:none;" th:object="${userForm}" method="post" action="/register">
+                        <form id="register-form" style="display:none;" th:object="${userForm}" method="post"
+                              th:action="@{/register}">
                             <div class="modal-body">
                                 <div id="div-register-msg">
                                     <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>

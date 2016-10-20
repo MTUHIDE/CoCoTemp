@@ -9,6 +9,12 @@
     <tx:annotation-driven/>
     <jpa:repositories base-package="space.hideaway.repositories"/>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <!--suppress SpringModelInspection -->
+        <property name="basename" value="classpath:spring/validation"/>
+    </bean>
+
+
     <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:/spring/application.properties"/>
     </bean>
