@@ -53,9 +53,16 @@ p {
         text-align: center;
         float: left;
         width: auto;
-        margin-left: 20px; } }
+        margin-left: 25px; } }
   .navbar-nav > li a {
     color: #fafafa !important; }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .navbar-nav > li a {
+        background-color: transparent;
+        border: none;
+        margin-bottom: 20px; }
+        .navbar-nav > li a:hover {
+          text-decoration: underline; } }
   .navbar-nav + .container {
     padding-left: 160px; }
     @media (min-width: 768px) and (max-width: 1023px) {

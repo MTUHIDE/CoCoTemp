@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RouteController {
 
-    @GetMapping("/")
+    @GetMapping({"/","/home"})
     public String index() {
         return "index";
     }
@@ -42,4 +42,8 @@ public class RouteController {
         return "contact";
     }
 
+    @GetMapping("/error")
+    public String error() {
+        return "error";
+    }
 }

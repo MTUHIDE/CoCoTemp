@@ -82,6 +82,8 @@
                                    placeholder="Username (type ERROR for error effect)"/>
                             <input id="register_email" class="form-control" type="text" placeholder="E-Mail"/>
                             <input id="register_password" class="form-control" type="password" placeholder="Password"/>
+                            <input id="confirmed_password" class="form-control" type="password"
+                                   placeholder="Re-enter Password"/>
                         </div>
                         <div class="modal-footer">
                             <div>
@@ -116,26 +118,26 @@
                 </a>
             </li>
             <li>
-                <a id="home-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/'">
+                <a th:href="@{/}" id="home-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Home
                 </a>
             </li>
             <li>
-                <a id="about-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/about'">
+                <a th:href="@{/about}" id="about-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     About
                 </a>
             </li>
             <li>
-                <a id="something-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                <a th:href="@{/dashboard}" id="something-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Something
                 </a>
             </li>
             <li>
-                <a id="contact-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/contact'">
+                <a th:href="@{/contact}" id="contact-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Contact
                 </a>
             </li>
@@ -152,28 +154,29 @@
         </div>
         <ul class="nav navbar-nav">
             <li>
-                <a id="dashboard-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/dashboard'">
+                <a th:href="@{/dashboard}" id="dashboard-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Dashboard
                 </a>
             </li>
             <li>
-                <a id="manage-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                <a th:href="@{/manage}" id="manage-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Manage Account
                 </a>
             </li>
             <li>
-                <a id="user-about-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/about'">
+                <a th:href="@{/about}" id="user-about-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     About
                 </a>
             </li>
             <li>
-                <a id="user-contact-button" type="button"
-                   class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/contact'">
+                <a th:href="@{/contact}" id="user-contact-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Contact
-                </a></li>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

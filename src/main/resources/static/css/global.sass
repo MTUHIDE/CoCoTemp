@@ -49,9 +49,15 @@ p
       text-align: center
       float: left
       width: auto
-      margin-left: 20px
+      margin-left: 25px
   > li a
     color: $cool-version-of-white-color !important
+    @media #{$tablet}
+      background-color: transparent
+      border: none
+      margin-bottom: 20px
+      &:hover
+        text-decoration: underline
   + .container
     padding-left: 160px
     @media #{$tablet}
