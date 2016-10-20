@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RouteController {
 
-    @GetMapping({"/","/home"})
+    @GetMapping({"/", "/home"})
     public String index() {
         return "index";
     }

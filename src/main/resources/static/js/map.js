@@ -29,8 +29,10 @@ L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p
     {}).addTo(map);
 
 /* Add Weather Station Points */
-$.getJSON("https://gist.githubusercontent.com/Ghosts/9cee42dbb5275c5ae15d5cc5e733eab2/raw/8563d2ca75d36edbe52b8d1dec309164fc0ac29b/geoTest.geojson", function(data) {
+$.getJSON("https://gist.githubusercontent.com/Ghosts/9cee42dbb5275c5ae15d5cc5e733eab2/raw/8563d2ca75d36edbe52b8d1dec309164fc0ac29b/geoTest.geojson", function (data) {
     L.geoJson(data, {
-         onEachFeature: function(feature, layer) {
-             layer.bindPopup("test"); }
-    }).addTo(map);});
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup("test");
+        }
+    }).addTo(map);
+});
