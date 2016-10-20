@@ -34,16 +34,16 @@ public class RegisterController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model)
     {
+        String username = userForm.getUsername();
+        String password = userForm.getPassword();
+
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "redirect:/#register";
         }
-
         userService.save(userForm);
-        securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
-
-        System.out.println("Heading to the dashboard.");
-        return "/dashboard";
+        securityService.autoLogin(username, password);
+        return "redirect:/dashboard";
     }
 }
