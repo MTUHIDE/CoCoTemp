@@ -105,13 +105,17 @@ $(function () {
             $iconTag.removeClass($iconClass + " " + $divClass);
         }, $msgShowTime);
     }
+    /* Code for URL #login Popup */
+    var hash = (window.location.hash).replace('#', '');
+    if (hash === "login") {
+        hashClick();
+    }
+    if(hash == "error"){
+        hashClick();
+        msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
+    }
+    function hashClick() {
+        document.getElementById("login-button").click(); // Click on the checkbox
+    }
 });
 
-/* Code for URL #login Popup */
-var hash = (window.location.hash).replace('#', '');
-if (hash === "login") {
-    hashClick();
-}
-function hashClick() {
-    document.getElementById("login-button").click(); // Click on the checkbox
-}
