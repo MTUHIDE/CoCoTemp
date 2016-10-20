@@ -4,6 +4,7 @@
     <div th:include="fragmentTemplate :: header" th:remove="tag"></div>
     <link th:href="@{/css/dashboard.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/sideNav.css}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     <title>CoCoTemp Dashboard</title>
 </head>
 <body>
@@ -12,14 +13,110 @@
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-11">
                     <h1>Dashboard</h1>
-                    <p>Le Dashboard</p>
+                    <p>View and edit your personal data.</p>
+                </div>
+                <div class="pull-right">
+                   <a href="/upload" class="btn btn-primary" >Upload</a>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Range
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Year</a></li>
+                            <li><a href="#">Month</a></li>
+                            <li><a href="#">Day</a></li>
+                        </ul>
+                    </div>
+                    <canvas id="temperature-chart" height="40vh"></canvas>
+                </div>
+                <div class="col-lg-2">
+                    <p>
+                        Minimum Temperature<br/>
+                        67&deg; on 12/4/16
+                    </p>
+                    <p>
+                        Maximum Temperature<br/>
+                        67&deg; on 12/4/16
+                    </p>
+                    <p>
+                        Average Temperature<br/>
+                        67&deg;
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="temperature-table" class="table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Station</th>
+                            <th>Location</th>
+                            <th>Temperature</th>
+                        </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script>
+
+    $('document').ready(function () {
+//        $('#temperature-table').DataTable();
+    })
+
+    var ctx = document.getElementById('temperature-chart');
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: [{
+                label: "Temperature",
+                data: [12.6, 34.6, 34.5, 87.9, 34.6, 24.6, 44.5, 76.5, 34.2, 56.4, 54, 23.8],
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2"
+                ]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Month"
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Temperature"
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    })
+</script>
+
 </body>
 </html>
