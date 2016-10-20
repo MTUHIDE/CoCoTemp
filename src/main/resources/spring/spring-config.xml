@@ -20,8 +20,9 @@
         <security:form-login login-page="/#login" login-processing-url="/login" default-target-url="/dashboard"
                              username-parameter="username" password-parameter="password"
                              authentication-failure-url="/#error"/>
-        <security:intercept-url pattern="/dashboard" access="isFullyAuthenticated()"/>
-        <security:intercept-url pattern="/login" access="permitAll()"/>
+        <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
+        <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/**" access="permitAll()"/>
         <security:csrf disabled="true"/>
     </security:http>
@@ -44,7 +45,7 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
             </props>
         </property>
     </bean>
@@ -58,7 +59,7 @@
 
 
     <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
-
+    <bean id="securityServiceImplementation" class="space.hideaway.services.SecurityServiceImplementation"/>
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="userDetailsServiceImplementation">
