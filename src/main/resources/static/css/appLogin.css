@@ -1,47 +1,58 @@
 body {
-  background-color: #43cea2;
-  background: -webkit-linear-gradient(to left, #43cea2, #185a9d);
-  background: linear-gradient(to left, #43cea2, #185a9d);
-  background: linear-gradient(270deg, #3bd9b0, #2f2d92); }
+    background-color: #43cea2;
+    background: -webkit-linear-gradient(to left, #43cea2, #185a9d);
+    background: linear-gradient(to left, #43cea2, #185a9d);
+    background: linear-gradient(270deg, #3bd9b0, #2f2d92);
+}
 
 h1 {
-  color: white;
-  text-align: center; }
+    color: white;
+    text-align: center;
+}
 
 .appForm {
-  padding-top: 10px;
-  background-color: transparent;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 25px; }
+    padding-top: 10px;
+    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+}
 
 .appForm input {
-  border-radius: 5px;
-  opacity: 0.8;
-  margin-bottom: 10px; }
+    border-radius: 5px;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
 
 .appForm {
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  margin: 0 auto;
-  text-align: center; }
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;
+}
 
 .btn-lg {
-  border-radius: 10px;
-  background-color: #42bb92;
-  border-color: #2e8266; }
-  .btn-lg:hover {
-    background-color: #3ba884; }
+    border-radius: 10px;
+    background-color: #42bb92;
+    border-color: #2e8266;
+}
+
+.btn-lg:hover {
+    background-color: #3ba884;
+}
 
 #div-login-msg, #div-register-msg, #div-lost-msg {
-  background-color: white;
-  margin-bottom: 25px;
-  border-radius: 15px; }
+    background-color: white;
+    margin-bottom: 25px;
+    border-radius: 15px;
+}
 
 #icon-login-msg, #icon-lost-msg, #icon-register-msg {
-  border-radius: 25px; }
+    border-radius: 25px;
+}
 
 .helpDiv button, label {
-  color: white !important; }
+    color: white !important;
+}
 
 /*# sourceMappingURL=appLogin.css.map */

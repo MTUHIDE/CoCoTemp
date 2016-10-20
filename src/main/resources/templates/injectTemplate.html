@@ -16,14 +16,14 @@
                     <!-- Begin # Login Form -->
 
 
-                    <form id="login-form" action="/login" method="post">
+                    <form id="login-form" th:action="@{/login}" method="post">
                         <div class="modal-body">
                             <div id="div-login-msg">
                                 <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
                                 <span id="text-login-msg">Type your username and password.</span>
                             </div>
                             <input name="username" id="username" class="form-control" type="text"
-                                   placeholder="Username (type ERROR for error effect)"/>
+                                   placeholder="Username"/>
                             <input name="password" id="password" class="form-control" type="password"
                                    placeholder="Password"/>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -55,7 +55,7 @@
                                 <span id="text-lost-msg">Type your e-mail.</span>
                             </div>
                             <input id="lost_email" class="form-control" type="text"
-                                   placeholder="E-Mail (type ERROR for error effect)"/>
+                                   placeholder="E-Mail"/>
                         </div>
                         <div class="modal-footer">
                             <div>
@@ -79,9 +79,11 @@
                                 <span id="text-register-msg">Register an account.</span>
                             </div>
                             <input id="register_username" class="form-control" type="text"
-                                   placeholder="Username (type ERROR for error effect)"/>
+                                   placeholder="Username"/>
                             <input id="register_email" class="form-control" type="text" placeholder="E-Mail"/>
                             <input id="register_password" class="form-control" type="password" placeholder="Password"/>
+                            <input id="confirmed_password" class="form-control" type="password"
+                                   placeholder="Re-enter Password"/>
                         </div>
                         <div class="modal-footer">
                             <div>
@@ -107,72 +109,74 @@
 </div>
 
 <div th:fragment="navbar">
-    <div class="navbar navbar-inverse navbar-fixed-left">
+    <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
         <a class="navbar-brand" href="#">CoCoTemp</a>
         <ul class="nav navbar-nav">
             <li>
-                <button data-toggle="modal" data-target="#login-modal" id="login-button" type="button"
-                        class="btn btn-primary btn-lg btn-block menuButton">Enter Site
-                </button>
+                <a data-toggle="modal" data-target="#login-modal" id="login-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">Enter Site
+                </a>
             </li>
             <li>
-                <button id="home-button" type="button"
-                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/'">
+                <a th:href="@{/}" id="home-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Home
-                </button>
+                </a>
             </li>
             <li>
-                <button id="about-button" type="button"
-                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/about'">
+                <a th:href="@{/about}" id="about-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     About
-                </button>
+                </a>
             </li>
             <li>
-                <button id="something-button" type="button"
-                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                <a th:href="@{/dashboard}" id="something-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Something
-                </button>
+                </a>
             </li>
             <li>
-                <button id="contact-button" type="button"
-                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/contact'">
+                <a th:href="@{/contact}" id="contact-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Contact
-                </button>
+                </a>
             </li>
         </ul>
     </div>
 </div>
 
+
 <div th:fragment="usernavbar">
-    <div class="navbar navbar-inverse navbar-fixed-left">
-        <div class="topShade">
+    <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
+        <div class="row">
             <a class="navbar-brand" href="#">CoCo Temp</a>
-            <div class="profileImg">
-                <img src="https://placekitten.com/g/100/100" width="100px" height="100px"/>
-            </div>
-            <div class="welcomeLine">Welcome, <span sec:authentication="name"></span></div>
+            <div class="welcomeLine">Welcome, <span sec:authentication="name"></span>!</div>
         </div>
         <ul class="nav navbar-nav">
             <li>
-            <button id="dashboard-button" type="button"
-                    class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/dashboard'">
-                Dashboard
-            </button>
+                <a th:href="@{/dashboard}" id="dashboard-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Dashboard
+                </a>
             </li>
             <li>
-                <button id="manage-button" type="button"
-                        class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/manage'">
+                <a th:href="@{/manage}" id="manage-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
                     Manage Account
-                </button>
+                </a>
             </li>
-            <li>  <button id="user-about-button" type="button"
-                          class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/about'">
-                Contact
-            </button></li>
-            <li>  <button id="user-contact-button" type="button"
-                          class="btn btn-primary btn-lg btn-block menuButton" onclick="window.location.href='/contact'">
-                Contact
-            </button></li>
+            <li>
+                <a th:href="@{/about}" id="user-about-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    About
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/contact}" id="user-contact-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Contact
+                </a>
+            </li>
         </ul>
     </div>
 </div>

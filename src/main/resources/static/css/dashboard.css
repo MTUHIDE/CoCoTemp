@@ -19,24 +19,18 @@ body {
       width: 100vw;
       height: auto; } }
 
-.profileImg {
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 10px; }
-
-.profileImg img {
-  border-radius: 100%;
-  width: 100px;
-  height: 100px;
-  border: 2px solid #00609d; }
-
 .welcomeLine {
   text-align: center;
   padding-bottom: 10px;
   margin-top: 20px;
   color: white; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .welcomeLine {
+      margin-top: 25px;
+      float: left; } }
 
-.topShade {
-  background-color: #003b60; }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar-brand {
+    width: auto; } }
 
 /*# sourceMappingURL=dashboard.css.map */
