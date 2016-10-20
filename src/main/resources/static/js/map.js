@@ -29,18 +29,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p
     {}).addTo(map);
 
 /* Add Weather Station Points */
-// L.marker([47.11, -88.54]).addTo(map).bindPopup("<b>Station 666</b><br>Michigan Technological University<br>Michigan, 49931");
-// L.marker([44.75, -85.60]).addTo(map).bindPopup("<b>Station 42</b><br>Traverse City<br>Michigan, 49684");
-// L.marker([39.69, -105.20]).addTo(map).bindPopup("<b>Station 69</b><br>Denver<br> Colorado, 80123");
-
-function onEachFeature(feature, layer) {
-    // does this feature have a property named popupContent?
-    layer.bindPopup(feature.properties.popupContent);
-}
-
-/* GeoJSON Data */
-$.getJSON('https://gist.githubusercontent.com/Ghosts/9cee42dbb5275c5ae15d5cc5e733eab2/raw/02c0df960d62ac698c2df0fd334155f0df56a27d/geoTest.json', function (geojson) {
-    L.geoJson(geojson, {
-        onEachFeature: onEachFeature
-    }).addTo(map);
-});
+$.getJSON("https://gist.githubusercontent.com/Ghosts/9cee42dbb5275c5ae15d5cc5e733eab2/raw/8563d2ca75d36edbe52b8d1dec309164fc0ac29b/geoTest.geojson", function(data) {
+    L.geoJson(data, {
+         onEachFeature: function(feature, layer) {
+             layer.bindPopup("test"); }
+    }).addTo(map);});
