@@ -34,7 +34,7 @@ jQuery(document).ready(function () {
                     timeout: 1000,
                     type: 'post',
                     url: '/login.json'
-                }).done(function (data) {
+                }).done(function (data, textStatus) {
                     if (data['status'] == true) {
                         msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                         window.location.href = data['location'];
