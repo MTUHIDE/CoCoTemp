@@ -38,7 +38,6 @@ public class RegisterController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("register-error", true);
             return "index";
         }
         userService.save(userForm);
