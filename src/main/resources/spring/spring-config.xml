@@ -23,9 +23,7 @@
     <mvc:resources mapping="/static/**" location="/static/"/>
 
     <security:http auto-config="true" use-expressions="true">
-        <security:form-login login-page="/#login" login-processing-url="/login" default-target-url="/dashboard"
-                             username-parameter="username" password-parameter="password"
-                             authentication-failure-url="/#error"/>
+        <security:form-login login-page="/#login"/>
         <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
         <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
