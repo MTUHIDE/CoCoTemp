@@ -1,189 +1,182 @@
 <!-- Inject fragments are for larger components of code that inject an element into the page.
      An example would be like the navbar, where it injects the navbar into the correct spot. -->
-<http xmlns:th="http://www.thymeleaf.org">
-    <div th:fragment="modal">
-        <!-- BEGIN # MODAL LOGIN -->
-        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" align="center">
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                        <h1>CoCoTemp</h1>
-                    </div>
-                    <!-- Begin # DIV Form -->
-                    <div id="div-forms">
-                        <!-- Begin # Login Form -->
+<div th:fragment="modal">
+    <!-- BEGIN # MODAL LOGIN -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" align="center">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <h1>CoCoTemp</h1>
+                </div>
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                    <!-- Begin # Login Form -->
 
 
-                        <form id="login-form" th:action="@{/login}" method="post">
-                            <div class="modal-body">
-                                <div id="div-login-msg">
-                                    <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                    <span id="text-login-msg">Type your username and password.</span>
-                                </div>
-                                <input name="username" id="username" class="form-control" type="text"
-                                       placeholder="Username (type ERROR for error effect)"/>
-                                <input name="password" id="password" class="form-control" type="password"
-                                       placeholder="Password"/>
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"/> Remember me
-                                    </label>
-                                </div>
+                    <form id="login-form" th:action="@{/login}" method="post">
+                        <div class="modal-body">
+                            <div id="div-login-msg">
+                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-login-msg">Type your username and password.</span>
                             </div>
-                            <div class="modal-footer">
-                                <div>
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-                                </div>
-                                <div>
-                                    <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?
-                                    </button>
-                                    <br/>
-                                    <button id="login_register_btn" type="button" class="btn btn-link">Don't have an
-                                        account? <b>Register for one!</b></button>
-                                </div>
+                            <input name="username" id="username" class="form-control" type="text"
+                                   placeholder="Username"/>
+                            <input name="password" id="password" class="form-control" type="password"
+                                   placeholder="Password"/>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"/> Remember me
+                                </label>
                             </div>
-                        </form>
-                        <!-- End # Login Form -->
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                            </div>
+                            <div>
+                                <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+                                <br/>
+                                <button id="login_register_btn" type="button" class="btn btn-link">Don't have an
+                                    account? <b>Register for one!</b></button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End # Login Form -->
 
-                        <!-- Begin | Lost Password Form -->
-                        <form id="lost-form" style="display:none;">
-                            <div class="modal-body">
-                                <div id="div-lost-msg">
-                                    <div id="icon-lost-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                    <span id="text-lost-msg">Type your e-mail.</span>
-                                </div>
-                                <input id="lost_email" class="form-control" type="text"
-                                       placeholder="E-Mail"/>
+                    <!-- Begin | Lost Password Form -->
+                    <form id="lost-form" style="display:none;">
+                        <div class="modal-body">
+                            <div id="div-lost-msg">
+                                <div id="icon-lost-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-lost-msg">Type your e-mail.</span>
                             </div>
-                            <div class="modal-footer">
-                                <div>
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
-                                </div>
-                                <div>
-                                    <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
-                                    <br/>
-                                    <button id="lost_register_btn" type="button" class="btn btn-link">Don't have an
-                                        account?
-                                        <b>Register</b></button>
-                                </div>
+                            <input id="lost_email" class="form-control" type="text"
+                                   placeholder="E-Mail"/>
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
                             </div>
-                        </form>
-                        <!-- End | Lost Password Form -->
+                            <div>
+                                <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
+                                <br/>
+                                <button id="lost_register_btn" type="button" class="btn btn-link">Don't have an account?
+                                    <b>Register</b></button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End | Lost Password Form -->
 
-                        <!-- Begin | Register Form -->
-                        <!--/*@thymesVar id="userForm" type="space.hideaway.model.User"*/-->
-                        <form id="register-form" style="display:none;" th:object="${userForm}" method="post"
-                              th:action="@{/register}">
-                            <div class="modal-body">
-                                <div id="div-register-msg">
-                                    <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                    <span id="text-register-msg">Register an account.</span>
-                                </div>
-                                <input id="register_username" class="form-control" type="text"
-                                       placeholder="Username (type ERROR for error effect)" th:field="*{username}"/>
-                                <input id="register_email" class="form-control" type="text" placeholder="E-Mail"/>
-                                <input id="register_password" class="form-control" type="password"
-                                       placeholder="Password" th:field="*{password}"/>
-                                <input id="confirmed_password" class="form-control" type="password"
-                                       placeholder="Re-enter Password" th:field="*{confirmationPassword}"/>
+                    <!-- Begin | Register Form -->
+                    <form id="register-form" style="display:none;">
+                        <div class="modal-body">
+                            <div id="div-register-msg">
+                                <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-register-msg">Register an account.</span>
                             </div>
-                            <div class="modal-footer">
-                                <div>
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
-                                </div>
-                                <div>
-                                    <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
-                                    <br/>
-                                    <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?
-                                    </button>
-                                </div>
+                            <input id="register_username" class="form-control" type="text"
+                                   placeholder="Username"/>
+                            <input id="register_email" class="form-control" type="text" placeholder="E-Mail"/>
+                            <input id="register_password" class="form-control" type="password" placeholder="Password"/>
+                            <input id="confirmed_password" class="form-control" type="password"
+                                   placeholder="Re-enter Password"/>
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
                             </div>
-                        </form>
-                        <!-- End | Register Form -->
-
-                    </div>
-                    <!-- End # DIV Form -->
+                            <div>
+                                <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
+                                <br/>
+                                <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End | Register Form -->
 
                 </div>
+                <!-- End # DIV Form -->
+
             </div>
         </div>
-        <!-- END # MODAL LOGIN -->
     </div>
+    <!-- END # MODAL LOGIN -->
+</div>
 
-    <div th:fragment="navbar">
-        <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
-            <a class="navbar-brand" href="#">CoCoTemp</a>
-            <ul class="nav navbar-nav">
-                <li>
-                    <a data-toggle="modal" data-target="#login-modal" id="login-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">Enter Site
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/}" id="home-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/about}" id="about-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        About
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/dashboard}" id="something-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        Something
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/contact}" id="contact-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        Contact
-                    </a>
-                </li>
-            </ul>
+<div th:fragment="navbar">
+    <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
+        <a class="navbar-brand" href="#">CoCoTemp</a>
+        <ul class="nav navbar-nav">
+            <li>
+                <a data-toggle="modal" data-target="#login-modal" id="login-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">Enter Site
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/}" id="home-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/about}" id="about-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    About
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/dashboard}" id="something-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Something
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/contact}" id="contact-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Contact
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div th:fragment="usernavbar">
+    <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
+        <div class="row">
+            <a class="navbar-brand" href="#">CoCo Temp</a>
+            <div class="welcomeLine">Welcome, <span sec:authentication="name"></span>!</div>
         </div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a th:href="@{/dashboard}" id="dashboard-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/manage}" id="manage-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Manage Account
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/about}" id="user-about-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    About
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/contact}" id="user-contact-button" type="button"
+                   class="btn btn-primary btn-lg btn-block menuButton">
+                    Contact
+                </a>
+            </li>
+        </ul>
     </div>
-
-
-    <div th:fragment="usernavbar">
-        <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
-            <div class="row">
-                <a class="navbar-brand" href="#">CoCo Temp</a>
-                <div class="welcomeLine">Welcome, <span sec:authentication="name"></span>!</div>
-            </div>
-            <ul class="nav navbar-nav">
-                <li>
-                    <a th:href="@{/dashboard}" id="dashboard-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/manage}" id="manage-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        Manage Account
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/about}" id="user-about-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        About
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/contact}" id="user-contact-button" type="button"
-                       class="btn btn-primary btn-lg btn-block menuButton">
-                        Contact
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</http>
+</div>
