@@ -48,7 +48,7 @@ $(function () {
                 } else {
                     msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Register OK");
                 }
-                return false;
+                return true;
                 break;
             default:
                 return false;
