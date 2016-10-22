@@ -80,4 +80,18 @@
 .portlet .tabbable-line > .tab-content {
   padding-bottom: 0; }
 
+.well {
+  padding: 0;
+  margin-top: 15px; }
+
+.device-list {
+  list-style: none;
+  padding-left: 0; }
+  .device-list li {
+    border-bottom: 1px solid; }
+  .device-list li:last-of-type {
+    border-bottom: none; }
+  .device-list .device-container {
+    padding: 15px; }
+
 /*# sourceMappingURL=manage.css.map */

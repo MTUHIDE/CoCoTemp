@@ -36,6 +36,10 @@ jQuery(document).ready(function () {
                     url: '/login.json'
                 }).done(function (data, textStatus) {
                     if (data['status'] == true) {
+                        /*
+                         Weird enough, the login happens so fast the message doesn't have time to show.
+                         That's good I guess!
+                         */
                         msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                         window.location.href = data['location'];
                     } else {
