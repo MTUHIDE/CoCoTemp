@@ -8,7 +8,7 @@
  #
  ##################################################################### */
 
-$(function () {
+jQuery(document).ready(function () {
 
     var $formLogin = $('#login-form');
     var $formLost = $('#lost-form');
@@ -18,17 +18,35 @@ $(function () {
     var $msgAnimateTime = 150;
     var $msgShowTime = 2000;
 
-    $("form").submit(function () {
+    $("form").submit(function (e) {
+        e.preventDefault();
+
         switch (this.id) {
             case "login-form":
-                var $lg_username = $('#login_username').val();
-                var $lg_password = $('#login_password').val();
-                if ($lg_username == "ERROR") {
-                    msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
-                } else {
-                    msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
-                }
-                return true;
+
+                var $lg_username = $('#username').val();
+                var $lg_password = $('#password').val();
+
+                var data = 'username=' + $lg_username + '&password=' + $lg_password;
+                $.ajax({
+                    data: data,
+                    dataType: 'json',
+                    timeout: 1000,
+                    type: 'post',
+                    url: '/login.json'
+                }).done(function (data, textStatus) {
+                    if (data['status'] == true) {
+                        /*
+                         Weird enough, the login happens so fast the message doesn't have time to show.
+                         That's good I guess!
+                         */
+                        msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
+                        window.location.href = data['location'];
+                    } else {
+                        msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", data['error']);
+                    }
+                });
+                return false;
                 break;
             case "lost-form":
                 var $ls_email = $('#lost_email').val();
@@ -48,7 +66,7 @@ $(function () {
                 } else {
                     msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Register OK");
                 }
-                return false;
+                return true;
                 break;
             default:
                 return false;
@@ -105,12 +123,13 @@ $(function () {
             $iconTag.removeClass($iconClass + " " + $divClass);
         }, $msgShowTime);
     }
+
     /* Code for URL #login Popup */
     var hash = (window.location.hash).replace('#', '');
     if (hash === "login") {
         hashClick();
     }
-    if(hash == "error"){
+    if (hash == "error") {
         hashClick();
         msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
     }

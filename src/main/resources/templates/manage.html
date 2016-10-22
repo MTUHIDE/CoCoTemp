@@ -23,15 +23,11 @@
                             <ul class="nav nav-tabs ">
                                 <li class="active">
                                     <a href="#tab_default_1" data-toggle="tab">
-                                        Tab 1 </a>
+                                        Account Settings </a>
                                 </li>
                                 <li>
                                     <a href="#tab_default_2" data-toggle="tab">
-                                        Tab 2 </a>
-                                </li>
-                                <li>
-                                    <a href="#tab_default_3" data-toggle="tab">
-                                        Tab 3 </a>
+                                        Device Settings </a>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -48,26 +44,30 @@
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="tab_default_2">
-                                    <p>
-                                        Howdy, I'm in Tab 2.
-                                    </p>
-                                    <p>
-                                        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
-                                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
-                                        dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad
-                                        minim veniam, quis nostrud exerci tation.
-                                    </p>
-                                </div>
-                                <div class="tab-pane" id="tab_default_3">
-                                    <p>
-                                        Howdy, I'm in Tab 3.
-                                    </p>
-                                    <p>
-                                        Duis autem vel eum iriure dolor in hendrerit in vulputate. Ut wisi enim ad minim
-                                        veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip
-                                        ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
-                                        vulputate velit esse molestie consequat
-                                    </p>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <a class="btn btn-default btn-primary pull-right">New Device</a>
+                                            </div>
+                                        </div>
+
+                                            <ul class="device-list">
+                                                <li class="row" th:each="device : ${deviceList}">
+                                                    <div class="device-container">
+                                                        <div class="col-lg-9">
+                                                            <h3 th:text="${device.deviceName}"></h3>
+                                                            <p th:text="${device.deviceLocation}"></p>
+
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <button class="btn btn-primary">Edit</button>
+                                                            <button class="btn btn-danger">Delete</button>
+                                                        </div>
+
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
