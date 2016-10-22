@@ -88,18 +88,30 @@ p {
   border-bottom: 2px solid #003e65; }
 
 .menuButton {
+    text-align: left;
+    line-height: 11px !important;
   width: 239px;
   color: white;
   background-color: #003b60;
-  border: 0;
-  border-top: 2px solid #004774; }
+    border: 0;
+}
   .menuButton:hover {
     background-color: #79D0B3; }
+
+.menuButton:active {
+    border-left: 3px #79D0B3 solid;
+}
   @media (min-width: 768px) and (max-width: 1023px) {
     .menuButton {
       width: auto;
       float: left;
       margin-top: -12px; } }
+
+#login-button {
+    line-height: 11px;
+    width: 239px;
+    margin-bottom: 10px;
+}
 
 #login-modal .modal-dialog {
   width: 350px; }

@@ -82,19 +82,28 @@ p
   border-bottom: 2px solid darken($secondary-color, 1%)
 
 .menuButton
+  text-align: left
+  line-height: 11px !important
   width: $navbar-width - 1
   // Subtract border size
   color: white
   //margin-top: 25px
   background-color: darken($secondary-color, 2%)
   border: 0
-  border-top: 2px solid lighten($secondary-color, 2%)
+  //border-top: 2px solid lighten($secondary-color, 2%)
   &:hover
     background-color: $primary-color
+  &:active
+    border-left: 3px $primary-color solid
   @media #{$tablet}
     width: auto
     float: left
     margin-top: -12px
+
+#login-button
+  line-height: 11px
+  width: 239px
+  margin-bottom: 10px
 
 //Begin Modal Styles
 #login-modal
