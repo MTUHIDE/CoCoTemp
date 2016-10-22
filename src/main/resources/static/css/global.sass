@@ -1,7 +1,7 @@
 $primary-color: #79D0B3
 $secondary-color: #00416A
 //Like my personality
-$header-font: 'Bitter', sans-serif
+$header-font: 'Roboto Condensed', sans-serif
 $paragraph-font: 'Roboto', sans-serif
 $navbar-width: 240px
 $cool-version-of-white-color: darken(#fff, 2%)
@@ -11,6 +11,8 @@ $mobile: "(min-device-width : 320px) and (max-device-width : 480px)"
 
 @for $index from 1 through 6
   h#{$index}
+
+    font-weight: 700 !important
     font-family: $header-font
 
 p

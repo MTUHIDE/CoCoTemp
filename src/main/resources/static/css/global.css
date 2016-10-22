@@ -1,25 +1,31 @@
 h1 {
-  font-family: "Bitter", sans-serif;
+    font-weight: 700 !important;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 h2 {
-  font-family: "Bitter", sans-serif;
+    font-weight: 700 !important;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 h3 {
-  font-family: "Bitter", sans-serif;
+    font-weight: 700 !important;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 h4 {
-  font-family: "Bitter", sans-serif;
+    font-weight: 700 !important;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 h5 {
-  font-family: "Bitter", sans-serif;
+    font-weight: 700 !important;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 h6 {
-  font-family: "Bitter", sans-serif;
+    font-weight: 700 !important;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 p {
@@ -78,7 +84,7 @@ p {
 .navbar-brand {
   display: block;
   width: 100%;
-  font: 32px "Bitter", sans-serif;
+    font: 32px "Roboto Condensed", sans-serif;
   text-align: center;
   color: #79D0B3 !important;
   margin-bottom: 25px; }
@@ -99,13 +105,13 @@ p {
   width: 239px;
   color: white;
   background-color: #003b60;
-  border: 0;
+    border: 0;
 }
   .menuButton:hover {
     background-color: #79D0B3; }
 
 .menuButton:active {
-  border-left: 3px #79D0B3 solid;
+    border-left: 3px #79D0B3 solid;
 }
   @media (min-width: 768px) and (max-width: 1023px) {
     .menuButton {
@@ -116,7 +122,7 @@ p {
 #login-button {
   line-height: 11px;
   width: 239px;
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #login-modal .modal-dialog {
