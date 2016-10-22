@@ -1,20 +1,26 @@
 h1 {
-  font-family: "Bitter", sans-serif; }
+    font-family: "Rb", sans-serif;
+}
 
 h2 {
-  font-family: "Bitter", sans-serif; }
+    font-family: "Rb", sans-serif;
+}
 
 h3 {
-  font-family: "Bitter", sans-serif; }
+    font-family: "Rb", sans-serif;
+}
 
 h4 {
-  font-family: "Bitter", sans-serif; }
+    font-family: "Rb", sans-serif;
+}
 
 h5 {
-  font-family: "Bitter", sans-serif; }
+    font-family: "Rb", sans-serif;
+}
 
 h6 {
-  font-family: "Bitter", sans-serif; }
+    font-family: "Rb", sans-serif;
+}
 
 p {
   font-family: "Roboto", sans-serif;
@@ -72,7 +78,7 @@ p {
 .navbar-brand {
   display: block;
   width: 100%;
-  font: 32px "Bitter", sans-serif;
+    font: 32px "Rb", sans-serif;
   text-align: center;
   color: #79D0B3 !important;
   margin-bottom: 25px; }

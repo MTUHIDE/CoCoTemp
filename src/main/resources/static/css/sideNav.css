@@ -13,7 +13,8 @@ body {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; }
   #wrapper.toggled {
-    padding-left: 250px; }
+      padding-left: 240px;
+  }
 
 #sidebar-wrapper {
   z-index: 1000;
@@ -74,7 +75,8 @@ body {
 
 @media (min-width: 768px) {
   #wrapper {
-    padding-left: 250px; }
+      padding-left: 240px;
+  }
     #wrapper.toggled {
       padding-left: 0; } }
   @media (min-width: 768px) and (min-width: 768px) and (max-width: 1023px) {
