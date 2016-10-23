@@ -1,32 +1,26 @@
 h1 {
-    font-weight: 700 !important;
-    font-family: "Roboto Condensed", sans-serif;
-}
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h2 {
-    font-weight: 700 !important;
-    font-family: "Roboto Condensed", sans-serif;
-}
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h3 {
-    font-weight: 700 !important;
-    font-family: "Roboto Condensed", sans-serif;
-}
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h4 {
-    font-weight: 700 !important;
-    font-family: "Roboto Condensed", sans-serif;
-}
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h5 {
-    font-weight: 700 !important;
-    font-family: "Roboto Condensed", sans-serif;
-}
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h6 {
-    font-weight: 700 !important;
-    font-family: "Roboto Condensed", sans-serif;
-}
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 p {
   font-family: "Roboto", sans-serif;
@@ -82,14 +76,17 @@ p {
         padding: 0; } }
 
 .navbar-brand {
-  display: block;
-  width: 100%;
-    font: 32px "Roboto Condensed", sans-serif;
+  display: inline-block;
+  font: 32px "Roboto Condensed", sans-serif;
   text-align: center;
   color: #79D0B3 !important;
-  margin-bottom: 25px; }
-  .navbar-brand:hover a {
-    color: #fafafa; }
+  margin-bottom: 25px;
+  transition: all 0.5s ease;
+  width: 100px;
+  padding: 10px;
+  margin-top: 20px; }
+  .navbar-brand:hover {
+    color: #fafafa !important; }
 
 .divhr {
   margin-top: 75px;
@@ -105,14 +102,11 @@ p {
   width: 239px;
   color: white;
   background-color: #003b60;
-    border: 0;
-}
+  border: 0; }
   .menuButton:hover {
     background-color: #79D0B3; }
-
-.menuButton:active {
-    border-left: 3px #79D0B3 solid;
-}
+  .menuButton:active {
+    border-left: 3px #79D0B3 solid; }
   @media (min-width: 768px) and (max-width: 1023px) {
     .menuButton {
       width: auto;
@@ -122,8 +116,7 @@ p {
 #login-button {
   line-height: 11px;
   width: 239px;
-    margin-bottom: 10px;
-}
+  margin-bottom: 10px; }
 
 #login-modal .modal-dialog {
   width: 350px; }
@@ -246,5 +239,15 @@ input[type=password] {
   display: block;
   margin: 0 auto;
   text-align: center; }
+
+.logo {
+  background: url("../images/cloud.png");
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  float: left;
+  display: inline-block;
+  padding: 10px;
+  margin-top: 20px; }
 
 /*# sourceMappingURL=global.css.map */
