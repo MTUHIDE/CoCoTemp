@@ -1,5 +1,6 @@
 $primary-color: #79D0B3
 $secondary-color: #00416A
+$some-sort-of-red: #F44236
 //Like my personality
 $header-font: 'Roboto Condensed', sans-serif
 $paragraph-font: 'Roboto', sans-serif
@@ -197,6 +198,14 @@ input[type=password]
   &:hover
     background-color: darken($primary-color, 20%)
 
+.standard-red
+  border-radius: 25px
+  color: white
+  background-color: $some-sort-of-red
+  border-color: darken($some-sort-of-red, 15%)
+  &:hover
+    background-color: darken($some-sort-of-red, 20%)
+
 .modal .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
   border-radius: 25px
@@ -245,3 +254,7 @@ input[type=password]
   padding: 10px
   margin-top: 20px
   margin-left: 15px
+
+//Temporary Fix For Manage Buttons
+.valign
+  margin-top: 20px

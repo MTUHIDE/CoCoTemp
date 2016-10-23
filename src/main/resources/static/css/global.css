@@ -203,6 +203,14 @@ input[type=password] {
   .standard:hover {
     background-color: #3ba884; }
 
+.standard-red {
+  border-radius: 25px;
+  color: white;
+  background-color: #F44236;
+  border-color: #d2180b; }
+  .standard-red:hover {
+    background-color: #ba150a; }
+
 .modal .btn-lg, .btn-group-lg > .btn {
   background-color: #79D0B3;
   border-radius: 25px;
@@ -250,5 +258,8 @@ input[type=password] {
   padding: 10px;
   margin-top: 20px;
   margin-left: 15px; }
+
+.valign {
+  margin-top: 20px; }
 
 /*# sourceMappingURL=global.css.map */
