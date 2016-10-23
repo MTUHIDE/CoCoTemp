@@ -248,6 +248,7 @@ input[type=password] {
   float: left;
   display: inline-block;
   padding: 10px;
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-left: 15px; }
 
 /*# sourceMappingURL=global.css.map */
