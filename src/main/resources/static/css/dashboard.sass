@@ -8,6 +8,9 @@ $cool-version-of-white-color: white
 $tablet: "(min-width: 768px) and (max-width: 1023px)"
 $desktop: "(min-width: 1024px)"
 
+body
+  background: #e3e3e3
+
 .bottom
   margin: 0 auto
   z-index: 666
@@ -28,8 +31,9 @@ $desktop: "(min-width: 1024px)"
 .welcomeLine
   text-align: center
   padding-bottom: 10px
-  margin-top: 20px
   color: white
+  display: inline-block
+  width: 100%
   @media #{$tablet}
     margin-top: 25px
     float: left
@@ -37,3 +41,15 @@ $desktop: "(min-width: 1024px)"
 .navbar-brand
   @media #{$tablet}
     width: auto
+
+.temperature-header
+  margin-top: 0
+  margin-bottom: 0
+
+hr
+  margin: 5px 0 5px 0
+
+.well
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+

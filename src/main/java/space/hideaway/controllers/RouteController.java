@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.User;
-import space.hideaway.services.UserDetailsServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
 
 /**
@@ -29,7 +28,8 @@ public class RouteController {
     }
 
     @GetMapping("/about")
-    public String about() {
+    public String about(Model model) {
+        model.addAttribute("userForm", new User());
         return "about";
     }
 
@@ -51,7 +51,8 @@ public class RouteController {
     }
 
     @GetMapping("/contact")
-    public String contact() {
+    public String contact(Model model) {
+        model.addAttribute("userForm", new User());
         return "contact";
     }
 

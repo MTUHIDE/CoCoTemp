@@ -1,7 +1,8 @@
 $primary-color: #79D0B3
 $secondary-color: #00416A
+$some-sort-of-red: #F44236
 //Like my personality
-$header-font: 'Bitter', sans-serif
+$header-font: 'Roboto Condensed', sans-serif
 $paragraph-font: 'Roboto', sans-serif
 $navbar-width: 240px
 $cool-version-of-white-color: darken(#fff, 2%)
@@ -11,6 +12,8 @@ $mobile: "(min-device-width : 320px) and (max-device-width : 480px)"
 
 @for $index from 1 through 6
   h#{$index}
+
+    font-weight: 700 !important
     font-family: $header-font
 
 p
@@ -64,14 +67,17 @@ p
       padding: 0
 
 .navbar-brand
-  display: block
-  width: 100%
+  display: inline-block
   font: 32px $header-font
   text-align: center
   color: $primary-color !important
   margin-bottom: 25px
-  &:hover a
-    color: $cool-version-of-white-color
+  transition: all 0.5s ease
+  width: 100px
+  padding: 10px
+  margin-top: 20px
+  &:hover
+    color: $cool-version-of-white-color !important
 
 .divhr
   margin-top: 75px
@@ -82,19 +88,28 @@ p
   border-bottom: 2px solid darken($secondary-color, 1%)
 
 .menuButton
+  text-align: left
+  line-height: 11px !important
   width: $navbar-width - 1
   // Subtract border size
   color: white
   //margin-top: 25px
   background-color: darken($secondary-color, 2%)
   border: 0
-  border-top: 2px solid lighten($secondary-color, 2%)
+  //border-top: 2px solid lighten($secondary-color, 2%)
   &:hover
     background-color: $primary-color
+  &:active
+    border-left: 3px $primary-color solid
   @media #{$tablet}
     width: auto
     float: left
     margin-top: -12px
+
+#login-button
+  line-height: 11px
+  width: 239px
+  margin-bottom: 10px
 
 //Begin Modal Styles
 #login-modal
@@ -183,6 +198,14 @@ input[type=password]
   &:hover
     background-color: darken($primary-color, 20%)
 
+.standard-red
+  border-radius: 25px
+  color: white
+  background-color: $some-sort-of-red
+  border-color: darken($some-sort-of-red, 15%)
+  &:hover
+    background-color: darken($some-sort-of-red, 20%)
+
 .modal .btn-lg, .btn-group-lg > .btn
   background-color: $primary-color
   border-radius: 25px
@@ -220,3 +243,18 @@ input[type=password]
   display: block
   margin: 0 auto
   text-align: center
+
+.logo
+  background: url("../images/cloud.png")
+  background-size: cover
+  width: 50px
+  height: 50px
+  float: left
+  display: inline-block
+  padding: 10px
+  margin-top: 20px
+  margin-left: 15px
+
+//Temporary Fix For Manage Buttons
+.valign
+  margin-top: 20px

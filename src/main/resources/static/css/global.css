@@ -1,20 +1,26 @@
 h1 {
-  font-family: "Bitter", sans-serif; }
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h2 {
-  font-family: "Bitter", sans-serif; }
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h3 {
-  font-family: "Bitter", sans-serif; }
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h4 {
-  font-family: "Bitter", sans-serif; }
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h5 {
-  font-family: "Bitter", sans-serif; }
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 h6 {
-  font-family: "Bitter", sans-serif; }
+  font-weight: 700 !important;
+  font-family: "Roboto Condensed", sans-serif; }
 
 p {
   font-family: "Roboto", sans-serif;
@@ -70,14 +76,17 @@ p {
         padding: 0; } }
 
 .navbar-brand {
-  display: block;
-  width: 100%;
-  font: 32px "Bitter", sans-serif;
+  display: inline-block;
+  font: 32px "Roboto Condensed", sans-serif;
   text-align: center;
   color: #79D0B3 !important;
-  margin-bottom: 25px; }
-  .navbar-brand:hover a {
-    color: #fafafa; }
+  margin-bottom: 25px;
+  transition: all 0.5s ease;
+  width: 100px;
+  padding: 10px;
+  margin-top: 20px; }
+  .navbar-brand:hover {
+    color: #fafafa !important; }
 
 .divhr {
   margin-top: 75px;
@@ -88,18 +97,26 @@ p {
   border-bottom: 2px solid #003e65; }
 
 .menuButton {
+  text-align: left;
+  line-height: 11px !important;
   width: 239px;
   color: white;
   background-color: #003b60;
-  border: 0;
-  border-top: 2px solid #004774; }
+  border: 0; }
   .menuButton:hover {
     background-color: #79D0B3; }
+  .menuButton:active {
+    border-left: 3px #79D0B3 solid; }
   @media (min-width: 768px) and (max-width: 1023px) {
     .menuButton {
       width: auto;
       float: left;
       margin-top: -12px; } }
+
+#login-button {
+  line-height: 11px;
+  width: 239px;
+  margin-bottom: 10px; }
 
 #login-modal .modal-dialog {
   width: 350px; }
@@ -186,6 +203,14 @@ input[type=password] {
   .standard:hover {
     background-color: #3ba884; }
 
+.standard-red {
+  border-radius: 25px;
+  color: white;
+  background-color: #F44236;
+  border-color: #d2180b; }
+  .standard-red:hover {
+    background-color: #ba150a; }
+
 .modal .btn-lg, .btn-group-lg > .btn {
   background-color: #79D0B3;
   border-radius: 25px;
@@ -222,5 +247,19 @@ input[type=password] {
   display: block;
   margin: 0 auto;
   text-align: center; }
+
+.logo {
+  background: url("../images/cloud.png");
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  float: left;
+  display: inline-block;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 15px; }
+
+.valign {
+  margin-top: 20px; }
 
 /*# sourceMappingURL=global.css.map */
