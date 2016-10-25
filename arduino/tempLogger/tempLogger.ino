@@ -1,4 +1,5 @@
 
+
 /*
   This code logs the temperature from a DS18B20 temperature sensor
   and prints the temperature along with a time stamp using a
@@ -42,6 +43,7 @@ SdFat SD;
 #include "Wire.h"
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
+#include <EEPROM.h>
 
 #define DEBUG 1
 #define DEBUG_TO_SD 1
@@ -183,6 +185,9 @@ byte *year)
   *year = bcdToDec(Wire.read());
 }
 
+/*
+ * Print the current time to serial
+ */
 void printTime(void){
 
   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
@@ -208,16 +213,20 @@ void printTime(void){
 /*
  *Write a string to sd 
  */
-void write_Text_To_Disk(String str) {
+void write_Text_To_Disk(String filename,String str) {
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  File dataFile = SD.open("data.txt", FILE_WRITE);  
+  File dataFile = SD.open(filename, FILE_WRITE);  
   // if the file is available, write to it:
   if (dataFile) {
     delay(50);
     dataFile.print(str);
     dataFile.print("\n");
     dataFile.close();
+  }
+  else{
+    
+    Serial.println("error writing text to disk data.txt");
   }
 }
 
@@ -240,7 +249,7 @@ void append_to_disk(float temp) {
     delay(50);
 
 //Currently off
-#if DEBUG
+#if 0
     //185 is what temp sensor returns on boot
     //don't write -1000 either
     if (temp == 185.0 || temp == -1000)
@@ -305,14 +314,6 @@ void setup_Clock(void) {
   clock.clearAlarm1();
   clock.clearAlarm2();
 
-  //SET THE INITIAL TIME HERE-
-  // after uploading for the first time,
-  // comment out the setDS3231time below and
-  // recompile/reupload. This avoids
-  // the time from being reset on new bootups
-  // Manual (Year, Month, Day, Hour, Minute, Second)
- //    clock.setDateTime(2016, 9, 21, 6, 24, 00);
-
   // Set Alarm1 - Every 20s in each minute
   // setAlarm1(Date or Day, Hour, Minute, Second, Mode, Armed = true)
    clock.setAlarm1(0, 0, 0, 1, DS3231_MATCH_S);
@@ -325,6 +326,29 @@ void setup_Clock(void) {
 
 }
 
+//read the device id and print it to the sd card
+void eepromPrintToSD(){
+  //if the id has already been saved, then go ahead and rewrite the file
+  File dataFile = SD.open("device_id.txt", O_WRITE | O_CREAT | O_TRUNC);  
+  if(dataFile){
+    int addr = 0;
+    Serial.println("writing device id");
+    for (; addr < 4; addr++){
+      if (addr == EEPROM.length()) {
+         addr = 0;
+       }
+      Serial.print(EEPROM.read(addr));
+      dataFile.print(EEPROM.read(addr));
+    }
+    
+    dataFile.close();
+  }
+  
+}
+
+//set up the pin modes, the clock
+//sd card, temp sensor, and the 
+//device id
 void setup(void) {
 
 #if DEBUG
@@ -351,10 +375,17 @@ void setup(void) {
   Wire.begin();
 
   #if DEBUG_TO_SD
-    write_Text_To_Disk("setting up system");
+    write_Text_To_Disk("data.txt","setting up system");
   #endif 
+
+  //eepromSetup(); //COMMENT THIS OUT AFTER INITIAL PROGRAMMING
+  eepromPrintToSD();
 }
 
+
+//continually log data every timeToSleep (specified at the top) number of minutes.
+//go to sleep inbetween. The clock wakes the arduino up every minute to check if
+//timeToSleep number of minutes have elapsed
 void loop(void) {
 
 #if DEBUG
@@ -362,7 +393,7 @@ void loop(void) {
 #endif
 
 #if DEBUG_TO_SD
-  write_Text_To_Disk("Going To Sleep");
+  write_Text_To_Disk("data.txt","Going To Sleep");
 #endif 
 
   //enter deep sleep
@@ -381,6 +412,8 @@ void loop(void) {
 
 #if DEBUG
     printTime();
+#endif
+#if 0
     Serial.print("timeCount is ");
     Serial.println(timeCount);
     Serial.println("isAlarm() is: " + String(clock.isAlarm1(false)));
@@ -388,11 +421,12 @@ void loop(void) {
 
    //update until we hit the specified number of minutes to run
    
-#if DEBUG
+#if 0
   Serial.print("clock.isAlarm1() " + String(clock.isAlarm1(false)) + " && (timeCount < (timeToSleep - 1)) : ");  
   Serial.println(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1)));
 #endif
 
+ //check if the desired number of minutes to sleep has elapsed
    if(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1))){
       timeCount++;
       clock.clearAlarm1();
@@ -403,25 +437,23 @@ void loop(void) {
   //handle whatever we need to do.
   else {
 #if DEBUG_TO_SD
-  write_Text_To_Disk("Woke up, logging");
-#endif
-    
-        delay(1);
-
-    //hit the specified number of minutes to run, reset and log
-    timeCount = 0;
-    
-    //Read temperature TWICE. This is VERY important
-    //since we use a transistor to turn the sensor off
-    //inbetween writes, the sensor sends 185 to tell us it booted up
-    //if we don't do this we write 185 degrees every log.
-    float temperature = getTemp();
-    delay(5);
-    append_to_disk(temperature);
+  write_Text_To_Disk("data.txt","Woke up, logging");
+#endif    
 
 #if DEBUG
     Serial.println("ALARM TRIGGERED!");
-#endif
+#endif        
+delay(1);
+
+    //we finally hit the specified number of minutes to run, reset and log
+    timeCount = 0;
+    
+    float temperature = getTemp();
+    delay(5);
+    append_to_disk(temperature);
+#if DEBUG
+    Serial.println(temperature);
+#endif        
     
 
     //clear alarm flag and update time To sleep
