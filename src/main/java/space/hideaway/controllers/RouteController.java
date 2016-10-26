@@ -10,52 +10,108 @@ import space.hideaway.model.User;
 import space.hideaway.services.UserServiceImplementation;
 
 /**
- * UI model for basic static routes that contain no other logic than to display a template.
- * <p>
- * Created by dough on 9/21/2016.
- * Enhanced by caden on 10/09/2016.
+ * HIDE CoCoTemp 2016
+ * Class responsible for routing generic requests to pages that are not very logic heavy.
+ *
+ * @author Piper Dougherty
+ * @author Caden Sumner
  */
 @Controller
 public class RouteController {
 
+    /**
+     * The service responsible for obtaining and performing operations on user-accounts.
+     */
     @Autowired
     UserServiceImplementation userServiceImplementation;
 
+    /**
+     * The route responsible for displaying the index page.
+     *
+     * @param model The object model maintained by Spring.
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping({"/", "/home"})
     public String index(Model model) {
+
+        //Insert a generic user for the included registration form.
         model.addAttribute("userForm", new User());
+
         return "index";
     }
 
+    /**
+     * The route responsible for displaying the about page.
+     *
+     * @param model The object model maintained by Spring.
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping("/about")
     public String about(Model model) {
+
+        //Insert a generic user for the included registration form.
         model.addAttribute("userForm", new User());
+
         return "about";
     }
 
+    /**
+     * The route responsible for displaying the mobile login page.
+     *
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping("/appLogin")
     public String appLogin() {
         return "appLogin";
     }
 
+    /**
+     * The route responsible for displaying the user dashboard.
+     *
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
     }
 
+    /**
+     * The route responsible for displaying the settings page.
+     *
+     * @param model The object model maintained by Spring.
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping("/manage")
     public String manage(Model model) {
+
+        //Get the current context for the logged in user.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        //Add a list of devices to the settings page for the current logged in user.
         model.addAttribute("deviceList", userServiceImplementation.getDevices(authentication.getName()));
+
         return "manage";
     }
 
+    /**
+     * The route responsible for displaying the contact page.
+     *
+     * @param model The object model maintained by Spring.
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping("/contact")
     public String contact(Model model) {
+
+        //Insert a generic user for the included registration form.
         model.addAttribute("userForm", new User());
         return "contact";
     }
 
+    /**
+     * The route responsible for displaying the error page.
+     *
+     * @return The name of the template to be rendered by the template engine.
+     */
     @GetMapping("/error")
     public String error() {
         return "error";
