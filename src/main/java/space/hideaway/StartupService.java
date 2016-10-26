@@ -8,7 +8,7 @@ import space.hideaway.repositories.UserRepository;
  * Created by dough on 10/11/2016.
  */
 @Component
-public class StartupService {
+public class StartupComponent {
 
     @Autowired
     UserRepository userRepository;
