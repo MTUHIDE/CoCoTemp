@@ -15,14 +15,17 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
-    @RequestMapping(value = "/{deviceKey}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{deviceKey}/upload", method = RequestMethod.POST)
     public @ResponseBody String uploadFile(
             @PathVariable(value = "deviceKey") String deviceKey,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) {
+        System.out.println(deviceKey);
         if (!file.isEmpty()) {
             uploadService.setMultipartFile(file).parseFile();
             return "{status: \"uploaded\"}";
+        } else {
+            System.out.println("File is empty.");
         }
         return "{status: \"failed\"}";
     }
