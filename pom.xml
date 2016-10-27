@@ -13,8 +13,8 @@
 
     <parent>
         <groupId>org.springframework.boot</groupId>
+        <version>1.4.1.RELEASE</version>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -112,6 +112,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.4.1.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
