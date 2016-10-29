@@ -39,7 +39,9 @@ public class RouteController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard() {
+    public String dashboard(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("devices", userServiceImplementation.getDevices(authentication.getName()));
         return "dashboard";
     }
 

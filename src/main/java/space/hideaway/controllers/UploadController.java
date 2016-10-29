@@ -2,7 +2,10 @@ package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import space.hideaway.services.UploadService;
 
@@ -15,12 +18,12 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
-    @RequestMapping(value = "/{deviceKey}/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody String uploadFile(
-            @PathVariable(value = "deviceKey") String deviceKey,
+            @RequestParam("uuid") String deviceUUID,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) {
-        System.out.println(deviceKey);
+        System.out.println(deviceUUID);
         if (!file.isEmpty()) {
             uploadService.setMultipartFile(file).parseFile();
             return "{status: \"uploaded\"}";
