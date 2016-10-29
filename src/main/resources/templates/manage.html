@@ -11,10 +11,28 @@
     <div th:include="injectTemplate :: usernavbar" th:remove="tag"></div>
     <div id="page-content-wrapper">
         <div class="container-fluid">
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <h4>Create a new device.</h4>
+                        <h5>Fill out the form below.</h5>
+                        <form id="form">
+                            <div class="form-group">
+                                <label for="device-name">Device Name</label>
+                                <input type="text" class="form-control" id="device-name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="device-location">Location</label>
+                                <input type="text" class="form-control" id="device-location"/>
+                            </div>
+                            <button id="form-submit" type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Manage Account</h1>
-                    <p>Le Account Management</p>
 
                     <h3>Settings</h3>
 
@@ -47,26 +65,27 @@
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <a class="btn btn-default btn-primary pull-right">New Device</a>
+                                                <a id="new-device" class="btn btn-default btn-primary pull-right"
+                                                   data-toggle="modal" data-target=".bs-example-modal-lg">New
+                                                    Device</a>
                                             </div>
                                         </div>
-
-                                            <ul class="device-list">
-                                                <li class="row" th:each="device : ${deviceList}">
-                                                    <div class="device-container">
-                                                        <div class="col-lg-9">
-                                                            <h3 th:text="${device.deviceName}"></h3>
-                                                            <p th:text="${device.deviceLocation}"></p>
-
-                                                        </div>
-                                                        <div class="col-lg-3 valign">
-                                                            <button class="btn btn-primary standard">Edit</button>
-                                                            <button class="btn btn-danger standard-red">Delete</button>
-                                                        </div>
+                                        <ul class="device-list">
+                                            <li class="row" th:each="device : ${deviceList}">
+                                                <div class="device-container">
+                                                    <div class="col-lg-9">
+                                                        <h3 th:text="${device.deviceName}"></h3>
+                                                        <p th:text="${device.deviceLocation}"></p>
 
                                                     </div>
-                                                </li>
-                                            </ul>
+                                                    <div class="col-lg-3 valign">
+                                                        <button class="btn btn-primary standard">Edit</button>
+                                                        <button class="btn btn-danger standard-red">Delete</button>
+                                                    </div>
+
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -78,5 +97,10 @@
     </div>
 </div>
 <div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
+
+
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOK2s5HSFwVe9scU9tSt45gEDiIN-h8jI&amp;libraries=places"></script>
+<script th:src="@{js/manage.js}"></script>
 </body>
 </html>

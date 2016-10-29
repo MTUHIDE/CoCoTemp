@@ -9,9 +9,16 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
+/**
+ * HIDE CoCoTemp 2016
+ * The main driver class for the application. Utilizes Spring boot and an embedded Tomcat server to run.
+ *
+ * @author Piper Dougherty
+ */
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
@@ -20,12 +27,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {"space"})
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")
+@PropertySource("classpath:/spring/application.properties")
+@PropertySource("classpath:/spring/validation.properties")
 public class CoCoTempApplication {
 
     public static void main(String[] args) {
 
 
-        //Start the Spring instance.
+        //Start the Spring application.
         SpringApplication.run(CoCoTempApplication.class, args);
     }
 }

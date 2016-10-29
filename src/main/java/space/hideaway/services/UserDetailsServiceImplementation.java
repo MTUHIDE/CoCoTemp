@@ -15,11 +15,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by dough on 10/9/2016.
+ * HIDE CoCoTemp 2016
+ * The class responsible for obtaining UserDetails objects from a given username.
  */
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
+    /**
+     * The repository responsible for CRUD operations on users.
+     */
     @Autowired
     private UserRepository userRepository;
 

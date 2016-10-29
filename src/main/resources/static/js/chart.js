@@ -3,7 +3,7 @@
  */
 
 $('document').ready(function () {
-//        $('#temperature-table').DataTable();
+    // $('#temperature-table').DataTable();
 });
 var ctx = document.getElementById('temperature-chart');
 var chart = new Chart(ctx, {

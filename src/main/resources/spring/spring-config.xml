@@ -6,30 +6,12 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <tx:annotation-driven/>
-    <jpa:repositories base-package="space.hideaway.repositories"/>
-
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <!--suppress SpringModelInspection -->
-        <property name="basename" value="classpath:spring/validation"/>
-    </bean>
-
-
-    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:/spring/application.properties"/>
-    </bean>
-
-    <!--Allow access to serving static files.-->
+    <!--STATIC RESOURCE PATHS________________________________________________________________________________________-->
     <mvc:resources mapping="/static/**" location="/static/"/>
+    <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
 
-    <security:http auto-config="true" use-expressions="true">
-        <security:form-login login-page="/#login"/>
-        <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
-        <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
-        <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
-        <security:intercept-url pattern="/**" access="permitAll()"/>
-        <security:csrf disabled="true"/>
-    </security:http>
+    <!--PERSISTENCE MANAGEMENT_______________________________________________________________________________________-->
+    <jpa:repositories base-package="space.hideaway.repositories"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${spring.datasource.driver-class-name}"/>
@@ -58,27 +40,37 @@
           class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+    <!--END PERSISTENCE MANAGEMENT___________________________________________________________________________________-->
 
-    <!--<bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>-->
-
-
+    <!--CUSTOM BEANS_________________________________________________________________________________________________-->
     <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
     <bean id="securityServiceImplementation" class="space.hideaway.services.SecurityServiceImplementation"/>
+
+    <!--Bean that runs on startup.-->
+    <bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>
+    <!--END CUSTOM BEANS_____________________________________________________________________________________________-->
+
+    <!--AUTHENTICATION_______________________________________________________________________________________________-->
+    <security:http auto-config="true" use-expressions="true">
+        <security:form-login login-page="/#login"/>
+        <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
+        <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
+        <security:intercept-url pattern="/**" access="permitAll()"/>
+        <security:csrf disabled="true"/>
+    </security:http>
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="userDetailsServiceImplementation">
             <security:password-encoder ref="encoder"/>
         </security:authentication-provider>
-
     </security:authentication-manager>
-
 
     <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11"/>
     </bean>
+    <!--END AUTHENTICATION___________________________________________________________________________________________-->
 
-
+    <tx:annotation-driven/>
     <mvc:annotation-driven/>
-
-
 </beans>
