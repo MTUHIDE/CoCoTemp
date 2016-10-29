@@ -99,4 +99,8 @@
   .device-list .device-container {
     padding: 15px; }
 
+.pac-container {
+    z-index: 1051 !important;
+}
+
 /*# sourceMappingURL=manage.css.map */
