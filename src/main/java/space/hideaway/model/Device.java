@@ -32,6 +32,14 @@ public class Device {
      */
     private String deviceUUID;
 
+    public Device(String deviceName, String deviceLocation) {
+        this.deviceName = deviceName;
+        this.deviceLocation = deviceLocation;
+    }
+
+    public Device() {
+    }
+
 
     /**
      * Get the ID for the user in the database.
@@ -39,7 +47,7 @@ public class Device {
      * @return The ID of the user.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Long getId() {
         return id;
