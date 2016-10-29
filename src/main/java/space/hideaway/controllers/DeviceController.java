@@ -33,12 +33,12 @@ public class DeviceController {
      * Example JSON of unsuccessful addition.
      * {
      * "error": true,
-     * "errors" ["A description of some error one.", "A description of some error two."]
+     * "errors": ["A description of some error one.", "A description of some error two."]
      * }
      *
      * @param deviceName     The name of the new device.
      * @param deviceLocation A string representation of the location of the device.
-     * @return A json representation of the status.
+     * @return A JSON representation of the status.
      */
     @RequestMapping(value = "/manage/devices/add", method = RequestMethod.POST)
     public
