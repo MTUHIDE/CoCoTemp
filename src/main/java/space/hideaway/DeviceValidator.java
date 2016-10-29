@@ -24,6 +24,8 @@ public class DeviceValidator {
     }
 
     public void validate(Device device) {
+
+//        Reset the fields because this class is shared.
         this.hasError = false;
         this.errors = new ArrayList<>();
 
