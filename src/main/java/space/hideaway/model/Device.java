@@ -3,6 +3,8 @@ package space.hideaway.model;
 import javax.persistence.*;
 
 /**
+ * HIDE CoCoTemp 2016
+ *
  * JPA model for user devices. Used for representing SQL table data in POJO format. Also responsible for
  * mapping SQL table columns to their respective class fields.
  *

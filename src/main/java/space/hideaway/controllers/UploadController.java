@@ -7,7 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import space.hideaway.services.UploadService;
 
 /**
- * Created by dough on 10/13/2016.
+ * HIDE CoCoTemp 2016
+ * Class responsible for routing file uploads.
+ *
+ * @author Piper Dougherty
  */
 @Controller
 public class UploadController {

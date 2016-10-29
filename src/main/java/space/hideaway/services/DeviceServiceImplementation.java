@@ -24,14 +24,36 @@ public class DeviceServiceImplementation implements DeviceService {
     @Autowired
     private DeviceValidator deviceValidator;
 
+    /**
+     * Save a new device to the database. Returns a JSON structure representing the status of the addition.
+     * <p>
+     * Example JSON of successful addition.
+     * {
+     * "error": false
+     * }
+     * <p>
+     * Example JSON of unsuccessful addition.
+     * {
+     * "error": true,
+     * "errors" ["A description of some error one.", "A description of some error two."]
+     * }
+     *
+     * @param device The new device to be added.
+     * @return A JSON representation of the status of the addition.
+     */
     @Override
     public String save(Device device) {
+        //Obtain the security context of the currently logged in user.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long id = userServiceImplementation.findByUsername(authentication.getName()).getId();
+
+        //We must associate the device with a user.
         device.setUserId(id);
 
+        //Is the device of valid format?
         deviceValidator.validate(device);
 
+        //Format JSON.
         Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
         if (deviceValidator.hasErrors()) {
             return gson.toJson(deviceValidator);

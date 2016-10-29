@@ -1,12 +1,11 @@
 package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.User;
+import space.hideaway.services.SecurityService;
 import space.hideaway.services.UserServiceImplementation;
 
 /**
@@ -24,6 +23,9 @@ public class RouteController {
      */
     @Autowired
     UserServiceImplementation userServiceImplementation;
+
+    @Autowired
+    SecurityService securityService;
 
     /**
      * The route responsible for displaying the index page.
@@ -72,8 +74,7 @@ public class RouteController {
      */
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("devices", userServiceImplementation.getDevices(authentication.getName()));
+        model.addAttribute("devices", userServiceImplementation.getDevices(securityService.findLoggedInUsername()));
         return "dashboard";
     }
 
@@ -86,11 +87,8 @@ public class RouteController {
     @GetMapping("/manage")
     public String manage(Model model) {
 
-        //Get the current context for the logged in user.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         //Add a list of devices to the settings page for the current logged in user.
-        model.addAttribute("deviceList", userServiceImplementation.getDevices(authentication.getName()));
+        model.addAttribute("deviceList", userServiceImplementation.getDevices(securityService.findLoggedInUsername()));
 
         return "manage";
     }
