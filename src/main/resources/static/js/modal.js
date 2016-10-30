@@ -19,10 +19,9 @@ jQuery(document).ready(function () {
     var $msgShowTime = 2000;
 
     $("form").submit(function (e) {
-        e.preventDefault();
-
         switch (this.id) {
             case "login-form":
+                e.preventDefault();
 
                 var $lg_username = $('#username').val();
                 var $lg_password = $('#password').val();
@@ -71,7 +70,6 @@ jQuery(document).ready(function () {
             default:
                 return false;
         }
-        return false;
     });
 
     $('#login_register_btn').click(function () {

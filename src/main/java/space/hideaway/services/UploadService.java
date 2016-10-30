@@ -7,34 +7,52 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
- * Created by dough on 10/26/2016.
+ * HIDE CoCoTemp 2016
+ * The class responsible for the parsing and upload of user-data.
  */
 @Service
 public class UploadService {
 
-    MultipartFile multipartFile;
+    /**
+     * The file uploaded by the user.
+     */
+    private MultipartFile multipartFile;
 
 
+    /**
+     * Get the file uploaded by the user.
+     *
+     * @return The file uploaded by the user.
+     */
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
 
+    /**
+     * Set the file uploaded by the user.
+     *
+     * @param multipartFile The new file uploaded by the user.
+     * @return The UploadService class for method chaining.
+     */
     public UploadService setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
         return this;
     }
 
+    /**
+     * Parse the file, line-by-line.
+     * This method is performance critical as user data will be a CSV file MANY MANY lines. Time spent here is
+     * time wasted.
+     * TODO: possible application of multithreading.
+     */
     public void parseFile() {
 
         try (
-                InputStream  inputStream = multipartFile.getInputStream();
+                InputStream inputStream = multipartFile.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
-                ) {
+        ) {
             bufferedReader.lines().forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
