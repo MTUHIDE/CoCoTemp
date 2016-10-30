@@ -140,4 +140,13 @@ public class User {
     public Set<Device> getDeviceSet() {
         return deviceSet;
     }
+
+    /**
+     * Set the set of devices this user maintains.
+     *
+     * @param deviceSet The new set of devices.
+     */
+    public void setDeviceSet(Set<Device> deviceSet) {
+        this.deviceSet = deviceSet;
+    }
 }

@@ -71,4 +71,12 @@ public class Role {
         return userSet;
     }
 
+    /**
+     * Set the set of users that have this role.
+     *
+     * @param userSet The new set of user that have this role.
+     */
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
 }

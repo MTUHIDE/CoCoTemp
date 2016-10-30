@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.User;
-import space.hideaway.services.SecurityService;
+import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
 
 /**
@@ -25,7 +25,7 @@ public class RouteController {
     UserServiceImplementation userServiceImplementation;
 
     @Autowired
-    SecurityService securityService;
+    SecurityServiceImplementation securityService;
 
     /**
      * The route responsible for displaying the index page.

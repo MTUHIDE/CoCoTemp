@@ -56,6 +56,15 @@ public class Device {
     }
 
     /**
+     * Set the ID for this device in the database.
+     *
+     * @param id The new ID for this device.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
      * Obtain the ID of this device's owner.
      *
      * @return The ID of this device's owner.
