@@ -1,6 +1,7 @@
 package space.hideaway.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * HIDE CoCoTemp 2016
@@ -27,6 +28,8 @@ public class Device {
 
     private String deviceName;
     private String deviceLocation;
+
+    private Set<Data> dataSet;
 
     /**
      * The unique id of the device.
@@ -142,4 +145,13 @@ public class Device {
         this.deviceUUID = deviceUUID;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id")
+    public Set<Data> getDataSet() {
+        return dataSet;
+    }
+
+    public void setDataSet(Set<Data> dataSet) {
+        this.dataSet = dataSet;
+    }
 }

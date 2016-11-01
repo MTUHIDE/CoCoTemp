@@ -14,7 +14,7 @@ public class Data {
     private Device device;
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date dateTime;
-    private Double temperature;
+    private double temperature;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -56,11 +56,11 @@ public class Data {
     }
 
     @Column(name = "temperature")
-    public Double getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(Double temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 }
