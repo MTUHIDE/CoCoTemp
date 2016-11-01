@@ -24,22 +24,26 @@ public class RegisterController {
     /**
      * The service responsible for obtaining and performing operations on user-accounts.
      */
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * The application security service responsible for handling operations
      * relating to authenticating a user.
      */
-    @Autowired
-    private SecurityServiceImplementation securityService;
+    private final SecurityServiceImplementation securityService;
 
     /**
      * The component responsible for validating the current properties
      * on a new user-account.
      */
+    private final UserValidator userValidator;
+
     @Autowired
-    private UserValidator userValidator;
+    public RegisterController(SecurityServiceImplementation securityService, UserValidator userValidator, UserService userService) {
+        this.securityService = securityService;
+        this.userValidator = userValidator;
+        this.userService = userService;
+    }
 
     /**
      * Register a new user-account and insert it into the database if

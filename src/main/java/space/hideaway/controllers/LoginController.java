@@ -21,8 +21,12 @@ public class LoginController {
      * The application security service responsible for handling operations
      * relating to authenticating a user.
      */
+    private final SecurityServiceImplementation securityServiceImplementation;
+
     @Autowired
-    private SecurityServiceImplementation securityServiceImplementation;
+    public LoginController(SecurityServiceImplementation securityServiceImplementation) {
+        this.securityServiceImplementation = securityServiceImplementation;
+    }
 
 
     /**

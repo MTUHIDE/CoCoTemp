@@ -17,16 +17,19 @@ import space.hideaway.repositories.DeviceRepository;
 @Service
 public class DeviceServiceImplementation implements DeviceService {
 
+    private final UserServiceImplementation userServiceImplementation;
+    private final SecurityServiceImplementation securityServiceImplementation;
+    private final DeviceRepository deviceRepository;
+    private final DeviceValidator deviceValidator;
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    UserServiceImplementation userServiceImplementation;
-    @Autowired
-    SecurityServiceImplementation securityServiceImplementation;
-    @Autowired
-    private DeviceRepository deviceRepository;
-    @Autowired
-    private DeviceValidator deviceValidator;
+    public DeviceServiceImplementation(DeviceValidator deviceValidator, UserServiceImplementation userServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
+        this.deviceValidator = deviceValidator;
+        this.userServiceImplementation = userServiceImplementation;
+        this.securityServiceImplementation = securityServiceImplementation;
+        this.deviceRepository = deviceRepository;
+    }
 
     /**
      * Save a new device to the database. Returns a JSON structure representing the status of the addition.

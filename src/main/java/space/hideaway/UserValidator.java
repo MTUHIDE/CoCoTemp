@@ -18,8 +18,12 @@ public class UserValidator implements Validator {
     /**
      * The service responsible for CRUD operations on users.
      */
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserValidator(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {

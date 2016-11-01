@@ -19,7 +19,7 @@ public class DeviceValidator {
     /**
      * The Spring environment.
      */
-    @Autowired
+    private final
     Environment environment;
 
     /**
@@ -32,8 +32,10 @@ public class DeviceValidator {
      */
     private ArrayList<String> errors;
 
-    public DeviceValidator() {
+    @Autowired
+    public DeviceValidator(Environment environment) {
         this.errors = new ArrayList<>();
+        this.environment = environment;
     }
 
     /**

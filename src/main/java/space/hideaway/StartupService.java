@@ -14,8 +14,13 @@ import space.hideaway.repositories.UserRepository;
 @Component
 public class StartupService {
 
-    @Autowired
+    private final
     UserRepository userRepository;
+
+    @Autowired
+    public StartupService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * This method has no purpose at the moment, but

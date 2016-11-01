@@ -20,10 +20,14 @@ import space.hideaway.services.UserServiceImplementation;
 @Controller
 public class RouteController {
 
+    private final
+    UserServiceImplementation userServiceImplementation;
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    UserServiceImplementation userServiceImplementation;
+    public RouteController(UserServiceImplementation userServiceImplementation) {
+        this.userServiceImplementation = userServiceImplementation;
+    }
 
     @GetMapping({"/", "/home"})
     public String index(Model model) {

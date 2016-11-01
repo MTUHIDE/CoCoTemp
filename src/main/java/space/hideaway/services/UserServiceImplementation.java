@@ -24,20 +24,24 @@ public class UserServiceImplementation implements UserService {
     /**
      * The service responsible for CRUD operations on user accounts.
      */
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     /**
      * The repository responsible for obtaining and creating user roles.
      */
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     /**
      * The bCrypt encoding service.
      */
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    public UserServiceImplementation(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
+    }
 
     /**
      * Save a new user into the database. Make sure user has been validated first.

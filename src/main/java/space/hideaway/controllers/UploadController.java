@@ -18,8 +18,12 @@ public class UploadController {
     /**
      * The service responsible for parsing files and inserting them into the database.
      */
+    private final UploadService uploadService;
+
     @Autowired
-    private UploadService uploadService;
+    public UploadController(UploadService uploadService) {
+        this.uploadService = uploadService;
+    }
 
     /**
      * API for inserting a file into the database. Returns the status in

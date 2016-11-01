@@ -18,8 +18,13 @@ import space.hideaway.services.DeviceServiceImplementation;
 @Controller
 public class DeviceController {
 
-    @Autowired
+    private final
     DeviceServiceImplementation deviceServiceImplementation;
+
+    @Autowired
+    public DeviceController(DeviceServiceImplementation deviceServiceImplementation) {
+        this.deviceServiceImplementation = deviceServiceImplementation;
+    }
 
     /**
      * Add a new device to a user's device collection. Returns a JSON tree representing the status
