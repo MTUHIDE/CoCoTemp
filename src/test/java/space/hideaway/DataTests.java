@@ -3,6 +3,7 @@ package space.hideaway;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ import space.hideaway.model.User;
 import space.hideaway.services.UserServiceImplementation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by dough on 11/1/2016.
@@ -30,22 +29,39 @@ public class DataTests {
     @Autowired
     UserServiceImplementation userServiceImplementation;
 
+    private User testUser;
+    private User largeTestUser;
+
+    @Before
+    public void setUp() throws Exception, UserNotFoundException {
+        this.testUser = userServiceImplementation.findByUsername("test");
+        this.largeTestUser = userServiceImplementation.findByUsername("test_large");
+
+    }
+
     @Test
-    public void correctDeviceMapping() throws Exception, UserNotFoundException {
-        User testUser = userServiceImplementation.findByUsername("test");
-        Set<Device> deviceSet = testUser.getDeviceSet();
-        Set<Data> allData = new HashSet<>();
-        for (Device device : deviceSet) {
-            allData.addAll(device.getDataSet());
-        }
-        for (Data data : allData) {
-            logger.log(Level.INFO, String.format("Data: [ID: %s Device ID: %d Date: %s Temperature: %f]%n", data.getId(), data.getDeviceID(), data.getDateTime(), data.getTemperature()));
+    public void correctTestGetDevice() throws Exception {
+        ArrayList<Device> devices = new ArrayList<>(testUser.getDeviceSet());
+        ArrayList<Data> datas = new ArrayList<>();
+
+        //Since this is the small test user, there should only be one device.
+        datas.addAll(devices.get(0).getDataSet());
+
+        for (Data data : datas) {
+            logger.log(Level.INFO, data);
         }
 
-        ArrayList<Device> devices = new ArrayList<>(deviceSet);
-        ArrayList<Data> data = new ArrayList<>(allData);
-        Assert.assertEquals("The device obtained from a data's getDevice() should be the same as the device it originated from.",
-                devices.get(0),
-                data.get(0).getDevice());
+        /*
+         * The device's dataSet() method should only contain one data point. That data point's getDevice() method should
+         * return the same device.
+         */
+        datas.stream().filter(data -> !data.getDevice().equals(devices.get(0))).forEach(data -> {
+            Assert.fail("The device as seen by the data point should equal the device the data point resides inside.");
+        });
+    }
+
+    @Test
+    public void correctLargeTestGetDevice() throws Exception {
+
     }
 }

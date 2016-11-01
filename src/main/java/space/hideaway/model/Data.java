@@ -63,4 +63,15 @@ public class Data {
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Data: [ID: %d Device ID: %d Date: %s Temperature: %s]%n",
+                getId(),
+                getDeviceID(),
+                getDateTime(),
+                getTemperature()
+        );
+    }
 }
