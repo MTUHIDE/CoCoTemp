@@ -11,7 +11,7 @@ import java.util.Date;
 public class Data {
     private Long id;
     private Long deviceID;
-
+    private Device device;
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date dateTime;
     private Double temperature;
@@ -34,6 +34,16 @@ public class Data {
 
     public void setDeviceID(Long deviceID) {
         this.deviceID = deviceID;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_id", insertable = false, updatable = false)
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
     }
 
     @Column(name = "date")
