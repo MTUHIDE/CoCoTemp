@@ -30,7 +30,7 @@ public class DataTests {
     UserServiceImplementation userServiceImplementation;
 
     @Test
-    public void correctDeviceMapping() throws Exception {
+    public void correctDeviceMapping() throws Exception, UserNotFoundException {
         User testUser = userServiceImplementation.findByUsername("test");
         Set<Device> deviceSet = testUser.getDeviceSet();
         Set<Data> allData = new HashSet<>();

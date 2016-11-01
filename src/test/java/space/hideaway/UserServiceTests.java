@@ -1,9 +1,7 @@
 package space.hideaway;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +16,8 @@ import space.hideaway.services.UserServiceImplementation;
 @SpringBootTest(classes = {CoCoTempApplication.class})
 public class UserServiceTests {
 
+    @Rule
+    public final ExpectedException userNotFoundExpected = ExpectedException.none();
     @Autowired
     UserServiceImplementation userServiceImplementation;
 
@@ -34,15 +34,20 @@ public class UserServiceTests {
     }
 
     @Test
-    public void usernameNotFound() throws Exception {
+    public void usernameNotFound() throws Exception, UserNotFoundException {
+        userNotFoundExpected.expect(UserNotFoundException.class);
         User userThatDoesntExist = userServiceImplementation.findByUsername("USER_THAT_DOESNT_EXIST");
-        Assert.assertNull("User should not exist", userThatDoesntExist);
     }
 
     @Test
     public void correctUserFound() throws Exception {
         final String TEST_USERNAME = "test";
-        User testUser = userServiceImplementation.findByUsername(TEST_USERNAME);
+        User testUser = null;
+        try {
+            testUser = userServiceImplementation.findByUsername(TEST_USERNAME);
+        } catch (UserNotFoundException e) {
+            Assert.fail("The user wasn't found.");
+        }
         Assert.assertEquals("User obtained should be the same as the user requested.", testUser.getUsername(), TEST_USERNAME);
     }
 }

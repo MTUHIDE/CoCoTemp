@@ -31,7 +31,7 @@ public class DeviceSetTests {
     User testUser;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception, UserNotFoundException {
         this.testUser = userServiceImplementation.findByUsername("test");
     }
 
@@ -46,7 +46,7 @@ public class DeviceSetTests {
         Set<Device> deviceSet = testUser.getDeviceSet();
         for (Device device : deviceSet) {
             logger.log(Level.INFO,
-                    String.format("Name: %s Location: %s UUID: %s",
+                    String.format("Device: [Name: %s Location: %s UUID: %s]%n",
                             device.getDeviceName(),
                             device.getDeviceLocation(),
                             device.getDeviceUUID()));

@@ -23,7 +23,7 @@ public class CoCoTempApplicationTests {
     private User testUser;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception, UserNotFoundException {
         this.testUser = userServiceImplementation.findByUsername("test");
     }
 

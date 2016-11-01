@@ -2,12 +2,12 @@ package space.hideaway.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import space.hideaway.DeviceErrorSerializer;
 import space.hideaway.DeviceValidator;
+import space.hideaway.UserNotFoundException;
 import space.hideaway.model.Device;
 import space.hideaway.repositories.DeviceRepository;
 
@@ -17,8 +17,12 @@ import space.hideaway.repositories.DeviceRepository;
 @Service
 public class DeviceServiceImplementation implements DeviceService {
 
+    Logger logger = Logger.getLogger(getClass());
+
     @Autowired
     UserServiceImplementation userServiceImplementation;
+    @Autowired
+    SecurityServiceImplementation securityServiceImplementation;
     @Autowired
     private DeviceRepository deviceRepository;
     @Autowired
@@ -44,8 +48,13 @@ public class DeviceServiceImplementation implements DeviceService {
     @Override
     public String save(Device device) {
         //Obtain the security context of the currently logged in user.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long id = userServiceImplementation.findByUsername(authentication.getName()).getId();
+        String loggedInUsername = securityServiceImplementation.findLoggedInUsername();
+        Long id = null;
+        try {
+            id = userServiceImplementation.findByUsername(loggedInUsername).getId();
+        } catch (UserNotFoundException e) {
+            logger.error("The user was not found when attempting to create a new device", e);
+        }
 
         //We must associate the device with a user.
         device.setUserId(id);
