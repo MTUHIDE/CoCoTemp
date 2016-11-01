@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by dough on 11/1/2016.
  */
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CoCoTempApplication.class})
 public class DeviceSetTests {

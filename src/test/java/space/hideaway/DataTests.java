@@ -20,6 +20,7 @@ import java.util.Set;
 /**
  * Created by dough on 11/1/2016.
  */
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CoCoTempApplication.class})
 public class DataTests {

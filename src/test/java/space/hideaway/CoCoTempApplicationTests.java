@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import space.hideaway.model.User;
 import space.hideaway.services.UserServiceImplementation;
 
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CoCoTempApplication.class})
 public class CoCoTempApplicationTests {

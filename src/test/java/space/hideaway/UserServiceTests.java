@@ -12,12 +12,14 @@ import space.hideaway.services.UserServiceImplementation;
 /**
  * Created by dough on 11/1/2016.
  */
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CoCoTempApplication.class})
 public class UserServiceTests {
 
     @Rule
     public final ExpectedException userNotFoundExpected = ExpectedException.none();
+
     @Autowired
     UserServiceImplementation userServiceImplementation;
 
@@ -36,7 +38,7 @@ public class UserServiceTests {
     @Test
     public void usernameNotFound() throws Exception, UserNotFoundException {
         userNotFoundExpected.expect(UserNotFoundException.class);
-        User userThatDoesntExist = userServiceImplementation.findByUsername("USER_THAT_DOESNT_EXIST");
+        userServiceImplementation.findByUsername("USER_THAT_DOESNT_EXIST");
     }
 
     @Test
