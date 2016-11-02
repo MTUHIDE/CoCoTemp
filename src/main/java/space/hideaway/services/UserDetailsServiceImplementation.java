@@ -24,8 +24,12 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     /**
      * The repository responsible for CRUD operations on users.
      */
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserDetailsServiceImplementation(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Locates the user based on the username. In the actual implementation, the search

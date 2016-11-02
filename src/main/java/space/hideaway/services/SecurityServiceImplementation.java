@@ -23,15 +23,19 @@ public class SecurityServiceImplementation implements SecurityService {
     /**
      * The service responsible for obtaining a user from the database by username.
      */
-    @Autowired
-    private
+    private final
     UserDetailsServiceImplementation userDetailsServiceImplementation;
 
     /**
      * The service responsible for authenticating users.
      */
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    private AuthenticationManager authenticationManager;
+    public SecurityServiceImplementation(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsServiceImplementation = userDetailsServiceImplementation;
+    }
 
     /**
      * Obtain the currently logged in user from the Spring security context.

@@ -18,8 +18,12 @@ public class UserValidator implements Validator {
     /**
      * The service responsible for CRUD operations on users.
      */
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserValidator(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -40,8 +44,12 @@ public class UserValidator implements Validator {
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        if (userService.findByUsername(user.getUsername()) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+        try {
+            User byUsername = userService.findByUsername(user.getUsername());
+            if (byUsername != null) {
+                errors.rejectValue("username", "Duplicate.userForm.username");
+            }
+        } catch (UserNotFoundException ignored) {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");

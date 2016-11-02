@@ -1,10 +1,11 @@
 package space.hideaway.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * HIDE CoCoTemp 2016
- *
+ * <p>
  * JPA model for user devices. Used for representing SQL table data in POJO format. Also responsible for
  * mapping SQL table columns to their respective class fields.
  *
@@ -27,6 +28,8 @@ public class Device {
 
     private String deviceName;
     private String deviceLocation;
+
+    private Set<Data> dataSet;
 
     /**
      * The unique id of the device.
@@ -142,4 +145,22 @@ public class Device {
         this.deviceUUID = deviceUUID;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id")
+    public Set<Data> getDataSet() {
+        return dataSet;
+    }
+
+    public void setDataSet(Set<Data> dataSet) {
+        this.dataSet = dataSet;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Device: [Name: %s Location: %s UUID: %s]%n",
+                getDeviceName(),
+                getDeviceLocation(),
+                getDeviceUUID());
+    }
 }

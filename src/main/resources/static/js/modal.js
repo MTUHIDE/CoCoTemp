@@ -22,7 +22,6 @@ jQuery(document).ready(function () {
         switch (this.id) {
             case "login-form":
                 e.preventDefault();
-
                 var $lg_username = $('#username').val();
                 var $lg_password = $('#password').val();
 
@@ -30,11 +29,10 @@ jQuery(document).ready(function () {
                 $.ajax({
                     data: data,
                     dataType: 'json',
-                    timeout: 1000,
                     type: 'post',
                     url: '/login.json'
                 }).done(function (data, textStatus) {
-                    if (data['status'] == true) {
+                    if (data['status'] === true) {
                         /*
                          Weird enough, the login happens so fast the message doesn't have time to show.
                          That's good I guess!
