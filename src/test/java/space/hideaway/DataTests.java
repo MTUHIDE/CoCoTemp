@@ -2,6 +2,7 @@ package space.hideaway;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,13 +56,33 @@ public class DataTests {
          * The device's dataSet() method should only contain one data point. That data point's getDevice() method should
          * return the same device.
          */
-        datas.stream().filter(data -> !data.getDevice().equals(devices.get(0))).forEach(data -> {
-            Assert.fail("The device as seen by the data point should equal the device the data point resides inside.");
-        });
+        datas.stream().filter(data -> !data.getDevice().equals(devices.get(0))).forEach(data ->
+                Assert.fail("The device as seen by the data point should equal the device the data point resides inside."));
     }
 
     @Test
     public void correctLargeTestGetDevice() throws Exception {
+        ArrayList<Device> devices = new ArrayList<>(largeTestUser.getDeviceSet());
+        ArrayList<Data> datas = new ArrayList<>();
+        for (Device device : devices) {
+            datas.addAll(device.getDataSet());
+        }
 
+        datas.forEach(data -> {
+            logger.log(Level.INFO, data);
+        });
+
+        /*
+         * Go backwards now. We obtain a list of devices from all of the data points and their associated getDevice()
+         * methods.
+         */
+        ArrayList<Device> newDevices = new ArrayList<>();
+        datas.stream().filter(data -> !newDevices.contains(data.getDevice())).forEach(data ->
+                newDevices.add(data.getDevice()));
+        Assert.assertThat(
+                "The devices obtained from the deviceSet() method should match the devices obtained by getting each " +
+                        "unique device from all of the data points and their associated getDevice() method.",
+                devices,
+                Matchers.containsInAnyOrder(newDevices.toArray()));
     }
 }

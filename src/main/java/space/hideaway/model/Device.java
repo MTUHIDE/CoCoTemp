@@ -157,7 +157,8 @@ public class Device {
 
     @Override
     public String toString() {
-        return String.format("Device: [Name: %s Location: %s UUID: %s]%n",
+        return String.format(
+                "Device: [Name: %s Location: %s UUID: %s]%n",
                 getDeviceName(),
                 getDeviceLocation(),
                 getDeviceUUID());
