@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.UserNotFoundException;
+import space.hideaway.model.User;
+import space.hideaway.services.DashboardServiceImplementation;
+import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
 
 /**
@@ -22,18 +25,26 @@ public class DashboardController {
 
     private final
     UserServiceImplementation userServiceImplementation;
+    private final DashboardServiceImplementation dashboardServiceImplementation;
+    private final SecurityServiceImplementation securityServiceImplementation;
+
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DashboardController(UserServiceImplementation userServiceImplementation) {
+    public DashboardController(UserServiceImplementation userServiceImplementation, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation) {
         this.userServiceImplementation = userServiceImplementation;
+        this.dashboardServiceImplementation = dashboardServiceImplementation;
+        this.securityServiceImplementation = securityServiceImplementation;
     }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            model.addAttribute("devices", userServiceImplementation.getDevices(authentication.getName()));
+            User user = userServiceImplementation.findByUsername(securityServiceImplementation.findLoggedInUsername());
+            model.addAttribute("devices", user.getDeviceSet());
+            model.addAttribute("records", dashboardServiceImplementation.getNumberOfRecords(user));
+            model.addAttribute("data", dashboardServiceImplementation.getAllData(user));
         } catch (UserNotFoundException e) {
             logger.error("The user was not found when loading the dashboard page.", e);
         }

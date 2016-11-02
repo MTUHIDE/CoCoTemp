@@ -30,7 +30,7 @@ public class DashboardServiceTest {
     @Before
     public void setUp() throws UserNotFoundException {
         this.testUser = userServiceImplementation.findByUsername("test");
-        this.largeTestUser = userServiceImplementation.findByUsername("test_large");
+        this.largeTestUser = userServiceImplementation.findByUsername("testlarge");
     }
 
     @Test

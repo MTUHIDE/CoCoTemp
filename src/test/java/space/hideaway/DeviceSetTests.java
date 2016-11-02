@@ -38,7 +38,7 @@ public class DeviceSetTests {
     @Before
     public void setUp() throws Exception, UserNotFoundException {
         this.testUser = userServiceImplementation.findByUsername("test");
-        this.largeTestUser = userServiceImplementation.findByUsername("test_large");
+        this.largeTestUser = userServiceImplementation.findByUsername("testlarge");
     }
 
     @Test

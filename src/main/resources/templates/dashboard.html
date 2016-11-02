@@ -87,7 +87,7 @@
                                     </tr>
                                     <tr>
                                         <th>Records</th>
-                                        <td>6 Records</td>
+                                        <td th:text="${records}"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -107,51 +107,24 @@
 
                 <div class="col-lg-12">
                     <div class="well">
+                        <h4>Records</h4>
                         <table id="temperature-table" class="table">
-                            <caption>All Records</caption>
+                            <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Station</th>
                                 <th>Location</th>
                                 <th>Temperature</th>
                             </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
+                            </thead>
+                            <tbody>
+                            <tr th:each="d : ${data}">
+                                <td th:text="*{d.getDateTime()}"></td>
+                                <td th:text="*{d.getDevice().getDeviceName()}"></td>
+                                <td th:text="*{d.getDevice().getDeviceLocation()}"></td>
+                                <td th:text="*{d.getTemperature()}"></td>
                             </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -159,7 +132,7 @@
         </div>
     </div>
 </div>
-<div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
+<div th:include="fragmentTemplate :: footer"></div>
 <script type="text/javascript"
         th:src="@{//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js}"></script>
