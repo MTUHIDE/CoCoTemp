@@ -28,7 +28,7 @@ public class DashboardController {
     private final DashboardServiceImplementation dashboardServiceImplementation;
     private final SecurityServiceImplementation securityServiceImplementation;
 
-    Logger logger = Logger.getLogger(getClass());
+    private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
     public DashboardController(UserServiceImplementation userServiceImplementation, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation) {
