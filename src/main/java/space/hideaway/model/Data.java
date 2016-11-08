@@ -1,5 +1,10 @@
 package space.hideaway.model;
 
+import org.csveed.annotations.CsvCell;
+import org.csveed.annotations.CsvDate;
+import org.csveed.annotations.CsvFile;
+import org.csveed.annotations.CsvIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,16 +13,28 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "data")
+@CsvFile(separator = ',')
 public class Data {
+    @CsvIgnore
     private Long id;
+
+    @CsvIgnore
     private Long deviceID;
+
+    @CsvIgnore
     private Device device;
+
+
     @Temporal(value = TemporalType.TIMESTAMP)
+    @CsvCell(columnName = "dateTime", required = true)
+    @CsvDate(format = "yyyy-MM-dd HH:mm:ss")
     private Date dateTime;
+
+    @CsvCell(columnName = "temperature", required = true)
     private double temperature;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Long getId() {
         return id;
@@ -74,4 +91,5 @@ public class Data {
                 getTemperature()
         );
     }
+
 }

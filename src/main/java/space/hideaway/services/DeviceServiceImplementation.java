@@ -74,4 +74,9 @@ public class DeviceServiceImplementation implements DeviceService {
         }
         return gson.toJson(deviceValidator);
     }
+
+    @Override
+    public Device findByKey(String deviceKey) {
+        return deviceRepository.findByDeviceKey(deviceKey);
+    }
 }

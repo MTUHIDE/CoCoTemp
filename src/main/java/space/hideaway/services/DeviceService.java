@@ -11,4 +11,6 @@ public interface DeviceService {
      * @return A JSON representation of the status of the addition.
      */
     String save(Device device);
+
+    Device findByKey(String deviceKey);
 }

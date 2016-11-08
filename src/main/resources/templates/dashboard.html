@@ -29,7 +29,7 @@
                                         Upload your data here! We'll run through it and put things where they belong!
                                     </p>
 
-                                    <form id="upload-form">
+                                    <form id="upload-form" method="post">
                                         <label for="device-select">
                                             Station:
                                             <select id="device-select">
@@ -40,7 +40,9 @@
                                                 </option>
                                             </select>
                                         </label>
+                                        <input id="file" name="file" type="file"/>
                                         <button type="submit">Upload</button>
+                                        <progress id="progress"></progress>
                                     </form>
                                 </div>
                             </div>
