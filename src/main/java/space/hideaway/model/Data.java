@@ -4,9 +4,11 @@ import org.csveed.annotations.CsvCell;
 import org.csveed.annotations.CsvDate;
 import org.csveed.annotations.CsvFile;
 import org.csveed.annotations.CsvIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by dough on 11/1/2016.
@@ -16,7 +18,7 @@ import java.util.Date;
 @CsvFile(separator = ',')
 public class Data {
     @CsvIgnore
-    private Long id;
+    private UUID id;
 
     @CsvIgnore
     private Long deviceID;
@@ -33,14 +35,15 @@ public class Data {
     @CsvCell(columnName = "temperature", required = true)
     private double temperature;
 
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -84,8 +87,8 @@ public class Data {
     @Override
     public String toString() {
         return String.format(
-                "Data: [ID: %d Device ID: %d Date: %s Temperature: %s]%n",
-                getId(),
+                "Data: [ID: %s Device ID: %d Date: %s Temperature: %s]%n",
+                getId().toString(),
                 getDeviceID(),
                 getDateTime(),
                 getTemperature()

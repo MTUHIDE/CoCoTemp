@@ -43,7 +43,6 @@ public class DataServiceImplementation implements DataService {
         for (int i = 0; i < dataList.size(); i++) {
             Data data = dataList.get(i);
             session.save(data);
-            System.out.println(data);
             if (i % batchSize == 0) {
                 session.flush();
                 session.clear();
