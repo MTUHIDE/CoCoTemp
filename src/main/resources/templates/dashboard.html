@@ -29,18 +29,20 @@
                                         Upload your data here! We'll run through it and put things where they belong!
                                     </p>
 
-                                    <form id="upload-form">
+                                    <form id="upload-form" method="post">
                                         <label for="device-select">
                                             Station:
                                             <select id="device-select">
                                                 <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
                                                 <option th:each="device : ${devices}"
-                                                        th:value="${device.getDeviceUUID()}"
+                                                        th:value="${device.getId()}"
                                                         th:text="${device.getDeviceName()}">
                                                 </option>
                                             </select>
                                         </label>
+                                        <input id="file" name="file" type="file"/>
                                         <button type="submit">Upload</button>
+                                        <progress id="progress"></progress>
                                     </form>
                                 </div>
                             </div>
@@ -52,42 +54,43 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="well">
+                        <h4>Overview</h4>
                         <div class="row">
                             <div class="col-lg-2 ">
-                                <h1 class="temperature-header">87&deg;</h1>
+                                <h1 class="temperature-header">~&deg;</h1>
                             </div>
                         </div>
                         <hr/>
                         <div class="row">
                             <div class="col-lg-12">
-                                <span>Temperature is up 7 degrees from last week.</span><br/>
-                                <span>Temperature is up 7 degrees from last month.</span>
+                                <span>Temperature is up ~ degrees from last week.</span><br/>
+                                <span>Temperature is up ~ degrees from last month.</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="well">
+                        <h4>Statistics</h4>
                         <div class="row">
                             <div class="col-lg-12">
 
                                 <table class="table">
-                                    <caption>Statistics</caption>
                                     <tr>
                                         <th>Minimum</th>
-                                        <td>87&deg;</td>
+                                        <td>~&deg;</td>
                                     </tr>
                                     <tr>
                                         <th>Maximum</th>
-                                        <td>105&deg;</td>
+                                        <td>~&deg;</td>
                                     </tr>
                                     <tr>
                                         <th>Average</th>
-                                        <td>78.3&deg;</td>
+                                        <td>~&deg;</td>
                                     </tr>
                                     <tr>
                                         <th>Records</th>
-                                        <td>6 Records</td>
+                                        <td th:text="${records}"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -97,6 +100,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="well">
+                        <h4>Temperature Plot</h4>
                         <div class="row">
                             <div class="col-lg-12">
                                 <canvas id="temperature-chart" height="25px" width="100%"></canvas>
@@ -107,51 +111,25 @@
 
                 <div class="col-lg-12">
                     <div class="well">
+                        <h4>Records</h4>
                         <table id="temperature-table" class="table">
-                            <caption>All Records</caption>
+                            <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Station</th>
                                 <th>Location</th>
                                 <th>Temperature</th>
                             </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
+                            </thead>
+                            <tbody>
+                            <tr th:each="d : ${data}">
+                                <td th:text="*{d.getDateTime()}"></td>
+                                <td th:text="*{d.getDevice().getDeviceName()}"></td>
+                                <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
+                                d.getDevice().getDeviceLongitude()}"></td>
+                                <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
                             </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-                            <tr>
-                                <td>January 14th, 2016</td>
-                                <td>Houghton Station</td>
-                                <td>Houghton, Michigan</td>
-                                <td>34.98&deg; F</td>
-                            </tr>
-
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -159,11 +137,11 @@
         </div>
     </div>
 </div>
-<div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
+<div th:include="fragmentTemplate :: footer"></div>
 <script type="text/javascript"
-        th:src="@{//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js}"></script>
+        th:src="@{//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0-rc.1/Chart.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/chart.js}"></script>
-<script type="text/javascript" th:src="@{/js/upload.js}"></script>
+<script type="text/javascript" th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

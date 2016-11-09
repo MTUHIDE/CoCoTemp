@@ -1,11 +1,13 @@
 package space.hideaway.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import space.hideaway.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.services.UserServiceImplementation;
 
@@ -18,8 +20,14 @@ import space.hideaway.services.UserServiceImplementation;
 @Controller
 public class RouteController {
 
-    @Autowired
+    private final
     UserServiceImplementation userServiceImplementation;
+    Logger logger = Logger.getLogger(getClass());
+
+    @Autowired
+    public RouteController(UserServiceImplementation userServiceImplementation) {
+        this.userServiceImplementation = userServiceImplementation;
+    }
 
     @GetMapping({"/", "/home"})
     public String index(Model model) {
@@ -38,17 +46,14 @@ public class RouteController {
         return "appLogin";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("devices", userServiceImplementation.getDevices(authentication.getName()));
-        return "dashboard";
-    }
-
     @GetMapping("/manage")
     public String manage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("deviceList", userServiceImplementation.getDevices(authentication.getName()));
+        try {
+            model.addAttribute("deviceList", userServiceImplementation.getDevices(authentication.getName()));
+        } catch (UserNotFoundException e) {
+            logger.error("The user was not found when loading the manage page.", e);
+        }
         return "manage";
     }
 

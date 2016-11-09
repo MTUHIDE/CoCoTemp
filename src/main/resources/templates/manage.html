@@ -14,7 +14,15 @@
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <h4>Create a new device.</h4>
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <h4>Create a new device.</h4>
+                            </div>
+                            <div class="col-lg-1">
+                                <div id="form-spinner" class="pull-right loading" style="display: none"></div>
+                            </div>
+                        </div>
+
                         <h5>Fill out the form below.</h5>
                         <form id="form">
                             <div class="form-group">
@@ -75,7 +83,9 @@
                                                 <div class="device-container">
                                                     <div class="col-lg-9">
                                                         <h3 th:text="${device.deviceName}"></h3>
-                                                        <p th:text="${device.deviceLocation}"></p>
+                                                        <p style="margin-bottom: 0"
+                                                           th:text="${'Latitude: ' +  device.deviceLatitude}"></p>
+                                                        <p th:text="${'Longitude: ' +device.deviceLongitude}"></p>
 
                                                     </div>
                                                     <div class="col-lg-3 valign">

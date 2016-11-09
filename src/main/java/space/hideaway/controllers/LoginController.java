@@ -1,35 +1,53 @@
 package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import space.hideaway.services.SecurityServiceImplementation;
-import space.hideaway.services.UserDetailsServiceImplementation;
 
 /**
- * Created by dough on 10/12/2016.
+ * HIDE CoCoTemp 2016
+ * Class responsible for routing requests relating to logging in a user.
+ *
+ * @author Piper Dougherty
  */
 @Controller
 public class LoginController {
 
+    /**
+     * The application security service responsible for handling operations
+     * relating to authenticating a user.
+     */
+    private final SecurityServiceImplementation securityServiceImplementation;
+
     @Autowired
-    private SecurityServiceImplementation securityServiceImplementation;
+    public LoginController(SecurityServiceImplementation securityServiceImplementation) {
+        this.securityServiceImplementation = securityServiceImplementation;
+    }
+
 
     /**
-     * User login with .json response, for logging in user via AJAx.
+     * Login a user via API. Returns a JSON representation of the success or failure of the
+     * login.
+     * <p>
+     * Sample of JSON structure of successful login.
+     * {
+     *      "status": true,
+     *      "location": "/dashboard"
+     * }
+     * <p>
+     * Sample of JSON structure of unsuccessful login.
+     * {
+     *      "status": false,
+     *      "error": "The form is invalid for some reason."
+     * }
      *
-     * @return JSON response specifying the login status, true or false, and
-     * if false, a description of the error.
+     * @param username The username of the user to be logged in.
+     * @param password The password of the user to be logged in.
+     * @return JSON structure representing the status of the login.
      */
     @RequestMapping(value = "/login.json", method = RequestMethod.POST)
     public

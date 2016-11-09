@@ -8,16 +8,34 @@ import org.springframework.validation.Validator;
 import space.hideaway.model.User;
 import space.hideaway.services.UserService;
 
+/**
+ * HIDE CoCoTemp 2016
+ * Class responsible for validating user properties and passing possible errors to a binding result.
+ */
 @Component
 public class UserValidator implements Validator {
+
+    /**
+     * The service responsible for CRUD operations on users.
+     */
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserValidator(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
     }
 
+    /**
+     * Validate a user.
+     *
+     * @param o      The user object to be validated.
+     * @param errors A BindingResult object for errors to be passed to.
+     */
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
@@ -26,8 +44,12 @@ public class UserValidator implements Validator {
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        if (userService.findByUsername(user.getUsername()) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+        try {
+            User byUsername = userService.findByUsername(user.getUsername());
+            if (byUsername != null) {
+                errors.rejectValue("username", "Duplicate.userForm.username");
+            }
+        } catch (UserNotFoundException ignored) {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
