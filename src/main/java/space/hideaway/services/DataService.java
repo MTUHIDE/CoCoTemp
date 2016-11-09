@@ -11,4 +11,6 @@ public interface DataService {
     void save(Data data);
 
     List<Data> batchSave(List<Data> dataList);
+
+    List<Data> getAverageDataForCurrentDay();
 }

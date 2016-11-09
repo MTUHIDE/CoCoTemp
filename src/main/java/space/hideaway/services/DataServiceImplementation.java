@@ -56,5 +56,10 @@ public class DataServiceImplementation implements DataService {
         return dataList;
     }
 
+    @Override
+    public List<Data> getAverageDataForCurrentDay() {
+        return dataRepository.getAverageDataForCurrentDay();
+    }
+
 
 }

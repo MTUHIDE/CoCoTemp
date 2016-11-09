@@ -6,7 +6,7 @@ jQuery(document).ready(function () {
     $('#upload-form').submit(function (e) {
         e.preventDefault();
 
-        var url = "/" + $('#device-select').val() + "/upload";
+        var url = "/upload/" + $('#device-select').val();
         var fileInput = $('#file');
         var file;
         fileInput.change(function () {

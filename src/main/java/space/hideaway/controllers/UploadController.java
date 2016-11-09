@@ -43,7 +43,7 @@ public class UploadController {
      * @param file      The file to be inserted.
      * @return JSON representing the status of the upload.
      */
-    @RequestMapping(value = "/{deviceKey}/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{deviceKey}", method = RequestMethod.POST)
     public
     @ResponseBody
     String uploadFile(

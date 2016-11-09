@@ -13,9 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
+import space.hideaway.services.DataServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dough on 11/1/2016.
@@ -29,6 +31,8 @@ public class DataTests {
 
     @Autowired
     UserServiceImplementation userServiceImplementation;
+    @Autowired
+    DataServiceImplementation dataServiceImplementation;
 
     private User testUser;
     private User largeTestUser;
@@ -84,6 +88,14 @@ public class DataTests {
                         "unique device from all of the data points and their associated getDevice() method.",
                 devices,
                 Matchers.containsInAnyOrder(newDevices.toArray()));
+    }
+
+    @Test
+    public void getAverageDataForCurrentDay() {
+        List<Data> averageDataForCurrentDay = dataServiceImplementation.getAverageDataForCurrentDay();
+        for (Data data : averageDataForCurrentDay) {
+            logger.info(data);
+        }
     }
 
 
