@@ -111,6 +111,11 @@ public class User {
         return confirmationPassword;
     }
 
+    /**
+     * Sets confirmation password.
+     *
+     * @param confirmationPassword the confirmation password
+     */
     public void setConfirmationPassword(String confirmationPassword) {
         this.confirmationPassword = confirmationPassword;
     }
@@ -126,6 +131,11 @@ public class User {
         return roleSet;
     }
 
+    /**
+     * Sets role set.
+     *
+     * @param roleSet the role set
+     */
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
     }

@@ -37,12 +37,22 @@ public class Device {
     private Set<Data> dataSet;
 
 
+    /**
+     * Instantiates a new Device.
+     *
+     * @param deviceName      the device name
+     * @param deviceLatitude  the device latitude
+     * @param deviceLongitude the device longitude
+     */
     public Device(String deviceName, double deviceLatitude, double deviceLongitude) {
         this.deviceName = deviceName;
         this.deviceLatitude = deviceLatitude;
         this.deviceLongitude = deviceLongitude;
     }
 
+    /**
+     * Instantiates a new Device.
+     */
     public Device() {
     }
 
@@ -130,21 +140,41 @@ public class Device {
     }
 
 
+    /**
+     * Gets device longitude.
+     *
+     * @return the device longitude
+     */
     @Column(name = "device_longitude")
     public double getDeviceLongitude() {
         return deviceLongitude;
     }
 
+    /**
+     * Sets device longitude.
+     *
+     * @param deviceLongitude the device longitude
+     */
     public void setDeviceLongitude(double deviceLongitude) {
         this.deviceLongitude = deviceLongitude;
     }
 
+    /**
+     * Gets data set.
+     *
+     * @return the data set
+     */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     public Set<Data> getDataSet() {
         return dataSet;
     }
 
+    /**
+     * Sets data set.
+     *
+     * @param dataSet the data set
+     */
     public void setDataSet(Set<Data> dataSet) {
         this.dataSet = dataSet;
     }
