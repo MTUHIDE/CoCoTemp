@@ -55,9 +55,9 @@ $('document').ready(function () {
                         beginAtZero: true
                     }
                 }]
+            }
         }
-        }
-});
+    });
 
 })
 ;

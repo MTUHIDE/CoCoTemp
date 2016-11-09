@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * HIDE CoCoTemp 2016
- *
+ * <p>
  * The class responsible for handling operations
  * relating to authenticating a user.
  *

@@ -35,14 +35,14 @@ public class LoginController {
      * <p>
      * Sample of JSON structure of successful login.
      * {
-     * "status": true,
-     * "location": "/dashboard"
+     *      "status": true,
+     *      "location": "/dashboard"
      * }
      * <p>
      * Sample of JSON structure of unsuccessful login.
      * {
-     * "status": false,
-     * "error": "The form is invalid for some reason."
+     *      "status": false,
+     *      "error": "The form is invalid for some reason."
      * }
      *
      * @param username The username of the user to be logged in.

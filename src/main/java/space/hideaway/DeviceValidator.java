@@ -75,6 +75,7 @@ public class DeviceValidator {
 
     /**
      * Get the list of errors this device contains.
+     *
      * @return A list of errors, or empty if the device has no errors.
      */
     public ArrayList<String> getErrors() {

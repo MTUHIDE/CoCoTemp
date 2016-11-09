@@ -3,8 +3,6 @@ package space.hideaway.controllers;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +22,28 @@ import space.hideaway.services.UserServiceImplementation;
 @Controller
 public class DashboardController {
 
-    private final
-    UserServiceImplementation userServiceImplementation;
+    /**
+     * The service responsible for managing CRUD operations on users.
+     */
+    private final UserServiceImplementation userServiceImplementation;
+    /**
+     * The service responsible for various dashboard features.
+     */
     private final DashboardServiceImplementation dashboardServiceImplementation;
+    /**
+     * The security service for various session operations.
+     */
     private final SecurityServiceImplementation securityServiceImplementation;
 
+    /**
+     * Set the default temperature unit for display.
+     */
     @Value("${cocotemp.temperature.unit}")
     String temperatureUnit;
 
+    /**
+     * Class level logger.
+     */
     private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
@@ -41,9 +53,12 @@ public class DashboardController {
         this.securityServiceImplementation = securityServiceImplementation;
     }
 
+    /**
+     * @param model The Spring maintained object model.
+     * @return The name of the template to be rendered.
+     */
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             User user = userServiceImplementation.findByUsername(securityServiceImplementation.findLoggedInUsername());
             model.addAttribute("devices", user.getDeviceSet());

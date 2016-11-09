@@ -60,6 +60,7 @@ public class UserServiceImplementation implements UserService {
 
     /**
      * Obtain a user from the database by matching the username.
+     *
      * @param username The username of the user to search for.
      * @return The user with the specified username.
      */
@@ -75,6 +76,7 @@ public class UserServiceImplementation implements UserService {
 
     /**
      * Get all the devices for this user.
+     *
      * @param username The user to obtain devices for.
      * @return A set of devices the user maintains.
      */
