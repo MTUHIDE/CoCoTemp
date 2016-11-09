@@ -2,6 +2,8 @@ package space.hideaway.services;
 
 import space.hideaway.model.Device;
 
+import java.util.List;
+
 public interface DeviceService {
 
     /**
@@ -13,4 +15,6 @@ public interface DeviceService {
     String save(Device device);
 
     Device findByKey(String deviceKey);
+
+    List<Device> getAllDevices();
 }

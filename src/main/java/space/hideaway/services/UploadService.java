@@ -9,6 +9,7 @@ import space.hideaway.model.Data;
 
 import java.io.*;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * HIDE CoCoTemp 2016
@@ -58,7 +59,7 @@ public class UploadService {
         try (Reader reader = new FileReader(convertedFile)) {
             CsvClient<Data> csvClient = new CsvClientImpl<>(reader, Data.class);
             final List<Data> dataList = csvClient.readBeans();
-            Long id = deviceServiceImplementation.findByKey(deviceKey).getId();
+            UUID id = deviceServiceImplementation.findByKey(deviceKey).getId();
             for (Data data : dataList) {
                 data.setDeviceID(id);
             }

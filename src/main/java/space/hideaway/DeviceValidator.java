@@ -54,7 +54,7 @@ public class DeviceValidator {
         this.errors = new ArrayList<>();
 
         //TODO check if device with same name already exists.
-        if (device.getDeviceName().isEmpty() || device.getDeviceLocation().isEmpty()) {
+        if (device.getDeviceName().isEmpty() || device.getDeviceLatitude() == 0) {
             hasError = true;
             errors.add(environment.getProperty("Fields.empty"));
         } else if (device.getDeviceName().length() > 27) {

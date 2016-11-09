@@ -262,4 +262,26 @@ input[type=password] {
 .valign {
   margin-top: 20px; }
 
+.loading {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    border: 0.25rem solid rgba(40, 96, 144, 0.2);
+    border-top-color: #286090;
+    animation: spin 1s infinite linear;
+}
+
+.loading--double {
+    border: 0.5rem double;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 /*# sourceMappingURL=global.css.map */

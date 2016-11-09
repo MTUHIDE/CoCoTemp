@@ -35,7 +35,7 @@
                                             <select id="device-select">
                                                 <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
                                                 <option th:each="device : ${devices}"
-                                                        th:value="${device.getDeviceUUID()}"
+                                                        th:value="${device.getId()}"
                                                         th:text="${device.getDeviceName()}">
                                                 </option>
                                             </select>
@@ -125,8 +125,9 @@
                             <tr th:each="d : ${data}">
                                 <td th:text="*{d.getDateTime()}"></td>
                                 <td th:text="*{d.getDevice().getDeviceName()}"></td>
-                                <td th:text="*{d.getDevice().getDeviceLocation()}"></td>
-                                <td th:text="*{d.getTemperature()}"></td>
+                                <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
+                                d.getDevice().getDeviceLongitude()}"></td>
+                                <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
                             </tr>
                             </tbody>
                         </table>

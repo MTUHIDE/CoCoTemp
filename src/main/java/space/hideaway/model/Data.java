@@ -21,7 +21,7 @@ public class Data {
     private UUID id;
 
     @CsvIgnore
-    private Long deviceID;
+    private UUID deviceID;
 
     @CsvIgnore
     private Device device;
@@ -35,9 +35,21 @@ public class Data {
     @CsvCell(columnName = "temperature", required = true)
     private double temperature;
 
+    public Data() {
+
+    }
+
+    public Data(UUID id, UUID deviceID, Date dateTime, double temperature) {
+        this.id = id;
+        this.deviceID = deviceID;
+        this.dateTime = dateTime;
+        this.temperature = temperature;
+    }
+
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
+
     @Column(name = "id")
     public UUID getId() {
         return id;
@@ -48,11 +60,11 @@ public class Data {
     }
 
     @Column(name = "device_id")
-    public Long getDeviceID() {
+    public UUID getDeviceID() {
         return deviceID;
     }
 
-    public void setDeviceID(Long deviceID) {
+    public void setDeviceID(UUID deviceID) {
         this.deviceID = deviceID;
     }
 
@@ -87,7 +99,7 @@ public class Data {
     @Override
     public String toString() {
         return String.format(
-                "Data: [ID: %s Device ID: %d Date: %s Temperature: %s]%n",
+                "Data: [ID: %s Device ID: %s Date: %s Temperature: %s]%n",
                 getId().toString(),
                 getDeviceID(),
                 getDateTime(),

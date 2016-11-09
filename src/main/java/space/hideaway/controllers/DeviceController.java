@@ -49,9 +49,10 @@ public class DeviceController {
     public
     @ResponseBody
     String addDevice(@RequestParam("deviceName") String deviceName,
-                     @RequestParam("deviceLocation") String deviceLocation) {
+                     @RequestParam("deviceLatitude") double deviceLatitude,
+                     @RequestParam("deviceLongitude") double deviceLongitude) {
         //Save the new device to the database.
-        return deviceServiceImplementation.save(new Device(deviceName, deviceLocation));
+        return deviceServiceImplementation.save(new Device(deviceName, deviceLatitude, deviceLongitude));
     }
 
 }

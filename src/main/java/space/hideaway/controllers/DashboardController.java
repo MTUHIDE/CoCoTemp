@@ -2,6 +2,7 @@ package space.hideaway.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class DashboardController {
     private final DashboardServiceImplementation dashboardServiceImplementation;
     private final SecurityServiceImplementation securityServiceImplementation;
 
+    @Value("${cocotemp.temperature.unit}")
+    String temperatureUnit;
+
     private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
@@ -45,6 +49,7 @@ public class DashboardController {
             model.addAttribute("devices", user.getDeviceSet());
             model.addAttribute("records", dashboardServiceImplementation.getNumberOfRecords(user));
             model.addAttribute("data", dashboardServiceImplementation.getAllData(user));
+            model.addAttribute("temperatureUnit", temperatureUnit);
         } catch (UserNotFoundException e) {
             logger.error("The user was not found when loading the dashboard page.", e);
         }
