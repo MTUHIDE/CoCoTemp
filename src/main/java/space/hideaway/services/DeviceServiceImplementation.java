@@ -11,6 +11,9 @@ import space.hideaway.UserNotFoundException;
 import space.hideaway.model.Device;
 import space.hideaway.repositories.DeviceRepository;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * Created by dough on 10/12/2016.
  */
@@ -73,5 +76,16 @@ public class DeviceServiceImplementation implements DeviceService {
             deviceRepository.save(device);
         }
         return gson.toJson(deviceValidator);
+    }
+
+    @Override
+    public Device findByKey(String deviceKey) {
+        UUID formattedUUID = UUID.fromString(deviceKey);
+        return deviceRepository.findByDeviceKey(formattedUUID);
+    }
+
+    @Override
+    public List<Device> getAllDevices() {
+        return deviceRepository.findAll();
     }
 }

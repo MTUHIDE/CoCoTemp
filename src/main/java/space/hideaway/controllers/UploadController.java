@@ -43,22 +43,15 @@ public class UploadController {
      * @param file      The file to be inserted.
      * @return JSON representing the status of the upload.
      */
-    @RequestMapping(value = "/{deviceKey}", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{deviceKey}", method = RequestMethod.POST)
     public
     @ResponseBody
     String uploadFile(
             @PathVariable(value = "deviceKey") String deviceKey,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) {
-        /*
-        TODO refactor this mess into the uploadService. Also, get a CSV parsing library. There is
-        no reason the file .isEmpty() check should be done in the controller.
-         */
-        if (!file.isEmpty()) {
-            uploadService.setMultipartFile(file).parseFile();
-            return "{status: \"uploaded\"}";
-        }
-        return "{status: \"failed\"}";
+
+        return uploadService.setMultipartFile(file).parseFile(deviceKey);
     }
 
 }

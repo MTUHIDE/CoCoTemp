@@ -112,7 +112,8 @@
 
 <div th:fragment="navbar">
     <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
-        <div class="logo">&nbsp;</div><a class="navbar-brand" href="#">CoCoTemp</a>
+        <div class="logo">&nbsp;</div>
+        <a class="navbar-brand" href="#">CoCoTemp</a>
         <ul class="nav navbar-nav">
             <li>
                 <a data-toggle="modal" data-target="#login-modal" id="login-button" type="button"
@@ -151,7 +152,8 @@
 <div th:fragment="usernavbar">
     <div class="navbar navbar-inverse navbar-fixed-left col-md-4">
         <div class="row">
-            <div class="logo">&nbsp;</div><a class="navbar-brand" href="#">CoCoTemp</a>
+            <div class="logo">&nbsp;</div>
+            <a class="navbar-brand" href="#">CoCoTemp</a>
             <div class="welcomeLine center">Welcome, <span sec:authentication="name"></span>!</div>
         </div>
         <ul class="nav navbar-nav">
