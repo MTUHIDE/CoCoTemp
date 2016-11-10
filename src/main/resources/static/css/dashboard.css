@@ -1,11 +1,6 @@
 body {
     background: #e3e3e3;
-    overflow-y: scroll;
-}
-
-h2 {
-    margin-top: 15px;
-    margin-bottom: 25px;
+    overflow-y: auto;
 }
 
 .bottom {

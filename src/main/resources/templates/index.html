@@ -63,7 +63,7 @@
                     <li sec:authorize="isAnonymous()"><a data-toggle="modal" data-target="#login-modal"
                                                          id="login-button" type="button"><span class="glyphicon"></span>
                         Login</a></li>
-                    <li sec:authorize="isAuthenticated()" class="active"><a th:href="@{/logout}"><span
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span
                             class="glyphicon"></span> Log Out</a></li>
                     <li class="active"><a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                     <li><a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>

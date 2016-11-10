@@ -145,7 +145,7 @@ public class User {
      *
      * @return A set of devices this user maintains.
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     public Set<Device> getDeviceSet() {
         return deviceSet;

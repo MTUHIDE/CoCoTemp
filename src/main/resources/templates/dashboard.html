@@ -96,134 +96,93 @@
         <div class="side-body">
 
             <div class="row">
-                <div class="col-lg-6">
-                    <h2>DASHBOARD</h2>
-                </div>
-                <div class="col-lg-6">
-                    <div class="">
-                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-                             aria-labelledby="mySmallModalLabel">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                    <h1>Upload</h1>
-                                    <p>
-                                        Upload your data here! We'll run through it and put things where they belong!
-                                    </p>
-
-                                    <form id="upload-form" method="post">
-                                        <label for="device-select">
-                                            Station:
-                                            <select id="device-select">
-                                                <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                                                <option th:each="device : ${devices}"
-                                                        th:value="${device.getId()}"
-                                                        th:text="${device.getDeviceName()}">
-                                                </option>
-                                            </select>
-                                        </label>
-                                        <input id="file" name="file" type="file"/>
-                                        <button type="submit">Upload</button>
-                                        <progress id="progress"></progress>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="page-header">
+                    <h2>Dashboard
+                        <small> View and edit your data.</small>
+                    </h2>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-lg-2">
                     <div class="list-group">
-                        <button type="button" class="list-group-item list-group-item-action">
-                            Upload Data
-                        </button>
-                        <button type="button" class="list-group-item list-group-item-action">Compare Data</button>
-                        <button type="button" class="list-group-item list-group-item-action">Edit Devices</button>
+                        <button type="button" class="list-group-item">Cras justo odio</button>
+                        <button type="button" class="list-group-item">Dapibus ac facilisis in</button>
+                        <button type="button" class="list-group-item">Morbi leo risus</button>
+                        <button type="button" class="list-group-item">Porta ac consectetur ac</button>
+                        <button type="button" class="list-group-item">Vestibulum at eros</button>
+                    </div>
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Devices</div>
+
+
+                        <!-- List group -->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div>
+                                    <h5 style="display: inline-block">Device Name <br/>
+                                        <small>Last updated 4 hours ago.</small>
+                                    </h5>
+                                    <h3 class="pull-right">56&deg; F</h3>
+                                    <span class="label label-danger">Error</span>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <h5 style="display: inline-block">Device Name <br/>
+                                        <small>Last updated 4 hours ago.</small>
+                                    </h5>
+                                    <h3 class="pull-right">56&deg; F</h3>
+                                    <span class="label label-danger">Error</span>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <h5 style="display: inline-block">Device Name <br/>
+                                        <small>Last updated 4 hours ago.</small>
+                                    </h5>
+                                    <h3 class="pull-right">56&deg; F</h3>
+                                    <span class="label label-danger">Error</span>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <h5 style="display: inline-block">Device Name <br/>
+                                        <small>Last updated 4 hours ago.</small>
+                                    </h5>
+                                    <h3 class="pull-right">56&deg; F</h3>
+                                    <span class="label label-danger">Error</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-10">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="well">
-                                <h4>Overview</h4>
-                                <div class="row">
-                                    <div class="col-lg-2 ">
-                                        <h1 class="temperature-header">~&deg;</h1>
-                                    </div>
-                                </div>
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <span>Temperature is up ~ degrees from last week.</span><br/>
-                                        <span>Temperature is up ~ degrees from last month.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="well">
-                                <h4>Statistics</h4>
-                                <div class="row">
-                                    <div class="col-lg-12">
 
-                                        <table class="table">
-                                            <tr>
-                                                <th>Minimum</th>
-                                                <td>~&deg;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Maximum</th>
-                                                <td>~&deg;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Average</th>
-                                                <td>~&deg;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Records</th>
-                                                <td th:text="${records}"></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Data</h3>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="well">
-                                <h4>Temperature Plot</h4>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <canvas id="temperature-chart" height="25px" width="100%"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <div class="well dt-bootstrap">
-                                <h4>Records</h4>
-                                <table id="temperature-table" class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Station</th>
-                                        <th>Location</th>
-                                        <th>Temperature</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="d : ${data}">
-                                        <td th:text="*{d.getDateTime()}"></td>
-                                        <td th:text="*{d.getDevice().getDeviceName()}"></td>
-                                        <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
+                        <div class="panel-body">
+                            <table id="temperature-table" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Station</th>
+                                    <th>Location</th>
+                                    <th>Temperature</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="d : ${data}">
+                                    <td th:text="*{d.getDateTime()}"></td>
+                                    <td th:text="*{d.getDevice().getDeviceName()}"></td>
+                                    <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
                                 d.getDevice().getDeviceLongitude()}"></td>
-                                        <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

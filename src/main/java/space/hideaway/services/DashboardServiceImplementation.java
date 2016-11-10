@@ -1,6 +1,7 @@
 package space.hideaway.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
@@ -46,6 +47,7 @@ public class DashboardServiceImplementation implements DashboardService {
     }
 
     @Override
+    @Transactional
     public int getNumberOfRecords(User user) {
         int size = 0;
         for (Device device : user.getDeviceSet()) {
