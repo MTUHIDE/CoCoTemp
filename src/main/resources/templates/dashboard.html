@@ -157,13 +157,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!--<tr th:each="d : ${data}">-->
-                                    <!--<td th:text="*{d.getDateTime()}"></td>-->
-                                    <!--<td th:text="*{d.getDevice().getDeviceName()}"></td>-->
-                                    <!--<td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +-->
-                                <!--d.getDevice().getDeviceLongitude()}"></td>-->
-                                    <!--<td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>-->
-                                <!--</tr>-->
+                                <tr th:each="d : ${data}">
+                                    <td th:text="*{d.getDateTime()}"></td>
+                                    <td th:text="*{d.getDevice().getDeviceName()}"></td>
+                                    <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
+                                d.getDevice().getDeviceLongitude()}"></td>
+                                    <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

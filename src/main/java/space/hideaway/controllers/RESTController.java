@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import space.hideaway.services.GEOJsonService;
+import space.hideaway.services.RESTService;
 
 
 /**
@@ -15,13 +15,13 @@ import space.hideaway.services.GEOJsonService;
  * @author Piper Dougherty
  */
 @Controller
-public class GEOJsonController {
+public class RESTController {
 
     /**
      * The service reposnible for creating various GEOJson structures for use by leaflet.
      */
     @Autowired
-    GEOJsonService geoJsonService;
+    RESTService restService;
 
     /**
      * Obtain a GEOJson formatted JSON structure with a single point for each device, so long
@@ -35,7 +35,7 @@ public class GEOJsonController {
     public
     @ResponseBody
     String geoJSON() {
-        return geoJsonService.getGeoJsonForLastRecordedTemperature();
+        return restService.getGeoJsonForLastRecordedTemperature();
     }
 
 }

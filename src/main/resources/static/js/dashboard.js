@@ -100,5 +100,4 @@ jQuery(document).ready(function () {
         }
     });
 
-
 });
