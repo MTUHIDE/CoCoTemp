@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import space.hideaway.DeviceErrorSerializer;
 import space.hideaway.DeviceValidator;
 import space.hideaway.UserNotFoundException;
+import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.repositories.DeviceRepository;
 

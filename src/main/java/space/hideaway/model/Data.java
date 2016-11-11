@@ -1,10 +1,12 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.csveed.annotations.CsvCell;
 import org.csveed.annotations.CsvDate;
 import org.csveed.annotations.CsvFile;
 import org.csveed.annotations.CsvIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -30,8 +32,10 @@ public class Data {
     @Temporal(value = TemporalType.TIMESTAMP)
     @CsvCell(columnName = "dateTime", required = true)
     @CsvDate(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonView(DataTablesOutput.View.class)
     private Date dateTime;
 
+    @JsonView(DataTablesOutput.View.class)
     @CsvCell(columnName = "temperature", required = true)
     private double temperature;
 
@@ -104,7 +108,7 @@ public class Data {
      *
      * @return the device
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
     public Device getDevice() {
         return device;

@@ -1,5 +1,6 @@
 package space.hideaway.services;
 
+import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 
 import java.util.List;

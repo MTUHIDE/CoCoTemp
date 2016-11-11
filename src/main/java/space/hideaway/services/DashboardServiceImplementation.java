@@ -1,6 +1,8 @@
 package space.hideaway.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
@@ -15,6 +17,12 @@ import java.util.Set;
 @Service
 public class DashboardServiceImplementation implements DashboardService {
 
+    @Autowired
+    private DeviceService deviceService;
+
+    @Autowired
+    private DataService dataService;
+
     @Override
     public Set<Data> getAllData(User user) {
         ArrayList<Device> devices = new ArrayList<>(user.getDeviceSet());
@@ -23,6 +31,11 @@ public class DashboardServiceImplementation implements DashboardService {
             data.addAll(device.getDataSet());
         }
         return new HashSet<>(data);
+    }
+
+    @Override
+    public Data getLastRecording(Device device) {
+        return dataService.getLastRecording(device);
     }
 
     @Override
@@ -46,6 +59,7 @@ public class DashboardServiceImplementation implements DashboardService {
     }
 
     @Override
+    @Transactional
     public int getNumberOfRecords(User user) {
         int size = 0;
         for (Device device : user.getDeviceSet()) {

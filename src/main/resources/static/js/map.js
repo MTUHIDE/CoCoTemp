@@ -1,7 +1,3 @@
-/**
- * Created by caden on 10/7/2016.
- */
-
 /* Limit map view to the USA */
 var maxBounds = L.latLngBounds(
     L.latLng(5.090944175, -172.44140625), //Southwest
@@ -9,7 +5,7 @@ var maxBounds = L.latLngBounds(
 );
 
 /* Initialize Map */
-var map = L.map('bgmap', {
+var map = L.map('map', {
     dragging: true,
     zoomControl: false,
     maxZoom: 18,

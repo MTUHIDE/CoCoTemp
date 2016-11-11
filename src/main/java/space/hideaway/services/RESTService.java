@@ -16,12 +16,18 @@ import java.util.List;
  * Created by dough on 11/8/2016.
  */
 @Service
-public class GEOJsonService {
+public class RESTService {
 
+    @Autowired
+    UserServiceImplementation userServiceImplementation;
     @Autowired
     private DataServiceImplementation dataServiceImplementation;
     @Autowired
     private DeviceServiceImplementation deviceServiceImplementation;
+    @Autowired
+    private DashboardServiceImplementation dashboardServiceImplementation;
+    @Autowired
+    private SecurityServiceImplementation securityServiceImplementation;
 
     public String getGeoJsonForLastRecordedTemperature() {
         FeatureCollection features = new FeatureCollection();

@@ -62,6 +62,7 @@ public class DashboardController {
         try {
             User user = userServiceImplementation.findByUsername(securityServiceImplementation.findLoggedInUsername());
             model.addAttribute("devices", user.getDeviceSet());
+            model.addAttribute("dashboardServiceImplementation", dashboardServiceImplementation);
             model.addAttribute("records", dashboardServiceImplementation.getNumberOfRecords(user));
             model.addAttribute("data", dashboardServiceImplementation.getAllData(user));
             model.addAttribute("temperatureUnit", temperatureUnit);

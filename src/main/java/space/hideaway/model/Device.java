@@ -28,10 +28,10 @@ public class Device {
      */
     private Long userId;
 
-
     private String deviceName;
 
     private double deviceLatitude;
+
     private double deviceLongitude;
 
     private Set<Data> dataSet;
@@ -164,7 +164,7 @@ public class Device {
      *
      * @return the data set
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     public Set<Data> getDataSet() {
         return dataSet;

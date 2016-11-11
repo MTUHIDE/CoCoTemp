@@ -1,11 +1,18 @@
 package space.hideaway.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import space.hideaway.services.GEOJsonService;
+import org.springframework.web.bind.annotation.RestController;
+import space.hideaway.model.Data;
+import space.hideaway.repositories.DataRepository;
+import space.hideaway.services.RESTService;
+
+import javax.validation.Valid;
 
 
 /**
@@ -14,14 +21,17 @@ import space.hideaway.services.GEOJsonService;
  *
  * @author Piper Dougherty
  */
-@Controller
-public class GEOJsonController {
+@RestController
+public class RESTController {
 
     /**
      * The service reposnible for creating various GEOJson structures for use by leaflet.
      */
     @Autowired
-    GEOJsonService geoJsonService;
+    RESTService restService;
+
+    @Autowired
+    DataRepository dataRepository;
 
     /**
      * Obtain a GEOJson formatted JSON structure with a single point for each device, so long
@@ -35,7 +45,13 @@ public class GEOJsonController {
     public
     @ResponseBody
     String geoJSON() {
-        return geoJsonService.getGeoJsonForLastRecordedTemperature();
+        return restService.getGeoJsonForLastRecordedTemperature();
+    }
+
+    @JsonView(DataTablesOutput.View.class)
+    @RequestMapping(value = "/dataPoints.json", method = RequestMethod.GET)
+    public DataTablesOutput<Data> getData(@Valid DataTablesInput dataTablesInput) {
+        return dataRepository.findAll(dataTablesInput);
     }
 
 }
