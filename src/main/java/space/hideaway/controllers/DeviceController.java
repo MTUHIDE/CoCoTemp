@@ -18,8 +18,13 @@ import space.hideaway.services.DeviceServiceImplementation;
 @Controller
 public class DeviceController {
 
-    @Autowired
+    private final
     DeviceServiceImplementation deviceServiceImplementation;
+
+    @Autowired
+    public DeviceController(DeviceServiceImplementation deviceServiceImplementation) {
+        this.deviceServiceImplementation = deviceServiceImplementation;
+    }
 
     /**
      * Add a new device to a user's device collection. Returns a JSON tree representing the status
@@ -36,17 +41,18 @@ public class DeviceController {
      * "errors": ["A description of some error one.", "A description of some error two."]
      * }
      *
-     * @param deviceName     The name of the new device.
-     * @param deviceLocation A string representation of the location of the device.
+     * @param deviceName      The name of the new device.
+     * @param deviceLatitude The latitude location of the new device.
+     * @param deviceLongitude The longitude location of the new device.
      * @return A JSON representation of the status.
      */
     @RequestMapping(value = "/manage/devices/add", method = RequestMethod.POST)
     public
     @ResponseBody
     String addDevice(@RequestParam("deviceName") String deviceName,
-                     @RequestParam("deviceLocation") String deviceLocation) {
-        //Save the new device to the database.
-        return deviceServiceImplementation.save(new Device(deviceName, deviceLocation));
+                     @RequestParam("deviceLatitude") double deviceLatitude,
+                     @RequestParam("deviceLongitude") double deviceLongitude) {
+        return deviceServiceImplementation.save(new Device(deviceName, deviceLatitude, deviceLongitude));
     }
 
 }

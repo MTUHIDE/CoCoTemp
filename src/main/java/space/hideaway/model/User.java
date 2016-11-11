@@ -50,7 +50,7 @@ public class User {
      * @return The ID of this user.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -111,6 +111,11 @@ public class User {
         return confirmationPassword;
     }
 
+    /**
+     * Sets confirmation password.
+     *
+     * @param confirmationPassword the confirmation password
+     */
     public void setConfirmationPassword(String confirmationPassword) {
         this.confirmationPassword = confirmationPassword;
     }
@@ -126,6 +131,11 @@ public class User {
         return roleSet;
     }
 
+    /**
+     * Sets role set.
+     *
+     * @param roleSet the role set
+     */
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
     }
@@ -135,7 +145,7 @@ public class User {
      *
      * @return A set of devices this user maintains.
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     public Set<Device> getDeviceSet() {
         return deviceSet;

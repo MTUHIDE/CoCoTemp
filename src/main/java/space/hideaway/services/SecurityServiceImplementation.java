@@ -8,10 +8,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * HIDE CoCoTemp 2016
- *
+ * <p>
  * The class responsible for handling operations
  * relating to authenticating a user.
  *
@@ -23,15 +24,19 @@ public class SecurityServiceImplementation implements SecurityService {
     /**
      * The service responsible for obtaining a user from the database by username.
      */
-    @Autowired
-    private
+    private final
     UserDetailsServiceImplementation userDetailsServiceImplementation;
 
     /**
      * The service responsible for authenticating users.
      */
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    private AuthenticationManager authenticationManager;
+    public SecurityServiceImplementation(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsServiceImplementation = userDetailsServiceImplementation;
+    }
 
     /**
      * Obtain the currently logged in user from the Spring security context.
@@ -97,6 +102,7 @@ public class SecurityServiceImplementation implements SecurityService {
      * @param password The password of the user to be logged in.
      * @return JSON structure representing the status of the login.
      */
+    @Transactional(readOnly = true)
     public String tryLogin(String username, String password) {
         try {
             UserDetails userDetails = userDetailsServiceImplementation.loadUserByUsername(username);

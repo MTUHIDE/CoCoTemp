@@ -1,5 +1,6 @@
 package space.hideaway.services;
 
+import space.hideaway.UserNotFoundException;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 
@@ -19,7 +20,7 @@ public interface UserService {
      * @param username The username of the user to search for.
      * @return The user corresponding to the username provided.
      */
-    User findByUsername(String username);
+    User findByUsername(String username) throws UserNotFoundException;
 
     /**
      * Get the set of devices for a user.
@@ -27,5 +28,5 @@ public interface UserService {
      * @param username The user to obtain devices for.
      * @return A set of devices the user maintains.
      */
-    Set<Device> getDevices(String username);
+    Set<Device> getDevices(String username) throws UserNotFoundException;
 }

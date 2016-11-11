@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * HIDE CoCoTemp 2016
- *
+ * <p>
  * JPA model for representing the role of a user by way of foreign keys.
  *
  * @author Piper Dougherty
@@ -40,6 +40,7 @@ public class Role {
 
     /**
      * Set the ID of this role. Should probably not be used...
+     *
      * @param id The new ID of this role.
      */
     public void setId(Long id) {
@@ -48,6 +49,7 @@ public class Role {
 
     /**
      * Get the name of this role.
+     *
      * @return The name of the role.
      */
     public String getName() {
@@ -56,6 +58,7 @@ public class Role {
 
     /**
      * Set the name of this role.
+     *
      * @param name The new name of this role.
      */
     public void setName(String name) {
@@ -64,6 +67,7 @@ public class Role {
 
     /**
      * Get the set of users that have this role.
+     *
      * @return A set of users that have this role.
      */
     @ManyToMany(mappedBy = "roleSet")

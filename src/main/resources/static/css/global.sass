@@ -1,260 +1,303 @@
 $primary-color: #79D0B3
 $secondary-color: #00416A
-$some-sort-of-red: #F44236
-//Like my personality
-$header-font: 'Roboto Condensed', sans-serif
-$paragraph-font: 'Roboto', sans-serif
-$navbar-width: 240px
-$cool-version-of-white-color: darken(#fff, 2%)
-$tablet: "(min-width: 768px) and (max-width: 1023px)"
-$desktop: "(min-width: 1024px)"
-$mobile: "(min-device-width : 320px) and (max-device-width : 480px)"
 
-@for $index from 1 through 6
-  h#{$index}
-
-    font-weight: 700 !important
-    font-family: $header-font
-
-p
-  font-family: $paragraph-font
-  font-size: 1em
-
-.navbar
-  background-color: $secondary-color
-  //Praise
-  z-index: 666
-
-.navbar-fixed-left
-  width: $navbar-width
-  position: fixed
-  border-radius: 0
+body, html
   height: 100%
-  left: 0
-  @media #{$tablet}
-    height: 110px
-    width: 100%
-
-.navbar-nav
-  margin: 7.5px -15px !important
-  > ul
-    @media #{$tablet}
-      width: 100%
-      text-align: center
-      margin: 0 auto
-      padding-left: 150px
-      margin-top: -25px
-      background-color: $secondary-color
-  > li
-    float: none
-    width: 139px
-    @media #{$tablet}
-      text-align: center
-      float: left
-      width: auto
-      margin-left: 25px
-  > li a
-    color: $cool-version-of-white-color !important
-    @media #{$tablet}
-      background-color: transparent
-      border: none
-      margin-bottom: 20px
-      &:hover
-        text-decoration: underline
-  + .container
-    padding-left: 160px
-    @media #{$tablet}
-      padding: 0
-
-.navbar-brand
-  display: inline-block
-  font: 32px $header-font
-  text-align: center
-  color: $primary-color !important
-  margin-bottom: 25px
-  transition: all 0.5s ease
-  width: 100px
-  padding: 10px
-  margin-top: 20px
-  &:hover
-    color: $cool-version-of-white-color !important
-
-.divhr
-  margin-top: 75px
-  display: block
-  height: 1px
   width: 100%
-  border-top: none
-  border-bottom: 2px solid darken($secondary-color, 1%)
 
-.menuButton
-  text-align: left
-  line-height: 11px !important
-  width: $navbar-width - 1
-  // Subtract border size
-  color: white
-  //margin-top: 25px
-  background-color: darken($secondary-color, 2%)
-  border: 0
-  //border-top: 2px solid lighten($secondary-color, 2%)
-  &:hover
-    background-color: $primary-color
-  &:active
-    border-left: 3px $primary-color solid
-  @media #{$tablet}
-    width: auto
+\:focus
+  outline: none
+
+.row
+  margin-right: 0
+  margin-left: 0
+
+.side-menu
+  .btn-default
+    color: white !important
+  z-index: 3000
+  position: fixed
+  width: 300px
+  height: 100%
+  background-color: $secondary-color
+  border-right: 1px solid $secondary-color
+  .navbar
+    border: none
+  .navbar-header
+    color: white
+    width: 100%
+    background-color: $secondary-color
+    border-bottom: 1px solid $secondary-color
+  .navbar-nav
+    .active a
+      &:hover
+        color: white
+        background-color: #0a6088
+      color: white
+      margin-right: -1px
+      background-color: $secondary-color
+      border-right: 5px solid $primary-color
+    li
+      &:hover
+        background-color: #0a6088
+      display: block
+      width: 100%
+      background-color: $secondary-color
+      border-bottom: 1px solid $secondary-color
+      a
+        &:hover
+          color: white
+        color: white
+        padding: 15px
+        .glyphicon
+          padding-right: 10px
+  #dropdown
+    border: 0
+    margin-bottom: 0
+    border-radius: 0
+    background-color: $secondary-color
+    box-shadow: none
+    .caret
+      float: right
+      margin: 9px 5px 0
+    .indicator
+      float: right
+    > a
+      &:focus
+        color: white
+      &:hover
+        background-color: #0a6088
+      border-bottom: 1px solid $secondary-color
+    .panel-body
+      padding: 0
+      background-color: $secondary-color
+      .navbar-nav
+        width: 100%
+        li
+          &:hover
+            background-color: #0a6088
+          a
+            &:hover
+              background-color: #0a6088
+            background-color: #002e4f
+          background-color: #002e4f
+          padding-left: 15px
+          border-bottom: 1px solid $secondary-color
+          &:last-child
+            border-bottom: none
+      .panel > a
+        margin-left: -20px
+        padding-left: 35px
+      .panel-body
+        margin-left: -15px
+        li
+
+          padding-left: 30px
+          &:last-child
+            border-bottom: 1px solid $secondary-color
+  #search-trigger
+    background-color: $secondary-color
+    border: 0
+    border-radius: 0
+    position: absolute
+    top: 0
+    right: 0
+    padding: 15px 18px
+  .brand-name-wrapper
+    min-height: 50px
+    .navbar-brand
+      color: white
+      display: block
+  #search
+    position: relative
+    z-index: 1000
+    .panel-body
+      padding: 0
+      .navbar-form
+        padding: 0
+        padding-right: 50px
+        width: 100%
+        margin: 0
+        position: relative
+        border-top: 1px solid $secondary-color
+        .form-group
+          width: 100%
+          position: relative
+        input
+          border: 0
+          border-radius: 0
+          box-shadow: none
+          width: 100%
+          height: 50px
+        .btn
+          position: absolute
+          right: 0
+          top: 0
+          border: 0
+          border-radius: 0
+          background-color: $secondary-color
+          padding: 15px 18px
+
+/* Main body section
+
+.side-body
+  margin-left: 310px
+
+/* small screen
+@media (max-width: 768px)
+  .side-menu
+    position: relative
+    width: 100%
+    height: 0
+    border-right: 0
+    border-bottom: 1px solid $secondary-color
+    .brand-name-wrapper .navbar-brand
+      display: inline-block
+  /* Slide in animation
+  @-moz-keyframes slidein
+    0%
+      left: -300px
+
+    100%
+      left: 10px
+
+  @-webkit-keyframes slidein
+    0%
+      left: -300px
+
+    100%
+      left: 10px
+
+  @keyframes slidein
+    0%
+      left: -300px
+
+    100%
+      left: 10px
+
+  @-moz-keyframes slideout
+    0%
+      left: 0
+
+    100%
+      left: -300px
+
+  @-webkit-keyframes slideout
+    0%
+      left: 0
+
+    100%
+      left: -300px
+
+  @keyframes slideout
+    0%
+      left: 0
+
+    100%
+      left: -300px
+
+  .side-menu-container > .navbar-nav
+    &.slide-in
+      -moz-animation: slidein 300ms forwards
+      -o-animation: slidein 300ms forwards
+      -webkit-animation: slidein 300ms forwards
+      animation: slidein 300ms forwards
+      -webkit-transform-style: preserve-3d
+      transform-style: preserve-3d
+
+    position: fixed
+    left: -300px
+    width: 300px
+    top: 43px
+    height: 100%
+    border-right: 1px solid $secondary-color
+    background-color: $secondary-color
+    -moz-animation: slideout 300ms forwards
+    -o-animation: slideout 300ms forwards
+    -webkit-animation: slideout 300ms forwards
+    animation: slideout 300ms forwards
+    -webkit-transform-style: preserve-3d
+    transform-style: preserve-3d
+  @-moz-keyframes bodyslidein
+    0%
+      left: 0
+
+    100%
+      left: 300px
+
+  @-webkit-keyframes bodyslidein
+    0%
+      left: 0
+
+    100%
+      left: 300px
+
+  @keyframes bodyslidein
+    0%
+      left: 0
+
+    100%
+      left: 300px
+
+  @-moz-keyframes bodyslideout
+    0%
+      left: 300px
+
+    100%
+      left: 0
+
+  @-webkit-keyframes bodyslideout
+    0%
+      left: 300px
+
+    100%
+      left: 0
+
+  @keyframes bodyslideout
+    0%
+      left: 300px
+
+    100%
+      left: 0
+
+  /* Slide side body
+  .side-body
+    margin-left: 5px
+    margin-top: 70px
+    position: relative
+    -moz-animation: bodyslideout 300ms forwards
+    -o-animation: bodyslideout 300ms forwards
+    -webkit-animation: bodyslideout 300ms forwards
+    animation: bodyslideout 300ms forwards
+    -webkit-transform-style: preserve-3d
+    transform-style: preserve-3d
+  .body-slide-in
+    -moz-animation: bodyslidein 300ms forwards
+    -o-animation: bodyslidein 300ms forwards
+    -webkit-animation: bodyslidein 300ms forwards
+    animation: bodyslidein 300ms forwards
+    -webkit-transform-style: preserve-3d
+    transform-style: preserve-3d
+  /* Hamburger
+  .navbar-toggle
+    .icon-bar
+      background-color: white !important
+    border: 0
     float: left
-    margin-top: -12px
-
-#login-button
-  line-height: 11px
-  width: 239px
-  margin-bottom: 10px
-
-//Begin Modal Styles
-#login-modal
-  .modal-dialog
-    width: 350px
-  input[type=text]
-    margin-top: 10px
-
-input[type=password]
-  margin-top: 10px
-
-#div-login-msg, #div-lost-msg, #div-register-msg
-  border: 1px solid #dadfe1
-  height: 30px
-  line-height: 28px
-  transition: all ease-in-out 500ms
-
-#div-login-msg.success, #div-lost-msg.success, #div-register-msg.success
-  border: 1px solid #68c3a3
-  background-color: #c8f7c5
-
-#div-login-msg.error, #div-lost-msg.error, #div-register-msg.error
-  border: 1px solid #eb575b
-  background-color: #ffcad1
-
-#icon-login-msg, #icon-lost-msg, #icon-register-msg
-  width: 30px
-  float: left
-  line-height: 28px
-  text-align: center
-  background-color: #dadfe1
-  margin-right: 5px
-  transition: all ease-in-out 500ms
-
-#icon-login-msg.success, #icon-lost-msg.success, #icon-register-msg.success
-  background-color: #68c3a3 !important
-
-#icon-login-msg.error, #icon-lost-msg.error, #icon-register-msg.error
-  background-color: #eb575b !important
-
-#img_logo
-  max-height: 100px
-  max-width: 100px
-
-.modal-backdrop.in
-  filter: alpha(opacity=50)
-  opacity: .8
-
-.modal-body input
-  border-radius: 10px
-
-.modal-content
-  background-color: #ececec
-  border: 1px solid #bdc3c7
-  border-radius: 0
-  outline: 0
-
-.modal-header
-  min-height: 16.43px
-  padding: 15px 15px 15px 15px
-  border-bottom: 0px
-
-.modal-body
-  position: relative
-  padding: 5px 15px 5px 15px
-
-.modal-footer
-  padding: 15px 15px 15px 15px
-  text-align: left
-  border-top: 0
-
-.checkbox
-  margin-bottom: 0
-
-.btn
-  border-radius: 0
-  color: white
-  &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus
-    outline: none
-
-.standard
-  border-radius: 25px
-  color: white
-  background-color: $primary-color
-  border-color: darken($primary-color, 15%)
-  &:hover
-    background-color: darken($primary-color, 20%)
-
-.standard-red
-  border-radius: 25px
-  color: white
-  background-color: $some-sort-of-red
-  border-color: darken($some-sort-of-red, 15%)
-  &:hover
-    background-color: darken($some-sort-of-red, 20%)
-
-.modal .btn-lg, .btn-group-lg > .btn
-  background-color: $primary-color
-  border-radius: 25px
-  border-color: darken($primary-color, 25%)
-  &:hover
-    background-color: darken($primary-color, 20%)
-
-.btn-link
-  padding: 5px 10px 0 0
-  color: #95a5a6
-  &:hover, &:focus
-    color: #2c3e50
-    text-decoration: none
-
-.glyphicon
-  top: 0
-
-.form-control
-  border-radius: 0
-//End Modal Styles
-
-#icon-login-msg, #icon-lost-msg, #icon-register-msg
-  border-radius: 25px
-
-#div-login-msg, #div-register-msg, #div-lost-msg
-  background-color: white
-  opacity: 0.7
-  margin-bottom: 25px
-  border-radius: 15px
-
-.modal-content
-  padding: 15px
-
-.center
-  display: block
-  margin: 0 auto
-  text-align: center
-
-.logo
-  background: url("../images/cloud.png")
-  background-size: cover
-  width: 50px
-  height: 50px
-  float: left
-  display: inline-block
-  padding: 10px
-  margin-top: 20px
-  margin-left: 15px
-
-//Temporary Fix For Manage Buttons
-.valign
-  margin-top: 20px
+    padding: 18px
+    margin: 0
+    border-radius: 0
+    background-color: $secondary-color
+  /* Search
+  #search .panel-body .navbar-form
+    border-bottom: 0
+    .form-group
+      margin: 0
+  .navbar-header
+    /* this is probably redundant
+    position: fixed
+    z-index: 3
+    background-color: $secondary-color
+  /* Dropdown tweek
+  #dropdown .panel-body .navbar-nav
+    margin: 0

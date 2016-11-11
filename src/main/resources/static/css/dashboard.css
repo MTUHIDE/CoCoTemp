@@ -1,48 +1,62 @@
 body {
-  background: #e3e3e3; }
+    background: #e3e3e3;
+    overflow-y: auto;
+}
 
 .bottom {
-  margin: 0 auto;
-  z-index: 666;
-  position: absolute;
-  background-color: white;
-  bottom: 0;
-  left: 240px;
-  overflow: auto;
-  text-overflow: ellipsis;
-  padding: 10px; }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .bottom {
-      left: 0;
-      padding-left: 50px;
-      padding-top: 5px;
-      width: 100vw;
-      height: auto; } }
-
-.welcomeLine {
-  text-align: center;
-  padding-bottom: 10px;
-  color: white;
-  display: inline-block;
-  width: 100%; }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .welcomeLine {
-      margin-top: 25px;
-      float: left; } }
+    margin: 0 auto;
+    z-index: 666;
+    position: absolute;
+    background-color: white;
+    bottom: 0;
+    left: 240px;
+    overflow: auto;
+    text-overflow: ellipsis;
+    padding: 10px;
+}
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .navbar-brand {
-    width: auto; } }
+    .bottom {
+        left: 0;
+        padding-left: 50px;
+        padding-top: 5px;
+        width: 100vw;
+        height: auto;
+    }
+}
+
+.welcomeLine {
+    text-align: center;
+    padding-bottom: 10px;
+    color: white;
+    display: inline-block;
+    width: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .welcomeLine {
+        margin-top: 25px;
+        float: left;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-brand {
+        width: auto;
+    }
+}
 
 .temperature-header {
-  margin-top: 0;
-  margin-bottom: 0; }
+    margin-top: 0;
+    margin-bottom: 0;
+}
 
 hr {
-  margin: 5px 0 5px 0; }
+    margin: 5px 0 5px 0;
+}
 
 .well {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    background-color: white;
+}
 
 /*# sourceMappingURL=dashboard.css.map */

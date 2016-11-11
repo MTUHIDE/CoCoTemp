@@ -1,10 +1,14 @@
 package space.hideaway.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * HIDE CoCoTemp 2016
- *
+ * <p>
  * JPA model for user devices. Used for representing SQL table data in POJO format. Also responsible for
  * mapping SQL table columns to their respective class fields.
  *
@@ -17,28 +21,38 @@ public class Device {
     /**
      * The ID of the device, generated sequentially by the database.
      */
-    private Long id;
+    private UUID id;
 
     /**
      * The ID of the device owner.
      */
     private Long userId;
 
-
     private String deviceName;
-    private String deviceLocation;
+
+    private double deviceLatitude;
+
+    private double deviceLongitude;
+
+    private Set<Data> dataSet;
+
 
     /**
-     * The unique id of the device.
-     * TODO: decide how to calculate this value in a way that is scalable and efficient.
+     * Instantiates a new Device.
+     *
+     * @param deviceName      the device name
+     * @param deviceLatitude  the device latitude
+     * @param deviceLongitude the device longitude
      */
-    private String deviceUUID;
-
-    public Device(String deviceName, String deviceLocation) {
+    public Device(String deviceName, double deviceLatitude, double deviceLongitude) {
         this.deviceName = deviceName;
-        this.deviceLocation = deviceLocation;
+        this.deviceLatitude = deviceLatitude;
+        this.deviceLongitude = deviceLongitude;
     }
 
+    /**
+     * Instantiates a new Device.
+     */
     public Device() {
     }
 
@@ -48,10 +62,11 @@ public class Device {
      *
      * @return The ID of the user.
      */
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -60,7 +75,7 @@ public class Device {
      *
      * @param id The new ID for this device.
      */
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -94,6 +109,7 @@ public class Device {
         return deviceName;
     }
 
+
     /**
      * Set the name of this device. Possible use is device rename.
      *
@@ -109,37 +125,66 @@ public class Device {
      *
      * @return The string representation of the location of this device.
      */
-    @Column(name = "device_location")
-    public String getDeviceLocation() {
-        return deviceLocation;
+    @Column(name = "device_latitude")
+    public double getDeviceLatitude() {
+        return deviceLatitude;
     }
 
     /**
      * Set the string representation of the location of this device.
      *
-     * @param deviceLocation The new location of this device.
+     * @param deviceLatitude The new location of this device.
      */
-    public void setDeviceLocation(String deviceLocation) {
-        this.deviceLocation = deviceLocation;
+    public void setDeviceLatitude(double deviceLatitude) {
+        this.deviceLatitude = deviceLatitude;
+    }
+
+
+    /**
+     * Gets device longitude.
+     *
+     * @return the device longitude
+     */
+    @Column(name = "device_longitude")
+    public double getDeviceLongitude() {
+        return deviceLongitude;
     }
 
     /**
-     * Get the unique ID of this device.
+     * Sets device longitude.
      *
-     * @return The unique ID of this device.
+     * @param deviceLongitude the device longitude
      */
-    @Column(name = "device_uuid")
-    public String getDeviceUUID() {
-        return deviceUUID;
+    public void setDeviceLongitude(double deviceLongitude) {
+        this.deviceLongitude = deviceLongitude;
     }
 
     /**
-     * Set the unique ID of this device.
+     * Gets data set.
      *
-     * @param deviceUUID THe new unique ID of this device.
+     * @return the data set
      */
-    public void setDeviceUUID(String deviceUUID) {
-        this.deviceUUID = deviceUUID;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id")
+    public Set<Data> getDataSet() {
+        return dataSet;
     }
 
+    /**
+     * Sets data set.
+     *
+     * @param dataSet the data set
+     */
+    public void setDataSet(Set<Data> dataSet) {
+        this.dataSet = dataSet;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Device: [ID: %s Name: %s Location: %s]%n",
+                getId(),
+                getDeviceName(),
+                getDeviceLatitude());
+    }
 }

@@ -1,6 +1,9 @@
 package space.hideaway.services;
 
+import space.hideaway.model.Data;
 import space.hideaway.model.Device;
+
+import java.util.List;
 
 public interface DeviceService {
 
@@ -11,4 +14,8 @@ public interface DeviceService {
      * @return A JSON representation of the status of the addition.
      */
     String save(Device device);
+
+    Device findByKey(String deviceKey);
+
+    List<Device> getAllDevices();
 }

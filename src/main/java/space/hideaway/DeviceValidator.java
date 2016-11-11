@@ -19,7 +19,7 @@ public class DeviceValidator {
     /**
      * The Spring environment.
      */
-    @Autowired
+    private final
     Environment environment;
 
     /**
@@ -32,8 +32,10 @@ public class DeviceValidator {
      */
     private ArrayList<String> errors;
 
-    public DeviceValidator() {
+    @Autowired
+    public DeviceValidator(Environment environment) {
         this.errors = new ArrayList<>();
+        this.environment = environment;
     }
 
     /**
@@ -52,7 +54,7 @@ public class DeviceValidator {
         this.errors = new ArrayList<>();
 
         //TODO check if device with same name already exists.
-        if (device.getDeviceName().isEmpty() || device.getDeviceLocation().isEmpty()) {
+        if (device.getDeviceName().isEmpty() || device.getDeviceLatitude() == 0) {
             hasError = true;
             errors.add(environment.getProperty("Fields.empty"));
         } else if (device.getDeviceName().length() > 27) {
@@ -73,6 +75,7 @@ public class DeviceValidator {
 
     /**
      * Get the list of errors this device contains.
+     *
      * @return A list of errors, or empty if the device has no errors.
      */
     public ArrayList<String> getErrors() {
