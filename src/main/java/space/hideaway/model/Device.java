@@ -164,7 +164,7 @@ public class Device {
      *
      * @return the data set
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     public Set<Data> getDataSet() {
         return dataSet;

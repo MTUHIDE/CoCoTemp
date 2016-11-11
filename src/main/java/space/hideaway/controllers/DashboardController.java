@@ -62,8 +62,7 @@ public class DashboardController {
         try {
             User user = userServiceImplementation.findByUsername(securityServiceImplementation.findLoggedInUsername());
             model.addAttribute("devices", user.getDeviceSet());
-            model.addAttribute("records", dashboardServiceImplementation.getNumberOfRecords(user));
-            model.addAttribute("data", dashboardServiceImplementation.getAllData(user));
+            model.addAttribute("dashboardServiceImplementation", dashboardServiceImplementation);
             model.addAttribute("temperatureUnit", temperatureUnit);
         } catch (UserNotFoundException e) {
             logger.error("The user was not found when loading the dashboard page.", e);

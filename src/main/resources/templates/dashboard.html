@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <div class="list-group">
                         <button type="button" class="list-group-item">Cras justo odio</button>
                         <button type="button" class="list-group-item">Dapibus ac facilisis in</button>
@@ -118,46 +118,29 @@
 
                         <!-- List group -->
                         <ul class="list-group">
-                            <li class="list-group-item">
-                                <div>
-                                    <h5 style="display: inline-block">Device Name <br/>
-                                        <small>Last updated 4 hours ago.</small>
-                                    </h5>
-                                    <h3 class="pull-right">56&deg; F</h3>
-                                    <span class="label label-danger">Error</span>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <h5 style="display: inline-block">Device Name <br/>
-                                        <small>Last updated 4 hours ago.</small>
-                                    </h5>
-                                    <h3 class="pull-right">56&deg; F</h3>
-                                    <span class="label label-danger">Error</span>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <h5 style="display: inline-block">Device Name <br/>
-                                        <small>Last updated 4 hours ago.</small>
-                                    </h5>
-                                    <h3 class="pull-right">56&deg; F</h3>
-                                    <span class="label label-danger">Error</span>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <h5 style="display: inline-block">Device Name <br/>
-                                        <small>Last updated 4 hours ago.</small>
-                                    </h5>
-                                    <h3 class="pull-right">56&deg; F</h3>
-                                    <span class="label label-danger">Error</span>
+                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+                            <li th:each="device : ${devices}" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <h4 th:text="*{device.getDeviceName()}" style="display: inline-block">
+                                        </h4>
+                                        <br/>
+                                        <p style="display: inline-block; font-style: italic">Last updated 5 hours
+                                            ago.</p>
+                                        <!--/*@thymesVar id="dashboardServiceImplementation" type="space.hideaway.services.DashboardServiceImplementation"*/-->
+                                        <span class="label label-danger">Error</span>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <h3 th:text="*{dashboardServiceImplementation.getLastRecording(device).getTemperature() != -99999}
+                                         ? *{dashboardServiceImplementation.getLastRecording(device).getTemperature()}
+                                                   : ''"></h3>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-10">
+                <div class="col-lg-9">
 
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -174,13 +157,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="d : ${data}">
-                                    <td th:text="*{d.getDateTime()}"></td>
-                                    <td th:text="*{d.getDevice().getDeviceName()}"></td>
-                                    <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
-                                d.getDevice().getDeviceLongitude()}"></td>
-                                    <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
-                                </tr>
+                                <!--<tr th:each="d : ${data}">-->
+                                    <!--<td th:text="*{d.getDateTime()}"></td>-->
+                                    <!--<td th:text="*{d.getDevice().getDeviceName()}"></td>-->
+                                    <!--<td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +-->
+                                <!--d.getDevice().getDeviceLongitude()}"></td>-->
+                                    <!--<td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>-->
+                                <!--</tr>-->
                                 </tbody>
                             </table>
                         </div>

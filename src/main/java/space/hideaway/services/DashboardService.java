@@ -1,6 +1,7 @@
 package space.hideaway.services;
 
 import space.hideaway.model.Data;
+import space.hideaway.model.Device;
 import space.hideaway.model.User;
 
 import java.util.Set;
@@ -10,6 +11,8 @@ import java.util.Set;
  */
 public interface DashboardService {
     Set<Data> getAllData(User user);
+
+    Data getLastRecording(Device device);
 
     Data getMaxRecording(User user);
 
