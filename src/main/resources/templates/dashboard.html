@@ -105,11 +105,10 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="list-group">
-                        <button type="button" class="list-group-item">Cras justo odio</button>
-                        <button type="button" class="list-group-item">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item">Morbi leo risus</button>
-                        <button type="button" class="list-group-item">Porta ac consectetur ac</button>
-                        <button type="button" class="list-group-item">Vestibulum at eros</button>
+                        <button type="button" class="list-group-item">Upload data</button>
+                        <button type="button" class="list-group-item">Compare with other stations</button>
+                        <button type="button" class="list-group-item">Edit devices and settings</button>
+
                     </div>
                     <div class="panel panel-default">
                         <!-- Default panel contents -->
@@ -151,20 +150,11 @@
                                 <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Station</th>
-                                    <th>Location</th>
+                                    <!--<th>Device Name</th>-->
+                                    <!--<th>Device Location</th>-->
                                     <th>Temperature</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr th:each="d : ${data}">
-                                    <td th:text="*{d.getDateTime()}"></td>
-                                    <td th:text="*{d.getDevice().getDeviceName()}"></td>
-                                    <td th:text="*{d.getDevice().getDeviceLatitude() + ' ' +
-                                d.getDevice().getDeviceLongitude()}"></td>
-                                    <td th:text="*{d.getTemperature() + '&deg; ' + temperatureUnit}"></td>
-                                </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -180,9 +170,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script th:src="@{/js/spring-friendly.js}"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<script th:src="@{/js/dashboard.js}" rel="script"></script>
+<script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

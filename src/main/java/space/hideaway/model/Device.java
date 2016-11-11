@@ -28,10 +28,10 @@ public class Device {
      */
     private Long userId;
 
-
     private String deviceName;
 
     private double deviceLatitude;
+
     private double deviceLongitude;
 
     private Set<Data> dataSet;

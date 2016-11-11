@@ -45,7 +45,13 @@ jQuery(document).ready(function () {
         }
     });
     $('#temperature-table').DataTable({
-        "order": [[0, "desc"]]
+        'ajax': '/dataPoints.json',
+        'serverSide': true,
+        columns: [{
+            data: 'dateTime'
+        }, {
+            data: 'temperature'
+        }]
     });
     var ctx = $('#temperature-chart');
     var chart = new Chart(ctx, {
