@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
+import space.hideaway.model.User;
 import space.hideaway.repositories.DataRepository;
 
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -86,5 +88,10 @@ public class DataServiceImplementation implements DataService {
             return new Data(null, null, null, -99999);
         }
 
+    }
+
+    @Override
+    public Set<Data> getAllData(User user) {
+        return dataRepository.findByUserID(user.getId());
     }
 }

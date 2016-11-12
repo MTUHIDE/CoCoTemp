@@ -23,6 +23,12 @@ public class Data {
     private UUID id;
 
     @CsvIgnore
+    private int userID;
+
+    @CsvIgnore
+    private User user;
+
+    @CsvIgnore
     private UUID deviceID;
 
     @CsvIgnore
@@ -172,4 +178,22 @@ public class Data {
         );
     }
 
+    @Column(name = "user_id")
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

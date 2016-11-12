@@ -7,10 +7,6 @@ import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by dough on 11/1/2016.
  */
@@ -23,15 +19,6 @@ public class DashboardServiceImplementation implements DashboardService {
     @Autowired
     private DataService dataService;
 
-    @Override
-    public Set<Data> getAllData(User user) {
-        ArrayList<Device> devices = new ArrayList<>(user.getDeviceSet());
-        ArrayList<Data> data = new ArrayList<>();
-        for (Device device : devices) {
-            data.addAll(device.getDataSet());
-        }
-        return new HashSet<>(data);
-    }
 
     @Override
     public Data getLastRecording(Device device) {

@@ -118,21 +118,19 @@
                         <!-- List group -->
                         <ul class="list-group">
                             <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <li th:each="device : ${devices}" class="list-group-item">
+                            <li th:each="device : ${#lists.sort(devices, devicesComparator)}" class="list-group-item">
                                 <div class="row">
-                                    <div class="col-lg-9">
-                                        <h4 th:text="*{device.getDeviceName()}" style="display: inline-block">
-                                        </h4>
+                                    <div class="col-lg-12">
+                                        <h5 th:inline="text" style="display: inline-block">
+                                            [[${device.getDeviceName()}]] <br/>
+                                            <small th:inline="text"> Last updated 5 hours ago.</small>
+                                        </h5>
+                                        <h3 style="display: inline-block;" class="pull-right" th:text="*{dashboardServiceImplementation.getLastRecording(device).getTemperature() != -99999}
+                                         ? *{dashboardServiceImplementation.getLastRecording(device).getTemperature()}
+                                                   : '69&deg;'"></h3>
                                         <br/>
-                                        <p style="display: inline-block; font-style: italic">Last updated 5 hours
-                                            ago.</p>
                                         <!--/*@thymesVar id="dashboardServiceImplementation" type="space.hideaway.services.DashboardServiceImplementation"*/-->
                                         <span class="label label-danger">Error</span>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <h3 th:text="*{dashboardServiceImplementation.getLastRecording(device).getTemperature() != -99999}
-                                         ? *{dashboardServiceImplementation.getLastRecording(device).getTemperature()}
-                                                   : ''"></h3>
                                     </div>
                                 </div>
                             </li>

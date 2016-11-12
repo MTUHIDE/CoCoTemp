@@ -4,13 +4,10 @@ import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 
-import java.util.Set;
-
 /**
  * Created by dough on 11/1/2016.
  */
 public interface DashboardService {
-    Set<Data> getAllData(User user);
 
     Data getLastRecording(Device device);
 
