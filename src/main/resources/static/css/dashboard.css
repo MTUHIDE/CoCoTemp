@@ -59,4 +59,8 @@ hr {
     background-color: white;
 }
 
+.right-content {
+    border-left: 1px #95a5a6 solid;
+}
+
 /*# sourceMappingURL=dashboard.css.map */
