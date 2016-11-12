@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Device;
 import space.hideaway.services.DeviceServiceImplementation;
 
+import java.util.UUID;
+
 /**
  * HIDE CoCoTemp 2016
  * Class responsible for routing requests relating to CRUD operations on devices.
@@ -26,7 +28,10 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/device/{deviceID}")
-    public String showDevice(Model model, @PathVariable(value = "deviceID") String deviceID) {
+    public String showDevice(Model model, @PathVariable(value = "deviceID") UUID deviceID) {
+        Device device = deviceServiceImplementation.findByKey(deviceID.toString());
+        model.addAttribute("device", device);
+        model.addAttribute("deviceID", deviceID.toString());
         return "station";
     }
 

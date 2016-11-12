@@ -51,6 +51,7 @@ public class SecurityServiceImplementation implements SecurityService {
         return userDetails.getName();
     }
 
+
     /**
      * Automatically login user after registration.
      *

@@ -45,7 +45,7 @@ jQuery(document).ready(function () {
         }
     });
     $('#temperature-table').DataTable({
-        'ajax': '/dataPoints.json',
+        'ajax': '/data',
         'serverSide': true,
         responsive: true,
         columns: [{

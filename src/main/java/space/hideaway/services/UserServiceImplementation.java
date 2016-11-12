@@ -36,11 +36,15 @@ public class UserServiceImplementation implements UserService {
      */
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final SecurityServiceImplementation securityServiceImplementation;
+
     @Autowired
-    public UserServiceImplementation(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+    public UserServiceImplementation(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
+                                     SecurityServiceImplementation securityServiceImplementation) {
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
+        this.securityServiceImplementation = securityServiceImplementation;
     }
 
     /**
@@ -72,6 +76,15 @@ public class UserServiceImplementation implements UserService {
         } else {
             return user;
         }
+    }
+
+    public User getCurrentLoggedInUser() {
+        try {
+            return findByUsername(securityServiceImplementation.findLoggedInUsername());
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
