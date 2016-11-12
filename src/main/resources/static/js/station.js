@@ -28,7 +28,11 @@ jQuery(document).ready(function () {
         'serverSide': true,
         responsive: true,
         columns: [{
-            data: 'dateTime'
+            data: 'dateTime',
+            render: function (data) {
+                var day = moment(data);
+                return day.format('YYYY-MM-DD HH:mm:ss');
+            }
         }, {
             data: 'temperature'
         }]
