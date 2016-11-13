@@ -60,6 +60,7 @@ public class DataServiceImplementation implements DataService {
                 session.flush();
                 session.clear();
             }
+            System.out.println(i);
         }
         transaction.commit();
         session.close();
