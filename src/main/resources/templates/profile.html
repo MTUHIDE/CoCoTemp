@@ -58,8 +58,9 @@
             <div class="side-menu-container">
                 <ul class="nav navbar-nav">
 
-                    <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                    <li class="active"><a href="#"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>
+                    <li><a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li class="active"><a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My
+                        Dashboard</a>
                     </li>
 
                     <!-- Dropdown-->
@@ -72,15 +73,15 @@
                         <div id="dropdown-lvl1" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#">Temperature Reports</a></li>
+                                    <li><a th:href="@{/reports/temperature}">Temperature Reports</a></li>
 
                                 </ul>
                             </div>
                         </div>
                     </li>
 
-                    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
-                    <li><a href="#"><span class="glyphicon "></span> About</a></li>
+                    <li><a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
+                    <li><a th:href="@{/about}"><span class="glyphicon "></span> About</a></li>
 
                 </ul>
             </div><!-- /.navbar-collapse -->

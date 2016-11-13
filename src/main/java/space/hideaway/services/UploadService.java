@@ -68,6 +68,7 @@ public class UploadService {
             try (Reader reader = new FileReader(convertedFile)) {
                 CsvClient<Data> csvClient = new CsvClientImpl<>(reader, Data.class);
                 final List<Data> dataList = csvClient.readBeans();
+
                 UUID id = deviceServiceImplementation.findByKey(deviceKey).getId();
                 for (Data data : dataList) {
                     data.setUserID(Math.toIntExact(byUsername));

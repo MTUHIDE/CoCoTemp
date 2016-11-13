@@ -58,8 +58,9 @@
             <div class="side-menu-container">
                 <ul class="nav navbar-nav">
 
-                    <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                    <li class="active"><a href="#"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>
+                    <li><a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li class="active"><a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My
+                        Dashboard</a>
                     </li>
 
                     <!-- Dropdown-->
@@ -72,15 +73,15 @@
                         <div id="dropdown-lvl1" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#">Temperature Reports</a></li>
+                                    <li><a th:href="@{/reports/temperature}">Temperature Reports</a></li>
 
                                 </ul>
                             </div>
                         </div>
                     </li>
 
-                    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
-                    <li><a href="#"><span class="glyphicon "></span> About</a></li>
+                    <li><a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
+                    <li><a th:href="@{/about}"><span class="glyphicon "></span> About</a></li>
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -123,9 +124,9 @@
                                                 [[${device.getDeviceName()}]] <br/>
                                                 <small th:inline="text"> Last updated 5 hours ago.</small>
                                             </h5>
-                                            <h3 style="display: inline-block;" class="pull-right" th:text="*{dashboardServiceImplementation.getLastRecording(device).getTemperature() != -99999}
-                                         ? *{dashboardServiceImplementation.getLastRecording(device).getTemperature()}
-                                                   : '~&deg;'"></h3>
+                                            <button style="display: inline-block;" class="pull-right btn btn-default">
+                                                Edit
+                                            </button>
                                             <br/>
                                             <!--/*@thymesVar id="dashboardServiceImplementation" type="space.hideaway.services.DashboardServiceImplementation"*/-->
                                             <span style="display: none;" class="label label-danger">Error</span>

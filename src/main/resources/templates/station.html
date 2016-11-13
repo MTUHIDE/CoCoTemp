@@ -109,27 +109,26 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="list-group">
-                        <button type="button" class="list-group-item">Compare with other stations</button>
 
-                    </div>
-
-                </div>
-                <div class="col-lg-9">
+                <div class="col-lg-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Station</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                                 <h4 th:inline="text">[[${device.getDeviceName()}]]<br/>
                                     <small>Last update 5 hours ago</small>
                                 </h4>
+                                <div class="list-group">
+                                    <button type="button" class="list-group-item">Compare with other stations</button>
+                                    <button type="button" class="list-group-item">Edit device</button>
+                                </div>
                             </div>
-                            <div class="col-lg-4 right-content">
+
+                            <div class="col-lg-5 right-content">
                                 <table class="table" id="vertical-1">
-                                    <!--<caption>Statistics</caption>-->
+                                    <caption>Statistics</caption>
                                     <tr>
                                         <th>Average</th>
                                         <td>~&deg;</td>
@@ -149,7 +148,7 @@
                                 </table>
 
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div id="map"></div>
                             </div>
                         </div>
