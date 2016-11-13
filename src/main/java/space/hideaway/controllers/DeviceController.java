@@ -2,12 +2,12 @@ package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Device;
 import space.hideaway.services.DeviceServiceImplementation;
+
+import java.util.UUID;
 
 /**
  * HIDE CoCoTemp 2016
@@ -24,6 +24,15 @@ public class DeviceController {
     @Autowired
     public DeviceController(DeviceServiceImplementation deviceServiceImplementation) {
         this.deviceServiceImplementation = deviceServiceImplementation;
+    }
+
+
+    @RequestMapping(value = "/device/{deviceID}")
+    public String showDevice(Model model, @PathVariable(value = "deviceID") UUID deviceID) {
+        Device device = deviceServiceImplementation.findByKey(deviceID.toString());
+        model.addAttribute("device", device);
+        model.addAttribute("deviceID", deviceID.toString());
+        return "station";
     }
 
     /**

@@ -7,10 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.UserNotFoundException;
+import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DashboardServiceImplementation;
+import space.hideaway.services.DataServiceImplementation;
 import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
+
+import java.util.Comparator;
+import java.util.Set;
 
 /**
  * HIDE CoCoTemp 2016
@@ -35,6 +40,8 @@ public class DashboardController {
      */
     private final SecurityServiceImplementation securityServiceImplementation;
 
+    private final DataServiceImplementation dataServiceImplementation;
+
     /**
      * Set the default temperature unit for display.
      */
@@ -47,10 +54,11 @@ public class DashboardController {
     private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DashboardController(UserServiceImplementation userServiceImplementation, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation) {
+    public DashboardController(UserServiceImplementation userServiceImplementation, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
         this.userServiceImplementation = userServiceImplementation;
         this.dashboardServiceImplementation = dashboardServiceImplementation;
         this.securityServiceImplementation = securityServiceImplementation;
+        this.dataServiceImplementation = dataServiceImplementation;
     }
 
     /**
@@ -61,9 +69,11 @@ public class DashboardController {
     public String dashboard(Model model) {
         try {
             User user = userServiceImplementation.findByUsername(securityServiceImplementation.findLoggedInUsername());
-            model.addAttribute("devices", user.getDeviceSet());
-            model.addAttribute("records", dashboardServiceImplementation.getNumberOfRecords(user));
-            model.addAttribute("data", dashboardServiceImplementation.getAllData(user));
+            Set<Device> deviceSet = user.getDeviceSet();
+
+            model.addAttribute("devicesComparator", (Comparator<Device>) (o1, o2) -> o1.getDeviceName().compareTo(o2.getDeviceName()));
+            model.addAttribute("devices", deviceSet);
+            model.addAttribute("dashboardServiceImplementation", dashboardServiceImplementation);
             model.addAttribute("temperatureUnit", temperatureUnit);
         } catch (UserNotFoundException e) {
             logger.error("The user was not found when loading the dashboard page.", e);

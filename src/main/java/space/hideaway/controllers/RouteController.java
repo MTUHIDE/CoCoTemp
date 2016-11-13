@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.UserNotFoundException;
 import space.hideaway.model.User;
+import space.hideaway.services.DashboardServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
 
 /**
@@ -23,6 +24,8 @@ public class RouteController {
     private final
     UserServiceImplementation userServiceImplementation;
     Logger logger = Logger.getLogger(getClass());
+    @Autowired
+    private DashboardServiceImplementation dashboardServiceImplementation;
 
     @Autowired
     public RouteController(UserServiceImplementation userServiceImplementation) {
@@ -46,15 +49,21 @@ public class RouteController {
         return "appLogin";
     }
 
-    @GetMapping("/manage")
-    public String manage(Model model) {
+    @GetMapping("/settings/profile")
+    public String profile(Model model) {
+        return "profile";
+    }
+
+    @GetMapping("/settings/devices")
+    public String devices(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             model.addAttribute("deviceList", userServiceImplementation.getDevices(authentication.getName()));
+            model.addAttribute("dashboardServiceImplementation", dashboardServiceImplementation);
         } catch (UserNotFoundException e) {
-            logger.error("The user was not found when loading the manage page.", e);
+            logger.error("The user was not found when loading the devices page.", e);
         }
-        return "manage";
+        return "devices";
     }
 
     @GetMapping("/contact")

@@ -25,6 +25,18 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-core</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.darrachequesne</groupId>
+            <artifactId>spring-data-jpa-datatables</artifactId>
+            <version>2.6</version>
+        </dependency>
         <dependency>
             <groupId>de.grundid.opendatalab</groupId>
             <artifactId>geojson-jackson</artifactId>
@@ -38,9 +50,24 @@
         </dependency>
 
         <dependency>
-            <groupId>org.csveed</groupId>
-            <artifactId>csveed</artifactId>
-            <version>0.4.1</version>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv-dozer</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv-joda</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv-java8</artifactId>
+            <version>2.4.0</version>
         </dependency>
 
         <dependency>

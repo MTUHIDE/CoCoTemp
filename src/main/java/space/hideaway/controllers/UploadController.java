@@ -25,6 +25,7 @@ public class UploadController {
         this.uploadService = uploadService;
     }
 
+
     /**
      * API for inserting a file into the database. Returns the status in
      * JSON format.
@@ -48,9 +49,8 @@ public class UploadController {
     @ResponseBody
     String uploadFile(
             @PathVariable(value = "deviceKey") String deviceKey,
-            @RequestParam(value = "file", required = false) MultipartFile file
+            @RequestParam(value = "file") MultipartFile file
     ) {
-
         return uploadService.setMultipartFile(file).parseFile(deviceKey);
     }
 

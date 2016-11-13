@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.datatables.repository.DataTablesRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -29,7 +30,7 @@ import java.util.concurrent.Executor;
         DataSourceTransactionManagerAutoConfiguration.class,
         SecurityAutoConfiguration.class})
 @ComponentScan(basePackages = {"space"})
-@EnableJpaRepositories(basePackages = {"space"})
+@EnableJpaRepositories(basePackages = {"space"}, repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class)
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")
 @PropertySource("classpath:/spring/application.properties")

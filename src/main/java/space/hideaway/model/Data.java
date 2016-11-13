@@ -1,10 +1,8 @@
 package space.hideaway.model;
 
-import org.csveed.annotations.CsvCell;
-import org.csveed.annotations.CsvDate;
-import org.csveed.annotations.CsvFile;
-import org.csveed.annotations.CsvIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,24 +13,24 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "data")
-@CsvFile(separator = ',')
 public class Data {
-    @CsvIgnore
+
     private UUID id;
 
-    @CsvIgnore
+    private int userID;
+
+    private User user;
+
     private UUID deviceID;
 
-    @CsvIgnore
     private Device device;
 
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    @CsvCell(columnName = "dateTime", required = true)
-    @CsvDate(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonView(DataTablesOutput.View.class)
     private Date dateTime;
 
-    @CsvCell(columnName = "temperature", required = true)
+    @JsonView(DataTablesOutput.View.class)
     private double temperature;
 
     /**
@@ -104,7 +102,7 @@ public class Data {
      *
      * @return the device
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
     public Device getDevice() {
         return device;
@@ -168,4 +166,22 @@ public class Data {
         );
     }
 
+    @Column(name = "user_id")
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

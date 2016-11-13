@@ -125,7 +125,7 @@ public class User {
      *
      * @return A set of roles this user has permissions for.
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> getRoleSet() {
         return roleSet;
@@ -145,7 +145,7 @@ public class User {
      *
      * @return A set of devices this user maintains.
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     public Set<Device> getDeviceSet() {
         return deviceSet;

@@ -1,6 +1,3 @@
-/**
- * Created by dough on 10/28/2016.
- */
 jQuery(document).ready(function ($) {
 
     //Initialize location search box.

@@ -8,11 +8,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
+import space.hideaway.model.Device;
+import space.hideaway.model.User;
 import space.hideaway.repositories.DataRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by dough on 11/7/2016.
@@ -50,6 +60,7 @@ public class DataServiceImplementation implements DataService {
                 session.flush();
                 session.clear();
             }
+            System.out.println(i);
         }
         transaction.commit();
         session.close();
@@ -61,5 +72,27 @@ public class DataServiceImplementation implements DataService {
         return dataRepository.getAverageDataForCurrentDay();
     }
 
+    @Override
+    public Data getLastRecording(Device device) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object> query = criteriaBuilder.createQuery();
+        Root<Data> from = query.from(Data.class);
+        ParameterExpression<UUID> parameter = criteriaBuilder.parameter(UUID.class);
+        query.select(from)
+                .where(criteriaBuilder.equal(from.get("deviceID"), parameter))
+                .orderBy(criteriaBuilder.desc(from.get("dateTime")));
+        TypedQuery<Object> finalQuery = entityManager.createQuery(query);
 
+        try {
+            return (Data) finalQuery.setParameter(parameter, device.getId()).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            return new Data(null, null, null, -99999);
+        }
+
+    }
+
+    @Override
+    public Set<Data> getAllData(User user) {
+        return dataRepository.findByUserID(user.getId());
+    }
 }
