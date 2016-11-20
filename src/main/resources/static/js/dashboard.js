@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
+
     $('#upload-form').submit(function (e) {
         e.preventDefault();
-
         var url = "/upload/" + $('#device-select').val();
         var fileInput = $('#file');
         var file;
@@ -14,7 +14,25 @@ jQuery(document).ready(function () {
         var beforeHandler = function () {
 
             }, successHandler = function () {
-
+                $('#close').trigger('click');
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr["success"]("Your data is being uploaded and will be available soon.", "Upload")
             },
             errorHandler = function () {
 
@@ -39,9 +57,7 @@ jQuery(document).ready(function () {
         });
 
         function progressHandlingFunction(e) {
-            if (e.lengthComputable) {
-                $('#progress').attr({value: e.loaded, max: e.total})
-            }
+
         }
     });
     $('#temperature-table').DataTable({

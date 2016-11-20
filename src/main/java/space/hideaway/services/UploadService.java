@@ -69,38 +69,14 @@ public class UploadService {
      * TODO: possible application of multithreading.
      */
     public String parseFile(String deviceKey) {
-
-        Device device = deviceServiceImplementation.findByKey(deviceKey);
-        UUID deviceId = device.getId();
-        Long userId = device.getUserId();
-        ArrayList<Data> dataList = new ArrayList<>();
-        ICsvBeanReader iCsvBeanReader = null;
-        try {
-            iCsvBeanReader = new CsvBeanReader(new FileReader(convertToFile()), CsvPreference.STANDARD_PREFERENCE);
-            final CellProcessor[] cellProcessors = new CellProcessor[]{
-                    new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
-                    new ParseDouble()
-            };
-            final String[] header = iCsvBeanReader.getHeader(true);
-            Data dataBean;
-            while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null) {
-                dataBean.setDeviceID(deviceId);
-                dataBean.setUserID(userId.intValue());
-                dataList.add(dataBean);
-            }
-            dataServiceImplementation.batchSave(dataList);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey)) {
+            Thread fileUploadThread = new Thread(
+                    new FileUploadHandler(deviceServiceImplementation.findByKey(deviceKey), convertToFile())
+            );
+            fileUploadThread.start();
+            return "{status: \"success\"}";
         }
-        if (iCsvBeanReader != null) {
-            try {
-                iCsvBeanReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return "";
+        return "{status: \"failed\", message: \"You do not authorized to edit this device\"}";
     }
 
     private boolean isCorrectUser(User user, String deviceKey) {
@@ -126,4 +102,49 @@ public class UploadService {
         }
         return convertedFile;
     }
+
+    private class FileUploadHandler implements Runnable {
+
+        private final File file;
+        private final Device device;
+
+        FileUploadHandler(Device device, File file) {
+            this.file = file;
+            this.device = device;
+        }
+
+        @Override
+        public void run() {
+            UUID deviceId = device.getId();
+            Long userId = device.getUserId();
+            ArrayList<Data> dataList = new ArrayList<>();
+            ICsvBeanReader iCsvBeanReader = null;
+            try {
+                iCsvBeanReader = new CsvBeanReader(new FileReader(file), CsvPreference.STANDARD_PREFERENCE);
+                final CellProcessor[] cellProcessors = new CellProcessor[]{
+                        new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
+                        new ParseDouble()
+                };
+                final String[] header = iCsvBeanReader.getHeader(true);
+                Data dataBean;
+                while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null) {
+                    dataBean.setDeviceID(deviceId);
+                    dataBean.setUserID(userId.intValue());
+                    dataList.add(dataBean);
+                }
+                dataServiceImplementation.batchSave(dataList);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (iCsvBeanReader != null) {
+                try {
+                    iCsvBeanReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

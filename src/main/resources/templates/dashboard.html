@@ -12,6 +12,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{css/global.css}"/>
     <link rel="stylesheet" th:href="@{css/dashboard.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 </head>
 <body>
 <div class="row">
@@ -105,11 +106,11 @@
                 <div class="modal-body">
                     <h4>Select a device to get started</h4>
                     <p>We'll process it and place it where it needs to go!</p>
-                    <form>
+                    <form id="upload-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>
                                 Device
-                                <select class="selectpicker" data-live-search="true">
+                                <select id="device-select" class="selectpicker" data-live-search="true">
                                     <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
                                     <option th:each="device : ${#lists.sort(devices, devicesComparator)}" data-tokens=""
                                             th:text="${device.getDeviceName()}" th:value="${device.getId()}"></option>
@@ -122,12 +123,12 @@
                         </div>
                         <div class="form-group">
                             <label class="btn btn-default btn-file">
-                                Browse <input type="file" style="display: none;"/>
+                                Browse <input id="file" name="file" type="file" style="display: none;"/>
                             </label>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Upload</button>
+                            <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Upload</button>
                         </div>
                     </form>
                 </div>
@@ -216,6 +217,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script th:src="@{/js/spring-friendly.js}"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
