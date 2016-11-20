@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.services.DashboardServiceImplementation;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 /**
  * UI model for basic static routes that contain no other logic than to display a template.
@@ -22,14 +22,14 @@ import space.hideaway.services.UserServiceImplementation;
 public class RouteController {
 
     private final
-    UserServiceImplementation userServiceImplementation;
+    UserManagementImpl userManagementImpl;
     Logger logger = Logger.getLogger(getClass());
     @Autowired
     private DashboardServiceImplementation dashboardServiceImplementation;
 
     @Autowired
-    public RouteController(UserServiceImplementation userServiceImplementation) {
-        this.userServiceImplementation = userServiceImplementation;
+    public RouteController(UserManagementImpl userManagementImpl) {
+        this.userManagementImpl = userManagementImpl;
     }
 
     @GetMapping({"/", "/home"})
@@ -58,7 +58,7 @@ public class RouteController {
     public String devices(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            model.addAttribute("deviceList", userServiceImplementation.getDevices(authentication.getName()));
+            model.addAttribute("deviceList", userManagementImpl.getDevices(authentication.getName()));
             model.addAttribute("dashboardServiceImplementation", dashboardServiceImplementation);
         } catch (UserNotFoundException e) {
             logger.error("The user was not found when loading the devices page.", e);

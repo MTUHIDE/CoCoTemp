@@ -12,7 +12,7 @@ import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DataServiceImplementation;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,13 +31,13 @@ public class InsertTests {
     @Autowired
     private DataServiceImplementation dataServiceImplementation;
     @Autowired
-    private UserServiceImplementation userServiceImplementation;
+    private UserManagementImpl userManagementImpl;
     private CSVWriter csvWriter;
 
     @Test
     public void timeToInsert() throws UserNotFoundException {
 
-        User testlarge = userServiceImplementation.findByUsername("testlarge");
+        User testlarge = userManagementImpl.findByUsername("testlarge");
         Set<Device> deviceSet = testlarge.getDeviceSet();
         devices = new ArrayList<>(deviceSet);
 

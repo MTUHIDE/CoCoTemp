@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import space.hideaway.model.User;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 /**
  * Created by dough on 11/1/2016.
@@ -21,7 +21,7 @@ public class UserServiceTests {
     public final ExpectedException userNotFoundExpected = ExpectedException.none();
 
     @Autowired
-    UserServiceImplementation userServiceImplementation;
+    UserManagementImpl userManagementImpl;
 
     @Before
     public void setUp() throws Exception {
@@ -38,7 +38,7 @@ public class UserServiceTests {
     @Test
     public void usernameNotFound() throws Exception, UserNotFoundException {
         userNotFoundExpected.expect(UserNotFoundException.class);
-        userServiceImplementation.findByUsername("USER_THAT_DOESNT_EXIST");
+        userManagementImpl.findByUsername("USER_THAT_DOESNT_EXIST");
     }
 
     @Test
@@ -46,7 +46,7 @@ public class UserServiceTests {
         final String TEST_USERNAME = "test";
         User testUser = null;
         try {
-            testUser = userServiceImplementation.findByUsername(TEST_USERNAME);
+            testUser = userManagementImpl.findByUsername(TEST_USERNAME);
         } catch (UserNotFoundException e) {
             Assert.fail("The user wasn't found.");
         }

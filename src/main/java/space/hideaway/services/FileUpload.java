@@ -27,12 +27,12 @@ import java.util.UUID;
  * The class responsible for the parsing and upload of user-data.
  */
 @Service
-public class UploadService {
+public class FileUpload {
 
     @Autowired
     DeviceServiceImplementation deviceServiceImplementation;
     @Autowired
-    UserServiceImplementation userService;
+    UserManagementImpl userService;
     /**
      * The file uploaded by the user.
      */
@@ -40,7 +40,7 @@ public class UploadService {
     @Autowired
     private DataServiceImplementation dataServiceImplementation;
     @Autowired
-    private SecurityService securityService;
+    private Login login;
 
     /**
      * Get the file uploaded by the user.
@@ -57,7 +57,7 @@ public class UploadService {
      * @param multipartFile The new file uploaded by the user.
      * @return The UploadService class for method chaining.
      */
-    public UploadService setMultipartFile(MultipartFile multipartFile) {
+    public FileUpload setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
         return this;
     }

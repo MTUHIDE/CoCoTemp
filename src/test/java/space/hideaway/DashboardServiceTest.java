@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import space.hideaway.model.User;
 import space.hideaway.services.DashboardServiceImplementation;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 /**
  * Created by dough on 11/1/2016.
@@ -20,7 +20,7 @@ import space.hideaway.services.UserServiceImplementation;
 public class DashboardServiceTest {
 
     @Autowired
-    private UserServiceImplementation userServiceImplementation;
+    private UserManagementImpl userManagementImpl;
     @Autowired
     private DashboardServiceImplementation dashboardServiceImplementation;
 
@@ -29,8 +29,8 @@ public class DashboardServiceTest {
 
     @Before
     public void setUp() throws UserNotFoundException {
-        this.testUser = userServiceImplementation.findByUsername("test");
-        this.largeTestUser = userServiceImplementation.findByUsername("testlarge");
+        this.testUser = userManagementImpl.findByUsername("test");
+        this.largeTestUser = userManagementImpl.findByUsername("testlarge");
     }
 
     @Test

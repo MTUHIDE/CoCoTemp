@@ -53,7 +53,7 @@
 
     <!--CUSTOM BEANS_________________________________________________________________________________________________-->
     <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
-    <bean id="securityServiceImplementation" class="space.hideaway.services.SecurityServiceImplementation"/>
+    <bean id="securityServiceImplementation" class="space.hideaway.services.LoginImpl"/>
 
     <!--Bean that runs on startup.-->
     <bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>

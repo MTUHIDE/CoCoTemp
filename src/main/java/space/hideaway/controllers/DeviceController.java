@@ -51,7 +51,7 @@ public class DeviceController {
      * }
      *
      * @param deviceName      The name of the new device.
-     * @param deviceLatitude The latitude location of the new device.
+     * @param deviceLatitude  The latitude location of the new device.
      * @param deviceLongitude The longitude location of the new device.
      * @return A JSON representation of the status.
      */

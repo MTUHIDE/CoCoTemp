@@ -14,7 +14,7 @@ import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DataServiceImplementation;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class DataTests {
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    UserServiceImplementation userServiceImplementation;
+    UserManagementImpl userManagementImpl;
     @Autowired
     DataServiceImplementation dataServiceImplementation;
 
@@ -39,8 +39,8 @@ public class DataTests {
 
     @Before
     public void setUp() throws Exception, UserNotFoundException {
-        this.testUser = userServiceImplementation.findByUsername("test");
-        this.largeTestUser = userServiceImplementation.findByUsername("testlarge");
+        this.testUser = userManagementImpl.findByUsername("test");
+        this.largeTestUser = userManagementImpl.findByUsername("testlarge");
 
     }
 

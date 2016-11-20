@@ -11,8 +11,8 @@ import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DashboardServiceImplementation;
 import space.hideaway.services.DataServiceImplementation;
-import space.hideaway.services.SecurityServiceImplementation;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.LoginImpl;
+import space.hideaway.services.UserManagementImpl;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class DashboardController {
     /**
      * The service responsible for managing CRUD operations on users.
      */
-    private final UserServiceImplementation userServiceImplementation;
+    private final UserManagementImpl userManagementImpl;
     /**
      * The service responsible for various dashboard features.
      */
@@ -38,7 +38,7 @@ public class DashboardController {
     /**
      * The security service for various session operations.
      */
-    private final SecurityServiceImplementation securityServiceImplementation;
+    private final LoginImpl loginImpl;
 
     private final DataServiceImplementation dataServiceImplementation;
 
@@ -54,10 +54,10 @@ public class DashboardController {
     private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DashboardController(UserServiceImplementation userServiceImplementation, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
-        this.userServiceImplementation = userServiceImplementation;
+    public DashboardController(UserManagementImpl userManagementImpl, DashboardServiceImplementation dashboardServiceImplementation, LoginImpl loginImpl, DataServiceImplementation dataServiceImplementation) {
+        this.userManagementImpl = userManagementImpl;
         this.dashboardServiceImplementation = dashboardServiceImplementation;
-        this.securityServiceImplementation = securityServiceImplementation;
+        this.loginImpl = loginImpl;
         this.dataServiceImplementation = dataServiceImplementation;
     }
 
@@ -68,7 +68,7 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         try {
-            User user = userServiceImplementation.findByUsername(securityServiceImplementation.findLoggedInUsername());
+            User user = userManagementImpl.findByUsername(loginImpl.findLoggedInUsername());
             Set<Device> deviceSet = user.getDeviceSet();
 
             model.addAttribute("devicesComparator", (Comparator<Device>) (o1, o2) -> o1.getDeviceName().compareTo(o2.getDeviceName()));

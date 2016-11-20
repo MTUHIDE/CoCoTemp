@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Piper Dougherty
  */
 @Service
-public class SecurityServiceImplementation implements SecurityService {
+public class LoginImpl implements Login {
 
     /**
      * The service responsible for obtaining a user from the database by username.
@@ -33,7 +33,7 @@ public class SecurityServiceImplementation implements SecurityService {
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public SecurityServiceImplementation(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
+    public LoginImpl(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
         this.authenticationManager = authenticationManager;
         this.userDetailsServiceImplementation = userDetailsServiceImplementation;
     }
@@ -41,7 +41,6 @@ public class SecurityServiceImplementation implements SecurityService {
     /**
      * Obtain the currently logged in user from the Spring security context.
      * <p>
-     * TODO: if this method returns null if nobody is logged in, it may break things. Fix it.
      *
      * @return The username of the currently logged in user, or null if there is no logged in user.
      */

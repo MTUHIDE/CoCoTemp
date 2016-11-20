@@ -7,8 +7,9 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Data;
 import space.hideaway.repositories.DataRepository;
+import space.hideaway.services.DashboardServiceImplementation;
 import space.hideaway.services.RESTService;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -33,7 +34,10 @@ public class RESTController {
     DataRepository dataRepository;
 
     @Autowired
-    UserServiceImplementation userServiceImplementation;
+    UserManagementImpl userManagementImpl;
+
+    @Autowired
+    DashboardServiceImplementation dashboardServiceImplementation;
 
     /**
      * Obtain a GEOJson formatted JSON structure with a single point for each device, so long
@@ -59,7 +63,15 @@ public class RESTController {
     @JsonView(DataTablesOutput.View.class)
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     public DataTablesOutput<Data> getData(@Valid DataTablesInput dataTablesInput) {
-        return dataRepository.findAll(dataTablesInput, null, (root, query, cb) -> cb.equal(root.get("userID"), userServiceImplementation.getCurrentLoggedInUser().getId()));
+        return dataRepository.findAll(dataTablesInput, null, (root, query, cb) -> cb.equal(root.get("userID"), userManagementImpl.getCurrentLoggedInUser().getId()));
+    }
+
+    @RequestMapping(value = "/statistics.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String statistics(@RequestParam String deviceKey) {
+
+        return restService.getDeviceJSON(deviceKey);
     }
 
 }

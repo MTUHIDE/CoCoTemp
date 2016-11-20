@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import space.hideaway.UserValidator;
 import space.hideaway.model.User;
-import space.hideaway.services.SecurityServiceImplementation;
-import space.hideaway.services.UserService;
+import space.hideaway.services.LoginImpl;
+import space.hideaway.services.UserManagement;
 
 /**
  * HIDE CoCoTemp 2016
@@ -24,13 +24,13 @@ public class RegisterController {
     /**
      * The service responsible for obtaining and performing operations on user-accounts.
      */
-    private final UserService userService;
+    private final UserManagement userManagement;
 
     /**
      * The application security service responsible for handling operations
      * relating to authenticating a user.
      */
-    private final SecurityServiceImplementation securityService;
+    private final LoginImpl securityService;
 
     /**
      * The component responsible for validating the current properties
@@ -39,10 +39,10 @@ public class RegisterController {
     private final UserValidator userValidator;
 
     @Autowired
-    public RegisterController(SecurityServiceImplementation securityService, UserValidator userValidator, UserService userService) {
+    public RegisterController(LoginImpl securityService, UserValidator userValidator, UserManagement userManagement) {
         this.securityService = securityService;
         this.userValidator = userValidator;
-        this.userService = userService;
+        this.userManagement = userManagement;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -83,7 +83,7 @@ public class RegisterController {
         }
 
         //Save the newly created user to the database!
-        userService.save(userForm);
+        userManagement.save(userForm);
 
         //A helpful method to automatically login the new user.
         securityService.autoLogin(username, password);

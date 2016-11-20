@@ -21,18 +21,24 @@ import java.util.UUID;
 @Service
 public class DeviceServiceImplementation implements DeviceService {
 
-    private final UserServiceImplementation userServiceImplementation;
-    private final SecurityServiceImplementation securityServiceImplementation;
+    private final UserManagementImpl userManagementImpl;
+    private final LoginImpl loginImpl;
     private final DeviceRepository deviceRepository;
     private final DeviceValidator deviceValidator;
+    private final DataService dataService;
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DeviceServiceImplementation(DeviceValidator deviceValidator, UserServiceImplementation userServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
+    public DeviceServiceImplementation(DataService dataService, DeviceValidator deviceValidator, UserManagementImpl userManagementImpl, LoginImpl loginImpl, DeviceRepository deviceRepository) {
+        this.dataService = dataService;
         this.deviceValidator = deviceValidator;
-        this.userServiceImplementation = userServiceImplementation;
-        this.securityServiceImplementation = securityServiceImplementation;
+        this.userManagementImpl = userManagementImpl;
+        this.loginImpl = loginImpl;
         this.deviceRepository = deviceRepository;
+    }
+
+    public Data getLastRecording(Device device) {
+        return dataService.getLastRecording(device);
     }
 
     /**
@@ -55,10 +61,10 @@ public class DeviceServiceImplementation implements DeviceService {
     @Override
     public String save(Device device) {
         //Obtain the security context of the currently logged in user.
-        String loggedInUsername = securityServiceImplementation.findLoggedInUsername();
+        String loggedInUsername = loginImpl.findLoggedInUsername();
         Long id = null;
         try {
-            id = userServiceImplementation.findByUsername(loggedInUsername).getId();
+            id = userManagementImpl.findByUsername(loggedInUsername).getId();
         } catch (UserNotFoundException e) {
             logger.error("The user was not found when attempting to create a new device", e);
         }

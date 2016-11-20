@@ -14,16 +14,11 @@ import space.hideaway.model.User;
 public class DashboardServiceImplementation implements DashboardService {
 
     @Autowired
+    DeviceServiceImplementation deviceServiceImplementation;
+    @Autowired
     private DeviceService deviceService;
-
     @Autowired
     private DataService dataService;
-
-
-    @Override
-    public Data getLastRecording(Device device) {
-        return dataService.getLastRecording(device);
-    }
 
     @Override
     public Data getMaxRecording(User user) {

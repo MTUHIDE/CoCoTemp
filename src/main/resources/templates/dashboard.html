@@ -164,20 +164,19 @@
 
 
                         <!-- List group -->
-                        <ul class="list-group">
+                        <ul id="device-list" class="list-group">
                             <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <li th:each="device : ${#lists.sort(devices, devicesComparator)}"
+                            <li th:id="*{device.getId()}" th:each="device : ${#lists.sort(devices, devicesComparator)}"
                                 class="list-group-item">
-                                <a th:id="${device.getId()}" th:href="@{'/device/' + *{device.getId()}}">
+                                <a th:href="@{'/device/' + *{device.getId()}}">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5 th:inline="text" style="display: inline-block">
                                                 [[${device.getDeviceName()}]] <br/>
                                                 <small th:inline="text"> Last updated 5 hours ago.</small>
                                             </h5>
-                                            <h3 style="display: inline-block;" class="pull-right" th:text="*{dashboardServiceImplementation.getLastRecording(device).getTemperature() != -99999}
-                                         ? *{dashboardServiceImplementation.getLastRecording(device).getTemperature()}
-                                                   : '~&deg;'"></h3>
+                                            <h3 th:id="last-recorded-temp" style="display: inline-block;"
+                                                class="pull-right"></h3>
                                             <br/>
                                             <!--/*@thymesVar id="dashboardServiceImplementation" type="space.hideaway.services.DashboardServiceImplementation"*/-->
                                             <span style="display: none;" class="label label-danger">Error</span>

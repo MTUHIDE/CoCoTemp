@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DeviceService {
 
+    Data getLastRecording(Device device);
+
     /**
      * Save a new device to the database.
      *
