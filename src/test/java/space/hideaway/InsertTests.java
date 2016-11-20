@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
+import space.hideaway.model.User;
 import space.hideaway.services.DataServiceImplementation;
 import space.hideaway.services.UserServiceImplementation;
 
@@ -26,17 +27,19 @@ import java.util.*;
 public class InsertTests {
 
     Logger logger = Logger.getLogger(getClass());
-
+    List<Device> devices;
     @Autowired
     private DataServiceImplementation dataServiceImplementation;
-
     @Autowired
     private UserServiceImplementation userServiceImplementation;
-
     private CSVWriter csvWriter;
 
     @Test
     public void timeToInsert() throws UserNotFoundException {
+
+        User testlarge = userServiceImplementation.findByUsername("testlarge");
+        Set<Device> deviceSet = testlarge.getDeviceSet();
+        devices = new ArrayList<>(deviceSet);
 
         List<Data> dataList = new ArrayList<>();
         for (int i = 1; i <= 1000; i++) {
@@ -58,7 +61,7 @@ public class InsertTests {
     }
 
     private void logTime(int rows, long total) {
-        logger.info("Rows: " + rows + " " + "Total: " + total);
+        logger.info(String.format("Rows: %d Total: %d", rows, total));
         if (csvWriter == null) {
             try {
                 csvWriter = new CSVWriter(new FileWriter("insert_test_50.csv"));
@@ -70,17 +73,21 @@ public class InsertTests {
     }
 
     private Data createSampleData() throws UserNotFoundException {
-        UUID uuid = UUID.randomUUID();
-        Date date = new Date(System.currentTimeMillis());
-        Set<Device> deviceSet = userServiceImplementation.findByUsername("doughepi").getDeviceSet();
-        List<Device> deviceList = new ArrayList<>(deviceSet);
 
-        if (deviceList.isEmpty()) {
+
+        if (devices.isEmpty()) {
             Assert.fail("The test user has no devices!");
         }
-
+        UUID uuid = UUID.randomUUID();
         double temperature = new Random().nextDouble();
-        return new Data(uuid, deviceList.get(0).getId(), date, temperature);
+        Data data = new Data();
+        data.setId(uuid);
+        data.setDeviceID(devices.get(0).getId());
+        data.setUserID(3);
+        data.setDateTime(new Date(System.currentTimeMillis()));
+        data.setTemperature(temperature);
+
+        return data;
     }
 
 

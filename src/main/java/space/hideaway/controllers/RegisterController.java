@@ -45,6 +45,12 @@ public class RegisterController {
         this.userService = userService;
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String loadRegistration(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
     /**
      * Register a new user-account and insert it into the database if
      * all validations pass. Returns a string referencing the page to be
