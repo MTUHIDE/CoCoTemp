@@ -10,12 +10,7 @@ public interface DeviceService {
 
     Data getLastRecording(Device device);
 
-    /**
-     * Save a new device to the database.
-     *
-     * @param device The new device to be added.
-     * @return A JSON representation of the status of the addition.
-     */
+
     String save(Device device);
 
     Device findByKey(String deviceKey);

@@ -9,9 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by dough on 11/20/2016.
- */
+
 @Table(name = "upload_history")
 @Entity
 public class UploadHistory {

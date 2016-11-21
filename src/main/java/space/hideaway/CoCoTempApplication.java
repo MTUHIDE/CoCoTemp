@@ -19,12 +19,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 
-/**
- * HIDE CoCoTemp 2016
- * The main driver class for the application. Utilizes Spring boot and an embedded Tomcat server to run.
- *
- * @author Piper Dougherty
- */
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
@@ -41,7 +35,6 @@ public class CoCoTempApplication extends AsyncConfigurerSupport {
     public static void main(String[] args) {
 
 
-        //Start the Spring application.
         SpringApplication.run(CoCoTempApplication.class, args);
     }
 

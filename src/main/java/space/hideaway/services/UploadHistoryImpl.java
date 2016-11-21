@@ -7,9 +7,7 @@ import space.hideaway.repositories.UploadHistoryRepository;
 
 import java.util.UUID;
 
-/**
- * Created by dough on 11/20/2016.
- */
+
 @Service
 public class UploadHistoryImpl implements UploadHistoryService {
     @Autowired

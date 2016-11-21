@@ -12,9 +12,7 @@ import space.hideaway.model.Device;
 
 import java.util.List;
 
-/**
- * Created by dough on 11/8/2016.
- */
+
 @Service
 public class RESTService {
 

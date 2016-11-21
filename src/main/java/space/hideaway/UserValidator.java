@@ -8,16 +8,11 @@ import org.springframework.validation.Validator;
 import space.hideaway.model.User;
 import space.hideaway.services.UserService;
 
-/**
- * HIDE CoCoTemp 2016
- * Class responsible for validating user properties and passing possible errors to a binding result.
- */
+
 @Component
 public class UserValidator implements Validator {
 
-    /**
-     * The service responsible for CRUD operations on users.
-     */
+
     private final UserService userService;
 
     @Autowired
@@ -30,12 +25,7 @@ public class UserValidator implements Validator {
         return User.class.equals(aClass);
     }
 
-    /**
-     * Validate a user.
-     *
-     * @param o      The user object to be validated.
-     * @param errors A BindingResult object for errors to be passed to.
-     */
+
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;

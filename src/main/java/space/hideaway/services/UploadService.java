@@ -21,10 +21,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
-/**
- * HIDE CoCoTemp 2016
- * The class responsible for the parsing and upload of user-data.
- */
+
 @Service
 public class UploadService {
 
@@ -32,9 +29,7 @@ public class UploadService {
     DeviceServiceImplementation deviceServiceImplementation;
     @Autowired
     UserManagementImpl userService;
-    /**
-     * The file uploaded by the user.
-     */
+
     private MultipartFile multipartFile;
     @Autowired
     private DataServiceImplementation dataServiceImplementation;
@@ -42,32 +37,18 @@ public class UploadService {
     @Autowired
     private UploadHistoryService uploadHistoryService;
 
-    /**
-     * Get the file uploaded by the user.
-     *
-     * @return The file uploaded by the user.
-     */
+
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
 
-    /**
-     * Set the file uploaded by the user.
-     *
-     * @param multipartFile The new file uploaded by the user.
-     * @return The UploadService class for method chaining.
-     */
+
     public UploadService setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
         return this;
     }
 
-    /**
-     * Parse the file, line-by-line.
-     * This method is performance critical as user data will be a CSV file MANY MANY lines. Time spent here is
-     * time wasted.
-     * TODO: possible application of multithreading.
-     */
+
     public String parseFile(String deviceKey) {
         if (deviceServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey)) {
             Thread fileUploadThread = new Thread(

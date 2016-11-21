@@ -24,10 +24,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by dough on 11/7/2016.
- */
-
 
 @Service
 public class DataServiceImplementation implements DataService {

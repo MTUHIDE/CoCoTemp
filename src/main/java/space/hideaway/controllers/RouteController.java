@@ -12,12 +12,7 @@ import space.hideaway.model.User;
 import space.hideaway.services.DashboardServiceImplementation;
 import space.hideaway.services.UserManagementImpl;
 
-/**
- * UI model for basic static routes that contain no other logic than to display a template.
- * <p>
- * Created by dough on 9/21/2016.
- * Enhanced by caden on 10/09/2016.
- */
+
 @Controller
 public class RouteController {
 

@@ -7,9 +7,7 @@ import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 
-/**
- * Created by dough on 11/1/2016.
- */
+
 @Service
 public class DashboardServiceImplementation implements DashboardService {
 

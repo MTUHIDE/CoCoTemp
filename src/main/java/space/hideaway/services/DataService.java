@@ -7,9 +7,7 @@ import space.hideaway.model.User;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by dough on 11/1/2016.
- */
+
 public interface DataService {
     void save(Data data);
 

@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by dough on 10/12/2016.
- */
+
 @Service
 public class DeviceServiceImplementation implements DeviceService {
 
@@ -43,26 +41,10 @@ public class DeviceServiceImplementation implements DeviceService {
         return dataService.getLastRecording(device);
     }
 
-    /**
-     * Save a new device to the database. Returns a JSON structure representing the status of the addition.
-     * <p>
-     * Example JSON of successful addition.
-     * {
-     * "error": false
-     * }
-     * <p>
-     * Example JSON of unsuccessful addition.
-     * {
-     * "error": true,
-     * "errors" ["A description of some error one.", "A description of some error two."]
-     * }
-     *
-     * @param device The new device to be added.
-     * @return A JSON representation of the status of the addition.
-     */
+
     @Override
     public String save(Device device) {
-        //Obtain the security context of the currently logged in user.
+
         String loggedInUsername = securityServiceImplementation.findLoggedInUsername();
         Long id = null;
         try {
@@ -71,13 +53,13 @@ public class DeviceServiceImplementation implements DeviceService {
             logger.error("The user was not found when attempting to create a new device", e);
         }
 
-        //We must associate the device with a user.
+
         device.setUserId(id);
 
-        //Is the device of valid format?
+
         deviceValidator.validate(device);
 
-        //Format JSON.
+
         Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
         if (deviceValidator.hasErrors()) {
             return gson.toJson(deviceValidator);
