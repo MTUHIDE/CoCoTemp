@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import space.hideaway.services.FileUpload;
+import space.hideaway.services.UploadService;
 
 /**
  * HIDE CoCoTemp 2016
@@ -18,11 +18,11 @@ public class UploadController {
     /**
      * The service responsible for parsing files and inserting them into the database.
      */
-    private final FileUpload fileUpload;
+    private final UploadService uploadService;
 
     @Autowired
-    public UploadController(FileUpload fileUpload) {
-        this.fileUpload = fileUpload;
+    public UploadController(UploadService uploadService) {
+        this.uploadService = uploadService;
     }
 
 
@@ -51,7 +51,7 @@ public class UploadController {
             @PathVariable(value = "deviceKey") String deviceKey,
             @RequestParam(value = "file") MultipartFile file
     ) {
-        return fileUpload.setMultipartFile(file).parseFile(deviceKey);
+        return uploadService.setMultipartFile(file).parseFile(deviceKey);
     }
 
 }

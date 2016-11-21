@@ -6,12 +6,13 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Data;
+import space.hideaway.model.Device;
+import space.hideaway.model.UploadHistory;
 import space.hideaway.repositories.DataRepository;
-import space.hideaway.services.DashboardServiceImplementation;
-import space.hideaway.services.RESTService;
-import space.hideaway.services.UserManagementImpl;
+import space.hideaway.services.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -38,6 +39,12 @@ public class RESTController {
 
     @Autowired
     DashboardServiceImplementation dashboardServiceImplementation;
+
+    @Autowired
+    UploadHistoryService uploadHistoryService;
+
+    @Autowired
+    DeviceService deviceService;
 
     /**
      * Obtain a GEOJson formatted JSON structure with a single point for each device, so long
@@ -66,12 +73,20 @@ public class RESTController {
         return dataRepository.findAll(dataTablesInput, null, (root, query, cb) -> cb.equal(root.get("userID"), userManagementImpl.getCurrentLoggedInUser().getId()));
     }
 
-    @RequestMapping(value = "/statistics.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/device/{deviceID}/info.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    String statistics(@RequestParam String deviceKey) {
+    Device statistics(@PathVariable("deviceID") String deviceKey) {
+        return deviceService.findByKey(deviceKey);
+    }
 
-        return restService.getDeviceJSON(deviceKey);
+    @RequestMapping(value = "/device/{deviceID}/history.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Set<UploadHistory> getHistory(@PathVariable(value = "deviceID") UUID deviceID) {
+        System.out.println("Running...");
+        Device device = deviceService.findByKey(deviceID.toString());
+        return device.getUploadHistories();
     }
 
 }

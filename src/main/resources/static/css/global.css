@@ -218,7 +218,6 @@
         border-right: 0;
         border-bottom: 1px solid #00416A;
     }
-
     .side-menu .brand-name-wrapper .navbar-brand {
         display: inline-block;
     }
@@ -287,7 +286,6 @@
         -webkit-transform-style: preserve-3d;
         transform-style: preserve-3d;
     }
-
     .side-menu-container > .navbar-nav.slide-in {
         -moz-animation: slidein 300ms forwards;
         -o-animation: slidein 300ms forwards;
@@ -376,7 +374,6 @@
         border-radius: 0;
         background-color: #00416A;
     }
-
     .navbar-toggle .icon-bar {
         background-color: white !important;
     }
@@ -385,7 +382,6 @@
     #search .panel-body .navbar-form {
         border-bottom: 0;
     }
-
     #search .panel-body .navbar-form .form-group {
         margin: 0;
     }

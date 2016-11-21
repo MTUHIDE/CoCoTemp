@@ -6,7 +6,7 @@ import space.hideaway.model.User;
 
 import java.util.Set;
 
-public interface UserManagement {
+public interface UserService {
     /**
      * Save a user into the database.
      *

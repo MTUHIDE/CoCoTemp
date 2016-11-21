@@ -1,5 +1,6 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -23,6 +24,7 @@ public class Data {
 
     private UUID deviceID;
 
+    @JsonBackReference
     private Device device;
 
 

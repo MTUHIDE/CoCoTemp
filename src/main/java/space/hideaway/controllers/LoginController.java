@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import space.hideaway.services.LoginImpl;
+import space.hideaway.services.SecurityServiceImplementation;
 
 /**
  * HIDE CoCoTemp 2016
@@ -21,11 +21,11 @@ public class LoginController {
      * The application security service responsible for handling operations
      * relating to authenticating a user.
      */
-    private final LoginImpl loginImpl;
+    private final SecurityServiceImplementation securityServiceImplementation;
 
     @Autowired
-    public LoginController(LoginImpl loginImpl) {
-        this.loginImpl = loginImpl;
+    public LoginController(SecurityServiceImplementation securityServiceImplementation) {
+        this.securityServiceImplementation = securityServiceImplementation;
     }
 
 
@@ -35,14 +35,14 @@ public class LoginController {
      * <p>
      * Sample of JSON structure of successful login.
      * {
-     * "status": true,
-     * "location": "/dashboard"
+     *      "status": true,
+     *      "location": "/dashboard"
      * }
      * <p>
      * Sample of JSON structure of unsuccessful login.
      * {
-     * "status": false,
-     * "error": "The form is invalid for some reason."
+     *      "status": false,
+     *      "error": "The form is invalid for some reason."
      * }
      *
      * @param username The username of the user to be logged in.
@@ -54,6 +54,6 @@ public class LoginController {
     @ResponseBody
     String login(@RequestParam("username") String username,
                  @RequestParam("password") String password) {
-        return loginImpl.tryLogin(username, password);
+        return securityServiceImplementation.tryLogin(username, password);
     }
 }

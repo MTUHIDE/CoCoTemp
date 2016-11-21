@@ -11,7 +11,7 @@ import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
-import space.hideaway.model.User;
+import space.hideaway.model.UploadHistory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +19,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -27,7 +26,7 @@ import java.util.UUID;
  * The class responsible for the parsing and upload of user-data.
  */
 @Service
-public class FileUpload {
+public class UploadService {
 
     @Autowired
     DeviceServiceImplementation deviceServiceImplementation;
@@ -39,8 +38,9 @@ public class FileUpload {
     private MultipartFile multipartFile;
     @Autowired
     private DataServiceImplementation dataServiceImplementation;
+
     @Autowired
-    private Login login;
+    private UploadHistoryService uploadHistoryService;
 
     /**
      * Get the file uploaded by the user.
@@ -57,7 +57,7 @@ public class FileUpload {
      * @param multipartFile The new file uploaded by the user.
      * @return The UploadService class for method chaining.
      */
-    public FileUpload setMultipartFile(MultipartFile multipartFile) {
+    public UploadService setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
         return this;
     }
@@ -69,26 +69,17 @@ public class FileUpload {
      * TODO: possible application of multithreading.
      */
     public String parseFile(String deviceKey) {
-        if (isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey)) {
+        if (deviceServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey)) {
             Thread fileUploadThread = new Thread(
                     new FileUploadHandler(deviceServiceImplementation.findByKey(deviceKey), convertToFile())
             );
             fileUploadThread.start();
-            return "{status: \"success\"}";
+            return "{status: \"in progress\"}";
         }
         return "{status: \"failed\", message: \"You do not authorized to edit this device\"}";
     }
 
-    private boolean isCorrectUser(User user, String deviceKey) {
-        boolean found = false;
-        Set<Device> deviceSet = user.getDeviceSet();
-        for (Device device : deviceSet) {
-            if (device.getId().toString().equals(deviceKey)) {
-                found = true;
-            }
-        }
-        return found;
-    }
+
 
     private File convertToFile() {
         File convertedFile = null;
@@ -115,10 +106,11 @@ public class FileUpload {
 
         @Override
         public void run() {
+            long start = System.currentTimeMillis();
             UUID deviceId = device.getId();
             Long userId = device.getUserId();
             ArrayList<Data> dataList = new ArrayList<>();
-            ICsvBeanReader iCsvBeanReader = null;
+            ICsvBeanReader iCsvBeanReader;
             try {
                 iCsvBeanReader = new CsvBeanReader(new FileReader(file), CsvPreference.STANDARD_PREFERENCE);
                 final CellProcessor[] cellProcessors = new CellProcessor[]{
@@ -133,16 +125,17 @@ public class FileUpload {
                     dataList.add(dataBean);
                 }
                 dataServiceImplementation.batchSave(dataList);
+                iCsvBeanReader.close();
+                long end = System.currentTimeMillis();
+
+                UploadHistory uploadHistory = new UploadHistory();
+                uploadHistory.setDeviceID(deviceId);
+                uploadHistory.setDuration(end - start);
+                uploadHistory.setDescription("Data was uploaded successfully");
+                uploadHistoryService.save(uploadHistory);
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            if (iCsvBeanReader != null) {
-                try {
-                    iCsvBeanReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }

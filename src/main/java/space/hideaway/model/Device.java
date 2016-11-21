@@ -1,5 +1,8 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,6 +19,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "device")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Device {
 
     /**
@@ -34,7 +38,11 @@ public class Device {
 
     private double deviceLongitude;
 
+    @JsonIgnore
     private Set<Data> dataSet;
+
+    @JsonIgnore
+    private Set<UploadHistory> uploadHistories;
 
 
     /**
@@ -177,6 +185,16 @@ public class Device {
      */
     public void setDataSet(Set<Data> dataSet) {
         this.dataSet = dataSet;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id")
+    public Set<UploadHistory> getUploadHistories() {
+        return uploadHistories;
+    }
+
+    public void setUploadHistories(Set<UploadHistory> uploadHistories) {
+        this.uploadHistories = uploadHistories;
     }
 
     @Override

@@ -11,7 +11,7 @@ import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DashboardServiceImplementation;
 import space.hideaway.services.DataServiceImplementation;
-import space.hideaway.services.LoginImpl;
+import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserManagementImpl;
 
 import java.util.Comparator;
@@ -38,7 +38,7 @@ public class DashboardController {
     /**
      * The security service for various session operations.
      */
-    private final LoginImpl loginImpl;
+    private final SecurityServiceImplementation securityServiceImplementation;
 
     private final DataServiceImplementation dataServiceImplementation;
 
@@ -54,10 +54,10 @@ public class DashboardController {
     private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DashboardController(UserManagementImpl userManagementImpl, DashboardServiceImplementation dashboardServiceImplementation, LoginImpl loginImpl, DataServiceImplementation dataServiceImplementation) {
+    public DashboardController(UserManagementImpl userManagementImpl, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
         this.userManagementImpl = userManagementImpl;
         this.dashboardServiceImplementation = dashboardServiceImplementation;
-        this.loginImpl = loginImpl;
+        this.securityServiceImplementation = securityServiceImplementation;
         this.dataServiceImplementation = dataServiceImplementation;
     }
 
@@ -68,7 +68,7 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         try {
-            User user = userManagementImpl.findByUsername(loginImpl.findLoggedInUsername());
+            User user = userManagementImpl.findByUsername(securityServiceImplementation.findLoggedInUsername());
             Set<Device> deviceSet = user.getDeviceSet();
 
             model.addAttribute("devicesComparator", (Comparator<Device>) (o1, o2) -> o1.getDeviceName().compareTo(o2.getDeviceName()));

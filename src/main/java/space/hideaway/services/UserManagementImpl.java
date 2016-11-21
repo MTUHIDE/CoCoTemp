@@ -19,7 +19,7 @@ import java.util.Set;
  * @author Piper Dougherty
  */
 @Service
-public class UserManagementImpl implements UserManagement {
+public class UserManagementImpl implements UserService {
 
     /**
      * The service responsible for CRUD operations on user accounts.
@@ -36,15 +36,15 @@ public class UserManagementImpl implements UserManagement {
      */
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final LoginImpl loginImpl;
+    private final SecurityServiceImplementation securityServiceImplementation;
 
     @Autowired
     public UserManagementImpl(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
-                              LoginImpl loginImpl) {
+                              SecurityServiceImplementation securityServiceImplementation) {
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
-        this.loginImpl = loginImpl;
+        this.securityServiceImplementation = securityServiceImplementation;
     }
 
     /**
@@ -80,7 +80,7 @@ public class UserManagementImpl implements UserManagement {
 
     public User getCurrentLoggedInUser() {
         try {
-            return findByUsername(loginImpl.findLoggedInUsername());
+            return findByUsername(securityServiceImplementation.findLoggedInUsername());
         } catch (UserNotFoundException e) {
             e.printStackTrace();
         }

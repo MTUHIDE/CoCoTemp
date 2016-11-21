@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Device;
 import space.hideaway.services.DeviceServiceImplementation;
+import space.hideaway.services.UploadHistoryService;
 
 import java.util.UUID;
 
@@ -20,9 +21,11 @@ public class DeviceController {
 
     private final
     DeviceServiceImplementation deviceServiceImplementation;
+    private final UploadHistoryService uploadHistoryService;
 
     @Autowired
-    public DeviceController(DeviceServiceImplementation deviceServiceImplementation) {
+    public DeviceController(UploadHistoryService uploadHistoryService, DeviceServiceImplementation deviceServiceImplementation) {
+        this.uploadHistoryService = uploadHistoryService;
         this.deviceServiceImplementation = deviceServiceImplementation;
     }
 
@@ -32,6 +35,7 @@ public class DeviceController {
         Device device = deviceServiceImplementation.findByKey(deviceID.toString());
         model.addAttribute("device", device);
         model.addAttribute("deviceID", deviceID.toString());
+        model.addAttribute("deviceServiceImplementation", deviceServiceImplementation);
         return "station";
     }
 
@@ -51,7 +55,7 @@ public class DeviceController {
      * }
      *
      * @param deviceName      The name of the new device.
-     * @param deviceLatitude  The latitude location of the new device.
+     * @param deviceLatitude The latitude location of the new device.
      * @param deviceLongitude The longitude location of the new device.
      * @return A JSON representation of the status.
      */

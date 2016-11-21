@@ -1,6 +1,6 @@
 package space.hideaway.services;
 
-public interface Login {
+public interface SecurityService {
 
     /**
      * Obtain the username of the currently logged in user.

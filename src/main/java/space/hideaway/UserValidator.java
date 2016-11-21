@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import space.hideaway.model.User;
-import space.hideaway.services.UserManagement;
+import space.hideaway.services.UserService;
 
 /**
  * HIDE CoCoTemp 2016
@@ -18,11 +18,11 @@ public class UserValidator implements Validator {
     /**
      * The service responsible for CRUD operations on users.
      */
-    private final UserManagement userManagement;
+    private final UserService userService;
 
     @Autowired
-    public UserValidator(UserManagement userManagement) {
-        this.userManagement = userManagement;
+    public UserValidator(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "Size.userForm.username");
         }
         try {
-            User byUsername = userManagement.findByUsername(user.getUsername());
+            User byUsername = userService.findByUsername(user.getUsername());
             if (byUsername != null) {
                 errors.rejectValue("username", "Duplicate.userForm.username");
             }

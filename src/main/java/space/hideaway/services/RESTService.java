@@ -27,7 +27,10 @@ public class RESTService {
     @Autowired
     private DashboardServiceImplementation dashboardServiceImplementation;
     @Autowired
-    private LoginImpl loginImpl;
+    private SecurityServiceImplementation securityServiceImplementation;
+
+    @Autowired
+    private UploadHistoryService uploadHistoryService;
 
     public String getGeoJsonForLastRecordedTemperature() {
         FeatureCollection features = new FeatureCollection();
@@ -48,26 +51,5 @@ public class RESTService {
             e.printStackTrace();
         }
         return "Something went wrong.";
-    }
-
-    public String getDeviceJSON(String deviceKey) {
-        Device byKey = deviceServiceImplementation.findByKey(deviceKey);
-        Data lastRecording = deviceServiceImplementation.getLastRecording(byKey);
-        return String.format(
-                "{" +
-                        "  \"device\": {" +
-                        "    \"deviceName\": \"%s\"," +
-                        "    \"deviceKey\": \"%s\"," +
-                        "    \"lastRecordedTemperature\": {" +
-                        "      \"dateTime\": \"%s\"," +
-                        "      \"temperature\": %f" +
-                        "    }" +
-                        "  }" +
-                        "}",
-                byKey.getDeviceName(),
-                byKey.getId(),
-                lastRecording.getDateTime(),
-                lastRecording.getTemperature()
-        );
     }
 }

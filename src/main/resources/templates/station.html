@@ -122,7 +122,12 @@
                                 </h4>
                                 <div class="list-group">
                                     <button type="button" class="list-group-item">Compare with other stations</button>
-                                    <button type="button" class="list-group-item">Edit device</button>
+
+                                    <!--/*@thymesVar id="deviceServiceImplementation" type="space.hideaway.services.DeviceServiceImplementation"*/-->
+                                    <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+                                    <div th:if="${#authorization.expression('isAuthenticated()') and deviceServiceImplementation.isCorrectUser(device.getId())}">
+                                        <button type="button" class="list-group-item">Edit device</button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -168,6 +173,19 @@
                                 </thead>
                             </table>
                         </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">History</div>
+
+
+                        <!-- List group -->
+                        <ul id="history-list" class="list-group">
+                            <li
+                                    class="list-group-item">
+                                <span style="font-style: italic">You have no history. Upload data to get started.</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

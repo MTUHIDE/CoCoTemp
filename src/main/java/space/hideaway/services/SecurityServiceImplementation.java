@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Piper Dougherty
  */
 @Service
-public class LoginImpl implements Login {
+public class SecurityServiceImplementation implements SecurityService {
 
     /**
      * The service responsible for obtaining a user from the database by username.
@@ -33,7 +33,7 @@ public class LoginImpl implements Login {
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public LoginImpl(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
+    public SecurityServiceImplementation(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
         this.authenticationManager = authenticationManager;
         this.userDetailsServiceImplementation = userDetailsServiceImplementation;
     }

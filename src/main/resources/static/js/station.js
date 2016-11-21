@@ -1,5 +1,18 @@
 jQuery(document).ready(function () {
 
+    var showHistory = function (data) {
+        console.log(data)
+    };
+
+    $.ajax(
+        {
+            url: "/device/" + deviceID + "/history.json",
+            dataType: "json",
+            method: "post",
+            success: showHistory
+        }
+    );
+
     var maxBounds = L.latLngBounds(
         L.latLng(5.090944175, -172.44140625), //Southwest
         L.latLng(71.8014103014, -32.16796875)  //Northeast
