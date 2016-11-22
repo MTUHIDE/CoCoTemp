@@ -10,14 +10,15 @@ import java.util.Set;
 import java.util.UUID;
 
 
+/**
+ * The type Device.
+ */
 @Entity
 @Table(name = "device")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Device {
 
-
     private UUID id;
-
 
     private Long userId;
 
@@ -34,6 +35,13 @@ public class Device {
     private Set<UploadHistory> uploadHistories;
 
 
+    /**
+     * Instantiates a new Device.
+     *
+     * @param deviceName      the device name
+     * @param deviceLatitude  the device latitude
+     * @param deviceLongitude the device longitude
+     */
     public Device(String deviceName, double deviceLatitude, double deviceLongitude) {
         this.deviceName = deviceName;
         this.deviceLatitude = deviceLatitude;
@@ -41,85 +49,86 @@ public class Device {
     }
 
 
+    /**
+     * Instantiates a new Device.
+     */
     public Device() {
     }
 
-
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Id
-    @Column(name = "id")
-    public UUID getId() {
-        return id;
-    }
-
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     @Column(name = "user_id")
     public Long getUserId() {
         return userId;
     }
 
-
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-
-    @Column(name = "device_name")
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
-
-
-    @Column(name = "device_latitude")
-    public double getDeviceLatitude() {
-        return deviceLatitude;
-    }
-
-
-    public void setDeviceLatitude(double deviceLatitude) {
-        this.deviceLatitude = deviceLatitude;
-    }
-
-
+    /**
+     * Gets device longitude.
+     *
+     * @return the device longitude
+     */
     @Column(name = "device_longitude")
     public double getDeviceLongitude() {
         return deviceLongitude;
     }
 
-
+    /**
+     * Sets device longitude.
+     *
+     * @param deviceLongitude the device longitude
+     */
     public void setDeviceLongitude(double deviceLongitude) {
         this.deviceLongitude = deviceLongitude;
     }
 
-
+    /**
+     * Gets data set.
+     *
+     * @return the data set
+     */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     public Set<Data> getDataSet() {
         return dataSet;
     }
 
-
+    /**
+     * Sets data set.
+     *
+     * @param dataSet the data set
+     */
     public void setDataSet(Set<Data> dataSet) {
         this.dataSet = dataSet;
     }
 
+    /**
+     * Gets upload histories.
+     *
+     * @return the upload histories
+     */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     public Set<UploadHistory> getUploadHistories() {
         return uploadHistories;
     }
 
+    /**
+     * Sets upload histories.
+     *
+     * @param uploadHistories the upload histories
+     */
     public void setUploadHistories(Set<UploadHistory> uploadHistories) {
         this.uploadHistories = uploadHistories;
     }
@@ -131,5 +140,65 @@ public class Device {
                 getId(),
                 getDeviceName(),
                 getDeviceLatitude());
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Id
+    @Column(name = "id")
+    public UUID getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets device name.
+     *
+     * @return the device name
+     */
+    @Column(name = "device_name")
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    /**
+     * Sets device name.
+     *
+     * @param deviceName the device name
+     */
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    /**
+     * Gets device latitude.
+     *
+     * @return the device latitude
+     */
+    @Column(name = "device_latitude")
+    public double getDeviceLatitude() {
+        return deviceLatitude;
+    }
+
+    /**
+     * Sets device latitude.
+     *
+     * @param deviceLatitude the device latitude
+     */
+    public void setDeviceLatitude(double deviceLatitude) {
+        this.deviceLatitude = deviceLatitude;
     }
 }

@@ -10,14 +10,29 @@ import java.util.UUID;
 
 @Service
 public class UploadHistoryImpl implements UploadHistoryService {
-    @Autowired
-    UploadHistoryRepository uploadHistoryRepository;
 
+    private final UploadHistoryRepository uploadHistoryRepository;
+
+    @Autowired
+    public UploadHistoryImpl(UploadHistoryRepository uploadHistoryRepository) {
+        this.uploadHistoryRepository = uploadHistoryRepository;
+    }
+
+    /**
+     * Save a new uploadHistory object into the database.
+     *
+     * @param uploadHistory The newly created uploadHistory object.
+     */
     @Override
     public void save(UploadHistory uploadHistory) {
         uploadHistoryRepository.save(uploadHistory);
     }
 
+    /**
+     * Delete an uploadHistory object from the database by ID.
+     *
+     * @param id The ID of the uploadHistory record in the database.
+     */
     @Override
     public void delete(String id) {
         uploadHistoryRepository.delete(UUID.fromString(id));

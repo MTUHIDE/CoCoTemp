@@ -11,13 +11,10 @@ import java.util.ArrayList;
 @Component
 public class DeviceValidator {
 
-
     private final
     Environment environment;
 
-
     private boolean hasError = false;
-
 
     private ArrayList<String> errors;
 
@@ -29,12 +26,8 @@ public class DeviceValidator {
 
 
     public void validate(Device device) {
-
-
         this.hasError = false;
         this.errors = new ArrayList<>();
-
-
         if (device.getDeviceName().isEmpty() || device.getDeviceLatitude() == 0) {
             hasError = true;
             errors.add(environment.getProperty("Fields.empty"));
@@ -45,11 +38,9 @@ public class DeviceValidator {
 
     }
 
-
     public boolean hasErrors() {
         return hasError;
     }
-
 
     public ArrayList<String> getErrors() {
         return errors;

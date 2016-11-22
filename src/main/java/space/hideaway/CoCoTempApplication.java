@@ -33,8 +33,6 @@ import java.util.concurrent.Executor;
 public class CoCoTempApplication extends AsyncConfigurerSupport {
 
     public static void main(String[] args) {
-
-
         SpringApplication.run(CoCoTempApplication.class, args);
     }
 

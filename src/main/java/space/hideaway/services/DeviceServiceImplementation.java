@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.DeviceErrorSerializer;
 import space.hideaway.DeviceValidator;
-import space.hideaway.UserNotFoundException;
-import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
@@ -21,45 +19,32 @@ import java.util.UUID;
 @Service
 public class DeviceServiceImplementation implements DeviceService {
 
-    private final UserManagementImpl userManagementImpl;
+    private final UserService userService;
     private final SecurityServiceImplementation securityServiceImplementation;
     private final DeviceRepository deviceRepository;
     private final DeviceValidator deviceValidator;
-    private final DataService dataService;
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DeviceServiceImplementation(DataService dataService, DeviceValidator deviceValidator, UserManagementImpl userManagementImpl, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
-        this.dataService = dataService;
+    public DeviceServiceImplementation(DataService dataService, DeviceValidator deviceValidator, UserService userService, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
         this.deviceValidator = deviceValidator;
-        this.userManagementImpl = userManagementImpl;
+        this.userService = userService;
         this.securityServiceImplementation = securityServiceImplementation;
         this.deviceRepository = deviceRepository;
     }
 
-    public Data getLastRecording(Device device) {
-        return dataService.getLastRecording(device);
-    }
 
-
+    /**
+     * Save a new device into the database.
+     *
+     * @param device The new device to be inserted.
+     * @return
+     */
     @Override
     public String save(Device device) {
-
-        String loggedInUsername = securityServiceImplementation.findLoggedInUsername();
-        Long id = null;
-        try {
-            id = userManagementImpl.findByUsername(loggedInUsername).getId();
-        } catch (UserNotFoundException e) {
-            logger.error("The user was not found when attempting to create a new device", e);
-        }
-
-
+        Long id = userService.getCurrentLoggedInUser().getId();
         device.setUserId(id);
-
-
         deviceValidator.validate(device);
-
-
         Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
         if (deviceValidator.hasErrors()) {
             return gson.toJson(deviceValidator);
@@ -69,29 +54,54 @@ public class DeviceServiceImplementation implements DeviceService {
         return gson.toJson(deviceValidator);
     }
 
+    /**
+     * Find a device by device ID.
+     *
+     * @param deviceID The ID of the device to obtain.
+     * @return The obtained device matching the given deviceID.
+     */
     @Override
-    public Device findByKey(String deviceKey) {
-        return deviceRepository.findOne(UUID.fromString(deviceKey));
+    public Device findByKey(String deviceID) {
+        return deviceRepository.findOne(UUID.fromString(deviceID));
     }
 
+    /**
+     * Obtain a list of all devices.
+     *
+     * @return A list of all devices.
+     */
     @Override
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
     }
 
+    /**
+     * Compare a deviceID and a user, and determine whether the relationship between
+     * them is valid.
+     *
+     * @param user     The user to compare to the device.
+     * @param deviceID The ID of the device to compare to the user.
+     * @return True if the user owns the device, false otherwise.
+     */
     @Override
-    public boolean isCorrectUser(User user, String deviceKey) {
+    public boolean isCorrectUser(User user, String deviceID) {
         boolean found = false;
         Set<Device> deviceSet = user.getDeviceSet();
         for (Device device : deviceSet) {
-            if (device.getId().toString().equals(deviceKey)) {
+            if (device.getId().toString().equals(deviceID)) {
                 found = true;
             }
         }
         return found;
     }
 
+    /**
+     * Compare a deviceID and the currently logged in user, and determine whether the relationship between
+     * them is valid.
+     *
+     * @return True if the user owns the device, false otherwise.
+     */
     public boolean isCorrectUser(String deviceKey) {
-        return isCorrectUser(userManagementImpl.getCurrentLoggedInUser(), deviceKey);
+        return isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey);
     }
 }

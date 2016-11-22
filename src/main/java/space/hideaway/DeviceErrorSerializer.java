@@ -6,8 +6,6 @@ import java.lang.reflect.Type;
 
 
 public class DeviceErrorSerializer implements JsonSerializer<DeviceValidator> {
-
-
     @Override
     public JsonElement serialize(DeviceValidator src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();

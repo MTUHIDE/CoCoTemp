@@ -16,12 +16,9 @@ import java.util.Set;
 @Service
 public class UserManagementImpl implements UserService {
 
-
     private final UserRepository userRepository;
 
-
     private final RoleRepository roleRepository;
-
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -37,6 +34,11 @@ public class UserManagementImpl implements UserService {
     }
 
 
+    /**
+     * Save a new user into the database.
+     *
+     * @param user The new user to be saved.
+     */
     @Override
     public void save(User user) {
 
@@ -47,7 +49,27 @@ public class UserManagementImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Obtain the user that is currently logged in.
+     *
+     * @return The user that is currently logged in.
+     */
+    public User getCurrentLoggedInUser() {
+        try {
+            return findByUsername(securityServiceImplementation.findLoggedInUsername());
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    /**
+     * Find a user by username.
+     *
+     * @param username The username associated with the user to be obtained.
+     * @return The located user.
+     * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
+     */
     @Override
     public User findByUsername(String username) throws UserNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -58,16 +80,13 @@ public class UserManagementImpl implements UserService {
         }
     }
 
-    public User getCurrentLoggedInUser() {
-        try {
-            return findByUsername(securityServiceImplementation.findLoggedInUsername());
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
+    /**
+     * Obtain a list of devices for a user.
+     *
+     * @param username The username associated with user to obtain devices for.
+     * @return A list of devices for a given username.
+     * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
+     */
     @Override
     public Set<Device> getDevices(String username) throws UserNotFoundException {
         return findByUsername(username).getDeviceSet();

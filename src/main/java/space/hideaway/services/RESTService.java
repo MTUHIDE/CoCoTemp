@@ -16,19 +16,14 @@ import java.util.List;
 @Service
 public class RESTService {
 
-    @Autowired
-    UserManagementImpl userManagementImpl;
-    @Autowired
-    private DataServiceImplementation dataServiceImplementation;
-    @Autowired
-    private DeviceServiceImplementation deviceServiceImplementation;
-    @Autowired
-    private DashboardServiceImplementation dashboardServiceImplementation;
-    @Autowired
-    private SecurityServiceImplementation securityServiceImplementation;
+    private final DataServiceImplementation dataServiceImplementation;
+    private final DeviceServiceImplementation deviceServiceImplementation;
 
     @Autowired
-    private UploadHistoryService uploadHistoryService;
+    public RESTService(SecurityServiceImplementation securityServiceImplementation, DeviceServiceImplementation deviceServiceImplementation, UserManagementImpl userManagementImpl, DataServiceImplementation dataServiceImplementation, UploadHistoryService uploadHistoryService) {
+        this.deviceServiceImplementation = deviceServiceImplementation;
+        this.dataServiceImplementation = dataServiceImplementation;
+    }
 
     public String getGeoJsonForLastRecordedTemperature() {
         FeatureCollection features = new FeatureCollection();

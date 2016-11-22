@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
-import space.hideaway.services.DashboardServiceImplementation;
 import space.hideaway.services.DataServiceImplementation;
 import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserManagementImpl;
@@ -28,11 +27,6 @@ public class DashboardController {
      */
     private final UserManagementImpl userManagementImpl;
 
-    /**
-     * The service responsible for dashboard specific operations.
-     */
-    private final DashboardServiceImplementation dashboardServiceImplementation;
-
 
     /**
      * Obtain the default temperature unit from the application.properties file and inject
@@ -42,13 +36,17 @@ public class DashboardController {
     String temperatureUnit;
 
     @Autowired
-    public DashboardController(UserManagementImpl userManagementImpl, DashboardServiceImplementation dashboardServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
+    public DashboardController(UserManagementImpl userManagementImpl, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
         this.userManagementImpl = userManagementImpl;
-        this.dashboardServiceImplementation = dashboardServiceImplementation;
     }
 
     /**
      * The endpoint for the dashboard view.
+     * <p>
+     * URL: /dashboard
+     * Secured: Yes
+     * Method: GET
+     *
      * @param model The model maintained by Spring.
      * @return The dashboard template name.
      */
@@ -64,7 +62,6 @@ public class DashboardController {
         model.addAttribute("devicesComparator", (Comparator<Device>) (o1, o2) -> o1.getDeviceName().compareTo(o2.getDeviceName()));
 
         //Not used currently, but will be.
-        model.addAttribute("dashboardServiceImplementation", dashboardServiceImplementation);
         model.addAttribute("temperatureUnit", temperatureUnit);
 
         //Refers to dashboard.html.

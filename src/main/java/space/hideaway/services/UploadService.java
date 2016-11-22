@@ -25,21 +25,18 @@ import java.util.UUID;
 @Service
 public class UploadService {
 
-    @Autowired
-    DeviceServiceImplementation deviceServiceImplementation;
-    @Autowired
-    UserManagementImpl userService;
-
+    private final DeviceServiceImplementation deviceServiceImplementation;
+    private final UserManagementImpl userService;
+    private final DataServiceImplementation dataServiceImplementation;
+    private final UploadHistoryService uploadHistoryService;
     private MultipartFile multipartFile;
-    @Autowired
-    private DataServiceImplementation dataServiceImplementation;
 
     @Autowired
-    private UploadHistoryService uploadHistoryService;
-
-
-    public MultipartFile getMultipartFile() {
-        return multipartFile;
+    public UploadService(DataServiceImplementation dataServiceImplementation, UploadHistoryService uploadHistoryService, DeviceServiceImplementation deviceServiceImplementation, UserManagementImpl userService) {
+        this.dataServiceImplementation = dataServiceImplementation;
+        this.uploadHistoryService = uploadHistoryService;
+        this.deviceServiceImplementation = deviceServiceImplementation;
+        this.userService = userService;
     }
 
 
