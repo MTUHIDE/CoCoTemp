@@ -1,4 +1,115 @@
+(function ($) {
+    $.fn.spin = function (opts, color) {
+        var presets = {
+            "tiny": {
+                lines: 8,
+                length: 2,
+                width: 2,
+                radius: 3
+            },
+            "small": {
+                lines: 8,
+                length: 4,
+                width: 3,
+                radius: 5
+            },
+            "large": {
+                lines: 10,
+                length: 8,
+                width: 4,
+                radius: 8
+            }
+        };
+        if (Spinner) {
+            return this.each(function () {
+                var $this = $(this),
+                    data = $this.data();
+
+                if (data.spinner) {
+                    data.spinner.stop();
+                    delete data.spinner;
+                }
+                if (opts !== false) {
+                    if (typeof opts === "string") {
+                        if (opts in presets) {
+                            opts = presets[opts];
+                        } else {
+                            opts = {};
+                        }
+                        if (color) {
+                            opts.color = color;
+                        }
+                    }
+                    data.spinner = new Spinner($.extend({
+                        color: $this.css('color')
+                    }, opts)).spin(this);
+                }
+            });
+        } else {
+            throw "Spinner class not available.";
+        }
+    };
+})(jQuery);
+
 jQuery(document).ready(function () {
+
+    $('#device-list li').each(function (i, e) {
+
+        var BeforeSend = function () {
+
+            $(e).spin();
+        };
+        var OnComplete = function (jqXHR, textStatus) {
+
+        };
+        var OnSuccess = function (data, textStatus, jqXHR) {
+
+            if (data.length > 0) {
+                var error = false;
+                var newRecord = false;
+                for (var i = 0; i < data.length; i++) {
+                    var record = data[i];
+                    if (!record.viewed) {
+                        newRecord = true;
+                    }
+                    if (record.error) {
+                        error = true;
+                    }
+                }
+
+                $(e).spin(false);
+
+                if (error && newRecord) {
+                    $(e).find('.data-container').append(
+                        '<span class="label label-danger">Error Uploading</span>'
+                    )
+                } else if (!error && newRecord) {
+                    $(e).find('.data-container').append(
+                        '<span class="label label-success">Upload Successful</span>'
+                    )
+                }
+                var date = moment(data[0].dateTime);
+                $(e).find('#last-updated').text("Last uploaded " + date.fromNow())
+            } else {
+                $(e).spin(false);
+                $(e).find('#last-updated').text("No records")
+            }
+
+        };
+        var OnError = function (qXHR, textStatus, errorThrown) {
+
+        };
+
+        $.ajax({
+            url: "/device/" + e.id + "/history.json",
+            method: 'POST',
+            dataType: 'json',
+            beforeSend: BeforeSend,
+            complete: OnComplete,
+            success: OnSuccess,
+            error: OnError
+        });
+    });
 
     $('#upload-form').submit(function (e) {
         e.preventDefault();
@@ -122,5 +233,6 @@ jQuery(document).ready(function () {
             }
         }
     });
+
 
 });

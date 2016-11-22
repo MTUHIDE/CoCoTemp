@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -108,6 +109,8 @@ public class UploadService {
 
                 UploadHistory uploadHistory = new UploadHistory();
                 uploadHistory.setDeviceID(deviceId);
+                uploadHistory.setError(false);
+                uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
                 uploadHistory.setDuration(end - start);
                 uploadHistory.setDescription("Data was uploaded successfully");
                 uploadHistoryService.save(uploadHistory);

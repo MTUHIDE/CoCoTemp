@@ -34,8 +34,13 @@ public class UploadHistoryImpl implements UploadHistoryService {
      * @param id The ID of the uploadHistory record in the database.
      */
     @Override
-    public void delete(String id) {
-        uploadHistoryRepository.delete(UUID.fromString(id));
+    public UploadHistory setViewed(UUID id) {
+
+
+        UploadHistory one = uploadHistoryRepository.findOne(id);
+        one.setViewed(true);
+        uploadHistoryRepository.save(one);
+        return one;
     }
 
 }

@@ -9,6 +9,7 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
     <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/station.css}"/>
 </head>
@@ -102,14 +103,16 @@
         <div class="side-body">
 
             <div class="row">
-                <div class="page-header">
-                    <h2>Stations<br/>
-                        <small>Explore data for a station</small>
-                    </h2>
+                <div id="top" class="page-header">
+                    <h3>Station
+                        <small>View data for a station.</small>
+                    </h3>
                 </div>
             </div>
             <div class="row">
 
+                <!--/*@thymesVar id="deviceServiceImplementation" type="space.hideaway.services.DeviceService"*/-->
+                <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
                 <div class="col-lg-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -125,7 +128,7 @@
 
                                     <!--/*@thymesVar id="deviceServiceImplementation" type="space.hideaway.services.DeviceServiceImplementation"*/-->
                                     <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                                    <div th:if="${#authorization.expression('isAuthenticated()') and deviceServiceImplementation.isCorrectUser(device.getId())}">
+                                    <div th:if="${#authorization.expression('isAuthenticated()') and isCorrectUser}">
                                         <button type="button" class="list-group-item">Edit device</button>
                                     </div>
                                 </div>
@@ -174,19 +177,6 @@
                             </table>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">History</div>
-
-
-                        <!-- List group -->
-                        <ul id="history-list" class="list-group">
-                            <li
-                                    class="list-group-item">
-                                <span style="font-style: italic">You have no history. Upload data to get started.</span>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -205,8 +195,85 @@
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
 <script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
 <script th:src="@{/js/station.js}"></script>
+
+<script type="text/javascript" th:if="${#authentication.isAuthenticated() and isCorrectUser}">
+    //<![CDATA[
+    jQuery(document).ready(function () {
+                var BeforeSend = function () {
+                    console.log("Send request for upload history...")
+                };
+                var OnSuccess = function (data, textStatus, jqXHR) {
+                    for (var i = 0; i < data.length; i++) {
+                        var record = data[i];
+                        var date = moment(record.dateTime);
+                        var description = "Your upload started " + date.fromNow() + " was successful.";
+                        if (!record.error && !record.viewed) {
+                            toastr["success"](description, "Upload Successful");
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "timeOut": "0",
+                                "extendedTimeOut": "0",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        } else if (record.error && !record.viewed) {
+                            toastr["error"](record.description, "Upload Failed");
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": false,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "timeOut": "0",
+                                "extendedTimeOut": "0",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        }
+
+                        if (!record.viewed) {
+                            $.ajax(
+                                    {
+                                        url: '/history/' + record.id + '/viewed',
+                                        type: 'Post'
+                                    }
+                            )
+                        }
+                    }
+                };
+
+
+                var OnError = function (qXHR, textStatus, errorThrown) {
+
+                };
+                $.ajax({
+                    url: "/device/" + deviceID + "/history.json",
+                    type: "POST",
+                    beforeSend: BeforeSend,
+                    success: OnSuccess,
+                    error: OnError
+                });
+            }
+    )
+    ;
+    //]]>
+</script>
+
 </body>
 </html>

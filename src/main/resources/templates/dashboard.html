@@ -173,12 +173,12 @@
                                         <div class="col-lg-12">
                                             <h5 th:inline="text" style="display: inline-block">
                                                 [[${device.getDeviceName()}]] <br/>
-                                                <small th:inline="text"> Last updated 5 hours ago.</small>
+                                                <small id="last-updated" th:inline="text"></small>
                                             </h5>
-                                            <h3 th:id="last-recorded-temp" style="display: inline-block;"
-                                                class="pull-right"></h3>
-                                            <br/>
-                                            <span style="display: none;" class="label label-danger">Error</span>
+                                            <div class="data-container">
+                                                <h3 th:id="last-recorded-temp" style="display: inline-block;"
+                                                    class="pull-right"></h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
@@ -216,6 +216,7 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
 <script th:src="@{/js/spring-friendly.js}"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
@@ -223,6 +224,7 @@
 <script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
 <script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 <script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

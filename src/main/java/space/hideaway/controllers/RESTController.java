@@ -12,6 +12,8 @@ import space.hideaway.repositories.DataRepository;
 import space.hideaway.services.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,8 +46,12 @@ public class RESTController {
     private final
     DeviceService deviceService;
 
+    private final
+    UploadHistoryService uploadHistoryService;
+
     @Autowired
     public RESTController(DataRepository dataRepository, DeviceService deviceService, RESTService restService, UserManagementImpl userService, UploadHistoryService uploadHistoryService) {
+        this.uploadHistoryService = uploadHistoryService;
         this.dataRepository = dataRepository;
         this.deviceService = deviceService;
         this.restService = restService;
@@ -156,7 +162,16 @@ public class RESTController {
     public
     @ResponseBody
     Set<UploadHistory> getHistory(@PathVariable(value = "deviceID") UUID deviceID) {
-        return deviceService.findByKey(deviceID.toString()).getUploadHistories();
+        Set<UploadHistory> uploadHistories = deviceService.findByKey(deviceID.toString()).getUploadHistories();
+        Collections.sort(new ArrayList<>(uploadHistories), (o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
+        return uploadHistories;
+    }
+
+    @RequestMapping(value = "/history/{historyID}/viewed", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    UploadHistory setHistoryViewed(@PathVariable(name = "historyID") UUID historyID) {
+        return uploadHistoryService.setViewed(historyID);
     }
 
 }

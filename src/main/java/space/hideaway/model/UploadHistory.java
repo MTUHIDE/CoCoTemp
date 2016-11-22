@@ -1,6 +1,5 @@
 package space.hideaway.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,14 +25,21 @@ public class UploadHistory {
     /**
      * The Device id.
      */
-    @JsonIgnore
+    @JsonProperty("deviceID")
     UUID deviceID;
 
     /**
      * The Device.
      */
-    @JsonBackReference
+    @JsonIgnore
     Device device;
+
+
+    @JsonProperty("viewed")
+    boolean viewed;
+
+    @JsonProperty("error")
+    boolean error;
 
     /**
      * The Date time.
@@ -81,7 +87,7 @@ public class UploadHistory {
      *
      * @return the device
      */
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
     public Device getDevice() {
         return device;
@@ -113,6 +119,15 @@ public class UploadHistory {
      */
     public void setDeviceID(UUID deviceID) {
         this.deviceID = deviceID;
+    }
+
+    @Column(name = "error")
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
     }
 
     /**
@@ -170,5 +185,14 @@ public class UploadHistory {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Column(name = "viewed")
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 }

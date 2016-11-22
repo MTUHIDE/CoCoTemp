@@ -37,6 +37,7 @@ public class StationController {
         model.addAttribute("device", device);
         model.addAttribute("deviceID", deviceID.toString());
         model.addAttribute("deviceServiceImplementation", deviceService);
+        model.addAttribute("isCorrectUser", deviceService.isCorrectUser(deviceID.toString()));
         return "station";
     }
 

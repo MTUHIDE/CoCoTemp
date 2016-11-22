@@ -85,6 +85,9 @@ public class DeviceServiceImplementation implements DeviceService {
      */
     @Override
     public boolean isCorrectUser(User user, String deviceID) {
+        if (user == null) {
+            return false;
+        }
         boolean found = false;
         Set<Device> deviceSet = user.getDeviceSet();
         for (Device device : deviceSet) {
