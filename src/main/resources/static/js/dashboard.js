@@ -1,4 +1,24 @@
 (function ($) {
+
+    var toasterSuccessOptions = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+
     $.fn.spin = function (opts, color) {
         var presets = {
             "tiny": {
@@ -126,23 +146,7 @@ jQuery(document).ready(function () {
 
             }, successHandler = function () {
                 $('#close').trigger('click');
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
+                toastr.options = toasterSuccessOptions;
                 toastr["success"]("Your data is being uploaded and will be available soon.", "Upload")
             },
             errorHandler = function () {
