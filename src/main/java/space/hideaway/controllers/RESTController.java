@@ -161,10 +161,11 @@ public class RESTController {
     @RequestMapping(value = "/device/{deviceID}/history.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    Set<UploadHistory> getHistory(@PathVariable(value = "deviceID") UUID deviceID) {
+    ArrayList<UploadHistory> getHistory(@PathVariable(value = "deviceID") UUID deviceID) {
         Set<UploadHistory> uploadHistories = deviceService.findByKey(deviceID.toString()).getUploadHistories();
-        Collections.sort(new ArrayList<>(uploadHistories), (o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
-        return uploadHistories;
+        ArrayList<UploadHistory> sortedHistory;
+        Collections.sort((sortedHistory = new ArrayList<>(uploadHistories)), (o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
+        return sortedHistory;
     }
 
     @RequestMapping(value = "/history/{historyID}/viewed", method = RequestMethod.POST)

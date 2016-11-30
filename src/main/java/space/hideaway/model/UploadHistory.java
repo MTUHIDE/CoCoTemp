@@ -2,6 +2,7 @@ package space.hideaway.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.UUID;
  */
 @Table(name = "upload_history")
 @Entity
+@JsonPropertyOrder({"dateTime"})
 public class UploadHistory {
 
     /**
