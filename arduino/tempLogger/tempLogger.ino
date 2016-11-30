@@ -43,8 +43,6 @@ SdFat SD;
 #include "Wire.h"
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
-#include <EEPROM.h>
-
 #define DEBUG 1
 #define DEBUG_TO_SD 1
 #define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
@@ -326,25 +324,6 @@ void setup_Clock(void) {
 
 }
 
-//read the device id and print it to the sd card
-void eepromPrintToSD(){
-  //if the id has already been saved, then go ahead and rewrite the file
-  File dataFile = SD.open("device_id.txt", O_WRITE | O_CREAT | O_TRUNC);  
-  if(dataFile){
-    int addr = 0;
-    Serial.println("writing device id");
-    for (; addr < 4; addr++){
-      if (addr == EEPROM.length()) {
-         addr = 0;
-       }
-      Serial.print(EEPROM.read(addr));
-      dataFile.print(EEPROM.read(addr));
-    }
-    
-    dataFile.close();
-  }
-  
-}
 
 //set up the pin modes, the clock
 //sd card, temp sensor, and the 
@@ -378,8 +357,6 @@ void setup(void) {
     write_Text_To_Disk("data.txt","setting up system");
   #endif 
 
-  //eepromSetup(); //COMMENT THIS OUT AFTER INITIAL PROGRAMMING
-  eepromPrintToSD();
 }
 
 
