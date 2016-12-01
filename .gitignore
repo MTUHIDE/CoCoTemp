@@ -27,3 +27,6 @@ nbdist/
 *.sassc
 *.log
 node_modules/
+
+# Ignore built CSS files (plus sourcemaps)
+src/main/resources/static/css
