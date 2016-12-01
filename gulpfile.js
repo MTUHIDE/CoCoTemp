@@ -24,6 +24,7 @@ gulp.task("build:css", function() {
         // Need to use sass.sync() to work with Plumber correctly
         .pipe(plugins.sass.sync())
         .pipe(plugins.autoprefixer(config.autoprefixer))
+        .pipe(plugins.sourcemaps.write("./"))
         .pipe(gulp.dest(paths.dist.css));
 });
 
