@@ -5,13 +5,22 @@ import org.springframework.stereotype.Component;
 import space.hideaway.repositories.UserRepository;
 
 /**
- * Created by dough on 10/11/2016.
+ * HIDE CoCoTemp 2016
+ * A unused class, but contains an initialize method that runs on startup of the server.
+ * SHOULD BE USED FOR TESTING ONLY.
+ *
+ * @author Piper Dougherty
  */
 @Component
 public class StartupService {
 
-    @Autowired
+    private final
     UserRepository userRepository;
+
+    @Autowired
+    public StartupService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * This method has no purpose at the moment, but

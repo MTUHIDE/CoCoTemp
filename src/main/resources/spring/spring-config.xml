@@ -3,30 +3,19 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:tx="http://www.springframework.org/schema/cache"
        xmlns:security="http://www.springframework.org/schema/security"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <tx:annotation-driven/>
+    <!--STATIC RESOURCE PATHS________________________________________________________________________________________-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
+
+    <context:property-placeholder location="classpath:/spring/application.properties"/>
+
+    <!--PERSISTENCE MANAGEMENT_______________________________________________________________________________________-->
     <jpa:repositories base-package="space.hideaway.repositories"/>
 
-    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:/spring/application.properties"/>
-    </bean>
-
-    <!--Allow access to serving static files.-->
-    <mvc:resources mapping="/static/**" location="/static/"/>
-
-    <security:http auto-config="true" use-expressions="true">
-        <security:form-login login-page="/#login" login-processing-url="/login" default-target-url="/dashboard"
-                             username-parameter="username" password-parameter="password"
-                             authentication-failure-url="/?error=true"/>
-        <security:intercept-url pattern="/dashboard" access="isFullyAuthenticated()"/>
-        <security:intercept-url pattern="/login" access="permitAll()"/>
-        <security:intercept-url pattern="/**" access="permitAll()"/>
-        <security:csrf disabled="true"/>
-    </security:http>
-
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" primary="true" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${spring.datasource.driver-class-name}"/>
         <property name="url"
                   value="${spring.datasource.url}"/>
@@ -45,6 +34,13 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+                <prop key="hibernate.order_inserts">true</prop>
+                <prop key="hibernate.order_updates">true</prop>
+                <prop key="hibernate.id.new_generator_mappings">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
             </props>
         </property>
     </bean>
@@ -53,27 +49,38 @@
           class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+    <!--END PERSISTENCE MANAGEMENT___________________________________________________________________________________-->
 
-    <bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>
-
-
+    <!--CUSTOM BEANS_________________________________________________________________________________________________-->
     <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
+    <bean id="securityServiceImplementation" class="space.hideaway.services.SecurityServiceImplementation"/>
 
+    <!--Bean that runs on startup.-->
+    <bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>
+    <!--END CUSTOM BEANS_____________________________________________________________________________________________-->
+
+    <!--AUTHENTICATION_______________________________________________________________________________________________-->
+    <security:http auto-config="true" use-expressions="true">
+        <security:form-login login-page="/#login"/>
+        <security:intercept-url pattern="/upload/**" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
+        <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
+        <security:intercept-url pattern="/**" access="permitAll()"/>
+        <security:csrf disabled="true"/>
+    </security:http>
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="userDetailsServiceImplementation">
             <security:password-encoder ref="encoder"/>
         </security:authentication-provider>
-
     </security:authentication-manager>
-
 
     <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="11"/>
     </bean>
+    <!--END AUTHENTICATION___________________________________________________________________________________________-->
 
-
+    <tx:annotation-driven/>
     <mvc:annotation-driven/>
-
-
 </beans>

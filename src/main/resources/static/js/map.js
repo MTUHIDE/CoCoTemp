@@ -1,7 +1,3 @@
-/**
- * Created by caden on 10/7/2016.
- */
-
 /* Limit map view to the USA */
 var maxBounds = L.latLngBounds(
     L.latLng(5.090944175, -172.44140625), //Southwest
@@ -9,7 +5,7 @@ var maxBounds = L.latLngBounds(
 );
 
 /* Initialize Map */
-var map = L.map('bgmap', {
+var map = L.map('map', {
     dragging: true,
     zoomControl: false,
     maxZoom: 18,
@@ -28,19 +24,55 @@ L.control.zoom({
 L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw',
     {}).addTo(map);
 
-/* Add Weather Station Points */
-// L.marker([47.11, -88.54]).addTo(map).bindPopup("<b>Station 666</b><br>Michigan Technological University<br>Michigan, 49931");
-// L.marker([44.75, -85.60]).addTo(map).bindPopup("<b>Station 42</b><br>Traverse City<br>Michigan, 49684");
-// L.marker([39.69, -105.20]).addTo(map).bindPopup("<b>Station 69</b><br>Denver<br> Colorado, 80123");
-
-function onEachFeature(feature, layer) {
-    // does this feature have a property named popupContent?
-    layer.bindPopup(feature.properties.popupContent);
-}
-
-/* GeoJSON Data */
-$.getJSON('https://gist.githubusercontent.com/Ghosts/9cee42dbb5275c5ae15d5cc5e733eab2/raw/02c0df960d62ac698c2df0fd334155f0df56a27d/geoTest.json', function (geojson) {
-    L.geoJson(geojson, {
-        onEachFeature: onEachFeature
+var addPoints = function (data) {
+    L.geoJSON(data, {
+        onEachFeature: onEachFeature,
+        pointToLayer: function (feature, latlng) {
+            var temperature = feature.properties.temperature;
+            var color;
+            if (temperature < 30) {
+                color = "#0f22ff"
+            } else if (temperature >= 30 && temperature < 40) {
+                color = "#2442ff"
+            } else if (temperature >= 40 && temperature < 50) {
+                color = "#4fbafb"
+            } else if (temperature >= 50 && temperature < 60) {
+                color = "#7affbf"
+            } else if (temperature >= 60 && temperature < 70) {
+                color = "#c0ff28"
+            } else if (temperature >= 70 && temperature < 80) {
+                color = "#f7ff0d"
+            } else if (temperature >= 80 && temperature < 90) {
+                color = "#ff6d00"
+            } else if (temperature >= 90) {
+                color = "#ff1200"
+            }
+            var geoJsonMarkerOptions = {
+                radius: 8,
+                fillColor: color,
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+            return L.circleMarker(latlng, geoJsonMarkerOptions)
+        }
     }).addTo(map);
-});
+};
+
+var onEachFeature = function (feature, layer) {
+    var stationName = feature.properties.name;
+    var temperature = feature.properties.temperature;
+    var popup = "<p>Station: " + stationName + "</p><h4>" + temperature + "</h4>";
+    layer.bindPopup(popup);
+};
+
+
+$.ajax(
+    {
+        url: '/devicePoints.json',
+        dataType: "json",
+        method: "post",
+        success: addPoints
+    }
+);

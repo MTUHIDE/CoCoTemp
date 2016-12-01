@@ -15,13 +15,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by dough on 10/9/2016.
+ * HIDE CoCoTemp 2016
+ * The class responsible for obtaining UserDetails objects from a given username.
  */
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
+    /**
+     * The repository responsible for CRUD operations on users.
+     */
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserDetailsServiceImplementation(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -39,11 +47,10 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if (user != null) {
-            Set<GrantedAuthority> grantedAuthoritySet = user.getRoleSet().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthoritySet);
-        } else {
+        if (user == null) {
             throw new UsernameNotFoundException("User not found.");
         }
+        Set<GrantedAuthority> grantedAuthoritySet = user.getRoleSet().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthoritySet);
     }
 }

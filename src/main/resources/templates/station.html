@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Dashboard</title>
+
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
+    <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/station.css}"/>
+</head>
+<body>
+
+<script th:inline="javascript">
+    var deviceID = [[${deviceID}]];
+</script>
+<div class="row">
+    <!-- uncomment code for absolute positioning tweek see top comment in css -->
+    <!-- <div class="absolute-wrapper"> </div> -->
+    <!-- Menu -->
+    <div class="side-menu">
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <div class="brand-wrapper">
+                    <!-- Hamburger -->
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Brand -->
+                    <div class="brand-name-wrapper">
+                        <a class="navbar-brand" href="/">
+                            CoCoTemp
+                        </a>
+                    </div>
+
+                    <!-- Search -->
+                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+
+                    <!-- Search body -->
+                    <div id="search" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="navbar-form" role="search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search"/>
+                                </div>
+                                <button type="submit" class="btn btn-default "><span
+                                        class="glyphicon glyphicon-ok"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav navbar-nav">
+
+                    <li><a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li class="active"><a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My
+                        Dashboard</a>
+                    </li>
+
+                    <!-- Dropdown-->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-lvl1">
+                            <span class="glyphicon glyphicon-stats"></span> Data <span class="caret"></span>
+                        </a>
+
+                        <!-- Dropdown level 1 -->
+                        <div id="dropdown-lvl1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a th:href="@{/reports/temperature}">Temperature Reports</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
+                    <li><a th:href="@{/about}"><span class="glyphicon "></span> About</a></li>
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body">
+
+            <div class="row">
+                <div class="page-header">
+                    <h2>Stations<br/>
+                        <small>Explore data for a station</small>
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Station</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-lg-3">
+                                <h4 th:inline="text">[[${device.getDeviceName()}]]<br/>
+                                    <small>Last update 5 hours ago</small>
+                                </h4>
+                                <div class="list-group">
+                                    <button type="button" class="list-group-item">Compare with other stations</button>
+                                    <button type="button" class="list-group-item">Edit device</button>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 right-content">
+                                <table class="table" id="vertical-1">
+                                    <caption>Statistics</caption>
+                                    <tr>
+                                        <th>Average</th>
+                                        <td>~&deg;</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Minimum</th>
+                                        <td>~&deg;</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Minimum</th>
+                                        <td>~&deg;</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Records</th>
+                                        <td>0</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Data</h3>
+                        </div>
+                        <div class="panel-body">
+                            <table id="temperature-table" class="table table-striped table-bordered"
+                                   style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Temperature</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
+<script th:src="@{/js/spring-friendly.js}"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
+<script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
+<script th:src="@{/js/station.js}"></script>
+</body>
+</html>

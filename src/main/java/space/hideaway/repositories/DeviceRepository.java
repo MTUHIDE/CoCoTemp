@@ -1,11 +1,12 @@
 package space.hideaway.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import space.hideaway.model.Device;
 
-/**
- * Created by dough on 10/12/2016.
- */
-public interface DeviceRepository extends JpaRepository<Device, Long> {
+import java.util.UUID;
 
+public interface DeviceRepository extends JpaRepository<Device, Long> {
+    @Query("select x from Device x where x.id=?1")
+    Device findByDeviceKey(UUID deviceKey);
 }
