@@ -20,19 +20,19 @@
     1) AFTER SETTING THE TIME COMMENT IT OUT
        OTHERWISE THE CLOCK IS SET TO THAT DATE EVERY
        TIME YOU BOOT UP
-    
+
     2) The processor doesn't begin logging until the
        minute it is on finishes but then it consistently
        runs from there, so if it starts at 10:01:29 it waits
        until 10:02:00 to begin
-    
+
     3) On power up, the temperature sensor sends 185 deg F to verify booting
        This code omits that initial log, so it may actually begin logging after
        up to one plus timeToSleep minutes
-    
-    4) Currently, the processor wakes up every minute to see if the specified 
+
+    4) Currently, the processor wakes up every minute to see if the specified
        timeToSleep minutes have passed, and then it logs when true. This is due
-       to the nature of the RTC's alarm, and with some math it can be configured 
+       to the nature of the RTC's alarm, and with some math it can be configured
        to wake up only once every timeToSleep minutes
 */
 
@@ -192,29 +192,32 @@ void printTime(void){
   // retrieve data from DS3231
   readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,
   &year);
- 
-    // print to the serial port too:
-    Serial.print(month);
-    Serial.print("/");
-    Serial.print(dayOfMonth);
-    Serial.print("/");
-    Serial.print(year);
-    Serial.print(" ");
-    Serial.print(hour);
-    Serial.print(":");
-    Serial.print(minute);
-    Serial.print(":");
-    Serial.println(second);
-    
+
+  // print to the serial port:
+  //yyyy-mm-dd hh:mm:ss,temperature
+  Serial.print(year);
+  Serial.print("-");
+  Serial.print(dayOfMonth);
+  Serial.print("-");
+  Serial.print(day);
+  Serial.print(" ");
+  Serial.print(hour);
+  Serial.print(":");
+  Serial.print(minute);
+  Serial.print(":");
+  Serial.print(second);
+  Serial.print(",");
+  Serial.println(temp);
+
 }
 
 /*
- *Write a string to sd 
+ *Write a string to sd
  */
 void write_Text_To_Disk(String filename,String str) {
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  File dataFile = SD.open(filename, FILE_WRITE);  
+  File dataFile = SD.open(filename, FILE_WRITE);
   // if the file is available, write to it:
   if (dataFile) {
     delay(50);
@@ -223,7 +226,7 @@ void write_Text_To_Disk(String filename,String str) {
     dataFile.close();
   }
   else{
-    
+
     Serial.println("error writing text to disk data.txt");
   }
 }
@@ -235,13 +238,13 @@ void append_to_disk(float temp) {
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  File dataFile = SD.open("data.txt", FILE_WRITE);  
-  
+  File dataFile = SD.open("data.txt", FILE_WRITE);
+
   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
   // retrieve data from DS3231
   readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,
   &year);
- 
+
   // if the file is available, write to it:
   if (dataFile) {
     delay(50);
@@ -252,32 +255,32 @@ void append_to_disk(float temp) {
     //don't write -1000 either
     if (temp == 185.0 || temp == -1000)
       return;
-#endif 
-
-#if DEBUG
-     Serial.println("Printing Data:");
 #endif
 
- //print comma seperated values in form:
-    //mm/dd/yy hh:mm
-    dataFile.print(temp);
-    dataFile.print(", ");
-    dataFile.print(month);
-    dataFile.print("/");
-    dataFile.print(dayOfMonth);
-    dataFile.print("/");
-    dataFile.print(year);
-    dataFile.print(" ");
-    dataFile.print(hour);
-    dataFile.print(":");
-    dataFile.print(minute);
-    dataFile.print(":");
-    dataFile.println(second);
-    dataFile.close();
-    
+#if DEBUG
+  Serial.println("Printing Data:");
+#endif
+
+  //print comma seperated values in form:
+  //yyyy-mm-dd hh:mm:ss,temperature
+  dataFile.print(year);
+  dataFile.print("-");
+  dataFile.print(dayOfMonth);
+  dataFile.print("-");
+  dataFile.print(day);
+  dataFile.print(" ");
+  dataFile.print(hour);
+  dataFile.print(":");
+  dataFile.print(minute);
+  dataFile.print(":");
+  dataFile.print(second);
+  dataFile.print(",");
+  dataFile.println(temp);
+  dataFile.close();
+
 #if DEBUG
   printTime();
-#endif    
+#endif
 
   }
   // if the file isn't open, pop up an error:
@@ -289,7 +292,7 @@ void append_to_disk(float temp) {
 /*
  * on clock alarm, this function wakes up the device to
  * allow the loop to log data and go back to sleep
- * 
+ *
 */
 void alarmISR()
 {
@@ -326,13 +329,13 @@ void setup_Clock(void) {
 
 
 //set up the pin modes, the clock
-//sd card, temp sensor, and the 
+//sd card, temp sensor, and the
 //device id
 void setup(void) {
 
 #if DEBUG
   Serial.begin(9600);
-#endif 
+#endif
 
   // set pin 4 (POWA) to output so that we can control the
   //power of the sd reader and the temp sensor
@@ -347,7 +350,7 @@ void setup(void) {
 
   //set up sd card
   sd_setup();
-  
+
   //set up clock
   setup_Clock();
 
@@ -355,7 +358,7 @@ void setup(void) {
 
   #if DEBUG_TO_SD
     write_Text_To_Disk("data.txt","setting up system");
-  #endif 
+  #endif
 
 }
 
@@ -371,7 +374,7 @@ void loop(void) {
 
 #if DEBUG_TO_SD
   write_Text_To_Disk("data.txt","Going To Sleep");
-#endif 
+#endif
 
   //enter deep sleep
   sleep_enable();
@@ -379,7 +382,7 @@ void loop(void) {
   cli();
   sleep_bod_disable();
   sei();
-  
+
 #if DEBUG
   //let serial have time print
   delay(75);
@@ -397,9 +400,9 @@ void loop(void) {
 #endif
 
    //update until we hit the specified number of minutes to run
-   
+
 #if 0
-  Serial.print("clock.isAlarm1() " + String(clock.isAlarm1(false)) + " && (timeCount < (timeToSleep - 1)) : ");  
+  Serial.print("clock.isAlarm1() " + String(clock.isAlarm1(false)) + " && (timeCount < (timeToSleep - 1)) : ");
   Serial.println(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1)));
 #endif
 
@@ -408,36 +411,33 @@ void loop(void) {
       timeCount++;
       clock.clearAlarm1();
     }
-    
+
   //At this point, the ISR from the clock alarm woke up the
   //processor and the alarm flag is set. Clear the flag and
   //handle whatever we need to do.
   else {
 #if DEBUG_TO_SD
   write_Text_To_Disk("data.txt","Woke up, logging");
-#endif    
+#endif
 
 #if DEBUG
     Serial.println("ALARM TRIGGERED!");
-#endif        
-delay(1);
+#endif
+    delay(1);
 
     //we finally hit the specified number of minutes to run, reset and log
     timeCount = 0;
-    
+
     float temperature = getTemp();
     delay(5);
     append_to_disk(temperature);
 #if DEBUG
     Serial.println(temperature);
-#endif        
-    
+#endif
 
     //clear alarm flag and update time To sleep
     clock.clearAlarm1();
 
   }
 
-
 }
-
