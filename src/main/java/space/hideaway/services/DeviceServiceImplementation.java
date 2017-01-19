@@ -7,69 +7,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.DeviceErrorSerializer;
 import space.hideaway.DeviceValidator;
-import space.hideaway.UserNotFoundException;
-import space.hideaway.model.Data;
 import space.hideaway.model.Device;
+import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by dough on 10/12/2016.
- */
+
 @Service
 public class DeviceServiceImplementation implements DeviceService {
 
-    private final UserServiceImplementation userServiceImplementation;
+    private final UserService userService;
     private final SecurityServiceImplementation securityServiceImplementation;
     private final DeviceRepository deviceRepository;
     private final DeviceValidator deviceValidator;
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DeviceServiceImplementation(DeviceValidator deviceValidator, UserServiceImplementation userServiceImplementation, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
+    public DeviceServiceImplementation(DataService dataService, DeviceValidator deviceValidator, UserService userService, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
         this.deviceValidator = deviceValidator;
-        this.userServiceImplementation = userServiceImplementation;
+        this.userService = userService;
         this.securityServiceImplementation = securityServiceImplementation;
         this.deviceRepository = deviceRepository;
     }
 
+
     /**
-     * Save a new device to the database. Returns a JSON structure representing the status of the addition.
-     * <p>
-     * Example JSON of successful addition.
-     * {
-     * "error": false
-     * }
-     * <p>
-     * Example JSON of unsuccessful addition.
-     * {
-     * "error": true,
-     * "errors" ["A description of some error one.", "A description of some error two."]
-     * }
+     * Save a new device into the database.
      *
-     * @param device The new device to be added.
-     * @return A JSON representation of the status of the addition.
+     * @param device The new device to be inserted.
+     * @return
      */
     @Override
     public String save(Device device) {
-        //Obtain the security context of the currently logged in user.
-        String loggedInUsername = securityServiceImplementation.findLoggedInUsername();
-        Long id = null;
-        try {
-            id = userServiceImplementation.findByUsername(loggedInUsername).getId();
-        } catch (UserNotFoundException e) {
-            logger.error("The user was not found when attempting to create a new device", e);
-        }
-
-        //We must associate the device with a user.
+        Long id = userService.getCurrentLoggedInUser().getId();
         device.setUserId(id);
-
-        //Is the device of valid format?
         deviceValidator.validate(device);
-
-        //Format JSON.
         Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
         if (deviceValidator.hasErrors()) {
             return gson.toJson(deviceValidator);
@@ -79,14 +54,57 @@ public class DeviceServiceImplementation implements DeviceService {
         return gson.toJson(deviceValidator);
     }
 
+    /**
+     * Find a device by device ID.
+     *
+     * @param deviceID The ID of the device to obtain.
+     * @return The obtained device matching the given deviceID.
+     */
     @Override
-    public Device findByKey(String deviceKey) {
-        UUID formattedUUID = UUID.fromString(deviceKey);
-        return deviceRepository.findByDeviceKey(formattedUUID);
+    public Device findByKey(String deviceID) {
+        return deviceRepository.findOne(UUID.fromString(deviceID));
     }
 
+    /**
+     * Obtain a list of all devices.
+     *
+     * @return A list of all devices.
+     */
     @Override
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
+    }
+
+    /**
+     * Compare a deviceID and a user, and determine whether the relationship between
+     * them is valid.
+     *
+     * @param user     The user to compare to the device.
+     * @param deviceID The ID of the device to compare to the user.
+     * @return True if the user owns the device, false otherwise.
+     */
+    @Override
+    public boolean isCorrectUser(User user, String deviceID) {
+        if (user == null) {
+            return false;
+        }
+        boolean found = false;
+        Set<Device> deviceSet = user.getDeviceSet();
+        for (Device device : deviceSet) {
+            if (device.getId().toString().equals(deviceID)) {
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    /**
+     * Compare a deviceID and the currently logged in user, and determine whether the relationship between
+     * them is valid.
+     *
+     * @return True if the user owns the device, false otherwise.
+     */
+    public boolean isCorrectUser(String deviceKey) {
+        return isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey);
     }
 }

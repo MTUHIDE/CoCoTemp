@@ -12,6 +12,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{css/global.css}"/>
     <link rel="stylesheet" th:href="@{css/dashboard.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 </head>
 <body>
 <div class="row">
@@ -105,11 +106,11 @@
                 <div class="modal-body">
                     <h4>Select a device to get started</h4>
                     <p>We'll process it and place it where it needs to go!</p>
-                    <form>
+                    <form id="upload-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>
                                 Device
-                                <select class="selectpicker" data-live-search="true">
+                                <select id="device-select" class="selectpicker" data-live-search="true">
                                     <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
                                     <option th:each="device : ${#lists.sort(devices, devicesComparator)}" data-tokens=""
                                             th:text="${device.getDeviceName()}" th:value="${device.getId()}"></option>
@@ -122,12 +123,12 @@
                         </div>
                         <div class="form-group">
                             <label class="btn btn-default btn-file">
-                                Browse <input type="file" style="display: none;"/>
+                                Browse <input id="file" name="file" type="file" style="display: none;"/>
                             </label>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Upload</button>
+                            <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Upload</button>
                         </div>
                     </form>
                 </div>
@@ -153,7 +154,6 @@
                         <button type="button" data-toggle="modal" data-target="#myModal" class="list-group-item">
                             Upload data
                         </button>
-                        <button type="button" class="list-group-item">Compare with other stations</button>
                         <a th:href="@{/settings/profile}" type="button" class="list-group-item">Edit devices and
                             settings</a>
 
@@ -164,23 +164,21 @@
 
 
                         <!-- List group -->
-                        <ul class="list-group">
+                        <ul id="device-list" class="list-group">
                             <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <li th:each="device : ${#lists.sort(devices, devicesComparator)}"
+                            <li th:id="*{device.getId()}" th:each="device : ${#lists.sort(devices, devicesComparator)}"
                                 class="list-group-item">
-                                <a th:id="${device.getId()}" th:href="@{'/device/' + *{device.getId()}}">
+                                <a th:href="@{'/device/' + *{device.getId()}}">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5 th:inline="text" style="display: inline-block">
                                                 [[${device.getDeviceName()}]] <br/>
-                                                <small th:inline="text"> Last updated 5 hours ago.</small>
+                                                <small id="last-updated" th:inline="text"></small>
                                             </h5>
-                                            <h3 style="display: inline-block;" class="pull-right" th:text="*{dashboardServiceImplementation.getLastRecording(device).getTemperature() != -99999}
-                                         ? *{dashboardServiceImplementation.getLastRecording(device).getTemperature()}
-                                                   : '~&deg;'"></h3>
-                                            <br/>
-                                            <!--/*@thymesVar id="dashboardServiceImplementation" type="space.hideaway.services.DashboardServiceImplementation"*/-->
-                                            <span style="display: none;" class="label label-danger">Error</span>
+                                            <div class="data-container">
+                                                <h3 th:id="last-recorded-temp" style="display: inline-block;"
+                                                    class="pull-right"></h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
@@ -211,19 +209,22 @@
     </div>
 </div>
 <script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        src="//code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script th:src="@{/js/spring-friendly.js}"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
 <script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script th:src="@{/js/spring-friendly-datatables.js}"></script>
 <script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

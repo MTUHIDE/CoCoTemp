@@ -14,22 +14,18 @@ import space.hideaway.repositories.UserRepository;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * HIDE CoCoTemp 2016
- * The class responsible for obtaining UserDetails objects from a given username.
- */
+
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
-    /**
-     * The repository responsible for CRUD operations on users.
-     */
+
     private final UserRepository userRepository;
 
     @Autowired
     public UserDetailsServiceImplementation(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     /**
      * Locates the user based on the username. In the actual implementation, the search

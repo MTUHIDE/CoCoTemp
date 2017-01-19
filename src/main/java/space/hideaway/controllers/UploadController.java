@@ -6,18 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import space.hideaway.services.UploadService;
 
-/**
- * HIDE CoCoTemp 2016
- * Class responsible for routing file uploads.
- *
- * @author Piper Dougherty
- */
+
 @Controller
 public class UploadController {
 
-    /**
-     * The service responsible for parsing files and inserting them into the database.
-     */
+
     private final UploadService uploadService;
 
     @Autowired
@@ -27,31 +20,26 @@ public class UploadController {
 
 
     /**
-     * API for inserting a file into the database. Returns the status in
-     * JSON format.
+     * The API endpoint for loading a CSV file into the database.
      * <p>
-     * Example JSON structure for a successful upload.
-     * {
-     * status: "uploaded"
-     * }
+     * URL: /upload/{deviceID}
+     * Secured: Yes
+     * Method: POST
      * <p>
-     * Example JSON structure for an unsuccessful upload.
-     * {
-     * status: "failed"
-     * }
+     * TODO: Sample JSON response.
      *
-     * @param deviceKey The unique ID of the device.
-     * @param file      The file to be inserted.
-     * @return JSON representing the status of the upload.
+     * @param deviceID The ID of the device the uploaded data is associated with.
+     * @param file     The file uploaded by the user.
+     * @return JSON response indicating the status of the upload.
      */
-    @RequestMapping(value = "/upload/{deviceKey}", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{deviceID}", method = RequestMethod.POST)
     public
     @ResponseBody
     String uploadFile(
-            @PathVariable(value = "deviceKey") String deviceKey,
+            @PathVariable(value = "deviceID") String deviceID,
             @RequestParam(value = "file") MultipartFile file
     ) {
-        return uploadService.setMultipartFile(file).parseFile(deviceKey);
+        return uploadService.setMultipartFile(file).parseFile(deviceID);
     }
 
 }

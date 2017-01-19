@@ -12,61 +12,63 @@ import space.hideaway.repositories.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * HIDE CoCoTemp 2016
- * A class responsible for CRUD operations on user objects.
- *
- * @author Piper Dougherty
- */
-@Service
-public class UserServiceImplementation implements UserService {
 
-    /**
-     * The service responsible for CRUD operations on user accounts.
-     */
+@Service
+public class UserManagementImpl implements UserService {
+
     private final UserRepository userRepository;
 
-    /**
-     * The repository responsible for obtaining and creating user roles.
-     */
     private final RoleRepository roleRepository;
 
-    /**
-     * The bCrypt encoding service.
-     */
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final SecurityServiceImplementation securityServiceImplementation;
 
     @Autowired
-    public UserServiceImplementation(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
-                                     SecurityServiceImplementation securityServiceImplementation) {
+    public UserManagementImpl(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
+                              SecurityServiceImplementation securityServiceImplementation) {
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
         this.securityServiceImplementation = securityServiceImplementation;
     }
 
+
     /**
-     * Save a new user into the database. Make sure user has been validated first.
+     * Save a new user into the database.
      *
-     * @param user The user to be saved.
+     * @param user The new user to be saved.
      */
     @Override
     public void save(User user) {
-        //Encrypt the user's password for insertion into the database.
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        //Add specific roles to the user. Right now, all roles are added.
+
         user.setRoleSet(new HashSet<>(roleRepository.findAll()));
         userRepository.save(user);
     }
 
     /**
-     * Obtain a user from the database by matching the username.
+     * Obtain the user that is currently logged in.
      *
-     * @param username The username of the user to search for.
-     * @return The user with the specified username.
+     * @return The user that is currently logged in.
+     */
+    public User getCurrentLoggedInUser() {
+        try {
+            return findByUsername(securityServiceImplementation.findLoggedInUsername());
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Find a user by username.
+     *
+     * @param username The username associated with the user to be obtained.
+     * @return The located user.
+     * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     @Override
     public User findByUsername(String username) throws UserNotFoundException {
@@ -78,20 +80,12 @@ public class UserServiceImplementation implements UserService {
         }
     }
 
-    public User getCurrentLoggedInUser() {
-        try {
-            return findByUsername(securityServiceImplementation.findLoggedInUsername());
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     /**
-     * Get all the devices for this user.
+     * Obtain a list of devices for a user.
      *
-     * @param username The user to obtain devices for.
-     * @return A set of devices the user maintains.
+     * @param username The username associated with user to obtain devices for.
+     * @return A list of devices for a given username.
+     * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     @Override
     public Set<Device> getDevices(String username) throws UserNotFoundException {

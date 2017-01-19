@@ -3,12 +3,9 @@ package space.hideaway.model;
 import javax.persistence.*;
 import java.util.Set;
 
+
 /**
- * HIDE CoCoTemp 2016
- * <p>
- * JPA model for representing the role of a user by way of foreign keys.
- *
- * @author Piper Dougherty
+ * The type Role.
  */
 @Entity
 @Table(name = "role")
@@ -16,21 +13,14 @@ public class Role {
 
     private Long id;
 
-    /**
-     * The name of the role. Currently implemented roles are
-     * ROLE_USER and ROLE_ADMIN.
-     */
     private String name;
 
-    /**
-     * A set of all users who have this role.
-     */
     private Set<User> userSet;
 
     /**
-     * Get the ID of this role.
+     * Gets id.
      *
-     * @return The ID of this role.
+     * @return the id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,36 +29,36 @@ public class Role {
     }
 
     /**
-     * Set the ID of this role. Should probably not be used...
+     * Sets id.
      *
-     * @param id The new ID of this role.
+     * @param id the id
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * Get the name of this role.
+     * Gets name.
      *
-     * @return The name of the role.
+     * @return the name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set the name of this role.
+     * Sets name.
      *
-     * @param name The new name of this role.
+     * @param name the name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Get the set of users that have this role.
+     * Gets user set.
      *
-     * @return A set of users that have this role.
+     * @return the user set
      */
     @ManyToMany(mappedBy = "roleSet")
     public Set<User> getUserSet() {
@@ -76,9 +66,9 @@ public class Role {
     }
 
     /**
-     * Set the set of users that have this role.
+     * Sets user set.
      *
-     * @param userSet The new set of user that have this role.
+     * @param userSet the user set
      */
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;

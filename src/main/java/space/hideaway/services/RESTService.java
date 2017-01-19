@@ -12,22 +12,18 @@ import space.hideaway.model.Device;
 
 import java.util.List;
 
-/**
- * Created by dough on 11/8/2016.
- */
+
 @Service
 public class RESTService {
 
+    private final DataServiceImplementation dataServiceImplementation;
+    private final DeviceServiceImplementation deviceServiceImplementation;
+
     @Autowired
-    UserServiceImplementation userServiceImplementation;
-    @Autowired
-    private DataServiceImplementation dataServiceImplementation;
-    @Autowired
-    private DeviceServiceImplementation deviceServiceImplementation;
-    @Autowired
-    private DashboardServiceImplementation dashboardServiceImplementation;
-    @Autowired
-    private SecurityServiceImplementation securityServiceImplementation;
+    public RESTService(SecurityServiceImplementation securityServiceImplementation, DeviceServiceImplementation deviceServiceImplementation, UserManagementImpl userManagementImpl, DataServiceImplementation dataServiceImplementation, UploadHistoryService uploadHistoryService) {
+        this.deviceServiceImplementation = deviceServiceImplementation;
+        this.dataServiceImplementation = dataServiceImplementation;
+    }
 
     public String getGeoJsonForLastRecordedTemperature() {
         FeatureCollection features = new FeatureCollection();

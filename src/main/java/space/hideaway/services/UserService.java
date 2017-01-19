@@ -7,26 +7,36 @@ import space.hideaway.model.User;
 import java.util.Set;
 
 public interface UserService {
+
     /**
-     * Save a user into the database.
+     * Save a new user into the database.
      *
-     * @param user The user to be saved.
+     * @param user The new user to be saved.
      */
     void save(User user);
 
     /**
-     * Obtain a user from a given username.
+     * Obtain the user that is currently logged in.
      *
-     * @param username The username of the user to search for.
-     * @return The user corresponding to the username provided.
+     * @return The user that is currently logged in.
+     */
+    User getCurrentLoggedInUser();
+
+    /**
+     * Find a user by username.
+     * @param username The username associated with the user to be obtained.
+     * @return The located user.
+     * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     User findByUsername(String username) throws UserNotFoundException;
 
+
     /**
-     * Get the set of devices for a user.
+     * Obtain a list of devices for a user.
      *
-     * @param username The user to obtain devices for.
-     * @return A set of devices the user maintains.
+     * @param username The username associated with user to obtain devices for.
+     * @return A list of devices for a given username.
+     * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     Set<Device> getDevices(String username) throws UserNotFoundException;
 }

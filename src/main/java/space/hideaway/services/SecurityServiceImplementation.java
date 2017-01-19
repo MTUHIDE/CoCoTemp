@@ -10,26 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * HIDE CoCoTemp 2016
- * <p>
- * The class responsible for handling operations
- * relating to authenticating a user.
- *
- * @author Piper Dougherty
- */
+
 @Service
 public class SecurityServiceImplementation implements SecurityService {
 
-    /**
-     * The service responsible for obtaining a user from the database by username.
-     */
     private final
     UserDetailsServiceImplementation userDetailsServiceImplementation;
 
-    /**
-     * The service responsible for authenticating users.
-     */
     private final AuthenticationManager authenticationManager;
 
     @Autowired
@@ -39,11 +26,9 @@ public class SecurityServiceImplementation implements SecurityService {
     }
 
     /**
-     * Obtain the currently logged in user from the Spring security context.
-     * <p>
-     * TODO: if this method returns null if nobody is logged in, it may break things. Fix it.
+     * Obtain the username of the current logged in user.
      *
-     * @return The username of the currently logged in user, or null if there is no logged in user.
+     * @return The username of the current logged in user.
      */
     @Override
     public String findLoggedInUsername() {
@@ -51,57 +36,12 @@ public class SecurityServiceImplementation implements SecurityService {
         return userDetails.getName();
     }
 
-
     /**
-     * Automatically login user after registration.
+     * Attempt to log in a user server-side.
      *
-     * @param username The username of the user.
-     * @param password The password of the user.
-     */
-    @Override
-    public void autoLogin(String username, String password) {
-        UserDetails userDetails = userDetailsServiceImplementation.loadUserByUsername(username);
-
-        //Create a new token for the user.
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                password,
-                userDetails.getAuthorities()
-        );
-
-
-        try {
-            //Try authenticating the user.
-            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-        }
-
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            //Tell Spring security the user is valid, add the user to the session.
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
-    }
-
-    /**
-     * Login a user. Returns a JSON representation of the success or failure of the
-     * login.
-     * <p>
-     * Sample of JSON structure of successful login.
-     * {
-     * "status": true,
-     * "location": "/dashboard"
-     * }
-     * <p>
-     * Sample of JSON structure of unsuccessful login.
-     * {
-     * "status": false,
-     * "error": "The form is invalid for some reason."
-     * }
-     *
-     * @param username The username of the user to be logged in.
-     * @param password The password of the user to be logged in.
-     * @return JSON structure representing the status of the login.
+     * @param username The username of the user to log in.
+     * @param password The password of the user to log in.
+     * @return JSON response representing
      */
     @Transactional(readOnly = true)
     public String tryLogin(String username, String password) {
@@ -125,5 +65,36 @@ public class SecurityServiceImplementation implements SecurityService {
         }
 
         return "{\"status\": false, \"error\": \"Username or password is incorrect.\"}";
+    }
+
+    /**
+     * Attempt to log in a user after they have registered.
+     *
+     * @param username The username of the user to log in.
+     * @param password The password of the user to log in.
+     */
+    @Override
+    public void autoLogin(String username, String password) {
+        UserDetails userDetails = userDetailsServiceImplementation.loadUserByUsername(username);
+
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                password,
+                userDetails.getAuthorities()
+        );
+
+
+        try {
+
+            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        }
+
+        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
+
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        }
     }
 }

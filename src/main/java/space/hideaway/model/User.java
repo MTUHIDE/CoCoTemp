@@ -3,51 +3,30 @@ package space.hideaway.model;
 import javax.persistence.*;
 import java.util.Set;
 
+
 /**
- * HIDE CoCoTemp 2016
- * <p>
- * JPA model for representing a user.
- *
- * @author Piper Dougherty
+ * The type User.
  */
 @Entity
 @Table(name = "user")
 public class User {
 
-    /**
-     * The ID of the user in the database.
-     */
     private Long id;
 
-    /**
-     * The username of the user.
-     */
     private String username;
 
-    /**
-     * The password of the user.
-     */
     private String password;
 
-    /**
-     * The secondary password of the user, used for form validation.
-     */
     private String confirmationPassword;
 
-    /**
-     * The set of roles this user has permissions for.
-     */
     private Set<Role> roleSet;
 
-    /**
-     * The set of devices this user maintains.
-     */
     private Set<Device> deviceSet;
 
     /**
-     * Get the ID of this user.
+     * Gets id.
      *
-     * @return The ID of this user.
+     * @return the id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,55 +35,54 @@ public class User {
     }
 
     /**
-     * Set the ID of this user.
+     * Sets id.
      *
-     * @param id The new ID of this user.
+     * @param id the id
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * Get the username for this user.
+     * Gets username.
      *
-     * @return The username for this user.
+     * @return the username
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Set the username for this user.
+     * Sets username.
      *
-     * @param username The new username for this user.
+     * @param username the username
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * Get the password for this user.
+     * Gets password.
      *
-     * @return The password for this user.
+     * @return the password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * Set the password for this user.
+     * Sets password.
      *
-     * @param password The new password for this user.
+     * @param password the password
      */
     public void setPassword(String password) {
         this.password = password;
     }
 
     /**
-     * Get the confirmation password for this user. Used in form validation
-     * to ensure that the user entered the same password twice.
+     * Gets confirmation password.
      *
-     * @return The confirmation password for this user.
+     * @return the confirmation password
      */
     @Transient
     public String getConfirmationPassword() {
@@ -121,9 +99,9 @@ public class User {
     }
 
     /**
-     * Get the set of roles this user has permissions for.
+     * Gets role set.
      *
-     * @return A set of roles this user has permissions for.
+     * @return the role set
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -141,9 +119,9 @@ public class User {
     }
 
     /**
-     * Get the set of devices this user maintains.
+     * Gets device set.
      *
-     * @return A set of devices this user maintains.
+     * @return the device set
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -152,9 +130,9 @@ public class User {
     }
 
     /**
-     * Set the set of devices this user maintains.
+     * Sets device set.
      *
-     * @param deviceSet The new set of devices.
+     * @param deviceSet the device set
      */
     public void setDeviceSet(Set<Device> deviceSet) {
         this.deviceSet = deviceSet;

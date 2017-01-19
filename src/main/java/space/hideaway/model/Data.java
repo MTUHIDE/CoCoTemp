@@ -1,5 +1,6 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -9,7 +10,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by dough on 11/1/2016.
+ * The type Data.
  */
 @Entity
 @Table(name = "data")
@@ -23,8 +24,8 @@ public class Data {
 
     private UUID deviceID;
 
+    @JsonBackReference
     private Device device;
-
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @JsonView(DataTablesOutput.View.class)
@@ -33,12 +34,13 @@ public class Data {
     @JsonView(DataTablesOutput.View.class)
     private double temperature;
 
+
     /**
      * Instantiates a new Data.
      */
     public Data() {
-
     }
+
 
     /**
      * Instantiates a new Data.
@@ -56,6 +58,37 @@ public class Data {
     }
 
     /**
+     * Gets device.
+     *
+     * @return the device
+     */
+    @ManyToOne()
+    @JoinColumn(name = "device_id", insertable = false, updatable = false)
+    public Device getDevice() {
+        return device;
+    }
+
+    /**
+     * Sets device.
+     *
+     * @param device the device
+     */
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Data: [ID: %s Device ID: %s Date: %s Temperature: %s]%n",
+                getId().toString(),
+                getDeviceID(),
+                getDateTime(),
+                getTemperature()
+        );
+    }
+
+    /**
      * Gets id.
      *
      * @return the id
@@ -63,7 +96,6 @@ public class Data {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-
     @Column(name = "id")
     public UUID getId() {
         return id;
@@ -95,26 +127,6 @@ public class Data {
      */
     public void setDeviceID(UUID deviceID) {
         this.deviceID = deviceID;
-    }
-
-    /**
-     * Gets device.
-     *
-     * @return the device
-     */
-    @ManyToOne()
-    @JoinColumn(name = "device_id", insertable = false, updatable = false)
-    public Device getDevice() {
-        return device;
-    }
-
-    /**
-     * Sets device.
-     *
-     * @param device the device
-     */
-    public void setDevice(Device device) {
-        this.device = device;
     }
 
     /**
@@ -155,32 +167,41 @@ public class Data {
         this.temperature = temperature;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Data: [ID: %s Device ID: %s Date: %s Temperature: %s]%n",
-                getId().toString(),
-                getDeviceID(),
-                getDateTime(),
-                getTemperature()
-        );
-    }
-
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     @Column(name = "user_id")
     public int getUserID() {
         return userID;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userID the user id
+     */
     public void setUserID(int userID) {
         this.userID = userID;
     }
 
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
     public void setUser(User user) {
         this.user = user;
     }

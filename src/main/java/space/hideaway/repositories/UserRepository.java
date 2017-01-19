@@ -6,10 +6,10 @@ import space.hideaway.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Locate a user in the database by using their username.
+     * Obtain a user matching a given username.
      *
-     * @param username The username of the user.
-     * @return The user that has the username provided.
+     * @param username The username of the user to obtain.
+     * @return A user represented by the given username.
      */
     User findByUsername(String username);
 }

@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.UserManagementImpl;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 public class DeviceSetTests {
 
     @Autowired
-    UserServiceImplementation userServiceImplementation;
+    UserManagementImpl userManagementImpl;
 
     Logger logger = Logger.getLogger(getClass());
 
@@ -37,8 +37,8 @@ public class DeviceSetTests {
 
     @Before
     public void setUp() throws Exception, UserNotFoundException {
-        this.testUser = userServiceImplementation.findByUsername("test");
-        this.largeTestUser = userServiceImplementation.findByUsername("testlarge");
+        this.testUser = userManagementImpl.findByUsername("test");
+        this.largeTestUser = userManagementImpl.findByUsername("testlarge");
     }
 
     @Test
