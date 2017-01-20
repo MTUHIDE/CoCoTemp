@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.DeviceErrorSerializer;
-import space.hideaway.DeviceValidator;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
+import space.hideaway.validation.DeviceValidator;
 
 import java.util.List;
 import java.util.Set;

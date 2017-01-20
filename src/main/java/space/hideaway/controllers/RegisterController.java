@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import space.hideaway.UserValidator;
 import space.hideaway.model.User;
 import space.hideaway.services.SecurityService;
 import space.hideaway.services.UserService;
+import space.hideaway.validation.QuestionValidator;
+import space.hideaway.validation.UserValidator;
 
 
 @Controller
@@ -24,13 +25,17 @@ public class RegisterController
     private final UserService userService;
     private final SecurityService securityService;
     private final UserValidator userValidator;
+    private final QuestionValidator questionValidator;
 
     @Autowired
-    public RegisterController(SecurityService securityService, UserValidator userValidator, UserService userService)
+    public RegisterController(
+            SecurityService securityService, UserValidator userValidator, UserService userService,
+            QuestionValidator questionValidator)
     {
         this.securityService = securityService;
         this.userValidator = userValidator;
         this.userService = userService;
+        this.questionValidator = questionValidator;
     }
 
 
@@ -67,7 +72,7 @@ public class RegisterController
         String password = user.getPassword();
 
         //Validate the form.
-        userValidator.validate(user, bindingResult);
+        questionValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors())
         {

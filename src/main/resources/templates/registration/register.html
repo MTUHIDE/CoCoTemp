@@ -20,23 +20,35 @@
                     <div class="form-group">
                         <label for="emailField">Email</label>
                         <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
-                               placeholder="Enter an email address."/>
+                               placeholder="Enter an email address." required="required"/>
+                        <ul>
+                            <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
+                        </ul>
                     </div>
                     <div class="form-group">
                         <label for="usernameField">Username</label>
                         <input th:field="*{username}" type="text" name="usernameField" class="form-control"
-                               id="usernameField" placeholder="Enter a username."/>
+                               id="usernameField" placeholder="Enter a username." required="required"/>
+                        <ul>
+                            <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
+                        </ul>
                     </div>
                     <div class="form-group">
                         <label for="passwordField">Password</label>
                         <input th:field="*{password}" type="password" name="passwordField" class="form-control"
-                               id="passwordField" placeholder="Enter your password."/>
+                               id="passwordField" placeholder="Enter your password." required="required"/>
+                        <ul>
+                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                        </ul>
                     </div>
                     <div class="form-group">
                         <label for="confirmField">Confirm Password</label>
                         <input th:field="*{confirmationPassword}" type="password" name="confirmField"
                                class="form-control" id="confirmField"
-                               placeholder="Enter your password again."/>
+                               placeholder="Enter your password again." required="required"/>
+                        <ul>
+                            <li th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></li>
+                        </ul>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Next</button>

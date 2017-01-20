@@ -28,7 +28,6 @@ import java.util.concurrent.Executor;
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")
 @PropertySource("classpath:/spring/application.properties")
-@PropertySource("classpath:/spring/validation.properties")
 @EnableAsync
 public class CoCoTempApplication extends AsyncConfigurerSupport {
 

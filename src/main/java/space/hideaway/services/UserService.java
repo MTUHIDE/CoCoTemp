@@ -40,4 +40,5 @@ public interface UserService {
      */
     Set<Device> getDevices(String username) throws UserNotFoundException;
 
+    User findByEmail(String email);
 }
