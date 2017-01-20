@@ -43,19 +43,23 @@
                         </form>
                     </div>
                 </div>
+
+                <div id="account-container">
+                    <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn account-button log-in">Login</a>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn account-button log-out">Log
+                        Out</a>
+                </div>
             </div>
 
         </div>
+
 
         <!-- Main Menu -->
         <div class="side-menu-container">
             <ul class="nav navbar-nav">
 
                 <!--Login and logout buttons.-->
-                <li sec:authorize="isAnonymous()"><a href="/login" id="login-button" type="button"><span
-                        class="glyphicon"></span>Login</a></li>
-                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span class="glyphicon"></span> Log
-                    Out</a></li>
+
 
                 <!--Normal navigation buttons.-->
                 <li th:classappend="${#strings.equals(active, 'home')} ? active"><a th:href="@{/}">

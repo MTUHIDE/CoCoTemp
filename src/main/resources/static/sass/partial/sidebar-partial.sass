@@ -1,4 +1,5 @@
-$primary-color: #79D0B4
+$success-color: #449d44
+$error-color: #c33946
 $secondary-color: #00416A
 
 .side-menu
@@ -25,7 +26,7 @@ $secondary-color: #00416A
       color: white
       margin-right: -1px
       background-color: $secondary-color
-      border-right: 5px solid $primary-color
+      border-right: 5px solid $success-color
     li
       &:hover
         background-color: #0a6088
@@ -126,3 +127,20 @@ $secondary-color: #00416A
           border-radius: 0
           background-color: $secondary-color
           padding: 15px 18px
+  .side-menu-container
+    background-color: $secondary-color
+
+#account-container
+  padding: 15px
+  a
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    color: white
+    border-radius: 2px
+    width: 100%
+
+.log-in
+  background-color: $success-color
+
+.log-out
+  background-color: $error-color
+
