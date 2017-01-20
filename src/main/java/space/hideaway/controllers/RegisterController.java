@@ -2,12 +2,23 @@ package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import space.hideaway.UserValidator;
+import space.hideaway.model.User;
 import space.hideaway.services.SecurityService;
 import space.hideaway.services.UserService;
 
 
 @Controller
+@RequestMapping("/register")
+@SessionAttributes("user")
 public class RegisterController {
 
     private final UserService userService;
@@ -20,6 +31,60 @@ public class RegisterController {
         this.userValidator = userValidator;
         this.userService = userService;
     }
+
+
+    @RequestMapping
+    public String initialPage(final ModelMap modelMap)
+    {
+        modelMap.addAttribute("user", new User());
+        return "/registration/register";
+    }
+
+    @RequestMapping(params = "_question", method = RequestMethod.POST)
+    public String questionPage(
+            final @ModelAttribute("user") User user,
+            final Errors errors)
+    {
+        return "/registration/questionPage";
+    }
+
+    @RequestMapping(params = "_finish")
+    public String processFinish(
+            final @ModelAttribute("user") User user,
+            final BindingResult bindingResult,
+            final ModelMap modelMap,
+            final SessionStatus sessionStatus)
+    {
+
+        String username = user.getUsername();
+        String password = user.getPassword();
+
+        //Validate the form.
+        userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors())
+        {
+
+            return "register";
+        }
+
+        //At this point, all the validation has passed. Save the new account and login the user.
+        userService.save(user);
+        securityService.autoLogin(username, password);
+
+        sessionStatus.setComplete();
+        return "redirect:dashboard";
+    }
+
+    @RequestMapping(params = "_cancel")
+    public String processCancel(
+            final SessionStatus sessionStatus
+    )
+    {
+        sessionStatus.setComplete();
+        return "index";
+    }
+
 
     /**
      * The endpoint for the registration page.
