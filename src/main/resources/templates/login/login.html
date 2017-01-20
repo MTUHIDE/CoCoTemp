@@ -9,32 +9,28 @@
 <body>
 <div class="container-fluid">
     <div class="col-lg-2 col-lg-offset-5">
-
         <div class="form-container">
             <div class="form-header">
-                <h1>Tell us about yourself!</h1>
+                <h1>Login</h1>
             </div>
             <hr/>
             <div class="form-body">
-                <form action="/register?_finish" method="post" th:object="${user}">
+                <form action="/login" method="post">
+                    <p th:if="${loginError}" class="error">Wrong username or password.</p>
                     <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input th:field="*{firstName}" type="text" class="form-control" id="firstName"
-                               placeholder="eg. John" required="required"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="middleInitial">Middle Initial</label>
-                        <input th:field="*{middleInitial}" maxlength="1" type="text" class="form-control"
-                               id="middleInitial" placeholder="eg. P" required="required"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input th:field="*{lastName}" type="text" class="form-control" id="lastName"
-                               placeholder="eg. Doe" required="required"/>
-                    </div>
-                    <div class="form-group">
+                        <label for="usernameField">Username</label>
+                        <input id="usernameField" class="form-control" type="text" name="username"/>
 
-                        <button class="btn btn-success" type="submit">Finish</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordField">Password</label>
+                        <input id="passwordField" class="form-control" type="password" name="password"/>
+                    </div>
+                    <div class="form-group">
+                        <p>Don't have an account? <a href="/register">Create one now!</a></p>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success" type="submit">Login</button>
                     </div>
                 </form>
             </div>
