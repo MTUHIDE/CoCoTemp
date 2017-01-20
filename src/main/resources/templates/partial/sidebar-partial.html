@@ -1,4 +1,9 @@
-<div class="side-menu" th:fragment="sidebar">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+</head>
+<body>
+<div class="side-menu" th:fragment="sidebar (active)">
     <nav class="navbar navbar-default" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -43,37 +48,28 @@
         <div class="side-menu-container">
             <ul class="nav navbar-nav">
 
-                <li sec:authorize="isAnonymous()"><a href="/login"
-                                                     id="login-button" type="button"><span class="glyphicon"></span>
-                    Login</a></li>
-                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span
-                        class="glyphicon"></span> Log Out</a></li>
-                <li class="active"><a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                <li><a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>
+                <!--Login and logout buttons.-->
+                <li sec:authorize="isAnonymous()"><a href="/login" id="login-button" type="button"><span
+                        class="glyphicon"></span>Login</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span class="glyphicon"></span> Log
+                    Out</a></li>
+
+                <!--Normal navigation buttons.-->
+                <li th:classappend="${#strings.equals(active, 'home')} ? active"><a th:href="@{/}">
+                    <span class="glyphicon glyphicon-home"></span> Home
+                </a>
                 </li>
-
-                <!-- Dropdown-->
-                <li class="panel panel-default" id="dropdown">
-                    <a data-toggle="collapse" href="#dropdown-lvl1">
-                        <span class="glyphicon glyphicon-stats"></span> Data <span class="caret"></span>
-                    </a>
-
-                    <!-- Dropdown level 1 -->
-                    <div id="dropdown-lvl1" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <ul class="nav navbar-nav">
-                                <li><a th:href="@{/reports/temperature}">Temperature Reports</a></li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li><a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
-                <li><a th:href="@{/about}"><span class="glyphicon "></span> About</a></li>
+                <li th:classappend="${#strings.equals(active, 'my dashboard')} ? active"><a
+                        th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a></li>
+                <li th:classappend="${#strings.equals(active, 'contact')} ? active"><a th:href="@{/contact}"><span
+                        class="glyphicon glyphicon-envelope"></span> Contact</a></li>
+                <li th:classappend="${#strings.equals(active, 'about')} ? active"><a th:href="@{/about}"><span
+                        class="glyphicon "></span> About</a></li>
 
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
 
 </div>
+</body>
+</html>
