@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,14 +18,16 @@ import space.hideaway.services.UserService;
 @Controller
 @RequestMapping("/register")
 @SessionAttributes("user")
-public class RegisterController {
+public class RegisterController
+{
 
     private final UserService userService;
     private final SecurityService securityService;
     private final UserValidator userValidator;
 
     @Autowired
-    public RegisterController(SecurityService securityService, UserValidator userValidator, UserService userService) {
+    public RegisterController(SecurityService securityService, UserValidator userValidator, UserService userService)
+    {
         this.securityService = securityService;
         this.userValidator = userValidator;
         this.userService = userService;
@@ -43,12 +44,18 @@ public class RegisterController {
     @RequestMapping(params = "_question", method = RequestMethod.POST)
     public String questionPage(
             final @ModelAttribute("user") User user,
-            final Errors errors)
+            final BindingResult bindingResult)
     {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors())
+        {
+            return "/registration/register";
+        }
+
         return "/registration/questionPage";
     }
 
-    @RequestMapping(params = "_finish")
+    @RequestMapping(params = "_finish", method = RequestMethod.POST)
     public String processFinish(
             final @ModelAttribute("user") User user,
             final BindingResult bindingResult,
@@ -64,8 +71,7 @@ public class RegisterController {
 
         if (bindingResult.hasErrors())
         {
-
-            return "register";
+            return "/registration/questionPage";
         }
 
         //At this point, all the validation has passed. Save the new account and login the user.
@@ -76,7 +82,7 @@ public class RegisterController {
         return "redirect:dashboard";
     }
 
-    @RequestMapping(params = "_cancel")
+    @RequestMapping(params = "_cancel", method = RequestMethod.POST)
     public String processCancel(
             final SessionStatus sessionStatus
     )

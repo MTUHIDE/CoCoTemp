@@ -16,22 +16,26 @@
             </div>
             <hr/>
             <div class="form-body">
-                <form action="register?_finish" method="post">
+                <form action="register?_question" method="post" th:object="${user}">
                     <div class="form-group">
                         <label for="emailField">Email</label>
-                        <input type="email" class="form-control" id="emailField" placeholder="Enter an email address."/>
+                        <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
+                               placeholder="Enter an email address."/>
                     </div>
                     <div class="form-group">
                         <label for="usernameField">Username</label>
-                        <input type="text" class="form-control" id="usernameField" placeholder="Enter a username."/>
+                        <input th:field="*{username}" type="text" name="usernameField" class="form-control"
+                               id="usernameField" placeholder="Enter a username."/>
                     </div>
                     <div class="form-group">
                         <label for="passwordField">Password</label>
-                        <input type="text" class="form-control" id="passwordField" placeholder="Enter your password."/>
+                        <input th:field="*{password}" type="password" name="passwordField" class="form-control"
+                               id="passwordField" placeholder="Enter your password."/>
                     </div>
                     <div class="form-group">
                         <label for="confirmField">Confirm Password</label>
-                        <input type="text" class="form-control" id="confirmField"
+                        <input th:field="*{confirmationPassword}" type="password" name="confirmField"
+                               class="form-control" id="confirmField"
                                placeholder="Enter your password again."/>
                     </div>
                     <div class="form-group">

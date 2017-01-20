@@ -16,18 +16,21 @@
             </div>
             <hr/>
             <div class="form-body">
-                <form>
+                <form action="/register?_finish" method="post" th:object="${user}">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
-                        <input type="email" class="form-control" id="firstName" placeholder="eg. John"/>
+                        <input th:field="*{firstName}" type="text" class="form-control" id="firstName"
+                               placeholder="eg. John"/>
                     </div>
                     <div class="form-group">
                         <label for="middleInitial">Middle Initial</label>
-                        <input maxlength="1" type="text" class="form-control" id="middleInitial" placeholder="eg. P"/>
+                        <input th:field="*{middleInitial}" maxlength="1" type="text" class="form-control"
+                               id="middleInitial" placeholder="eg. P"/>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="eg. Doe"/>
+                        <input th:field="*{lastName}" type="text" class="form-control" id="lastName"
+                               placeholder="eg. Doe"/>
                     </div>
                     <div class="form-group">
 
