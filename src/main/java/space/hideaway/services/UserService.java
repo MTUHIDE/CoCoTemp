@@ -39,4 +39,6 @@ public interface UserService {
      * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     Set<Device> getDevices(String username) throws UserNotFoundException;
+
+    User findByEmail(String email);
 }

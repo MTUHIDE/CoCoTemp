@@ -91,4 +91,12 @@ public class UserManagementImpl implements UserService {
     public Set<Device> getDevices(String username) throws UserNotFoundException {
         return findByUsername(username).getDeviceSet();
     }
+
+    @Override
+    public User findByEmail(String email)
+    {
+        return userRepository.findByEmail(email);
+    }
+
+
 }

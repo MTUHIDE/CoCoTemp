@@ -22,6 +22,10 @@
         <property name="username" value="${spring.datasource.username}"/>
         <property name="password" value="${spring.datasource.password}"/>
     </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="spring.validation"/>
+    </bean>
+
 
     <bean name="entityManagerFactory" id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -61,7 +65,7 @@
 
     <!--AUTHENTICATION_______________________________________________________________________________________________-->
     <security:http auto-config="true" use-expressions="true">
-        <security:form-login login-page="/#login"/>
+        <security:form-login login-page="/login" authentication-failure-url="/login?_error"/>
         <security:intercept-url pattern="/upload/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
         <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>

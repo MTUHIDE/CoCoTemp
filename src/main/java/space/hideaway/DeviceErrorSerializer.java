@@ -1,6 +1,7 @@
 package space.hideaway;
 
 import com.google.gson.*;
+import space.hideaway.validation.DeviceValidator;
 
 import java.lang.reflect.Type;
 

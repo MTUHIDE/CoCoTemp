@@ -13,9 +13,17 @@ public class User {
 
     private Long id;
 
+    private String email;
+
     private String username;
 
     private String password;
+
+    private String firstName;
+
+    private String middleInitial;
+
+    private String lastName;
 
     private String confirmationPassword;
 
@@ -41,6 +49,17 @@ public class User {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Column(name = "email")
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 
     /**
@@ -96,6 +115,39 @@ public class User {
      */
     public void setConfirmationPassword(String confirmationPassword) {
         this.confirmationPassword = confirmationPassword;
+    }
+
+    @Column(name = "first_name")
+    public String getFirstName()
+    {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    @Column(name = "middle_initial")
+    public String getMiddleInitial()
+    {
+        return middleInitial;
+    }
+
+    public void setMiddleInitial(String middleInitial)
+    {
+        this.middleInitial = middleInitial;
+    }
+
+    @Column(name = "last_name")
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
     }
 
     /**
