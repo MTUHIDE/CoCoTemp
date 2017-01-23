@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <div th:include="fragmentTemplate :: header" th:remove="tag"></div>
     <link th:href="@{/sass/error.css}" rel="stylesheet" type="text/css"/>
     <title>That's an error.</title>
 </head>
 <body>
 <div class="container">
-    <div class="divhr"></div>
-    <div class="row center">
+    <div class="row">
         <br/>
         <br/>
         <div class="col-md-12">
@@ -21,8 +19,6 @@
                     class="glyphicon glyphicon-envelope"></span> Contact Us </a>
         </div>
     </div>
-    <div class="divhr"></div>
 </div>
-<div th:include="fragmentTemplate :: footer" th-remove="tag"></div>
 </body>
 </html>

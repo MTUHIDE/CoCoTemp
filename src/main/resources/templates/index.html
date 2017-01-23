@@ -1,99 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
 <title>CoCoTemp Home</title>
-
-<title>Title</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 <link type="text/css" rel="stylesheet" th:href="@{sass/global.css}"/>
 <link type="text/css" rel="stylesheet" th:href="@{sass/index.css}"/>
 <link type="text/css" rel="stylesheet" th:href="@{sass/modal.css}"/>
 <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
-
+</head>
 <body>
 <div class="row">
-    <!-- uncomment code for absolute positioning tweek see top comment in css -->
-    <!-- <div class="absolute-wrapper"> </div> -->
-    <!-- Menu -->
-    <div class="side-menu">
-        <nav class="navbar navbar-default" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <div class="brand-wrapper">
-                    <!-- Hamburger -->
-                    <button type="button" class="navbar-toggle">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Brand -->
-                    <div class="brand-name-wrapper">
-                        <a class="navbar-brand" href="/">
-                            CoCoTemp
-                        </a>
-                    </div>
-
-                    <!-- Search -->
-                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </a>
-
-                    <!-- Search body -->
-                    <div id="search" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form class="navbar-form" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search"/>
-                                </div>
-                                <button type="submit" class="btn btn-default "><span
-                                        class="glyphicon glyphicon-ok"></span></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Main Menu -->
-            <div class="side-menu-container">
-                <ul class="nav navbar-nav">
-
-                    <li sec:authorize="isAnonymous()"><a href="/login"
-                                                         id="login-button" type="button"><span class="glyphicon"></span>
-                        Login</a></li>
-                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span
-                            class="glyphicon"></span> Log Out</a></li>
-                    <li class="active"><a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                    <li><a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>
-                    </li>
-
-                    <!-- Dropdown-->
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown-lvl1">
-                            <span class="glyphicon glyphicon-stats"></span> Data <span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a th:href="@{/reports/temperature}">Temperature Reports</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li><a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
-                    <li><a th:href="@{/about}"><span class="glyphicon "></span> About</a></li>
-
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-
-    </div>
+    <div th:replace="partial/sidebar-partial :: sidebar (active = 'home')"></div>
 
     <div id="map"></div>
 
