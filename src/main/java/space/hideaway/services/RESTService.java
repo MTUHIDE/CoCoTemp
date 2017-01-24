@@ -16,11 +16,17 @@ import java.util.List;
 @Service
 public class RESTService {
 
-    private final DataServiceImplementation dataServiceImplementation;
+    private final DataSavingServiceImplementation dataServiceImplementation;
     private final DeviceServiceImplementation deviceServiceImplementation;
 
     @Autowired
-    public RESTService(SecurityServiceImplementation securityServiceImplementation, DeviceServiceImplementation deviceServiceImplementation, UserManagementImpl userManagementImpl, DataServiceImplementation dataServiceImplementation, UploadHistoryService uploadHistoryService) {
+    public RESTService(
+            SecurityServiceImplementation securityServiceImplementation,
+            DeviceServiceImplementation deviceServiceImplementation,
+            UserManagementImpl userManagementImpl,
+            DataSavingServiceImplementation dataServiceImplementation,
+            UploadHistoryService uploadHistoryService)
+    {
         this.deviceServiceImplementation = deviceServiceImplementation;
         this.dataServiceImplementation = dataServiceImplementation;
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import space.hideaway.model.UploadHistory;
 import space.hideaway.repositories.UploadHistoryRepository;
 
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -41,6 +42,18 @@ public class UploadHistoryImpl implements UploadHistoryService {
         one.setViewed(true);
         uploadHistoryRepository.save(one);
         return one;
+    }
+
+    @Override
+    public void save(UUID deviceId, boolean error, long duration, String message)
+    {
+        UploadHistory uploadHistory = new UploadHistory();
+        uploadHistory.setDeviceID(deviceId);
+        uploadHistory.setError(false);
+        uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
+        uploadHistory.setDuration(duration);
+        uploadHistory.setDescription("Data was uploaded successfully");
+        save(uploadHistory);
     }
 
 }

@@ -15,4 +15,6 @@ public interface UploadHistoryService {
     void save(UploadHistory uploadHistory);
 
     UploadHistory setViewed(UUID historyID);
+
+    void save(UUID deviceId, boolean error, long duration, String message);
 }

@@ -26,7 +26,13 @@ public class DeviceServiceImplementation implements DeviceService {
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DeviceServiceImplementation(DataService dataService, DeviceValidator deviceValidator, UserService userService, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
+    public DeviceServiceImplementation(
+            DataSavingService dataSavingService,
+            DeviceValidator deviceValidator,
+            UserService userService,
+            SecurityServiceImplementation securityServiceImplementation,
+            DeviceRepository deviceRepository)
+    {
         this.deviceValidator = deviceValidator;
         this.userService = userService;
         this.securityServiceImplementation = securityServiceImplementation;

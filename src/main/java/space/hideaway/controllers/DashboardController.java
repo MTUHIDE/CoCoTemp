@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
-import space.hideaway.services.DataServiceImplementation;
+import space.hideaway.services.DataSavingServiceImplementation;
 import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserManagementImpl;
 
@@ -36,7 +36,11 @@ public class DashboardController {
     String temperatureUnit;
 
     @Autowired
-    public DashboardController(UserManagementImpl userManagementImpl, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
+    public DashboardController(
+            UserManagementImpl userManagementImpl,
+            SecurityServiceImplementation securityServiceImplementation,
+            DataSavingServiceImplementation dataServiceImplementation)
+    {
         this.userManagementImpl = userManagementImpl;
     }
 
