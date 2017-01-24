@@ -35,8 +35,6 @@ public class UploadHistoryImpl implements UploadHistoryService {
      */
     @Override
     public UploadHistory setViewed(UUID id) {
-
-
         UploadHistory one = uploadHistoryRepository.findOne(id);
         one.setViewed(true);
         uploadHistoryRepository.save(one);
