@@ -143,7 +143,7 @@ jQuery(document).ready(function () {
                     var $device = $('#device-template').clone();
                     $device.attr({'id': ''});
                     $device.find('.device-name').attr({'href': '/device/' + id}).text(deviceName);
-                    $device.find('.device-update').text('Nothing here yet.');;;;;;;;;;;;;;;;;;
+                    $device.find('.device-update').text('Nothing here yet.');
                     $device.appendTo('.device-list');
                     $device.show();
                 }
@@ -160,6 +160,6 @@ jQuery(document).ready(function () {
 
     _.defer(populateMap);
     _.defer(populateChart);
-    _.defer(populateInfocards);;;;;;;;;;;;;;;;;;
-    _.defer(populateDevices)
+    _.defer(populateInfocards);
+    _.defer(populateDevices);
 });
