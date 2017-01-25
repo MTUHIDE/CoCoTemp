@@ -3,7 +3,13 @@ package space.hideaway.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.InfoCardSerializer;
+import space.hideaway.model.Device;
 import space.hideaway.model.User;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -36,5 +42,12 @@ public class RESTService {
         infoCardSerializer.setRecordCount(dataServiceImplementation.countByUserID(currentLoggedInUser));
         infoCardSerializer.setUploadCount(uploadHistoryService.countByUserID(currentLoggedInUser));
         return infoCardSerializer;
+    }
+
+    public List<Device> populateDevices()
+    {
+        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+        ArrayList<Device> deviceList = new ArrayList<>(currentLoggedInUser.getDeviceSet());
+        return deviceList.stream().sorted(Comparator.comparing(Device::getDeviceName)).collect(Collectors.toList());
     }
 }

@@ -121,7 +121,45 @@ jQuery(document).ready(function () {
         }).addTo(mymap);
     }
 
+    /*
+     <li>
+     <div class="row device">
+     <div class="col-lg-12">
+     <h1>Houghton Station</h1>
+     <h2>Last updated 6 minutes ago</h2>
+     </div>
+     </div>
+     </li>
+     */
+    function populateDevices() {
+        $.ajax({
+            type: 'post',
+            url: '/dashboard/devices.json',
+            success: function (data) {
+                if (data.length == 0) {
+                    return;
+                }
+                function appendDevice(id, deviceName) {
+                    var $device = $('#device-template').clone();
+                    $device.attr({'id': ''});
+                    $device.find('.device-name').attr({'href': '/device/' + id}).text(deviceName);
+                    $device.find('.device-update').text('Nothing here yet.');;;;;;;;;;;;;;;;;;
+                    $device.appendTo('.device-list');
+                    $device.show();
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                    appendDevice(data[i].id, data[i].deviceName);
+                }
+            },
+            error: function (results) {
+
+            }
+        });
+    }
+
     _.defer(populateMap);
     _.defer(populateChart);
-    _.defer(populateInfocards)
+    _.defer(populateInfocards);;;;;;;;;;;;;;;;;;
+    _.defer(populateDevices)
 });

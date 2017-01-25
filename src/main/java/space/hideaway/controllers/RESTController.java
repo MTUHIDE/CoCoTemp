@@ -8,10 +8,7 @@ import space.hideaway.model.UploadHistory;
 import space.hideaway.repositories.DataRepository;
 import space.hideaway.services.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 @RestController
@@ -124,5 +121,14 @@ public class RESTController {
     InfoCardSerializer populateInfocard()
     {
         return restService.populateInfocards();
+    }
+
+
+    @RequestMapping(value = "/dashboard/devices.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    List<Device> populateDevices()
+    {
+        return restService.populateDevices();
     }
 }
