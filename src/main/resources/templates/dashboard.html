@@ -6,6 +6,7 @@
     <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
     <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
     <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
     <link rel="stylesheet"
@@ -14,6 +15,7 @@
     <link rel="stylesheet" th:href="@{sass/dashboard.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+
 </head>
 <body>
 <div class="row">
@@ -68,20 +70,26 @@
             <div class="row">
                 <div class="infocard-container">
                     <div class="col-lg-3 infocard">
-                        <div class="inner">
+                        <div class="inner primary">
                             <p class="infocard-body"><span id="device-count" class="infocard-number">0</span> devices
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
-                        <div class="inner">
+                        <div class="inner secondary">
                             <p class="infocard-body"><span id="record-count" class="infocard-number">0</span> records
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
-                        <div class="inner">
+                        <div class="inner tertiary">
                             <p class="infocard-body"><span id="upload-count" class="infocard-number">0</span> uploads
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner quaternary">
+                            <p class="infocard-body"><span id="last-update" class="infocard-number">6</span> minutes ago
                             </p>
                         </div>
                     </div>
@@ -91,27 +99,48 @@
                 <div class="row">
                     <div class="chart-header">
                         <div class="col-lg-12">
-                            <p class="chart-header-text">Overview</p>
+                            <p class="chart-header-text"></p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="chart-body">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-
-                                            <canvas id="upload-history-chart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 map-container">
-                                    <div id="map"></div>
-                                </div>
+                        <div class="row chart-container">
+                            <div class="col-lg-12">
+                                <canvas id="upload-history-chart"></canvas>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="chart-header">
+                    <div class="col-lg-12">
+                        <p class="chart-header-text">Devices</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row device-list-container">
+                <div class="col-lg-6">
+                    <ul class=" device-list">
+                        <li>
+                            <div class="row device">
+                                <div class="col-lg-12">
+                                    <h1>Houghton Station</h1>
+                                    <h2>Last updated 6 minutes ago</h2>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="chart-header">
+                    <div class="col-lg-12">
+                        <p class="chart-header-text">Upload History</p>
                     </div>
                 </div>
             </div>
