@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import space.hideaway.UserNotFoundException;
+import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.services.UserManagementImpl;
 import space.hideaway.services.UserService;

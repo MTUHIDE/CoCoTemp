@@ -1,6 +1,6 @@
 package space.hideaway.services;
 
-import space.hideaway.UserNotFoundException;
+import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 

@@ -3,7 +3,7 @@ package space.hideaway.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import space.hideaway.UserNotFoundException;
+import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.RoleRepository;

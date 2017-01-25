@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import space.hideaway.UserNotFoundException;
+import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.services.UserService;
 

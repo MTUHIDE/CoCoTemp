@@ -2,9 +2,9 @@ package space.hideaway.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.hideaway.InfoCardSerializer;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
+import space.hideaway.model.json.InfoCardSerializer;
 
 import java.util.ArrayList;
 import java.util.Comparator;

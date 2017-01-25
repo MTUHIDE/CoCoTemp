@@ -5,9 +5,9 @@ import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.hideaway.DeviceErrorSerializer;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
+import space.hideaway.model.json.DeviceErrorSerializer;
 import space.hideaway.repositories.DeviceRepository;
 import space.hideaway.validation.DeviceValidator;
 

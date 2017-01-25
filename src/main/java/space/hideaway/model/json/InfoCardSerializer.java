@@ -1,4 +1,4 @@
-package space.hideaway;
+package space.hideaway.model.json;
 
 /**
  * Created by dough on 1/24/2017.

@@ -1,4 +1,4 @@
-package space.hideaway;
+package space.hideaway.exceptions;
 
 
 public class UserNotFoundException extends Throwable {

@@ -2,9 +2,9 @@ package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import space.hideaway.InfoCardSerializer;
 import space.hideaway.model.Device;
 import space.hideaway.model.UploadHistory;
+import space.hideaway.model.json.InfoCardSerializer;
 import space.hideaway.repositories.DataRepository;
 import space.hideaway.services.*;
 

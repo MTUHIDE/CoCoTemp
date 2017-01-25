@@ -60,7 +60,7 @@
     <bean id="securityServiceImplementation" class="space.hideaway.services.SecurityServiceImplementation"/>
 
     <!--Bean that runs on startup.-->
-    <bean id="startupService" class="space.hideaway.StartupService" init-method="initialize"/>
+    <bean id="startupService" class="space.hideaway.services.StartupService" init-method="initialize"/>
     <!--END CUSTOM BEANS_____________________________________________________________________________________________-->
 
     <!--AUTHENTICATION_______________________________________________________________________________________________-->

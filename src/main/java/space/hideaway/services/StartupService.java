@@ -1,4 +1,4 @@
-package space.hideaway;
+package space.hideaway.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
