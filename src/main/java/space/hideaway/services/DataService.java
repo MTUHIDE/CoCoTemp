@@ -1,11 +1,12 @@
 package space.hideaway.services;
 
 import space.hideaway.model.Data;
+import space.hideaway.model.User;
 
 import java.util.List;
 
 
-public interface DataSavingService
+public interface DataService
 {
     /**
      * Save a new data point into the database.
@@ -21,4 +22,6 @@ public interface DataSavingService
      * @return The newly saved list.
      */
     List<Data> batchSave(List<Data> dataList);
+
+    Long countByUserID(User currentLoggedInUser);
 }

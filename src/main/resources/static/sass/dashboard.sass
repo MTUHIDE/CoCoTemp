@@ -1,63 +1,65 @@
-$primary-color: #79D0B3
-$secondary-color: #00416A
-//Like my personality
-$header-font: 'Bitter', sans-serif
-$paragraph-font: 'Roboto', sans-serif
-$navbar-width: 240px
-$cool-version-of-white-color: white
-$tablet: "(min-width: 768px) and (max-width: 1023px)"
-$desktop: "(min-width: 1024px)"
-
 body
-  background: #e3e3e3
+  background: #f7f7f7
   overflow-y: auto
 
-.bottom
-  margin: 0 auto
-  z-index: 666
-  position: absolute
-  background-color: $cool-version-of-white-color
-  bottom: 0
-  left: 240px
-  overflow: auto
-  text-overflow: ellipsis
+body, .container-fluid, .row, .side-body
+  height: 100%
+
+.side-body
+  margin-top: 10px
+
+.infocard-container
+  .infocard
+    color: #848484
+    padding: 0 10px 10px 0
+    .inner
+      padding: 10px
+      height: 125px
+      background-color: #efefef
+      border-radius: 3px
+      .infocard-header
+        text-transform: uppercase
+        font-family: "Segoe UI", serif
+        font-size: 1em
+      .infocard-body
+        font-family: "Segoe UI Light", serif
+        font-size: 2em
+      .infocard-number
+        font-family: "Segoe UI Light", serif
+        font-size: 2em
+
+.chart-header
   padding: 10px
-  @media #{$tablet}
-    left: 0
-    padding-left: 50px
-    padding-top: 5px
-    width: 100vw
-    height: auto
+  height: 50px
+  background-color: #00416A
+  .chart-header-text
+    text-transform: uppercase
+    font-family: "Segoe UI", serif
+    font-weight: 500
+    color: white
 
-.welcomeLine
-  text-align: center
-  padding-bottom: 10px
-  color: white
-  display: inline-block
-  width: 100%
-  @media #{$tablet}
-    margin-top: 25px
-    float: left
+.chart-body
+  div
+    height: 100%
+  .col-lg-12
+    padding: 0
+    margin: 0
+  #timerange-list-container
+    height: 50px
+    text-align: center
+    #timerange-list
+      list-style: none
+      li
+        display: inline
+        padding: 0 20px 0 20px
+        a
+          color: #848484 !important
+          font-family: "Segoe UI", serif
+          text-transform: uppercase
 
-.navbar-brand
-  @media #{$tablet}
-    width: auto
-
-.temperature-header
-  margin-top: 0
-  margin-bottom: 0
-
-hr
-  margin: 5px 0 5px 0
-
-.well
-  //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
-  //transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+  padding: 10px
+  height: 400px
   background-color: white
 
-.right-content
-  border-left: 1px #95a5a6 solid
-
-.device-list-item
-  height: 50px
-
+#map
+  height: 100%

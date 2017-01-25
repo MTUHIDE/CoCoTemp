@@ -1,116 +1,6 @@
-(function ($) {
-    $.fn.spin = function (opts, color) {
-        var presets = {
-            "tiny": {
-                lines: 8,
-                length: 2,
-                width: 2,
-                radius: 3
-            },
-            "small": {
-                lines: 8,
-                length: 4,
-                width: 3,
-                radius: 5
-            },
-            "large": {
-                lines: 10,
-                length: 8,
-                width: 4,
-                radius: 8
-            }
-        };
-        if (Spinner) {
-            return this.each(function () {
-                var $this = $(this),
-                    data = $this.data();
-
-                if (data.spinner) {
-                    data.spinner.stop();
-                    delete data.spinner;
-                }
-                if (opts !== false) {
-                    if (typeof opts === "string") {
-                        if (opts in presets) {
-                            opts = presets[opts];
-                        } else {
-                            opts = {};
-                        }
-                        if (color) {
-                            opts.color = color;
-                        }
-                    }
-                    data.spinner = new Spinner($.extend({
-                        color: $this.css('color')
-                    }, opts)).spin(this);
-                }
-            });
-        } else {
-            throw "Spinner class not available.";
-        }
-    };
-})(jQuery);
-
 jQuery(document).ready(function () {
 
-    $('#device-list li').each(function (i, e) {
-
-        var BeforeSend = function () {
-
-            $(e).spin();
-        };
-        var OnComplete = function (jqXHR, textStatus) {
-
-        };
-        var OnSuccess = function (data, textStatus, jqXHR) {
-
-            if (data.length > 0) {
-                var error = false;
-                var newRecord = false;
-                for (var i = 0; i < data.length; i++) {
-                    var record = data[i];
-                    if (!record.viewed) {
-                        newRecord = true;
-                    }
-                    if (record.error) {
-                        error = true;
-                    }
-                }
-
-                $(e).spin(false);
-
-                if (error && newRecord) {
-                    $(e).find('.data-container').append(
-                        '<span class="label label-danger">Error Uploading</span>'
-                    )
-                } else if (!error && newRecord) {
-                    $(e).find('.data-container').append(
-                        '<span class="label label-success">Upload Successful</span>'
-                    )
-                }
-                var date = moment(data[0].dateTime);
-                $(e).find('#last-updated').text("Last uploaded " + date.fromNow())
-            } else {
-                $(e).spin(false);
-                $(e).find('#last-updated').text("No records")
-            }
-
-        };
-        var OnError = function (qXHR, textStatus, errorThrown) {
-
-        };
-
-        $.ajax({
-            url: "/device/" + e.id + "/history.json",
-            method: 'POST',
-            dataType: 'json',
-            beforeSend: BeforeSend,
-            complete: OnComplete,
-            success: OnSuccess,
-            error: OnError
-        });
-    });
-
+    //The upload form.
     $('#upload-form').submit(function (e) {
         e.preventDefault();
         var url = "/upload/" + $('#device-select').val();
@@ -172,68 +62,79 @@ jQuery(document).ready(function () {
 
         }
     });
-    $('#temperature-table').DataTable({
-        'ajax': '/data',
-        'serverSide': true,
-        responsive: true,
-        columns: [{
-            data: 'dateTime'
-        }, {
-            data: 'temperature'
-        }]
-    });
-    var ctx = $('#temperature-chart');
-    var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            datasets: [{
-                label: "Temperature",
-                fill: true,
-                data: [12.6, 34.6, 34.5, 87.9, 34.6, 24.6, 44.5, 76.5, 34.2, 56.4, 54, 23.8],
-                borderColor: "#79D0B3",
-                backgroundColor: "rgba(121, 208, 179, 0.2)"
-            }]
-        },
-        options: {
-            tooltips: {
-                enabled: true,
-                mode: 'label'
 
-            }, hover: {
-                mode: 'label'
+    //The infocards.
+    function populateInfocards() {
+        $.ajax({
+            type: 'post',
+            url: '/dashboard/data.json',
+            success: function (data) {
+                $('#device-count').text(data.deviceCount);
+                $('#record-count').text(data.recordCount);
+                $('#upload-count').text(data.uploadCount)
             },
-            legend: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Month"
-                    },
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        display: true
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Temperature"
-                    },
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+            error: function (results) {
+
             }
-        }
-    });
+        });
+    }
 
+    function populateChart() {
+        var ctx = $('#upload-history-chart');
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1,
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+    }
 
+    function populateMap() {
+        var mymap = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'your.mapbox.project.id',
+            accessToken: 'your.mapbox.public.access.token'
+        }).addTo(mymap);
+    }
+
+    _.defer(populateMap);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    _.defer(populateChart);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    _.defer(populateInfocards)
 });

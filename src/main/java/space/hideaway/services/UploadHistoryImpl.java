@@ -3,6 +3,7 @@ package space.hideaway.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.UploadHistory;
+import space.hideaway.model.User;
 import space.hideaway.repositories.UploadHistoryRepository;
 
 import java.util.Date;
@@ -54,6 +55,12 @@ public class UploadHistoryImpl implements UploadHistoryService {
         uploadHistory.setDuration(duration);
         uploadHistory.setDescription("Data was uploaded successfully");
         save(uploadHistory);
+    }
+
+    @Override
+    public long countByUserID(User currentLoggedInUser)
+    {
+        return uploadHistoryRepository.countByUserID(Math.toIntExact(currentLoggedInUser.getId()));
     }
 
 }

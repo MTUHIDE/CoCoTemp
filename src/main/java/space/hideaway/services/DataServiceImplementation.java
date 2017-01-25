@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
+import space.hideaway.model.User;
 import space.hideaway.repositories.DataRepository;
 
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class DataSavingServiceImplementation implements DataSavingService
+public class DataServiceImplementation implements DataService
 {
 
     private final DataRepository dataRepository;
@@ -27,7 +28,7 @@ public class DataSavingServiceImplementation implements DataSavingService
     private int batchSize;
 
     @Autowired
-    public DataSavingServiceImplementation(DataRepository dataRepository)
+    public DataServiceImplementation(DataRepository dataRepository)
     {
         this.dataRepository = dataRepository;
     }
@@ -65,5 +66,11 @@ public class DataSavingServiceImplementation implements DataSavingService
         transaction.commit();
         session.close();
         return dataList;
+    }
+
+    @Override
+    public Long countByUserID(User currentLoggedInUser)
+    {
+        return dataRepository.countByUserID(Math.toIntExact(currentLoggedInUser.getId()));
     }
 }

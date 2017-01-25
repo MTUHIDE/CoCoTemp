@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Dashboard</title>
 
@@ -13,9 +13,12 @@
     <link type="text/css" rel="stylesheet" th:href="@{sass/global.css}"/>
     <link rel="stylesheet" th:href="@{sass/dashboard.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
 </head>
 <body>
 <div class="row">
+
+    <!--Sidebar Partial-->
     <div th:replace="partial/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -61,69 +64,53 @@
 
     <!-- Main Content -->
     <div class="container-fluid">
-
         <div class="side-body">
-
             <div class="row">
-                <div class="page-header">
-                    <h2>Dashboard<br/>
-                        <small>Welcome, <span sec:authentication="name"></span>!</small>
-                    </h2>
+                <div class="infocard-container">
+                    <div class="col-lg-3 infocard">
+                        <div class="inner">
+                            <p class="infocard-body"><span id="device-count" class="infocard-number">0</span> devices
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner">
+                            <p class="infocard-body"><span id="record-count" class="infocard-number">0</span> records
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner">
+                            <p class="infocard-body"><span id="upload-count" class="infocard-number">0</span> uploads
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="list-group">
-                        <button type="button" data-toggle="modal" data-target="#myModal" class="list-group-item">
-                            Upload data
-                        </button>
-                        <a th:href="@{/settings/profile}" type="button" class="list-group-item">Edit devices and
-                            settings</a>
-
-                    </div>
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Devices</div>
-
-
-                        <!-- List group -->
-                        <ul id="device-list" class="list-group">
-                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <li th:id="*{device.getId()}" th:each="device : ${#lists.sort(devices, devicesComparator)}"
-                                class="list-group-item">
-                                <a th:href="@{'/device/' + *{device.getId()}}">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h5 th:inline="text" style="display: inline-block">
-                                                [[${device.getDeviceName()}]] <br/>
-                                                <small id="last-updated" th:inline="text"></small>
-                                            </h5>
-                                            <div class="data-container">
-                                                <h3 th:id="last-recorded-temp" style="display: inline-block;"
-                                                    class="pull-right"></h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
+                <div class="row">
+                    <div class="chart-header">
+                        <div class="col-lg-12">
+                            <p class="chart-header-text">Overview</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Data</h3>
-                        </div>
-                        <div class="panel-body">
-                            <table id="temperature-table" class="table table-striped  table-bordered "
-                                   style="width: 100%">
-                                <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Temperature</th>
-                                </tr>
-                                </thead>
-                            </table>
+                <div class="row">
+                    <div class="chart-body">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <canvas id="upload-history-chart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 map-container">
+                                    <div id="map"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,6 +134,8 @@
 <script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script th:src="@{/js/spring-friendly-datatables.js}"></script>
 <script th:src="@{/js/dashboard.js}"></script>
 </body>

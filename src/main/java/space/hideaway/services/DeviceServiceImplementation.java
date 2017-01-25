@@ -27,7 +27,7 @@ public class DeviceServiceImplementation implements DeviceService {
 
     @Autowired
     public DeviceServiceImplementation(
-            DataSavingService dataSavingService,
+            DataService dataService,
             DeviceValidator deviceValidator,
             UserService userService,
             SecurityServiceImplementation securityServiceImplementation,
@@ -49,7 +49,7 @@ public class DeviceServiceImplementation implements DeviceService {
     @Override
     public String save(Device device) {
         Long id = userService.getCurrentLoggedInUser().getId();
-        device.setUserId(id);
+        device.setUserID(id);
         deviceValidator.validate(device);
         Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
         if (deviceValidator.hasErrors()) {
@@ -112,5 +112,11 @@ public class DeviceServiceImplementation implements DeviceService {
      */
     public boolean isCorrectUser(String deviceKey) {
         return isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey);
+    }
+
+    @Override
+    public Long countByUserID(User currentLoggedInUser)
+    {
+        return deviceRepository.countByUserID(currentLoggedInUser.getId());
     }
 }

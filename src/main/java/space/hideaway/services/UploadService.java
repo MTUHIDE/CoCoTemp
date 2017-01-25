@@ -26,13 +26,13 @@ public class UploadService {
 
     private final DeviceServiceImplementation deviceServiceImplementation;
     private final UserManagementImpl userService;
-    private final DataSavingServiceImplementation dataServiceImplementation;
+    private final DataServiceImplementation dataServiceImplementation;
     private final UploadHistoryService uploadHistoryService;
     private MultipartFile multipartFile;
 
     @Autowired
     public UploadService(
-            DataSavingServiceImplementation dataServiceImplementation,
+            DataServiceImplementation dataServiceImplementation,
             UploadHistoryService uploadHistoryService,
             DeviceServiceImplementation deviceServiceImplementation,
             UserManagementImpl userService)
@@ -90,7 +90,7 @@ public class UploadService {
         public void run() {
             long start = System.currentTimeMillis();
             UUID deviceId = device.getId();
-            Long userId = device.getUserId();
+            Long userId = device.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
             ICsvBeanReader iCsvBeanReader;
             try {

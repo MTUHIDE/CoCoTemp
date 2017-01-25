@@ -16,7 +16,8 @@ import java.util.UUID;
 @Table(name = "upload_history")
 @Entity
 @JsonPropertyOrder({"dateTime"})
-public class UploadHistory {
+public class UploadHistory
+{
 
     /**
      * The Id.
@@ -29,6 +30,11 @@ public class UploadHistory {
      */
     @JsonProperty("deviceID")
     UUID deviceID;
+
+
+    @JsonProperty
+    int userID;
+
 
     /**
      * The Device.
@@ -71,7 +77,8 @@ public class UploadHistory {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
     @Column(name = "id")
-    public UUID getId() {
+    public UUID getId()
+    {
         return id;
     }
 
@@ -80,7 +87,8 @@ public class UploadHistory {
      *
      * @param id the id
      */
-    public void setId(UUID id) {
+    public void setId(UUID id)
+    {
         this.id = id;
     }
 
@@ -91,7 +99,8 @@ public class UploadHistory {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
-    public Device getDevice() {
+    public Device getDevice()
+    {
         return device;
     }
 
@@ -100,7 +109,8 @@ public class UploadHistory {
      *
      * @param device the device
      */
-    public void setDevice(Device device) {
+    public void setDevice(Device device)
+    {
         this.device = device;
     }
 
@@ -110,7 +120,8 @@ public class UploadHistory {
      * @return the device id
      */
     @Column(name = "device_id")
-    public UUID getDeviceID() {
+    public UUID getDeviceID()
+    {
         return deviceID;
     }
 
@@ -119,16 +130,30 @@ public class UploadHistory {
      *
      * @param deviceID the device id
      */
-    public void setDeviceID(UUID deviceID) {
+    public void setDeviceID(UUID deviceID)
+    {
         this.deviceID = deviceID;
     }
 
+    @Column(name = "user_id")
+    public int getUserID()
+    {
+        return userID;
+    }
+
+    public void setUserID(int userID)
+    {
+        this.userID = userID;
+    }
+
     @Column(name = "error")
-    public boolean isError() {
+    public boolean isError()
+    {
         return error;
     }
 
-    public void setError(boolean error) {
+    public void setError(boolean error)
+    {
         this.error = error;
     }
 
@@ -138,7 +163,8 @@ public class UploadHistory {
      * @return the date time
      */
     @Column(name = "date")
-    public Date getDateTime() {
+    public Date getDateTime()
+    {
         return dateTime;
     }
 
@@ -147,7 +173,8 @@ public class UploadHistory {
      *
      * @param dateTime the date time
      */
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(Date dateTime)
+    {
         this.dateTime = dateTime;
     }
 
@@ -157,7 +184,8 @@ public class UploadHistory {
      * @return the duration
      */
     @Column(name = "duration")
-    public Long getDuration() {
+    public Long getDuration()
+    {
         return duration;
     }
 
@@ -166,7 +194,8 @@ public class UploadHistory {
      *
      * @param duration the duration
      */
-    public void setDuration(Long duration) {
+    public void setDuration(Long duration)
+    {
         this.duration = duration;
     }
 
@@ -176,7 +205,8 @@ public class UploadHistory {
      * @return the description
      */
     @Column(name = "description")
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
@@ -185,16 +215,19 @@ public class UploadHistory {
      *
      * @param description the description
      */
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
     @Column(name = "viewed")
-    public boolean isViewed() {
+    public boolean isViewed()
+    {
         return viewed;
     }
 
-    public void setViewed(boolean viewed) {
+    public void setViewed(boolean viewed)
+    {
         this.viewed = viewed;
     }
 }
