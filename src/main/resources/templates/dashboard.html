@@ -98,10 +98,8 @@
             </div>
             <div class="row">
                 <div class="row">
-                    <div class="chart-header">
-                        <div class="col-lg-12">
-                            <p th:inline="text" class="chart-header-text">Welcome, [[${username}]]!</p>
-                        </div>
+                    <div class="seperator-header">
+                        <h1 th:inline="text" class="chart-header-text">Welcome, [[${username}]]!</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -115,9 +113,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="chart-header">
-                    <div class="col-lg-12">
-                        <p class="chart-header-text">Devices</p>
+                <div class="seperator-header">
+
+                    <h1 th:inline="text">Devices</h1>
+                    <!-- Single button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Edit <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Create a device</a></li>
+                            <li><a href="#">Device settings</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
