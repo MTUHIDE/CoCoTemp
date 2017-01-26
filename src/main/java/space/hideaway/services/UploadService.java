@@ -11,14 +11,12 @@ import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
-import space.hideaway.model.UploadHistory;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -33,7 +31,12 @@ public class UploadService {
     private MultipartFile multipartFile;
 
     @Autowired
-    public UploadService(DataServiceImplementation dataServiceImplementation, UploadHistoryService uploadHistoryService, DeviceServiceImplementation deviceServiceImplementation, UserManagementImpl userService) {
+    public UploadService(
+            DataServiceImplementation dataServiceImplementation,
+            UploadHistoryService uploadHistoryService,
+            DeviceServiceImplementation deviceServiceImplementation,
+            UserManagementImpl userService)
+    {
         this.dataServiceImplementation = dataServiceImplementation;
         this.uploadHistoryService = uploadHistoryService;
         this.deviceServiceImplementation = deviceServiceImplementation;
@@ -87,7 +90,7 @@ public class UploadService {
         public void run() {
             long start = System.currentTimeMillis();
             UUID deviceId = device.getId();
-            Long userId = device.getUserId();
+            Long userId = device.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
             ICsvBeanReader iCsvBeanReader;
             try {
@@ -107,13 +110,8 @@ public class UploadService {
                 iCsvBeanReader.close();
                 long end = System.currentTimeMillis();
 
-                UploadHistory uploadHistory = new UploadHistory();
-                uploadHistory.setDeviceID(deviceId);
-                uploadHistory.setError(false);
-                uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
-                uploadHistory.setDuration(end - start);
-                uploadHistory.setDescription("Data was uploaded successfully");
-                uploadHistoryService.save(uploadHistory);
+                //Create a record that the file was parsed and saved correctly.
+                uploadHistoryService.save(deviceId, false, end - start, "Data was uploaded successfully");
 
             } catch (IOException e) {
                 e.printStackTrace();

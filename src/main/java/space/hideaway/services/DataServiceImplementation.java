@@ -8,25 +8,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
-import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DataRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 
 @Service
-public class DataServiceImplementation implements DataService {
+public class DataServiceImplementation implements DataService
+{
 
     private final DataRepository dataRepository;
     Logger logger = Logger.getLogger(getClass());
@@ -36,7 +28,8 @@ public class DataServiceImplementation implements DataService {
     private int batchSize;
 
     @Autowired
-    public DataServiceImplementation(DataRepository dataRepository) {
+    public DataServiceImplementation(DataRepository dataRepository)
+    {
         this.dataRepository = dataRepository;
     }
 
@@ -75,50 +68,9 @@ public class DataServiceImplementation implements DataService {
         return dataList;
     }
 
-    /**
-     * Get a list of average temperature points for each device on the current day.
-     *
-     * @return A list of points, each representing the average recorded point for the current day.
-     */
     @Override
-    public List<Data> getAverageDataForCurrentDay() {
-        return dataRepository.getAverageDataForCurrentDay();
-    }
-
-    /**
-     * Get the most current record for a given device.
-     *
-     * @param device The device to obtain the most recent point for.
-     * @return The most current point for a given device. If no point is found, a dummy record is returned
-     * with extreme values.
-     */
-    @Override
-    public Data getMostCurrentRecord(Device device) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Object> query = criteriaBuilder.createQuery();
-        Root<Data> from = query.from(Data.class);
-        ParameterExpression<UUID> parameter = criteriaBuilder.parameter(UUID.class);
-        query.select(from)
-                .where(criteriaBuilder.equal(from.get("deviceID"), parameter))
-                .orderBy(criteriaBuilder.desc(from.get("dateTime")));
-        TypedQuery<Object> finalQuery = entityManager.createQuery(query);
-
-        try {
-            return (Data) finalQuery.setParameter(parameter, device.getId()).setMaxResults(1).getSingleResult();
-        } catch (NoResultException e) {
-            return new Data(null, null, null, -99999);
-        }
-
-    }
-
-    /**
-     * Get a list of data points for a user.
-     *
-     * @param user The user to obtain a list of data points for.
-     * @return A list of data points for the given user.
-     */
-    @Override
-    public Set<Data> getAllData(User user) {
-        return dataRepository.findByUserID(user.getId());
+    public Long countByUserID(User currentLoggedInUser)
+    {
+        return dataRepository.countByUserID(Math.toIntExact(currentLoggedInUser.getId()));
     }
 }

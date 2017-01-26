@@ -47,4 +47,6 @@ public interface DeviceService {
      * @return True if the user owns the device, false otherwise.
      */
     boolean isCorrectUser(String deviceKey);
+
+    Long countByUserID(User currentLoggedInUser);
 }

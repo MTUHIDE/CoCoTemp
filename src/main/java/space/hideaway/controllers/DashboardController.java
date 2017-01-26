@@ -36,7 +36,11 @@ public class DashboardController {
     String temperatureUnit;
 
     @Autowired
-    public DashboardController(UserManagementImpl userManagementImpl, SecurityServiceImplementation securityServiceImplementation, DataServiceImplementation dataServiceImplementation) {
+    public DashboardController(
+            UserManagementImpl userManagementImpl,
+            SecurityServiceImplementation securityServiceImplementation,
+            DataServiceImplementation dataServiceImplementation)
+    {
         this.userManagementImpl = userManagementImpl;
     }
 
@@ -63,6 +67,7 @@ public class DashboardController {
 
         //Not used currently, but will be.
         model.addAttribute("temperatureUnit", temperatureUnit);
+        model.addAttribute("username", user.getFirstName());
 
         //Refers to dashboard.html.
         return "dashboard";

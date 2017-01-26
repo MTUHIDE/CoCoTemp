@@ -5,9 +5,9 @@ import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.hideaway.DeviceErrorSerializer;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
+import space.hideaway.model.json.DeviceErrorSerializer;
 import space.hideaway.repositories.DeviceRepository;
 import space.hideaway.validation.DeviceValidator;
 
@@ -26,7 +26,13 @@ public class DeviceServiceImplementation implements DeviceService {
     Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public DeviceServiceImplementation(DataService dataService, DeviceValidator deviceValidator, UserService userService, SecurityServiceImplementation securityServiceImplementation, DeviceRepository deviceRepository) {
+    public DeviceServiceImplementation(
+            DataService dataService,
+            DeviceValidator deviceValidator,
+            UserService userService,
+            SecurityServiceImplementation securityServiceImplementation,
+            DeviceRepository deviceRepository)
+    {
         this.deviceValidator = deviceValidator;
         this.userService = userService;
         this.securityServiceImplementation = securityServiceImplementation;
@@ -43,7 +49,7 @@ public class DeviceServiceImplementation implements DeviceService {
     @Override
     public String save(Device device) {
         Long id = userService.getCurrentLoggedInUser().getId();
-        device.setUserId(id);
+        device.setUserID(id);
         deviceValidator.validate(device);
         Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
         if (deviceValidator.hasErrors()) {
@@ -106,5 +112,11 @@ public class DeviceServiceImplementation implements DeviceService {
      */
     public boolean isCorrectUser(String deviceKey) {
         return isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey);
+    }
+
+    @Override
+    public Long countByUserID(User currentLoggedInUser)
+    {
+        return deviceRepository.countByUserID(currentLoggedInUser.getId());
     }
 }

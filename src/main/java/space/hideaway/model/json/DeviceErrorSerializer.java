@@ -1,4 +1,4 @@
-package space.hideaway;
+package space.hideaway.model.json;
 
 import com.google.gson.*;
 import space.hideaway.validation.DeviceValidator;

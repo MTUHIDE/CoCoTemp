@@ -20,7 +20,7 @@ public class Device {
 
     private UUID id;
 
-    private Long userId;
+    private Long userID;
 
     private String deviceName;
 
@@ -61,17 +61,19 @@ public class Device {
      * @return the user id
      */
     @Column(name = "user_id")
-    public Long getUserId() {
-        return userId;
+    public Long getUserID()
+    {
+        return userID;
     }
 
     /**
      * Sets user id.
      *
-     * @param userId the user id
+     * @param userID the user id
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserID(Long userID)
+    {
+        this.userID = userID;
     }
 
     /**
