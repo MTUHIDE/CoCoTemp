@@ -2,12 +2,9 @@ package space.hideaway.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.services.UserManagementImpl;
 import space.hideaway.services.UserService;
@@ -76,42 +73,6 @@ public class RouteController {
     @GetMapping("/appLogin")
     public String appLogin() {
         return "appLogin";
-    }
-
-    /**
-     * The endpoint for the profile settings page.
-     * <p>
-     * URL: /settings/profile
-     * Secured: Yes
-     * Method: GET
-     *
-     * @param model The model maintained by Spring.
-     * @return The name of the profile settings template.
-     */
-    @GetMapping("/settings/profile")
-    public String profile(Model model) {
-        return "profile";
-    }
-
-    /**
-     * The endpoint for the device settings page.
-     * <p>
-     * URL: /settings/devices
-     * Secured: Yes
-     * Method: GET
-     *
-     * @param model The model maintained by Spring.
-     * @return The name of the device settings template.
-     */
-    @GetMapping("/settings/devices")
-    public String devices(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        try {
-            model.addAttribute("deviceList", userService.getDevices(authentication.getName()));
-        } catch (UserNotFoundException e) {
-            logger.error("The user was not found when loading the devices page.", e);
-        }
-        return "devices";
     }
 
     /**

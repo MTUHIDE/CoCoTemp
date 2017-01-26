@@ -36,15 +36,26 @@ body, .container-fluid, .row, .side-body
   .quaternary
     background-color: rgb(5, 204, 255)
 
-.chart-header
-  padding: 10px
+.seperator-header
   height: 50px
-  background-color: #00416A
-  .chart-header-text
+  padding: 10px
+  width: 100%
+  background-color: #00416a
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  h1
+    margin: 0
+    color: white
+    font-size: 1em
+    font-weight: 500
     text-transform: uppercase
     font-family: "Segoe UI", serif
-    font-weight: 500
-    color: white
+
+.btn-default, .btn-default:focus, .btn-default:hover, .btn-default:active
+  background-color: transparent !important
+  color: white !important
+  border: none !important
 
 .chart-body
   > .chart-container
