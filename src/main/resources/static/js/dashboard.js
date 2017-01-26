@@ -88,7 +88,7 @@ jQuery(document).ready(function () {
                 datasets: [
                     {
                         label: "Random Data",
-                        backgroundColor: 'rgba(5, 204, 255, 0.2)'
+                        backgroundColor: 'rgba(5, 204, 255, 0.8)'
                         ,
                         borderColor: 'rgb(5, 204, 255)',
                         borderWidth: 1,
