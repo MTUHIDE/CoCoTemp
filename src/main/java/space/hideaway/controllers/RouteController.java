@@ -79,21 +79,6 @@ public class RouteController {
     }
 
     /**
-     * The endpoint for the profile settings page.
-     * <p>
-     * URL: /settings/profile
-     * Secured: Yes
-     * Method: GET
-     *
-     * @param model The model maintained by Spring.
-     * @return The name of the profile settings template.
-     */
-    @GetMapping("/settings/profile")
-    public String profile(Model model) {
-        return "profile";
-    }
-
-    /**
      * The endpoint for the device settings page.
      * <p>
      * URL: /settings/devices
@@ -103,7 +88,7 @@ public class RouteController {
      * @param model The model maintained by Spring.
      * @return The name of the device settings template.
      */
-    @GetMapping("/settings/devices")
+    @GetMapping("/settings")
     public String devices(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {

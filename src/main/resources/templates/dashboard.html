@@ -21,7 +21,7 @@
 <div class="row">
 
     <!--Sidebar Partial-->
-    <div th:replace="partial/sidebar-partial :: sidebar(active='my dashboard')"></div>
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -124,7 +124,7 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#">Create a device</a></li>
-                            <li><a href="#">Device settings</a></li>
+                            <li><a href="/settings">Device settings</a></li>
                         </ul>
                     </div>
                 </div>
