@@ -15,6 +15,7 @@
   @author Humane Interface Design Enterprise, Michigan Tech
     -Stephen Radachy
     -Nicholas Lanter
+    -Kyle Bray
 
     NOTES:
     1) AFTER SETTING THE TIME COMMENT IT OUT
@@ -44,7 +45,7 @@ SdFat SD;
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
 #define DEBUG 1
-#define DEBUG_TO_SD 1
+#define DEBUG_TO_SD 0
 #define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
 
 //Clock var's
@@ -194,20 +195,18 @@ void printTime(void){
   &year);
 
   // print to the serial port:
-  //yyyy-mm-dd hh:mm:ss,temperature
+  //yyyy-mm-dd hh:mm:ss
   Serial.print(year);
   Serial.print("-");
-  Serial.print(dayOfMonth);
+  Serial.print(month);
   Serial.print("-");
-  Serial.print(day);
+  Serial.print(dayOfMonth);
   Serial.print(" ");
   Serial.print(hour);
   Serial.print(":");
   Serial.print(minute);
   Serial.print(":");
   Serial.print(second);
-  Serial.print(",");
-  Serial.println(temp);
 
 }
 
@@ -261,18 +260,48 @@ void append_to_disk(float temp) {
   Serial.println("Printing Data:");
 #endif
 
+    
+
+
   //print comma seperated values in form:
   //yyyy-mm-dd hh:mm:ss,temperature
+  //Pad with 20 to make year XXXX
+  dataFile.print("20");
   dataFile.print(year);
   dataFile.print("-");
-  dataFile.print(dayOfMonth);
+  
+  //Pad with zero
+    if(month<10){
+      dataFile.print("0");
+    }
+  dataFile.print(month);
   dataFile.print("-");
-  dataFile.print(day);
+  
+  //Pad with zero
+    if(dayOfMonth<10){
+      dataFile.print("0");
+    }
+  dataFile.print(dayOfMonth);
   dataFile.print(" ");
+  
+  //Pad with zero
+    if(hour<10){
+      dataFile.print("0");
+    }
   dataFile.print(hour);
   dataFile.print(":");
+  
+  //Pad with zero
+    if(minute<10){
+      dataFile.print("0");
+    }
   dataFile.print(minute);
   dataFile.print(":");
+  
+  //Pad with zero
+    if(second<10){
+      dataFile.print("0");
+    }
   dataFile.print(second);
   dataFile.print(",");
   dataFile.println(temp);
@@ -441,3 +470,4 @@ void loop(void) {
   }
 
 }
+
