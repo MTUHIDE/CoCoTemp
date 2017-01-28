@@ -38,4 +38,10 @@ public class SettingsController
         model.addAttribute("currentDevice", deviceService.findByKey(deviceID.toString()));
         return "/settings/device";
     }
+
+    @RequestMapping(value = "/settings/new")
+    public String redirectDeviceCreation()
+    {
+        return "redirect:/manage/devices/add";
+    }
 }
