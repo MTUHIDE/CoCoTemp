@@ -11,8 +11,8 @@
     <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-    <link type="text/css" rel="stylesheet" th:href="@{sass/global.css}"/>
-    <link rel="stylesheet" th:href="@{sass/dashboard.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+    <link rel="stylesheet" th:href="@{/sass/station.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
 
@@ -23,131 +23,67 @@
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Upload</h4>
-                </div>
-                <div class="modal-body">
-                    <h4>Select a device to get started</h4>
-                    <p>We'll process it and place it where it needs to go!</p>
-                    <form id="upload-form" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>
-                                Device
-                                <select id="device-select" class="selectpicker" data-live-search="true">
-                                    <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                                    <option th:each="device : ${#lists.sort(devices, devicesComparator)}" data-tokens=""
-                                            th:text="${device.getDeviceName()}" th:value="${device.getId()}"></option>
-                                </select>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Comments for this upload..."
-                                   aria-label="..."/>
-                        </div>
-                        <div class="form-group">
-                            <label class="btn btn-default btn-file">
-                                Browse <input id="file" name="file" type="file" style="display: none;"/>
-                            </label>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
             <div class="row">
+                <div class="col-lg-12 solid-bar">
+                    <h1>Station Name</h1>
+                </div>
+            </div>
+            <div class="row">
                 <div class="infocard-container">
                     <div class="col-lg-3 infocard">
                         <div class="inner primary">
-                            <p class="infocard-body"><span id="device-count" class="infocard-number">0</span> devices
+                            <p class="infocard-body"><span id="device-count" class="infocard-number">93&deg; F</span>
+                                max
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
-                            <p class="infocard-body"><span id="record-count" class="infocard-number">0</span> records
+                            <p class="infocard-body"><span id="record-count" class="infocard-number">12&deg; F</span>
+                                min
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
-                            <p class="infocard-body"><span id="upload-count" class="infocard-number">0</span> uploads
+                            <p class="infocard-body"><span id="upload-count" class="infocard-number">80&deg; F</span>
+                                avg
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
-                            <p class="infocard-body"><span id="last-update" class="infocard-number"></span> Nothing here
-                                yet.
+                            <p class="infocard-body"><span id="last-update" class="infocard-number">12&deg; F</span>
+                                standard deviation
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="row">
-                    <div class="seperator-header">
-                        <h1 th:inline="text" class="chart-header-text">Welcome, [[${username}]]!</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="chart-body">
-                        <div class="row chart-container">
-                            <div class="col-lg-12">
-                                <canvas id="upload-history-chart"></canvas>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-lg-12 chart-container">
+                    <canvas id="temperature-chart"></canvas>
                 </div>
             </div>
             <div class="row">
-                <div class="seperator-header">
-
-                    <h1 th:inline="text">Devices</h1>
-                    <!-- Single button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            Edit <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Create a device</a></li>
-                            <li><a href="/settings">Edit settings</a></li>
-                        </ul>
-                    </div>
+                <div class="col-lg-12 solid-bar">
+                    <h1>Device Information</h1>
                 </div>
             </div>
-            <div class="row device-list-container">
-                <div class="col-lg-6">
-                    <ul class=" device-list">
-                        <li id="device-template" style="display: none">
-                            <div class="row device">
-                                <div class="col-lg-12">
-                                    <a class="device-name">Houghton Station</a>
-                                    <h2 class="device-update">Last updated 6 minutes ago</h2>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+            <div class="row device-information">
+                <div class="col-lg-8 information-container">
+                    <h1 class="temperature-header">63&deg; F</h1>
+                    <h1>Device Name
+                        <small>Last updated 6 hours ago.</small>
+                    </h1>
                 </div>
-                <div class="col-lg-6 map-container">
+                <div class="col-lg-4 map-container">
                     <div id="map"></div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
@@ -170,6 +106,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script th:src="@{/js/spring-friendly-datatables.js}"></script>
-<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/station.js}"></script>
 </body>
 </html>
