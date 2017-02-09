@@ -3,6 +3,9 @@
  */
 jQuery(document).ready(function () {
 
+    var latitudeInput = $('#deviceLatitude');
+    var longitudeInput = $('#deviceLongitude');
+
     function setupForPlaces(input, map) {
         var autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -34,6 +37,10 @@ jQuery(document).ready(function () {
                 map.setZoom(17);  // Why 17? Because it looks good.
             }
             marker.setPosition(place.geometry.location);
+
+            latitudeInput.val(place.geometry.location.lat());
+            longitudeInput.val(place.geometry.location.lng());
+
             marker.setVisible(true);
 
             var address = '';

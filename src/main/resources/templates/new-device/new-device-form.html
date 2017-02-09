@@ -18,20 +18,28 @@
             <hr/>
             <div class="form-body">
                 <form action="/settings/new?_questions" method="post">
+
                     <div class="form-group">
-                        <label for="firstName">Device Name</label>
-                        <input type="text" class="form-control" id="firstName"
+                        <label for="deviceName">Device Name</label>
+                        <input type="text" class="form-control" id="deviceName"
                                placeholder="eg. John" required="required"/>
+                    </div>
+                    <div>
+                        <hr/>
+                        <p>Please enter either an address or place, or a latitude and longitude.</p>
                     </div>
                     <div class="form-group">
                         <label for="locationInput">Device Address</label>
                         <input type="text" class="form-control"
                                id="locationInput" placeholder="Enter an address or point of interest"/>
+
                     </div>
                     <div class="form-group">
-                        <label for="locationInput">Or, Latitude and Longitude</label>
+                        <label for="locationInput">Latitude and Longitude</label>
                         <input type="text" class="form-control"
-                               id="locationInput" placeholder="Eg. 12.4343,-34.3422"/>
+                               id="deviceLatitude" placeholder="Enter the latitude"/>
+                        <input type="text" class="form-control"
+                               id="deviceLongitude" placeholder="Enter the longitude"/>
                     </div>
                     <div class="form-group">
                         <div class="map-container">
