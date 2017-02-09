@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="col-lg-5 col-lg-offset-4">
+
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Create a new device</h1>
+            </div>
+            <hr/>
+            <div class="form-body">
+                <form action="/settings/new?_questions" method="post">
+                    <div class="form-group">
+                        <label for="firstName">Device Name</label>
+                        <input type="text" class="form-control" id="firstName"
+                               placeholder="eg. John" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="locationInput">Device Address</label>
+                        <input type="text" class="form-control"
+                               id="locationInput" placeholder="Enter an address or point of interest"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="locationInput">Or, Latitude and Longitude</label>
+                        <input type="text" class="form-control"
+                               id="locationInput" placeholder="Eg. 12.4343,-34.3422"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="map-container">
+                            <div id="map"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <button class="btn btn-success" type="submit">Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script src="/js/new-device-form.js"></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
+
+
+</body>
+</html>

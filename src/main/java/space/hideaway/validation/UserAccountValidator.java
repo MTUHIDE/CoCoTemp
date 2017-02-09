@@ -11,13 +11,15 @@ import space.hideaway.services.UserService;
 
 
 @Component
-public class UserValidator implements Validator {
+public class UserAccountValidator implements Validator
+{
 
 
     private final UserService userService;
 
     @Autowired
-    public UserValidator(UserService userService) {
+    public UserAccountValidator(UserService userService)
+    {
         this.userService = userService;
     }
 
