@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
             maxZoom: 18,
             id: 'your.mapbox.project.id',
             accessToken: 'your.mapbox.public.access.token'
-        }).addTo(mymap);
+        }).addTo(myMap);
     }
 
     /*

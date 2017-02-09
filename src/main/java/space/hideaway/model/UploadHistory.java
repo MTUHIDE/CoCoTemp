@@ -68,6 +68,9 @@ public class UploadHistory
     @JsonProperty("description")
     String description;
 
+    @JsonProperty("records")
+    Integer records;
+
     /**
      * Gets id.
      *
@@ -218,6 +221,17 @@ public class UploadHistory
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    @Column(name = "records")
+    public Integer getRecords()
+    {
+        return records;
+    }
+
+    public void setRecords(Integer records)
+    {
+        this.records = records;
     }
 
     @Column(name = "viewed")

@@ -3,8 +3,10 @@ package space.hideaway.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
+import space.hideaway.model.UploadHistory;
 import space.hideaway.model.User;
 import space.hideaway.model.json.InfoCardSerializer;
+import space.hideaway.util.HistoryUnit;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,7 +15,8 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class RESTService {
+public class RESTService
+{
 
     private final DataServiceImplementation dataServiceImplementation;
     private final DeviceServiceImplementation deviceServiceImplementation;
@@ -49,5 +52,22 @@ public class RESTService {
         User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
         ArrayList<Device> deviceList = new ArrayList<>(currentLoggedInUser.getDeviceSet());
         return deviceList.stream().sorted(Comparator.comparing(Device::getDeviceName)).collect(Collectors.toList());
+    }
+
+    public List<UploadHistory> getUploadHistory(HistoryUnit historyUnit)
+    {
+        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+        switch (historyUnit)
+        {
+            case WEEK:
+                return uploadHistoryService.getLastWeek(currentLoggedInUser);
+
+            case MONTH:
+                return uploadHistoryService.getLastWeek(currentLoggedInUser);
+            case YEAR:
+                return uploadHistoryService.getLastWeek(currentLoggedInUser);
+
+        }
+        return uploadHistoryService.getLastMonth(currentLoggedInUser);
     }
 }
