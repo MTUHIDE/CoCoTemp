@@ -6,7 +6,9 @@ import space.hideaway.model.UploadHistory;
 import space.hideaway.model.User;
 import space.hideaway.repositories.UploadHistoryRepository;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -44,14 +46,17 @@ public class UploadHistoryImpl implements UploadHistoryService {
     }
 
     @Override
-    public void save(UUID deviceId, boolean error, long duration, String message)
+    public void save(UUID deviceId, int userID, boolean error, long duration, String message, int records)
     {
         UploadHistory uploadHistory = new UploadHistory();
         uploadHistory.setDeviceID(deviceId);
+        uploadHistory.setUserID(userID);
         uploadHistory.setError(false);
         uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
         uploadHistory.setDuration(duration);
         uploadHistory.setDescription("Data was uploaded successfully");
+        uploadHistory.setRecords(records);
+
         save(uploadHistory);
     }
 
@@ -59,6 +64,33 @@ public class UploadHistoryImpl implements UploadHistoryService {
     public long countByUserID(User currentLoggedInUser)
     {
         return uploadHistoryRepository.countByUserID(Math.toIntExact(currentLoggedInUser.getId()));
+    }
+
+    @Override
+    public List<UploadHistory> getLastWeek(User user)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        Date date = calendar.getTime();
+        return uploadHistoryRepository.getHistoric(date, Math.toIntExact(user.getId()));
+    }
+
+    @Override
+    public List<UploadHistory> getLastMonth(User user)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -30);
+        Date date = calendar.getTime();
+        return uploadHistoryRepository.getHistoric(date, Math.toIntExact(user.getId()));
+    }
+
+    @Override
+    public List<UploadHistory> getLastYear(User user)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -365);
+        Date date = calendar.getTime();
+        return uploadHistoryRepository.getHistoric(date, Math.toIntExact(user.getId()));
     }
 
 }

@@ -1,5 +1,24 @@
 jQuery(document).ready(function () {
 
+    var myMap;
+
+    //var query = getQueryParams(document.location.search);
+    //alert(query.foo);
+    function getQueryParams(qs) {
+        qs = qs.split('+').join(' ');
+
+        var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+        while (tokens = re.exec(qs)) {
+            params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+        }
+
+        return params;
+    }
+
+
     //The upload form.
     $('#upload-form').submit(function (e) {
         e.preventDefault();
@@ -80,45 +99,79 @@ jQuery(document).ready(function () {
     }
 
     function populateChart() {
-        var ctx = $('#upload-history-chart');
-        var myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [65, 59, 80, 81, 56, 55, 40, 98, 98, 94, 94, 69, 984, 65, 1, 213, 516, 984, 984, 351, 32, 135, 87, 78],
-                datasets: [
-                    {
-                        label: "Random Data",
-                        backgroundColor: 'rgba(5, 204, 255, 0.8)'
-                        ,
-                        borderColor: 'rgb(5, 204, 255)',
-                        borderWidth: 1,
-                        data: [65, 59, 80, 81, 56, 55, 40, 98, 98, 94, 94, 69, 984, 65, 1, 213, 516, 984, 984, 351, 32, 135, 87, 78]
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
+
+        var dates = [];
+        var values = [];
+        var query = getQueryParams(document.location.search);
+        var range = query._range;
+        console.log(range);
+
+        $.ajax({
+            type: 'post',
+            url: '/history.json?_range=' + range,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    dates.push(data[i].dateTime);
+                    values.push(data[i].records);
                 }
+                buildChart(dates, values)
+            },
+            error: function (results) {
+
             }
         });
+
+        function buildChart(dates, values) {
+            var ctx = $('#upload-history-chart');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: "Records Uploaded",
+                            backgroundColor: 'rgba(5, 204, 255, 0.8)'
+                            ,
+                            borderColor: 'rgb(5, 204, 255)',
+                            borderWidth: 1,
+                            data: values
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        xAxes: [{
+                            type: "time",
+                            display: true,
+                            time: {
+                                unit: 'minute'
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date'
+                            }
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+        }
+
+
     }
 
     function populateMap() {
-        var mymap = L.map('map').setView([51.505, -0.09], 13);
+        myMap = L.map('map').setView([51.505, -0.09], 13);
         L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
             id: 'your.mapbox.project.id',
             accessToken: 'your.mapbox.public.access.token'
-        }).addTo(mymap);
+        }).addTo(myMap);
     }
 
     /*
@@ -132,6 +185,8 @@ jQuery(document).ready(function () {
      </li>
      */
     function populateDevices() {
+        var deviceMarkers = [];
+
         $.ajax({
             type: 'post',
             url: '/dashboard/devices.json',
@@ -150,7 +205,16 @@ jQuery(document).ready(function () {
 
                 for (var i = 0; i < data.length; i++) {
                     appendDevice(data[i].id, data[i].deviceName);
+
+                    //Add the station locations to the map.
+                    var myMarker = L.marker([data[i].deviceLatitude, data[i].deviceLongitude]).addTo(myMap);
+                    myMarker.bindPopup("<p>" + data[i].deviceName + "</p>");
+                    deviceMarkers.push(myMarker);
                 }
+
+                //Fit to show all markers on the map.
+                var myGroup = new L.featureGroup(deviceMarkers);
+                myMap.fitBounds(myGroup.getBounds())
             },
             error: function (results) {
 
