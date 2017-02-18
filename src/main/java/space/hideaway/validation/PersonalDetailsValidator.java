@@ -11,7 +11,7 @@ import space.hideaway.model.User;
  * Created by dough on 1/19/2017.
  */
 @Component
-public class QuestionValidator implements Validator
+public class PersonalDetailsValidator implements Validator
 {
     @Override
     public boolean supports(Class<?> clazz)

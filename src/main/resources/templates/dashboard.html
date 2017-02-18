@@ -23,46 +23,7 @@
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Upload</h4>
-                </div>
-                <div class="modal-body">
-                    <h4>Select a device to get started</h4>
-                    <p>We'll process it and place it where it needs to go!</p>
-                    <form id="upload-form" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>
-                                Device
-                                <select id="device-select" class="selectpicker" data-live-search="true">
-                                    <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                                    <option th:each="device : ${#lists.sort(devices, devicesComparator)}" data-tokens=""
-                                            th:text="${device.getDeviceName()}" th:value="${device.getId()}"></option>
-                                </select>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Comments for this upload..."
-                                   aria-label="..."/>
-                        </div>
-                        <div class="form-group">
-                            <label class="btn btn-default btn-file">
-                                Browse <input id="file" name="file" type="file" style="display: none;"/>
-                            </label>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Main Content -->
     <div class="container-fluid">
@@ -100,6 +61,26 @@
                 <div class="row">
                     <div class="seperator-header">
                         <h1 th:inline="text" class="chart-header-text">Welcome, [[${username}]]!</h1>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                Edit <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/upload">Upload data</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                Range <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/dashboard?_range=week">Week</a></li>
+                                <li><a href="/dashboard?_range=month">Month</a></li>
+                                <li><a href="/dashboard?_range=year">Year</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -123,7 +104,7 @@
                             Edit <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Create a device</a></li>
+                            <li><a href="/settings/new">Create a device</a></li>
                             <li><a href="/settings">Edit settings</a></li>
                         </ul>
                     </div>

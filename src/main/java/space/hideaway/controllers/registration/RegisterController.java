@@ -12,8 +12,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import space.hideaway.model.User;
 import space.hideaway.services.SecurityService;
 import space.hideaway.services.UserService;
-import space.hideaway.validation.QuestionValidator;
-import space.hideaway.validation.UserValidator;
+import space.hideaway.validation.PersonalDetailsValidator;
+import space.hideaway.validation.UserAccountValidator;
 
 
 @Controller
@@ -24,18 +24,18 @@ public class RegisterController
 
     private final UserService userService;
     private final SecurityService securityService;
-    private final UserValidator userValidator;
-    private final QuestionValidator questionValidator;
+    private final UserAccountValidator userAccountValidator;
+    private final PersonalDetailsValidator personalDetailsValidator;
 
     @Autowired
     public RegisterController(
-            SecurityService securityService, UserValidator userValidator, UserService userService,
-            QuestionValidator questionValidator)
+            SecurityService securityService, UserAccountValidator userAccountValidator, UserService userService,
+            PersonalDetailsValidator personalDetailsValidator)
     {
         this.securityService = securityService;
-        this.userValidator = userValidator;
+        this.userAccountValidator = userAccountValidator;
         this.userService = userService;
-        this.questionValidator = questionValidator;
+        this.personalDetailsValidator = personalDetailsValidator;
     }
 
 
@@ -51,7 +51,7 @@ public class RegisterController
             final @ModelAttribute("user") User user,
             final BindingResult bindingResult)
     {
-        userValidator.validate(user, bindingResult);
+        userAccountValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors())
         {
             return "/registration/register";
@@ -72,7 +72,7 @@ public class RegisterController
         String password = user.getPassword();
 
         //Validate the form.
-        questionValidator.validate(user, bindingResult);
+        personalDetailsValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors())
         {

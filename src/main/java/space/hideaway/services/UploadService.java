@@ -22,7 +22,8 @@ import java.util.UUID;
 
 
 @Service
-public class UploadService {
+public class UploadService
+{
 
     private final DeviceServiceImplementation deviceServiceImplementation;
     private final UserManagementImpl userService;
@@ -44,14 +45,17 @@ public class UploadService {
     }
 
 
-    public UploadService setMultipartFile(MultipartFile multipartFile) {
+    public UploadService setMultipartFile(MultipartFile multipartFile)
+    {
         this.multipartFile = multipartFile;
         return this;
     }
 
 
-    public String parseFile(String deviceKey) {
-        if (deviceServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey)) {
+    public String parseFile(String deviceKey)
+    {
+        if (deviceServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey))
+        {
             Thread fileUploadThread = new Thread(
                     new FileUploadHandler(deviceServiceImplementation.findByKey(deviceKey), convertToFile())
             );
@@ -62,38 +66,44 @@ public class UploadService {
     }
 
 
-
-    private File convertToFile() {
+    private File convertToFile()
+    {
         File convertedFile = null;
-        try {
+        try
+        {
             convertedFile = File.createTempFile("temp-upload", ".csv");
             FileOutputStream fileOutputStream = new FileOutputStream(convertedFile);
             fileOutputStream.write(multipartFile.getBytes());
             fileOutputStream.close();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
         return convertedFile;
     }
 
-    private class FileUploadHandler implements Runnable {
+    private class FileUploadHandler implements Runnable
+    {
 
         private final File file;
         private final Device device;
 
-        FileUploadHandler(Device device, File file) {
+        FileUploadHandler(Device device, File file)
+        {
             this.file = file;
             this.device = device;
         }
 
         @Override
-        public void run() {
+        public void run()
+        {
             long start = System.currentTimeMillis();
             UUID deviceId = device.getId();
             Long userId = device.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
             ICsvBeanReader iCsvBeanReader;
-            try {
+            try
+            {
                 iCsvBeanReader = new CsvBeanReader(new FileReader(file), CsvPreference.STANDARD_PREFERENCE);
                 final CellProcessor[] cellProcessors = new CellProcessor[]{
                         new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
@@ -101,7 +111,8 @@ public class UploadService {
                 };
                 final String[] header = iCsvBeanReader.getHeader(true);
                 Data dataBean;
-                while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null) {
+                while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null)
+                {
                     dataBean.setDeviceID(deviceId);
                     dataBean.setUserID(userId.intValue());
                     dataList.add(dataBean);
@@ -111,9 +122,12 @@ public class UploadService {
                 long end = System.currentTimeMillis();
 
                 //Create a record that the file was parsed and saved correctly.
-                uploadHistoryService.save(deviceId, false, end - start, "Data was uploaded successfully");
+                uploadHistoryService.save(deviceId,
+                                          Math.toIntExact(userId), false, end - start, "Data was uploaded successfully",
+                                          dataList.size());
 
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 e.printStackTrace();
             }
         }

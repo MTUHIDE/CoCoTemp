@@ -6,197 +6,106 @@
     <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
     <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
     <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/sass/station.css}"/>
+    <link rel="stylesheet" th:href="@{/sass/station.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+
 </head>
 <body>
-
-<script th:inline="javascript">
-    var deviceID = [[${deviceID}]];
-</script>
 <div class="row">
-    <div th:replace="sidebar/sidebar-partial :: sidebar (active='my dashboard')"></div>
+
+    <!--Sidebar Partial-->
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
-
             <div class="row">
-                <div id="top" class="page-header">
-                    <h3>Station
-                        <small>View data for a station.</small>
-                    </h3>
+                <div class="col-lg-12 solid-bar">
+                    <h1>Station Name</h1>
                 </div>
             </div>
             <div class="row">
-
-                <!--/*@thymesVar id="deviceServiceImplementation" type="space.hideaway.services.DeviceService"*/-->
-                <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                <div class="col-lg-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Station</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="col-lg-3">
-                                <h4 th:inline="text">[[${device.getDeviceName()}]]<br/>
-                                    <small>Last update 5 hours ago</small>
-                                </h4>
-                                <div class="list-group">
-                                    <button type="button" class="list-group-item">Compare with other stations</button>
-
-                                    <!--/*@thymesVar id="deviceServiceImplementation" type="space.hideaway.services.DeviceServiceImplementation"*/-->
-                                    <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                                    <div th:if="${#authorization.expression('isAuthenticated()') and isCorrectUser}">
-                                        <button type="button" class="list-group-item">Edit device</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-5 right-content">
-                                <table class="table" id="vertical-1">
-                                    <caption>Statistics</caption>
-                                    <tr>
-                                        <th>Average</th>
-                                        <td>~&deg;</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Minimum</th>
-                                        <td>~&deg;</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Minimum</th>
-                                        <td>~&deg;</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Records</th>
-                                        <td>0</td>
-                                    </tr>
-                                </table>
-
-                            </div>
-                            <div class="col-lg-4">
-                                <div id="map"></div>
-                            </div>
+                <div class="infocard-container">
+                    <div class="col-lg-3 infocard">
+                        <div class="inner primary">
+                            <p class="infocard-body"><span id="device-count" class="infocard-number">93&deg; F</span>
+                                max
+                            </p>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Data</h3>
-                        </div>
-                        <div class="panel-body">
-                            <table id="temperature-table" class="table table-striped table-bordered"
-                                   style="width: 100%;">
-                                <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Temperature</th>
-                                </tr>
-                                </thead>
-                            </table>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner secondary">
+                            <p class="infocard-body"><span id="record-count" class="infocard-number">12&deg; F</span>
+                                min
+                            </p>
                         </div>
                     </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner tertiary">
+                            <p class="infocard-body"><span id="upload-count" class="infocard-number">80&deg; F</span>
+                                avg
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner quaternary">
+                            <p class="infocard-body"><span id="last-update" class="infocard-number">12&deg; F</span>
+                                standard deviation
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 chart-container">
+                    <canvas id="temperature-chart"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 solid-bar">
+                    <h1>Device Information</h1>
+                </div>
+            </div>
+            <div class="row device-information">
+                <div class="col-lg-8 information-container">
+                    <h1 class="temperature-header">63&deg; F</h1>
+                    <h1>Device Name
+                        <small>Last updated 6 hours ago.</small>
+                    </h1>
+                </div>
+                <div class="col-lg-4 map-container">
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        src="//code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
-<script th:src="@{/js/spring-friendly-datatables.js}"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
 <script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script th:src="@{/js/spring-friendly-datatables.js}"></script>
 <script th:src="@{/js/station.js}"></script>
-
-<script type="text/javascript" th:if="${#authentication.isAuthenticated() and isCorrectUser}">
-    //<![CDATA[
-    jQuery(document).ready(function () {
-                var BeforeSend = function () {
-                    console.log("Send request for upload history...")
-                };
-                var OnSuccess = function (data, textStatus, jqXHR) {
-                    for (var i = 0; i < data.length; i++) {
-                        var record = data[i];
-                        var date = moment(record.dateTime);
-                        var description = "Your upload started " + date.fromNow() + " was successful.";
-                        if (!record.error && !record.viewed) {
-                            toastr["success"](description, "Upload Successful");
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "timeOut": "0",
-                                "extendedTimeOut": "0",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                        } else if (record.error && !record.viewed) {
-                            toastr["error"](record.description, "Upload Failed");
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "newestOnTop": true,
-                                "progressBar": false,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "timeOut": "0",
-                                "extendedTimeOut": "0",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                        }
-
-                        if (!record.viewed) {
-                            $.ajax(
-                                    {
-                                        url: '/history/' + record.id + '/viewed',
-                                        type: 'Post'
-                                    }
-                            )
-                        }
-                    }
-                };
-
-
-                var OnError = function (qXHR, textStatus, errorThrown) {
-
-                };
-                $.ajax({
-                    url: "/device/" + deviceID + "/history.json",
-                    type: "POST",
-                    beforeSend: BeforeSend,
-                    success: OnSuccess,
-                    error: OnError
-                });
-            }
-    )
-    ;
-    //]]>
-</script>
-
 </body>
 </html>

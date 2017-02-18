@@ -14,7 +14,8 @@ import java.util.Set;
 
 
 @Service
-public class UserManagementImpl implements UserService {
+public class UserManagementImpl implements UserService
+{
 
     private final UserRepository userRepository;
 
@@ -25,8 +26,10 @@ public class UserManagementImpl implements UserService {
     private final SecurityServiceImplementation securityServiceImplementation;
 
     @Autowired
-    public UserManagementImpl(RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
-                              SecurityServiceImplementation securityServiceImplementation) {
+    public UserManagementImpl(
+            RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
+            SecurityServiceImplementation securityServiceImplementation)
+    {
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
@@ -40,12 +43,41 @@ public class UserManagementImpl implements UserService {
      * @param user The new user to be saved.
      */
     @Override
-    public void save(User user) {
+    public void save(User user)
+    {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
-
         user.setRoleSet(new HashSet<>(roleRepository.findAll()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void update(User user)
+    {
+        User oldUser = userRepository.findOne(user.getId());
+
+        if (oldUser != null)
+        {
+            if (user.getEmail() == null)
+                user.setEmail(oldUser.getEmail());
+            if (user.getFirstName() == null)
+                user.setFirstName(oldUser.getFirstName());
+            if (user.getMiddleInitial() == null)
+                user.setMiddleInitial(oldUser.getMiddleInitial());
+            if (user.getLastName() == null)
+                user.setLastName(oldUser.getLastName());
+            if (user.getUsername() == null)
+                user.setUsername(oldUser.getUsername());
+            if (user.getPassword() == null)
+                user.setPassword(oldUser.getPassword());
+            if (user.getRoleSet() == null)
+                user.setRoleSet(oldUser.getRoleSet());
+            if (user.getDeviceSet() == null)
+                user.setDeviceSet(oldUser.getDeviceSet());
+            if (user.getUploadHistorySet() == null)
+                user.setUploadHistorySet(oldUser.getUploadHistorySet());
+        }
+
         userRepository.save(user);
     }
 
@@ -54,10 +86,13 @@ public class UserManagementImpl implements UserService {
      *
      * @return The user that is currently logged in.
      */
-    public User getCurrentLoggedInUser() {
-        try {
+    public User getCurrentLoggedInUser()
+    {
+        try
+        {
             return findByUsername(securityServiceImplementation.findLoggedInUsername());
-        } catch (UserNotFoundException e) {
+        } catch (UserNotFoundException e)
+        {
             e.printStackTrace();
         }
         return null;
@@ -71,11 +106,14 @@ public class UserManagementImpl implements UserService {
      * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     @Override
-    public User findByUsername(String username) throws UserNotFoundException {
+    public User findByUsername(String username) throws UserNotFoundException
+    {
         User user = userRepository.findByUsername(username);
-        if (user == null) {
+        if (user == null)
+        {
             throw new UserNotFoundException("The user was not found in the database.");
-        } else {
+        } else
+        {
             return user;
         }
     }
@@ -88,7 +126,8 @@ public class UserManagementImpl implements UserService {
      * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     @Override
-    public Set<Device> getDevices(String username) throws UserNotFoundException {
+    public Set<Device> getDevices(String username) throws UserNotFoundException
+    {
         return findByUsername(username).getDeviceSet();
     }
 
