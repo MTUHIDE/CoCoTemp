@@ -15,6 +15,8 @@ public interface UserService {
      */
     void save(User user);
 
+    void update(User user);
+
     /**
      * Obtain the user that is currently logged in.
      *

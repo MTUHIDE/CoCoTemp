@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
-import space.hideaway.validation.DeviceValidator;
 
 import java.util.List;
 import java.util.Set;
@@ -23,7 +22,7 @@ public class DeviceServiceImplementation implements DeviceService {
     @Autowired
     public DeviceServiceImplementation(
             DataService dataService,
-            DeviceValidator deviceValidator,
+
             UserService userService,
             SecurityServiceImplementation securityServiceImplementation,
             DeviceRepository deviceRepository)
