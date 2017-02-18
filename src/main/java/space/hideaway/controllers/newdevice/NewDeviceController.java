@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import space.hideaway.model.Device;
+import space.hideaway.services.DeviceService;
 import space.hideaway.validation.NewDeviceValidator;
 
 /**
@@ -24,6 +25,9 @@ public class NewDeviceController
     @Autowired
     NewDeviceValidator newDeviceValidator;
 
+    @Autowired
+    DeviceService deviceService;
+
     @RequestMapping
     public String initialPage(final ModelMap modelMap)
     {
@@ -31,7 +35,7 @@ public class NewDeviceController
         return "/new-device/new-device-form";
     }
 
-    @RequestMapping(params = "_question", method = RequestMethod.POST)
+    @RequestMapping(params = "_questions", method = RequestMethod.POST)
     public String questionPage(
             final @ModelAttribute("device") Device device,
             final BindingResult bindingResult
@@ -54,7 +58,14 @@ public class NewDeviceController
             SessionStatus sessionStatus
     )
     {
+        newDeviceValidator.validateFinal(device, bindingResult);
+        if (bindingResult.hasErrors())
+        {
+            return "/new-device/device-questionnaire";
+        }
+
+        deviceService.save(device);
         sessionStatus.setComplete();
-        return "/dashboard";
+        return "redirect:/dashboard";
     }
 }

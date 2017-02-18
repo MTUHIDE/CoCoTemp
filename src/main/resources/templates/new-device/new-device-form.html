@@ -17,12 +17,13 @@
             </div>
             <hr/>
             <div class="form-body">
-                <form action="/settings/new?_questions" method="post">
+                <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+                <form th:action="@{/settings/new?_questions}" method="post" th:object="${device}">
 
                     <div class="form-group">
                         <label for="deviceName">Device Name</label>
                         <input type="text" class="form-control" id="deviceName"
-                               placeholder="eg. John" required="required"/>
+                               placeholder="" required="required" th:field="*{deviceName}"/>
                     </div>
                     <div>
                         <hr/>
@@ -36,19 +37,24 @@
                     </div>
                     <div class="form-group">
                         <label for="locationInput">Latitude and Longitude</label>
-                        <input type="text" class="form-control"
-                               id="deviceLatitude" placeholder="Enter the latitude"/>
-                        <input type="text" class="form-control"
-                               id="deviceLongitude" placeholder="Enter the longitude"/>
+                        <input class="form-control"
+                               id="deviceLatitude" placeholder="Enter the latitude" type="number" step="any"
+                               required="required"
+                               th:field="*{deviceLatitude}"/>
+                        <input class="form-control"
+                               id="deviceLongitude" placeholder="Enter the longitude" type="number" step="any"
+                               required="required"
+                               th:field="*{deviceLongitude}"/>
+                    </div>
+                    <div class="form-group">
+                        <button id="locateButton" type="button" class="btn btn-primary">Locate</button>
                     </div>
                     <div class="form-group">
                         <div class="map-container">
                             <div id="map"></div>
                         </div>
-
                     </div>
                     <div class="form-group">
-
                         <button class="btn btn-success" type="submit">Continue</button>
                     </div>
                 </form>

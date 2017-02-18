@@ -28,6 +28,8 @@ public class Device {
 
     private double deviceLongitude;
 
+    private String deviceDescription;
+
     @JsonIgnore
     private Set<Data> dataSet;
 
@@ -202,5 +204,16 @@ public class Device {
      */
     public void setDeviceLatitude(double deviceLatitude) {
         this.deviceLatitude = deviceLatitude;
+    }
+
+    @Column(name = "device_description")
+    public String getDeviceDescription()
+    {
+        return deviceDescription;
+    }
+
+    public void setDeviceDescription(String deviceDescription)
+    {
+        this.deviceDescription = deviceDescription;
     }
 }

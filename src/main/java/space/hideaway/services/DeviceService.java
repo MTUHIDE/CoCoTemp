@@ -13,7 +13,7 @@ public interface DeviceService {
      * @param device The new device to be inserted.
      * @return
      */
-    String save(Device device);
+    Device save(Device device);
 
     /**
      * Find a device by device ID.

@@ -1,13 +1,9 @@
 package space.hideaway.services;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
-import space.hideaway.model.json.DeviceErrorSerializer;
 import space.hideaway.repositories.DeviceRepository;
 import space.hideaway.validation.DeviceValidator;
 
@@ -22,8 +18,7 @@ public class DeviceServiceImplementation implements DeviceService {
     private final UserService userService;
     private final SecurityServiceImplementation securityServiceImplementation;
     private final DeviceRepository deviceRepository;
-    private final DeviceValidator deviceValidator;
-    Logger logger = Logger.getLogger(getClass());
+
 
     @Autowired
     public DeviceServiceImplementation(
@@ -33,7 +28,6 @@ public class DeviceServiceImplementation implements DeviceService {
             SecurityServiceImplementation securityServiceImplementation,
             DeviceRepository deviceRepository)
     {
-        this.deviceValidator = deviceValidator;
         this.userService = userService;
         this.securityServiceImplementation = securityServiceImplementation;
         this.deviceRepository = deviceRepository;
@@ -47,17 +41,12 @@ public class DeviceServiceImplementation implements DeviceService {
      * @return
      */
     @Override
-    public String save(Device device) {
+    public Device save(Device device)
+    {
         Long id = userService.getCurrentLoggedInUser().getId();
         device.setUserID(id);
-        deviceValidator.validate(device);
-        Gson gson = new GsonBuilder().registerTypeAdapter(DeviceValidator.class, new DeviceErrorSerializer()).create();
-        if (deviceValidator.hasErrors()) {
-            return gson.toJson(deviceValidator);
-        } else {
-            deviceRepository.save(device);
-        }
-        return gson.toJson(deviceValidator);
+        deviceRepository.save(device);
+        return device;
     }
 
     /**

@@ -14,44 +14,34 @@ jQuery(document).ready(function () {
         // bounds option in the request.
         autocomplete.bindTo('bounds', map);
 
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            latitudeInput.val(place.geometry.location.lat());
+            longitudeInput.val(place.geometry.location.lng());
+        });
+
         var marker = new google.maps.Marker({
             map: map,
             anchorPoint: new google.maps.Point(0, -29)
         });
 
-        autocomplete.addListener('place_changed', function () {
-            marker.setVisible(false);
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                // User entered the name of a Place that was not suggested and
-                // pressed the Enter key, or the Place Details request failed.
-                window.alert("No details available for input: '" + place.name + "'");
-                return;
-            }
+        var $locateButton = $('#locateButton');
+        $locateButton.click(function () {
+            geocodeLocation(map, marker, latitudeInput.val(), longitudeInput.val());
+        })
 
-            // If the place has a geometry, then present it on a map.
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(17);  // Why 17? Because it looks good.
-            }
-            marker.setPosition(place.geometry.location);
+    }
 
-            latitudeInput.val(place.geometry.location.lat());
-            longitudeInput.val(place.geometry.location.lng());
+    function geocodeLocation(map, marker, latitudeInput, longitudeInput) {
 
-            marker.setVisible(true);
-
-            var address = '';
-            if (place.address_components) {
-                address = [
-                    (place.address_components[0] && place.address_components[0].short_name || ''),
-                    (place.address_components[1] && place.address_components[1].short_name || ''),
-                    (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
-            }
-        });
+        if (latitudeInput === "" || longitudeInput === "") {
+            return;
+        }
+        marker.setVisible(false);
+        var latlng = {lat: parseFloat(latitudeInput), lng: parseFloat(longitudeInput)};
+        marker.setPosition(latlng);
+        map.setCenter(latlng);
+        marker.setVisible(true);
     }
 
     function initMap() {
