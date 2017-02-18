@@ -1,0 +1,87 @@
+body {
+    background: #f7f7f7;
+    overflow-y: auto;
+}
+
+body, .container-fluid, .row, .side-body {
+    height: 100%;
+}
+
+.seperator-header {
+    height: 50px;
+    padding: 10px;
+    width: 100%;
+    background-color: #00416a;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.seperator-header h1 {
+    margin: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Segoe UI", serif;
+}
+
+.btn-default, .btn-default:focus, .btn-default:hover, .btn-default:active {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+}
+
+.chart-body {
+    padding: 10px;
+    height: 400px;
+    background-color: white;
+}
+
+.chart-body > .chart-container > .col-lg-12 {
+    height: 100%;
+}
+
+.device-list-container .col-lg-6 {
+    padding: 0;
+    margin: 0;
+}
+
+.device-list {
+    list-style: none;
+    padding: 0;
+}
+
+.device-list a, .device-list h2 {
+    padding: 3px;
+    margin: 0;
+}
+
+.device-list a {
+    font-size: 1em;
+    font-family: "Segoe UI", serif;
+    font-weight: 500;
+}
+
+.device-list h2 {
+    font-size: 1em;
+    font-family: "Segoe UI Light", serif;
+    font-style: italic;
+    color: #909090;
+}
+
+.device-list .device {
+    padding: 20px;
+    border-bottom: 1px solid rgba(144, 144, 144, 0.45);
+    background-color: white;
+}
+
+.device-list-container > .map-container {
+    height: 400px;
+}
+
+.device-list-container > .map-container > #map {
+    height: 100%;
+}
+
+/*# sourceMappingURL=dashboard.css.map */

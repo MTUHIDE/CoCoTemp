@@ -173,6 +173,20 @@
                 <version>1.4.1.RELEASE</version>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/static</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/spring</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/templates</directory>
+            </resource>
+        </resources>
     </build>
 
 
