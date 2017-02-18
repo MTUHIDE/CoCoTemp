@@ -28,8 +28,9 @@ public class UploadHistoryImpl implements UploadHistoryService {
      * @param uploadHistory The newly created uploadHistory object.
      */
     @Override
-    public void save(UploadHistory uploadHistory) {
-        uploadHistoryRepository.save(uploadHistory);
+    public UploadHistory save(UploadHistory uploadHistory)
+    {
+        return uploadHistoryRepository.save(uploadHistory);
     }
 
     /**
@@ -46,18 +47,38 @@ public class UploadHistoryImpl implements UploadHistoryService {
     }
 
     @Override
-    public void save(UUID deviceId, int userID, boolean error, long duration, String message, int records)
+    public UploadHistory savePending(
+            UUID deviceId,
+            int userID,
+            boolean error,
+            long duration,
+            String message,
+            int records)
     {
         UploadHistory uploadHistory = new UploadHistory();
+        uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
         uploadHistory.setDeviceID(deviceId);
         uploadHistory.setUserID(userID);
-        uploadHistory.setError(false);
-        uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
+        uploadHistory.setError(error);
         uploadHistory.setDuration(duration);
-        uploadHistory.setDescription("Data was uploaded successfully");
+        uploadHistory.setDescription(message);
         uploadHistory.setRecords(records);
+        return save(uploadHistory);
+    }
 
-        save(uploadHistory);
+    @Override
+    public UploadHistory saveFinished(
+            UploadHistory uploadHistory,
+            boolean error,
+            long duration,
+            int size,
+            String message)
+    {
+        uploadHistory.setError(error);
+        uploadHistory.setDuration(duration);
+        uploadHistory.setDescription(message);
+        uploadHistory.setRecords(size);
+        return save(uploadHistory);
     }
 
     @Override

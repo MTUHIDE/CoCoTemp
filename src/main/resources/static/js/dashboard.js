@@ -111,6 +111,9 @@ jQuery(document).ready(function () {
             url: '/history.json?_range=' + range,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
+                    if (data[i].error === true) {
+                        continue;
+                    }
                     dates.push(data[i].dateTime);
                     values.push(data[i].records);
                 }
@@ -121,16 +124,18 @@ jQuery(document).ready(function () {
             }
         });
 
+        var timeFormat = 'MM/DD/YYYY HH:mm';
+
         function buildChart(dates, values) {
             var ctx = $('#upload-history-chart');
             var myBarChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: dates,
                     datasets: [
                         {
                             label: "Records Uploaded",
-                            backgroundColor: 'rgba(5, 204, 255, 0.8)'
+                            backgroundColor: 'rgba(5, 204, 255, 0.3)'
                             ,
                             borderColor: 'rgb(5, 204, 255)',
                             borderWidth: 1,
@@ -144,17 +149,17 @@ jQuery(document).ready(function () {
                     scales: {
                         xAxes: [{
                             type: "time",
-                            display: true,
                             time: {
-                                unit: 'minute'
+                                format: timeFormat,
+                                tooltipFormat: 'll HH:mm'
                             },
                             scaleLabel: {
                                 display: true,
                                 labelString: 'Date'
                             }
+
                         }],
                         yAxes: [{
-                            stacked: true
                         }]
                     }
                 }

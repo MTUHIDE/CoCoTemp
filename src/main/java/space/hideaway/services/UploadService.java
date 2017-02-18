@@ -11,6 +11,7 @@ import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
+import space.hideaway.model.UploadHistory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,12 +53,19 @@ public class UploadService
     }
 
 
-    public String parseFile(String deviceKey)
+    public String parseFile(String deviceKey, String description)
     {
+        File file = convertToFile();
+
+        if (file.length() == 0)
+        {
+            return "";
+        }
+
         if (deviceServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey))
         {
             Thread fileUploadThread = new Thread(
-                    new FileUploadHandler(deviceServiceImplementation.findByKey(deviceKey), convertToFile())
+                    new FileUploadHandler(deviceServiceImplementation.findByKey(deviceKey), file, description)
             );
             fileUploadThread.start();
             return "{status: \"in progress\"}";
@@ -87,9 +95,11 @@ public class UploadService
 
         private final File file;
         private final Device device;
+        private final String description;
 
-        FileUploadHandler(Device device, File file)
+        FileUploadHandler(Device device, File file, String description)
         {
+            this.description = description;
             this.file = file;
             this.device = device;
         }
@@ -101,6 +111,15 @@ public class UploadService
             UUID deviceId = device.getId();
             Long userId = device.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
+
+            UploadHistory pendingHistory = uploadHistoryService.savePending(
+                    deviceId,
+                    Math.toIntExact(userId),
+                    false,
+                    0,
+                    "In Progress",
+                    0);
+
             ICsvBeanReader iCsvBeanReader;
             try
             {
@@ -122,13 +141,13 @@ public class UploadService
                 long end = System.currentTimeMillis();
 
                 //Create a record that the file was parsed and saved correctly.
-                uploadHistoryService.save(deviceId,
-                                          Math.toIntExact(userId), false, end - start, "Data was uploaded successfully",
-                                          dataList.size());
+                uploadHistoryService.saveFinished(pendingHistory, false, end - start, dataList.size(), description);
 
-            } catch (IOException e)
+            } catch (Exception e)
             {
-                e.printStackTrace();
+                uploadHistoryService.saveFinished(pendingHistory, true, 0, 0, "Upload failed: " +
+                        String.format("%s%n %s", e
+                                .getMessage(), description));
             }
         }
     }
