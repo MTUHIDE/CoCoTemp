@@ -34,18 +34,32 @@ public class DeviceServiceImplementation implements DeviceService {
 
 
     /**
-     * Save a new device into the database.
+     * Save a new newDevice into the database.
      *
-     * @param device The new device to be inserted.
+     * @param newDevice The new newDevice to be inserted.
      * @return
      */
     @Override
-    public Device save(Device device)
+    public Device save(Device newDevice)
     {
         Long id = userService.getCurrentLoggedInUser().getId();
-        device.setUserID(id);
-        deviceRepository.save(device);
-        return device;
+        newDevice.setUserID(id);
+
+//        Device oldDevice = deviceRepository.findOne(newDevice.getId());
+//        if (newDevice.getDeviceName() == null)
+//            newDevice.setDeviceName(oldDevice.getDeviceName());
+//        if (newDevice.getDeviceDescription() == null)
+//            newDevice.setDeviceDescription(oldDevice.getDeviceDescription());
+//        if (newDevice.getDataSet() == null)
+//            newDevice.setDataSet(oldDevice.getDataSet());
+//        if (newDevice.getUploadHistories() == null)
+//            newDevice.setUploadHistories(oldDevice.getUploadHistories());
+//        if (newDevice.getStationStatisticsList() == null)
+//            newDevice.setStationStatisticsList(oldDevice.getStationStatisticsList());
+
+
+        deviceRepository.save(newDevice);
+        return newDevice;
     }
 
     /**

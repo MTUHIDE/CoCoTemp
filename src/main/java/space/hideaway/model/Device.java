@@ -63,7 +63,7 @@ public class Device
     }
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "device_id", updatable = false)
     public List<StationStatistics> getStationStatisticsList()
     {
         return stationStatisticsList;
@@ -122,7 +122,7 @@ public class Device
      * @return the data set
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "device_id", updatable = false)
     public Set<Data> getDataSet()
     {
         return dataSet;
@@ -144,7 +144,7 @@ public class Device
      * @return the upload histories
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "device_id", updatable = false)
     public Set<UploadHistory> getUploadHistories()
     {
         return uploadHistories;
