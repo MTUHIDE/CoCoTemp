@@ -28,35 +28,41 @@
         <div class="side-body">
             <div class="row">
                 <div class="col-lg-12 solid-bar">
-                    <h1>Station Name</h1>
+                    <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+                    <h1 th:text="${device.getDeviceName()}">Station Name</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="infocard-container">
                     <div class="col-lg-3 infocard">
                         <div class="inner primary">
-                            <p class="infocard-body"><span id="device-count" class="infocard-number">93&deg; F</span>
+                            <p class="infocard-body">
+                                <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.StationStatistics"*/-->
+                                <span id="device-count" class="infocard-number" th:text="${max}">93&deg; F</span>
                                 max
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
-                            <p class="infocard-body"><span id="record-count" class="infocard-number">12&deg; F</span>
+                            <p class="infocard-body"><span id="record-count" class="infocard-number" th:text="${min}">12&deg;
+                                F</span>
                                 min
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
-                            <p class="infocard-body"><span id="upload-count" class="infocard-number">80&deg; F</span>
+                            <p class="infocard-body"><span id="upload-count" class="infocard-number" th:text="${avg}">80&deg;
+                                F</span>
                                 avg
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
-                            <p class="infocard-body"><span id="last-update" class="infocard-number">12&deg; F</span>
+                            <p class="infocard-body"><span id="last-update" class="infocard-number"
+                                                           th:text="${deviation}">12&deg; F</span>
                                 standard deviation
                             </p>
                         </div>
@@ -76,9 +82,7 @@
             <div class="row device-information">
                 <div class="col-lg-8 information-container">
                     <h1 class="temperature-header">63&deg; F</h1>
-                    <h1>Device Name
-                        <small>Last updated 6 hours ago.</small>
-                    </h1>
+                    <h1 th:text="${device.getDeviceName()}">Device Name</h1>
                 </div>
                 <div class="col-lg-4 map-container">
                     <div id="map"></div>

@@ -136,7 +136,7 @@ public class UploadService
                     dataBean.setUserID(userId.intValue());
                     dataList.add(dataBean);
                 }
-                dataServiceImplementation.batchSave(dataList);
+                dataServiceImplementation.batchSave(device, dataList);
                 iCsvBeanReader.close();
                 long end = System.currentTimeMillis();
 

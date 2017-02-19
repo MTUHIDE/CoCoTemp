@@ -1,5 +1,6 @@
 package space.hideaway.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ public class UploadController {
 
     private final UploadService uploadService;
     private final UserService userService;
+
+    Logger logger = Logger.getLogger(getClass());
 
 
     @Autowired
@@ -64,6 +67,7 @@ public class UploadController {
             @RequestParam(value = "csvData") MultipartFile file,
             @RequestParam(value = "description") String description
     ) {
+        logger.info("Upload request incoming, parse file starting.");
         return uploadService.setMultipartFile(file).parseFile(deviceID.toString(), description);
     }
 

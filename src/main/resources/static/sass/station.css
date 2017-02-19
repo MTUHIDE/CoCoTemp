@@ -43,6 +43,7 @@
 }
 
 .map-container {
+    padding: 0;
     height: 400px;
 }
 
