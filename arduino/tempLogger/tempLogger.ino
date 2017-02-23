@@ -53,6 +53,7 @@ SdFat SD;
 unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
 int timeCount = 0; //don't modify this
 float temperature = -12345;
+String filename = filename;
 
 SPISettings mySettings;
 DS3231 clock;
@@ -253,7 +254,7 @@ void append_to_disk(float temp) {
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  File dataFile = SD.open("data.txt", FILE_WRITE);
+  File dataFile = SD.open(filename, FILE_WRITE);
 
   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
   // retrieve data from DS3231
@@ -404,7 +405,7 @@ void setup(void) {
   Wire.begin();
 
   #if DEBUG_TO_SD
-    write_Text_To_Disk("data.txt","setting up system");
+    write_Text_To_Disk(filename,"setting up system");
   #endif
 
 }
@@ -420,7 +421,7 @@ void loop(void) {
 #endif
 
 #if DEBUG_TO_SD
-  write_Text_To_Disk("data.txt","Going To Sleep");
+  write_Text_To_Disk(filename,"Going To Sleep");
 #endif
 
   //enter deep sleep
@@ -472,6 +473,7 @@ void loop(void) {
         delay(10);
     }
     // calculate the voltage
+    //https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/
     // use 5.0 for a 5.0V ADC reference voltage
     // 5.015V is the calibrated reference voltage
     voltage = ((float)sum / (float)NUM_SAMPLES * 5.05) / 1024.0;
@@ -485,10 +487,10 @@ void loop(void) {
 #endif    
     sample_count = 0;
     sum = 0;
-    append_to_disk(voltage);
+    write_Text_To_Disk(filename,", "+String(voltage));
 
 #if DEBUG_TO_SD
-  write_Text_To_Disk("data.txt","Woke up, logging");
+  write_Text_To_Disk(filename,"Woke up, logging");
 #endif
 
 #if DEBUG
