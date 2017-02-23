@@ -44,15 +44,15 @@ SdFat SD;
 #include "Wire.h"
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
+
 #define DEBUG 1
 #define DEBUG_TO_SD 0
 #define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
-
-//Clock var's
 #define DS3231_I2C_ADDRESS 0x68 //default address for DS3231
 #define wakePin 3
 unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
 int timeCount = 0; //don't modify this
+float temperature = -12345;
 
 SPISettings mySettings;
 DS3231 clock;
@@ -61,6 +61,13 @@ DS3231 clock;
 int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 OneWire ds(DS18S20_Pin); // on digital pin 2
 
+
+#define NUM_SAMPLES 10
+
+//voltage divider stuff
+int sum = 0;                    // sum of samples taken
+unsigned char sample_count = 0; // current sample number
+float voltage = 0.0;            // calculated voltage
 
 // Convert normal decimal numbers to binary coded decimal
 byte decToBcd(byte val)
@@ -85,24 +92,30 @@ float getTemp() {
   if ( !ds.search(addr)) {
     //no more sensors on chain, reset search
     ds.reset_search();
+#if DEBUG
     Serial.println("Cannot find an address for temp sensor");
+#endif
     return -1000;
   }
 
   if ( OneWire::crc8( addr, 7) != addr[7]) {
+#if DEBUG    
     Serial.println("CRC is not valid!");
+#endif
     return -1001;
   }
 
   if ( addr[0] != 0x10 && addr[0] != 0x28) {
+#if DEBUG    
     Serial.print("Device is not recognized");
+#endif
     return -1002;
   }
 
   ds.reset();
   ds.select(addr);
   ds.write(0x44, 1); // start conversion, with parasite power on at the end
-
+  
   byte present = ds.reset();
   ds.select(addr);
   ds.write(0xBE); // Read Scratchpad
@@ -147,7 +160,9 @@ void sd_setup() {
 
   // see if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
+#if DEBUG
     Serial.println("Card failed, or not present");
+#endif
     // don't do anything more:
     return;
   }
@@ -193,7 +208,7 @@ void printTime(void){
   // retrieve data from DS3231
   readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,
   &year);
-
+#if DEBUG
   // print to the serial port:
   //yyyy-mm-dd hh:mm:ss
   Serial.print(year);
@@ -207,7 +222,7 @@ void printTime(void){
   Serial.print(minute);
   Serial.print(":");
   Serial.print(second);
-
+#endif
 }
 
 /*
@@ -225,8 +240,9 @@ void write_Text_To_Disk(String filename,String str) {
     dataFile.close();
   }
   else{
-
+#if DEBUG
     Serial.println("error writing text to disk data.txt");
+#endif
   }
 }
 
@@ -314,7 +330,9 @@ void append_to_disk(float temp) {
   }
   // if the file isn't open, pop up an error:
   else {
+#if DEBUG
     Serial.println("error opening data.txt");
+#endif
   }
 }
 
@@ -369,8 +387,8 @@ void setup(void) {
   // set pin 4 (POWA) to output so that we can control the
   //power of the sd reader and the temp sensor
   pinMode(POWA, OUTPUT);
+  // turn on SD card and temp sensor 
 
-  // turn on SD card and temp sensor
   digitalWrite(POWA, HIGH);
 
   // give some delay to ensure RTC and SD are initialized properly
@@ -422,7 +440,7 @@ void loop(void) {
 #if DEBUG
     printTime();
 #endif
-#if 0
+#if DEBUG
     Serial.print("timeCount is ");
     Serial.println(timeCount);
     Serial.println("isAlarm() is: " + String(clock.isAlarm1(false)));
@@ -430,7 +448,7 @@ void loop(void) {
 
    //update until we hit the specified number of minutes to run
 
-#if 0
+#if DEBUG
   Serial.print("clock.isAlarm1() " + String(clock.isAlarm1(false)) + " && (timeCount < (timeToSleep - 1)) : ");
   Serial.println(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1)));
 #endif
@@ -445,6 +463,30 @@ void loop(void) {
   //processor and the alarm flag is set. Clear the flag and
   //handle whatever we need to do.
   else {
+    
+     /*get voltage*/
+    // take a number of analog samples and add them up
+    while (sample_count < NUM_SAMPLES) {
+        sum += analogRead(A3);
+        sample_count++;
+        delay(10);
+    }
+    // calculate the voltage
+    // use 5.0 for a 5.0V ADC reference voltage
+    // 5.015V is the calibrated reference voltage
+    voltage = ((float)sum / (float)NUM_SAMPLES * 5.05) / 1024.0;
+    // send voltage for display on Serial Monitor
+    // voltage multiplied by 11 when using voltage divider that
+    // divides by 11. 11.132 is the calibrated voltage divide
+    // value
+#if DEBUG
+    Serial.print(voltage * 11.133);
+    Serial.println (" V");
+#endif    
+    sample_count = 0;
+    sum = 0;
+    append_to_disk(voltage);
+
 #if DEBUG_TO_SD
   write_Text_To_Disk("data.txt","Woke up, logging");
 #endif
@@ -457,13 +499,18 @@ void loop(void) {
     //we finally hit the specified number of minutes to run, reset and log
     timeCount = 0;
 
-    float temperature = getTemp();
+    temperature = getTemp();
     delay(5);
     append_to_disk(temperature);
+    
 #if DEBUG
     Serial.println(temperature);
 #endif
 
+   
+    temperature = -54321; //set to this so we dont get the same temp reading each time 
+    //if something is wrong with sensor
+    
     //clear alarm flag and update time To sleep
     clock.clearAlarm1();
 
