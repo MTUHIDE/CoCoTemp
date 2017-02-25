@@ -5,5 +5,5 @@ package space.hideaway.util;
  */
 public enum HistoryUnit
 {
-    WEEK, MONTH, YEAR
+    WEEK, LAST_30, YEAR, ALL
 }

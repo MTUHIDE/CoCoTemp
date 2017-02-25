@@ -3,16 +3,22 @@ package space.hideaway.services;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
+import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DataRepository;
+import space.hideaway.util.HistoryUnit;
+import space.hideaway.util.SortingUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,6 +27,8 @@ public class DataServiceImplementation implements DataService
 {
 
     private final DataRepository dataRepository;
+    @Autowired
+    StationStatisticsService stationStatisticsService;
     Logger logger = Logger.getLogger(getClass());
     @PersistenceContext
     private EntityManager entityManager;
@@ -39,8 +47,12 @@ public class DataServiceImplementation implements DataService
      * @param data The new data point to be saved.
      */
     @Override
-    public void save(Data data) {
+    public void save(Device device, Data data)
+    {
         dataRepository.save(data);
+
+        //Station statistics hook to recalculate statistics on new data.
+        stationStatisticsService.recalculateStatistics(device);
     }
 
     /**
@@ -51,13 +63,16 @@ public class DataServiceImplementation implements DataService
      */
     @Override
     @Transactional
-    public List<Data> batchSave(List<Data> dataList) {
+    public List<Data> batchSave(Device device, List<Data> dataList)
+    {
         Session session = entityManager.getEntityManagerFactory().createEntityManager().unwrap(Session.class);
         Transaction transaction = session.beginTransaction();
-        for (int i = 0; i < dataList.size(); i++) {
+        for (int i = 0; i < dataList.size(); i++)
+        {
             Data data = dataList.get(i);
             session.save(data);
-            if (i % batchSize == 0) {
+            if (i % batchSize == 0)
+            {
                 session.flush();
                 session.clear();
             }
@@ -65,6 +80,9 @@ public class DataServiceImplementation implements DataService
         }
         transaction.commit();
         session.close();
+
+        //Station statistics hook to recalculate statistics on new data.
+        stationStatisticsService.recalculateStatistics(device);
         return dataList;
     }
 
@@ -72,5 +90,50 @@ public class DataServiceImplementation implements DataService
     public Long countByUserID(User currentLoggedInUser)
     {
         return dataRepository.countByUserID(Math.toIntExact(currentLoggedInUser.getId()));
+    }
+
+    @Override
+    public List<Data> getHistoric(HistoryUnit week, Device device)
+    {
+        switch (week)
+        {
+            case WEEK:
+                return getDataDaysBack(device, 7);
+            case LAST_30:
+                return getDataDaysBack(device, 30);
+            case YEAR:
+                return getDataDaysBack(device, 365);
+            case ALL:
+                return SortingUtils.sortMostRecentFirst(device.getDataSet());
+        }
+        return getDataDaysBack(device, 7);
+    }
+
+    private List<Data> getDataDaysBack(Device device, int delta)
+    {
+        List<Data> dataList = SortingUtils.sortMostRecentFirst(device.getDataSet());
+        List<Data> resultList = new ArrayList<>();
+
+        Date mostRecent = dataList.get(0).getDateTime();
+        logger.info("Most recent date calculated: " + mostRecent.toString());
+
+        Date oldestAllowed = new DateTime(mostRecent).minusDays(delta).toDate();
+        logger.info("Oldest date allowed: " + oldestAllowed.toString());
+
+        for (Data data : dataList)
+        {
+            if (data.getDateTime().before(oldestAllowed))
+            {
+                break;
+            } else
+            {
+                resultList.add(data);
+            }
+        }
+
+        logger.info(String.format("Out of %s records, %s remain with a delta of %s", dataList.size(), resultList.size
+                (), delta));
+
+        return resultList;
     }
 }

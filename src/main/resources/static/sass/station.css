@@ -1,0 +1,54 @@
+.solid-bar {
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #0080bf;
+}
+
+.solid-bar h1 {
+    margin: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Segoe UI", serif;
+}
+
+.device-information {
+    background-color: white;
+    height: 400px;
+}
+
+.device-information h1 {
+    padding: 0;
+    margin: 0;
+    color: black;
+    font-family: "Segoe UI", serif;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.device-information .information-container {
+    padding: 20px;
+}
+
+.device-information .information-container .temperature-header {
+    font-size: 3em;
+}
+
+.chart-container {
+    padding: 20px;
+    height: 400px;
+}
+
+.map-container {
+    padding: 0;
+    height: 400px;
+}
+
+.map-container #map {
+    height: 100%;
+}
+
+/*# sourceMappingURL=station.css.map */

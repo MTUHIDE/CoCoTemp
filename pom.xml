@@ -163,6 +163,13 @@
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -173,6 +180,20 @@
                 <version>1.4.1.RELEASE</version>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/static</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/spring</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/templates</directory>
+            </resource>
+        </resources>
     </build>
 
 

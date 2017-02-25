@@ -109,8 +109,8 @@ public class RESTController
     List<UploadHistory> getUploadHistory(@RequestParam(name = "_range") String range)
     {
         if (range.equals(HistoryUnit.WEEK.name())) return restService.getUploadHistory(HistoryUnit.WEEK);
-        if (range.equals(HistoryUnit.MONTH.name())) return restService.getUploadHistory(HistoryUnit.MONTH);
+        if (range.equals(HistoryUnit.LAST_30.name())) return restService.getUploadHistory(HistoryUnit.LAST_30);
         if (range.equals(HistoryUnit.YEAR.name())) return restService.getUploadHistory(HistoryUnit.YEAR);
-        return restService.getUploadHistory(HistoryUnit.MONTH);
+        return restService.getUploadHistory(HistoryUnit.LAST_30);
     }
 }

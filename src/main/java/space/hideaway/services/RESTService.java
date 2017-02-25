@@ -62,10 +62,10 @@ public class RESTService
             case WEEK:
                 return uploadHistoryService.getLastWeek(currentLoggedInUser);
 
-            case MONTH:
-                return uploadHistoryService.getLastWeek(currentLoggedInUser);
+            case LAST_30:
+                return uploadHistoryService.getLastMonth(currentLoggedInUser);
             case YEAR:
-                return uploadHistoryService.getLastWeek(currentLoggedInUser);
+                return uploadHistoryService.getLastYear(currentLoggedInUser);
 
         }
         return uploadHistoryService.getLastMonth(currentLoggedInUser);

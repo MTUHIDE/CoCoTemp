@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,7 +17,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "device")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Device {
+public class Device
+{
 
     private UUID id;
 
@@ -36,6 +38,8 @@ public class Device {
     @JsonIgnore
     private Set<UploadHistory> uploadHistories;
 
+    @JsonIgnore
+    private List<StationStatistics> stationStatisticsList;
 
     /**
      * Instantiates a new Device.
@@ -44,17 +48,30 @@ public class Device {
      * @param deviceLatitude  the device latitude
      * @param deviceLongitude the device longitude
      */
-    public Device(String deviceName, double deviceLatitude, double deviceLongitude) {
+    public Device(String deviceName, double deviceLatitude, double deviceLongitude)
+    {
         this.deviceName = deviceName;
         this.deviceLatitude = deviceLatitude;
         this.deviceLongitude = deviceLongitude;
     }
 
-
     /**
      * Instantiates a new Device.
      */
-    public Device() {
+    public Device()
+    {
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id", updatable = false)
+    public List<StationStatistics> getStationStatisticsList()
+    {
+        return stationStatisticsList;
+    }
+
+    public void setStationStatisticsList(List<StationStatistics> stationStatisticsList)
+    {
+        this.stationStatisticsList = stationStatisticsList;
     }
 
     /**
@@ -84,7 +101,8 @@ public class Device {
      * @return the device longitude
      */
     @Column(name = "device_longitude")
-    public double getDeviceLongitude() {
+    public double getDeviceLongitude()
+    {
         return deviceLongitude;
     }
 
@@ -93,7 +111,8 @@ public class Device {
      *
      * @param deviceLongitude the device longitude
      */
-    public void setDeviceLongitude(double deviceLongitude) {
+    public void setDeviceLongitude(double deviceLongitude)
+    {
         this.deviceLongitude = deviceLongitude;
     }
 
@@ -103,8 +122,9 @@ public class Device {
      * @return the data set
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id")
-    public Set<Data> getDataSet() {
+    @JoinColumn(name = "device_id", updatable = false)
+    public Set<Data> getDataSet()
+    {
         return dataSet;
     }
 
@@ -113,7 +133,8 @@ public class Device {
      *
      * @param dataSet the data set
      */
-    public void setDataSet(Set<Data> dataSet) {
+    public void setDataSet(Set<Data> dataSet)
+    {
         this.dataSet = dataSet;
     }
 
@@ -123,8 +144,9 @@ public class Device {
      * @return the upload histories
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id")
-    public Set<UploadHistory> getUploadHistories() {
+    @JoinColumn(name = "device_id", updatable = false)
+    public Set<UploadHistory> getUploadHistories()
+    {
         return uploadHistories;
     }
 
@@ -133,12 +155,14 @@ public class Device {
      *
      * @param uploadHistories the upload histories
      */
-    public void setUploadHistories(Set<UploadHistory> uploadHistories) {
+    public void setUploadHistories(Set<UploadHistory> uploadHistories)
+    {
         this.uploadHistories = uploadHistories;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return String.format(
                 "Device: [ID: %s Name: %s Location: %s]%n",
                 getId(),
@@ -155,7 +179,8 @@ public class Device {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
     @Column(name = "id")
-    public UUID getId() {
+    public UUID getId()
+    {
         return id;
     }
 
@@ -164,7 +189,8 @@ public class Device {
      *
      * @param id the id
      */
-    public void setId(UUID id) {
+    public void setId(UUID id)
+    {
         this.id = id;
     }
 
@@ -174,7 +200,8 @@ public class Device {
      * @return the device name
      */
     @Column(name = "device_name")
-    public String getDeviceName() {
+    public String getDeviceName()
+    {
         return deviceName;
     }
 
@@ -183,7 +210,8 @@ public class Device {
      *
      * @param deviceName the device name
      */
-    public void setDeviceName(String deviceName) {
+    public void setDeviceName(String deviceName)
+    {
         this.deviceName = deviceName;
     }
 
@@ -193,7 +221,8 @@ public class Device {
      * @return the device latitude
      */
     @Column(name = "device_latitude")
-    public double getDeviceLatitude() {
+    public double getDeviceLatitude()
+    {
         return deviceLatitude;
     }
 
@@ -202,7 +231,8 @@ public class Device {
      *
      * @param deviceLatitude the device latitude
      */
-    public void setDeviceLatitude(double deviceLatitude) {
+    public void setDeviceLatitude(double deviceLatitude)
+    {
         this.deviceLatitude = deviceLatitude;
     }
 

@@ -14,11 +14,13 @@ public interface UploadHistoryService {
      *
      * @param uploadHistory The newly created uploadHistory object.
      */
-    void save(UploadHistory uploadHistory);
+    UploadHistory save(UploadHistory uploadHistory);
 
     UploadHistory setViewed(UUID historyID);
 
-    void save(UUID deviceId, int userID, boolean error, long duration, String message, int records);
+    UploadHistory savePending(UUID deviceId, int userID, boolean error, long duration, String message, int records);
+
+    UploadHistory saveFinished(UploadHistory uploadHistory, boolean error, long duration, int size, String message);
 
     long countByUserID(User currentLoggedInUser);
 
