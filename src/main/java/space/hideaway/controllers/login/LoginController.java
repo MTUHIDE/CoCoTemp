@@ -1,35 +1,36 @@
 package space.hideaway.controllers.login;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import space.hideaway.services.SecurityService;
 
 
 /**
- * The controller responsible for logging in via API call.
+ * Serve the login page to the user.
  */
 @Controller
 @RequestMapping("/login")
-public class LoginController {
+public class LoginController
+{
 
     /**
-     * The service responsible for logging in a user.
+     * The default mapping, returns the login page.
+     * @return The path to the login template.
      */
-    private final SecurityService securityService;
-
-    @Autowired
-    public LoginController(SecurityService securityService) {
-        this.securityService = securityService;
-    }
-
     @RequestMapping
     public String showLogin()
     {
         return "/login/login";
     }
 
+    /**
+     * The mapping for a login error. Sprint automatically appends a ?_error
+     * parameter when the login fails. We add an "error flag" to turn on the error
+     * message for the login template.
+     *
+     * @param model The Spring model for the login page.
+     * @return THe path to the login template.
+     */
     @RequestMapping(params = "_error")
     public String showLoginError(Model model)
     {

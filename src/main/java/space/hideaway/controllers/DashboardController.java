@@ -5,69 +5,53 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import space.hideaway.model.Device;
 import space.hideaway.model.User;
-import space.hideaway.services.DataServiceImplementation;
-import space.hideaway.services.SecurityServiceImplementation;
 import space.hideaway.services.UserManagementImpl;
-
-import java.util.Comparator;
-import java.util.Set;
 
 
 /**
- * The controller responsible for displaying the dashboard, as
- * well as any associated endpoints for this aspect of the application.
+ * The controller responsible for displaying the dashboard page.
  */
 @Controller
-public class DashboardController {
+public class DashboardController
+{
 
     /**
-     * The service responsible for user management operations.
+     * The service responsible for user CRUD operations.
      */
     private final UserManagementImpl userManagementImpl;
 
 
     /**
      * Obtain the default temperature unit from the application.properties file and inject
-     * it into a variable for later user.
+     * it into a variable for later use.
      */
     @Value("${cocotemp.temperature.unit}")
     String temperatureUnit;
 
     @Autowired
     public DashboardController(
-            UserManagementImpl userManagementImpl,
-            SecurityServiceImplementation securityServiceImplementation,
-            DataServiceImplementation dataServiceImplementation)
+            UserManagementImpl userManagementImpl)
     {
         this.userManagementImpl = userManagementImpl;
     }
 
     /**
      * The endpoint for the dashboard view.
-     * <p>
-     * URL: /dashboard
      * Secured: Yes
      * Method: GET
      *
-     * @param model The model maintained by Spring.
-     * @return The dashboard template name.
+     * Sample URL: /dashboard
+     *
+     * @param model The model maintained by Spring for the dashboard page.
+     * @return The path to the dashboard template.
      */
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-
+    public String dashboard(Model model)
+    {
         //Obtain the logged in user.
         User user = userManagementImpl.getCurrentLoggedInUser();
-
-        //Inject the list of devices of the user into the model.
-        Set<Device> deviceSet = user.getDeviceSet();
-        model.addAttribute("devices", deviceSet);
-        model.addAttribute("devicesComparator", (Comparator<Device>) (o1, o2) -> o1.getDeviceName().compareTo(o2.getDeviceName()));
-
-        //Not used currently, but will be.
-        model.addAttribute("temperatureUnit", temperatureUnit);
-        model.addAttribute("username", user.getFirstName());
+        model.addAttribute("greeting", "Hello, " + user.getFirstName());
 
         //Refers to dashboard.html.
         return "dashboard";
