@@ -1,5 +1,8 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.batch.core.configuration.annotation.JobScope;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,12 +14,14 @@ import java.util.Set;
 @Table(name = "user")
 public class User {
 
+    @JsonIgnore
     private Long id;
 
     private String email;
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
     private String firstName;

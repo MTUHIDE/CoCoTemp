@@ -20,6 +20,12 @@
 <body>
 <div class="row">
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var deviceID = [[${device.getId().toString()}]];
+        /*]]>*/
+    </script>
+
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
@@ -79,12 +85,19 @@
                     <h1>Device Information</h1>
                 </div>
             </div>
-            <div class="row device-information">
-                <div class="col-lg-8 information-container">
-                    <h1 class="temperature-header">63&deg; F</h1>
-                    <h1 th:text="${device.getDeviceName()}">Device Name</h1>
+            <div class="row">
+                <div class="col-lg-6 information-container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+                            <h1 th:text="${device.getDeviceName()}"></h1>
+                            <p th:text="${device.getDeviceDescription()}"></p>
+                            <p>Device managed by <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                            <a th:text="${user.getUsername()}"></a></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-4 map-container">
+                <div class="col-lg-6 map-container">
                     <div id="map"></div>
                 </div>
             </div>

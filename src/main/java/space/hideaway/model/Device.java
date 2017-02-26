@@ -25,6 +25,9 @@ public class Device
     @JsonIgnore
     private Long userID;
 
+    @JsonIgnore
+    private User user;
+
     private String deviceName;
 
     private double deviceLatitude;
@@ -94,6 +97,18 @@ public class Device
     public void setUserID(Long userID)
     {
         this.userID = userID;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
     /**
