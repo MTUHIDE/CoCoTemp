@@ -18,13 +18,13 @@ jQuery(document).ready(function () {
         function buildChart(dates, temperature) {
             var ctx = $('#temperature-chart');
             var myBarChart = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: dates,
                     datasets: [
                         {
-                            label: "Random Data",
-                            backgroundColor: 'rgba(5, 204, 255, 0.2)'
+                            label: "Temperature",
+                            backgroundColor: 'rgba(5, 204, 255, 0.3)'
                             ,
                             borderColor: 'rgb(5, 204, 255)',
                             borderWidth: 1,

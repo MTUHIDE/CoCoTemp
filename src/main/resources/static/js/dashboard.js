@@ -63,8 +63,6 @@ jQuery(document).ready(function () {
             }
         });
 
-        var timeFormat = 'MM/DD/YYYY HH:mm';
-
         function buildChart(dates, values) {
             var ctx = $('#upload-history-chart');
             var myBarChart = new Chart(ctx, {
@@ -74,8 +72,7 @@ jQuery(document).ready(function () {
                     datasets: [
                         {
                             label: "Records Uploaded",
-                            backgroundColor: 'rgba(5, 204, 255, 0.3)'
-                            ,
+                            backgroundColor: 'rgba(5, 204, 255, 0.3)',
                             borderColor: 'rgb(5, 204, 255)',
                             borderWidth: 1,
                             data: values
@@ -87,16 +84,12 @@ jQuery(document).ready(function () {
                     maintainAspectRatio: false,
                     scales: {
                         xAxes: [{
-                            type: "time",
+                            type: 'time',
                             time: {
-                                format: timeFormat,
-                                tooltipFormat: 'll HH:mm'
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Date'
+                                displayFormats: {
+                                    quarter: 'MMM YYYY'
+                                }
                             }
-
                         }],
                         yAxes: [{
                         }]
