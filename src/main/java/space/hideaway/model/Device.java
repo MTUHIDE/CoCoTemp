@@ -22,6 +22,7 @@ public class Device
 
     private UUID id;
 
+    @JsonIgnore
     private Long userID;
 
     private String deviceName;
