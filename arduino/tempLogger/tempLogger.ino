@@ -1,42 +1,35 @@
-
-
 /*
   This code logs the temperature from a DS18B20 temperature sensor
-  and prints the temperature along with a time stamp using a
+  and prints the temperature along with a time stamp and unique UUID using a
   DS3231 Clock and a SparkFun microSD Transflash Breakout
+  It also reads and logs the voltage
 
   This uses code from http://bildr.org/2011/07/ds18b20-arduino/
    and https://learn.sparkfun.com/tutorials/microsd-shield-and-sd-breakout-hookup-guide sd card code
    and http://tronixstuff.com/2014/12/01/tutorial-using-ds1307-and-ds3231-real-time-clock-modules-with-arduino/ using the clock
    and https://github.com/OSBSS/TRH/blob/master/TRH.ino main code body
    and https://github.com/jarzebski/Arduino-DS3231 library we use for clock interrupts
+   and https://github.com/sirleech/TrueRandom for UUID
+   and https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/ for voltage sensor
    and was modified to save the temperature, in fahrenheit, and time data to a microSD card
 
   @author Humane Interface Design Enterprise, Michigan Tech
-    -Stephen Radachy
     -Nicholas Lanter
     -Kyle Bray
-
+    -Stephen Radachy
+    
     NOTES:
-    1) AFTER SETTING THE TIME COMMENT IT OUT
-       OTHERWISE THE CLOCK IS SET TO THAT DATE EVERY
-       TIME YOU BOOT UP
+    1) BEFORE UPLOADING THIS PROGRAM, FIRST UPLOAD THE ARDUINOSETUP PROGRAM!!!
 
-    2) The processor doesn't begin logging until the
-       minute it is on finishes but then it consistently
-       runs from there, so if it starts at 10:01:29 it waits
-       until 10:02:00 to begin
+    2) On power up, the temperature sensor sends 185 deg F to verify booting
 
-    3) On power up, the temperature sensor sends 185 deg F to verify booting
-       This code omits that initial log, so it may actually begin logging after
-       up to one plus timeToSleep minutes
-
-    4) Currently, the processor wakes up every minute to see if the specified
+    3) Currently, the processor wakes up every minute to see if the specified
        timeToSleep minutes have passed, and then it logs when true. This is due
        to the nature of the RTC's alarm, and with some math it can be configured
        to wake up only once every timeToSleep minutes
 */
 
+//Libraries
 #include <OneWire.h> //temp sensor
 #include <SPI.h>
 #include "SdFat.h" //sd card
@@ -44,30 +37,34 @@ SdFat SD;
 #include "Wire.h"
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
+#include "TrueRandom.h" //https://github.com/sirleech/TrueRandom
 
-#define DEBUG 1
+//debug settings
+#define DEBUG 0 //turn off when unnecessary to preserve power
 #define DEBUG_TO_SD 0
-#define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
-#define DS3231_I2C_ADDRESS 0x68 //default address for DS3231
-#define wakePin 3
-unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
-int timeCount = 0; //don't modify this
-float temperature = -12345;
-String filename = filename;
 
+//sd card variables
+#define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
+const String filename = "data.txt"; //name of file we log data to
+const int chipSelect = 8;  //set chip select to whichever pin the sd reader's chip select goes to on the arduino. default is 10
+
+//clock variables
+#define DS3231_I2C_ADDRESS 0x68 //default address for DS3231 clock
+#define wakePin 3 //pin that comes from clock and wakes the arduino from sleep
+const unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
+unsigned int timeCount = 0; //don't modify this, used internally to keep track of when to wake from sleep
 SPISettings mySettings;
 DS3231 clock;
 
-//temp sensor var's
-int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
+//temp sensor variables
+const int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 OneWire ds(DS18S20_Pin); // on digital pin 2
+float temperature = -12345;
 
-
-#define NUM_SAMPLES 10
-
-//voltage divider stuff
+//voltage divider variables
+#define NUM_VOLTAGE_SAMPLES 10
 int sum = 0;                    // sum of samples taken
-unsigned char sample_count = 0; // current sample number
+unsigned int sample_count = 0; // current sample number
 float voltage = 0.0;            // calculated voltage
 
 // Convert normal decimal numbers to binary coded decimal
@@ -145,16 +142,9 @@ float getTemp() {
  */
 void sd_setup() {
 
-
 #if DEBUG
     Serial.print("Initializing SD card...");
 #endif
-
-  const int chipSelect = 8;  //set chip select to whichever pin the sd reader's chip select goes to on the arduino
-
-  // make sure that the default chip select pin is set to
-  // output, even if you don't use it:
-  pinMode(10, OUTPUT);
 
   // The chipSelect pin you use should also be set to output
   pinMode(chipSelect, OUTPUT);
@@ -227,9 +217,10 @@ void printTime(void){
 }
 
 /*
- *Write a string to sd
+ *Write a string Str to sd card 
+ *file's name = filename
  */
-void write_Text_To_Disk(String filename,String str) {
+void write_Text_To_Disk(String str) {
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   File dataFile = SD.open(filename, FILE_WRITE);
@@ -237,7 +228,6 @@ void write_Text_To_Disk(String filename,String str) {
   if (dataFile) {
     delay(50);
     dataFile.print(str);
-    dataFile.print("\n");
     dataFile.close();
   }
   else{
@@ -249,36 +239,27 @@ void write_Text_To_Disk(String filename,String str) {
 
 /*
  * Write the temperature and time data to SD
+ * Pads with 0s if necessary.
+ * Does not print a new line since that comes after the voltage reading
  */
-void append_to_disk(float temp) {
+void append_Temp_To_Disk(float temp) {
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   File dataFile = SD.open(filename, FILE_WRITE);
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    delay(50);
 
   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
   // retrieve data from DS3231
   readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,
   &year);
 
-  // if the file is available, write to it:
-  if (dataFile) {
-    delay(50);
-
-//Currently off
-#if 0
-    //185 is what temp sensor returns on boot
-    //don't write -1000 either
-    if (temp == 185.0 || temp == -1000)
-      return;
-#endif
-
 #if DEBUG
   Serial.println("Printing Data:");
 #endif
-
-    
-
 
   //print comma seperated values in form:
   //yyyy-mm-dd hh:mm:ss,temperature
@@ -321,7 +302,7 @@ void append_to_disk(float temp) {
     }
   dataFile.print(second);
   dataFile.print(",");
-  dataFile.println(temp);
+  //dataFile.println(temp);
   dataFile.close();
 
 #if DEBUG
@@ -347,9 +328,38 @@ void alarmISR()
   sleep_disable();
 }
 
+/*Generate and print UUID to disk
+ * https://github.com/sirleech/TrueRandom
+ */
+void print_UUID_To_Disk() {
+  File dataFile = SD.open(filename, FILE_WRITE);
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    delay(50);
+    byte uuidNumber[16];
+    TrueRandom.uuid(uuidNumber);
+    
+    for (int i=0; i<16; i++) {
+      if (i==4) dataFile.print("-");
+      if (i==6) dataFile.print("-");
+      if (i==8) dataFile.print("-");
+      if (i==10) dataFile.print("-");
+      
+      int topDigit = uuidNumber[i] >> 4;
+      int bottomDigit = uuidNumber[i] & 0x0f;
+      // Print high hex digit
+      dataFile.print( "0123456789ABCDEF"[topDigit] );
+      // Low hex digit
+      dataFile.print( "0123456789ABCDEF"[bottomDigit] );
+    }
+  }
+}
+
 /*
  * Initialize the clock time, the alarm for the clock,
- * and the interrupt associated with it
+ * and the interrupt associated with it which is used
+ * to wake the arduino from sleep
  */
 void setup_Clock(void) {
 
@@ -376,25 +386,22 @@ void setup_Clock(void) {
 }
 
 
-//set up the pin modes, the clock
-//sd card, temp sensor, and the
-//device id
+/*set up the pin modes, the clock
+/sd card, temp sensor, and the device id
+*/
 void setup(void) {
 
 #if DEBUG
   Serial.begin(9600);
 #endif
 
+/*REMOVE
   // set pin 4 (POWA) to output so that we can control the
   //power of the sd reader and the temp sensor
   pinMode(POWA, OUTPUT);
   // turn on SD card and temp sensor 
-
   digitalWrite(POWA, HIGH);
-
-  // give some delay to ensure RTC and SD are initialized properly
-  delay(1);
-
+*/
 
   //set up sd card
   sd_setup();
@@ -402,10 +409,11 @@ void setup(void) {
   //set up clock
   setup_Clock();
 
+  //Temp sensor
   Wire.begin();
 
   #if DEBUG_TO_SD
-    write_Text_To_Disk(filename,"setting up system");
+    write_Text_To_Disk("setting up system");
   #endif
 
 }
@@ -421,7 +429,7 @@ void loop(void) {
 #endif
 
 #if DEBUG_TO_SD
-  write_Text_To_Disk(filename,"Going To Sleep");
+  write_Text_To_Disk("Going To Sleep");
 #endif
 
   //enter deep sleep
@@ -432,16 +440,15 @@ void loop(void) {
   sei();
 
 #if DEBUG
-  //let serial have time print
+  //let serial have time print before sleep
   delay(75);
 #endif
+
   sleep_cpu();
 
 
 #if DEBUG
     printTime();
-#endif
-#if DEBUG
     Serial.print("timeCount is ");
     Serial.println(timeCount);
     Serial.println("isAlarm() is: " + String(clock.isAlarm1(false)));
@@ -464,19 +471,24 @@ void loop(void) {
   //processor and the alarm flag is set. Clear the flag and
   //handle whatever we need to do.
   else {
+#if DEBUG
+    Serial.println("ALARM TRIGGERED!");
+#endif
     
-     /*get voltage*/
+    // calculate the voltage
+    //https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/
     // take a number of analog samples and add them up
-    while (sample_count < NUM_SAMPLES) {
+    while (sample_count < NUM_VOLTAGE_SAMPLES) {
         sum += analogRead(A3);
         sample_count++;
         delay(10);
     }
-    // calculate the voltage
-    //https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/
     // use 5.0 for a 5.0V ADC reference voltage
     // 5.015V is the calibrated reference voltage
-    voltage = ((float)sum / (float)NUM_SAMPLES * 5.05) / 1024.0;
+    voltage = ((float)sum / (float)NUM_VOLTAGE_SAMPLES * 5.05) / 1024.0;
+    sample_count = 0;
+    sum = 0;
+    
     // send voltage for display on Serial Monitor
     // voltage multiplied by 11 when using voltage divider that
     // divides by 11. 11.132 is the calibrated voltage divide
@@ -485,31 +497,23 @@ void loop(void) {
     Serial.print(voltage * 11.133);
     Serial.println (" V");
 #endif    
-    sample_count = 0;
-    sum = 0;
-    write_Text_To_Disk(filename,", "+String(voltage));
-
-#if DEBUG_TO_SD
-  write_Text_To_Disk(filename,"Woke up, logging");
-#endif
-
-#if DEBUG
-    Serial.println("ALARM TRIGGERED!");
-#endif
-    delay(1);
-
-    //we finally hit the specified number of minutes to run, reset and log
+ 
+    //we finally hit the specified number of minutes to run, log & reset 
     timeCount = 0;
-
     temperature = getTemp();
     delay(5);
-    append_to_disk(temperature);
+
+    //log uuid, temp, voltage
+    print_UUID_To_Disk();
+    write_Text_To_Disk(", ");
+    append_Temp_To_Disk(temperature);
+    write_Text_To_Disk(" "+String(voltage)+"\n");
+    voltage = -5000;
     
 #if DEBUG
     Serial.println(temperature);
 #endif
 
-   
     temperature = -54321; //set to this so we dont get the same temp reading each time 
     //if something is wrong with sensor
     
