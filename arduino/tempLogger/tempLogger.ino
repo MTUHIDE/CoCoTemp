@@ -40,8 +40,8 @@ SdFat SD;
 #include "TrueRandom.h" //https://github.com/sirleech/TrueRandom
 
 //debug settings
-#define DEBUG 0 //turn off when unnecessary to preserve power
-#define DEBUG_TO_SD 0
+#define DEBUG 0 //0 debug off, 1 debug on. turn off when unnecessary to preserve power
+#define DEBUG_TO_SD 0 //0 debug off, 1 debug on
 
 //sd card variables
 #define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
@@ -349,10 +349,19 @@ void print_UUID_To_Disk() {
       int topDigit = uuidNumber[i] >> 4;
       int bottomDigit = uuidNumber[i] & 0x0f;
       // Print high hex digit
+#if DEBUG
+      Serial.print( "0123456789ABCDEF"[topDigit]);
+      Serial.print("0123456789ABCDEF"[bottomDigit]);
+#endif
       dataFile.print( "0123456789ABCDEF"[topDigit] );
       // Low hex digit
       dataFile.print( "0123456789ABCDEF"[bottomDigit] );
     }
+#if DEBUG
+    Serial.println();
+#endif
+
+    dataFile.close();
   }
 }
 
@@ -394,14 +403,6 @@ void setup(void) {
 #if DEBUG
   Serial.begin(9600);
 #endif
-
-/*REMOVE
-  // set pin 4 (POWA) to output so that we can control the
-  //power of the sd reader and the temp sensor
-  pinMode(POWA, OUTPUT);
-  // turn on SD card and temp sensor 
-  digitalWrite(POWA, HIGH);
-*/
 
   //set up sd card
   sd_setup();
@@ -480,21 +481,28 @@ void loop(void) {
     // take a number of analog samples and add them up
     while (sample_count < NUM_VOLTAGE_SAMPLES) {
         sum += analogRead(A3);
+        /*REMOVE*/
+#if DEBUG_TO_SD
+        write_Text_To_Disk("sum = "+String(sum)+"\n");
+#endif
+#if DEBUG       
+        Serial.println("sum = "+String(sum)+"\n");
+#endif
         sample_count++;
         delay(10);
     }
     // use 5.0 for a 5.0V ADC reference voltage
     // 5.015V is the calibrated reference voltage
-    voltage = ((float)sum / (float)NUM_VOLTAGE_SAMPLES * 5.05) / 1024.0;
+    voltage = ((float)sum / (float)NUM_VOLTAGE_SAMPLES * 5) / 1024.0;
     sample_count = 0;
     sum = 0;
-    
+    voltage *= 11;
     // send voltage for display on Serial Monitor
     // voltage multiplied by 11 when using voltage divider that
     // divides by 11. 11.132 is the calibrated voltage divide
     // value
 #if DEBUG
-    Serial.print(voltage * 11.133);
+    Serial.print(voltage);
     Serial.println (" V");
 #endif    
  
