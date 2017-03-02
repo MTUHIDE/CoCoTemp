@@ -1,8 +1,6 @@
 package space.hideaway.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.search.annotations.Field;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 
 import javax.persistence.*;
 import java.util.Set;

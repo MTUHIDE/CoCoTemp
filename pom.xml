@@ -28,18 +28,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.1.0.Final</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-orm</artifactId>
-            <version>5.6.1.Final</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
-        <dependency>
-            <groupId>org.springframework.batch</groupId>
-            <artifactId>spring-batch-core</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <version>LATEST</version>
         </dependency>
 
         <dependency>
@@ -127,12 +121,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.4.Final</version>
+
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.1.0.Final</version>
+
         </dependency>
         <dependency>
             <groupId>commons-dbcp</groupId>
