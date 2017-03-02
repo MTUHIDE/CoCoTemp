@@ -30,6 +30,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
             <version>3.5.4-Final</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
