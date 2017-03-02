@@ -10,6 +10,7 @@
     <tx:annotation-driven/>
     <!--STATIC RESOURCE PATHS________________________________________________________________________________________-->
     <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/templates/**" location="/templates/"/>
     <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
 
     <context:property-placeholder location="classpath:/spring/application.properties"/>
