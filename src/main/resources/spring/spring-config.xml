@@ -10,8 +10,14 @@
     <tx:annotation-driven/>
     <!--STATIC RESOURCE PATHS________________________________________________________________________________________-->
     <mvc:resources mapping="/static/**" location="/static/"/>
-    <mvc:resources mapping="/templates/**" location="/templates/"/>
     <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
+
+
+    <bean id="templateResolver"
+          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/templates/" />
+        <property name="templateMode" value="HTML5" />
+    </bean>
 
     <context:property-placeholder location="classpath:/spring/application.properties"/>
 
