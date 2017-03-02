@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.bridge.builtin.DoubleBridge;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "device")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Indexed
 public class Device
 {
 
@@ -25,12 +29,21 @@ public class Device
     @JsonIgnore
     private Long userID;
 
+    @JsonIgnore
+    private User user;
+
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String deviceName;
 
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @FieldBridge(impl = DoubleBridge.class)
     private double deviceLatitude;
 
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @FieldBridge(impl = DoubleBridge.class)
     private double deviceLongitude;
 
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String deviceDescription;
 
     @JsonIgnore
@@ -94,6 +107,18 @@ public class Device
     public void setUserID(Long userID)
     {
         this.userID = userID;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
     /**

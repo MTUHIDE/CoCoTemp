@@ -1,7 +1,9 @@
 package space.hideaway.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import space.hideaway.model.SearchModel;
 
 
 @Controller
@@ -18,8 +20,9 @@ public class RouteController
      * @return The path to the index page template.
      */
     @GetMapping({"/", "/home"})
-    public String index()
+    public String index(Model model)
     {
+        model.addAttribute("searchModel", new SearchModel());
         return "index";
     }
 

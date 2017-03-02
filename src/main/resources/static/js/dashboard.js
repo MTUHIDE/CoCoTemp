@@ -19,68 +19,7 @@ jQuery(document).ready(function () {
     }
 
 
-    //The upload form.
-    $('#upload-form').submit(function (e) {
-        e.preventDefault();
-        var url = "/upload/" + $('#device-select').val();
-        var fileInput = $('#file');
-        var file;
-        fileInput.change(function () {
-            file = this.files[0];
-        });
 
-        var form = new FormData($('#upload-form')[0]);
-
-        var beforeHandler = function () {
-
-            }, successHandler = function () {
-                $('#close').trigger('click');
-                var toasterSuccessOptions = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-                toastr.options = toasterSuccessOptions;
-                toastr["success"]("Your data is being uploaded and will be available soon.", "Upload")
-            },
-            errorHandler = function () {
-
-            };
-        $.ajax({
-            data: form,
-            type: 'post',
-            xhr: function () {
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) {
-                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false)
-                }
-                return myXhr;
-            },
-            url: url,
-            beforeSend: beforeHandler,
-            success: successHandler,
-            error: errorHandler,
-            cache: false,
-            contentType: false,
-            processData: false
-        });
-
-        function progressHandlingFunction(e) {
-
-        }
-    });
 
     //The infocards.
     function populateInfocards() {
@@ -124,8 +63,6 @@ jQuery(document).ready(function () {
             }
         });
 
-        var timeFormat = 'MM/DD/YYYY HH:mm';
-
         function buildChart(dates, values) {
             var ctx = $('#upload-history-chart');
             var myBarChart = new Chart(ctx, {
@@ -135,8 +72,7 @@ jQuery(document).ready(function () {
                     datasets: [
                         {
                             label: "Records Uploaded",
-                            backgroundColor: 'rgba(5, 204, 255, 0.3)'
-                            ,
+                            backgroundColor: 'rgba(5, 204, 255, 0.3)',
                             borderColor: 'rgb(5, 204, 255)',
                             borderWidth: 1,
                             data: values
@@ -148,16 +84,12 @@ jQuery(document).ready(function () {
                     maintainAspectRatio: false,
                     scales: {
                         xAxes: [{
-                            type: "time",
+                            type: 'time',
                             time: {
-                                format: timeFormat,
-                                tooltipFormat: 'll HH:mm'
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Date'
+                                displayFormats: {
+                                    quarter: 'MMM YYYY'
+                                }
                             }
-
                         }],
                         yAxes: [{
                         }]
@@ -199,17 +131,23 @@ jQuery(document).ready(function () {
                 if (data.length == 0) {
                     return;
                 }
-                function appendDevice(id, deviceName) {
+                function appendDevice(data) {
                     var $device = $('#device-template').clone();
                     $device.attr({'id': ''});
-                    $device.find('.device-name').attr({'href': '/device/' + id}).text(deviceName);
-                    $device.find('.device-update').text('Nothing here yet.');
+                    $device.find('.device-name').attr({'href': '/device/' + data.id}).text(data.deviceName);
+
+                    var description = data.deviceDescription;
+                    var length = description.length;
+                    if (length > 50) {
+                        description = description.substring(0, 50) + "...";
+                    }
+                    $device.find('.device-update').text(description);
                     $device.appendTo('.device-list');
                     $device.show();
                 }
 
                 for (var i = 0; i < data.length; i++) {
-                    appendDevice(data[i].id, data[i].deviceName);
+                    appendDevice(data[i]);
 
                     //Add the station locations to the map.
                     var myMarker = L.marker([data[i].deviceLatitude, data[i].deviceLongitude]).addTo(myMap);

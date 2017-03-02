@@ -1,6 +1,7 @@
 package space.hideaway.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -20,11 +21,12 @@ public class Data {
 
     private int userID;
 
+    @JsonIgnore
     private User user;
 
     private UUID deviceID;
 
-    @JsonBackReference
+    @JsonIgnore
     private Device device;
 
     @Temporal(value = TemporalType.TIMESTAMP)

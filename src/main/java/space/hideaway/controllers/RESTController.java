@@ -2,12 +2,14 @@ package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.UploadHistory;
 import space.hideaway.model.json.InfoCardSerializer;
 import space.hideaway.services.DeviceService;
 import space.hideaway.services.RESTService;
 import space.hideaway.util.HistoryUnit;
+import space.hideaway.util.SortingUtils;
 
 import java.util.List;
 
@@ -186,5 +188,11 @@ public class RESTController
         if (range.equals(HistoryUnit.LAST_30.name())) return restService.getUploadHistory(HistoryUnit.LAST_30);
         if (range.equals(HistoryUnit.YEAR.name())) return restService.getUploadHistory(HistoryUnit.YEAR);
         return restService.getUploadHistory(HistoryUnit.LAST_30);
+    }
+
+
+    @RequestMapping(value = "/device/{deviceID}/temperature.json", method = RequestMethod.POST)
+    public @ResponseBody List<Data> getTemperaturePoints(@PathVariable("deviceID") String deviceID) {
+        return SortingUtils.sortMostRecentFirst(deviceService.findByKey(deviceID).getDataSet());
     }
 }

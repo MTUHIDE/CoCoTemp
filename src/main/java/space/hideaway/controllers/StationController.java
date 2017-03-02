@@ -43,10 +43,8 @@ public class StationController
     {
         Device device = deviceService.findByKey(deviceID.toString());
         model.addAttribute("device", device);
-        model.addAttribute("deviceID", deviceID.toString());
-        model.addAttribute("deviceServiceImplementation", deviceService);
-        model.addAttribute("isCorrectUser", deviceService.isCorrectUser(deviceID.toString()));
-
+        model.addAttribute("deviceID", device.getId());
+        model.addAttribute("user", device.getUser());
 
         StationStatistics deviceStatistics = stationStatisticsService.getMostRecent(device);
         model.addAttribute("max", FormatUtils.doubleToVisualString(deviceStatistics.getAllMax()));
