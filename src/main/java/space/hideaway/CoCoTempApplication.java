@@ -1,5 +1,8 @@
 package space.hideaway;
 
+import org.hibernate.search.Search;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -16,6 +19,7 @@ import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import javax.persistence.EntityManager;
 import java.util.concurrent.Executor;
 
 
@@ -29,14 +33,17 @@ import java.util.concurrent.Executor;
 @ImportResource("classpath:/spring/spring-config.xml")
 @PropertySource("classpath:/spring/application.properties")
 @EnableAsync
-public class CoCoTempApplication extends AsyncConfigurerSupport {
+public class CoCoTempApplication extends AsyncConfigurerSupport
+{
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SpringApplication.run(CoCoTempApplication.class, args);
     }
 
     @Override
-    public Executor getAsyncExecutor() {
+    public Executor getAsyncExecutor()
+    {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(2);

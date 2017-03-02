@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<title>CoCoTemp Home</title>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-<link type="text/css" rel="stylesheet" th:href="@{sass/global.css}"/>
-<link type="text/css" rel="stylesheet" th:href="@{sass/index.css}"/>
-<link type="text/css" rel="stylesheet" th:href="@{sass/modal.css}"/>
-<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
+    <title>CoCoTemp Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet" th:href="@{sass/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{sass/index.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{sass/modal.css}"/>
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
 </head>
 <body>
 <div class="row">
     <div th:replace="sidebar/sidebar-partial :: sidebar (active = 'home')"></div>
 
-    <div id="map"></div>
-
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
-            <div>
-                <!-- BEGIN # MODAL LOGIN -->
-
-                <!-- END # MODAL LOGIN -->
+            <div class="row">
+                <div class="col-lg-12 searchbar-container">
+                    <div class="row searchbar">
+                        <!--/*@thymesVar id="searchString" type="java.lang.String"*/-->
+                        <!--/*@thymesVar id="searchModel" type="space.hideaway.model.SearchModel"*/-->
+                        <form id="search-form" th:action="@{/search?_basic}" th:object="${searchModel}" method="POST">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input name="search-query" th:field="*{searchString}" id="search-query" type="text" class="form-control" placeholder="Search for a station"/>
+                                    <span class="input-group-btn"><button id="submit-button" name="submit-button" class="btn btn-default" type="submit">Search</button></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -35,7 +44,5 @@
         crossorigin="anonymous"></script>
 <!--<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>-->
 <script th:src="@{/js/index.js}"></script>
-<!--<script th:src="@{/js/map.js}"></script>-->
-<script th:src="@{/js/modal.js}"></script>
 </body>
 </html>

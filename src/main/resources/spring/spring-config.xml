@@ -6,6 +6,8 @@
        xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+    <tx:annotation-driven/>
     <!--STATIC RESOURCE PATHS________________________________________________________________________________________-->
     <mvc:resources mapping="/static/**" location="/static/"/>
     <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
@@ -45,6 +47,8 @@
                 <prop key="hibernate.format_sql">false</prop>
                 <prop key="hibernate.use_sql_comments">true</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
+                <prop key="hibernate.search.default.indexBase">/indices</prop>
             </props>
         </property>
     </bean>
@@ -85,6 +89,6 @@
     </bean>
     <!--END AUTHENTICATION___________________________________________________________________________________________-->
 
-    <tx:annotation-driven/>
+
     <mvc:annotation-driven/>
 </beans>
