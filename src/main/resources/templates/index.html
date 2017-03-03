@@ -24,7 +24,9 @@
                         <form id="search-form" th:action="@{/search?_basic}" th:object="${searchModel}" method="POST">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input name="search-query" th:field="*{searchString}" id="search-query" type="text" class="form-control" placeholder="Search for a station"/>
+                                    <input name="search-query" th:field="*{searchString}" id="search-query" type="text"
+                                           class="form-control"
+                                           placeholder="Search for a station by name, description, or username."/>
                                     <span class="input-group-btn"><button id="submit-button" name="submit-button" class="btn btn-default" type="submit">Search</button></span>
                                 </div>
                             </div>
