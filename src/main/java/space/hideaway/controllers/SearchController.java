@@ -5,6 +5,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -32,6 +34,15 @@ public class SearchController
     EntityManager entityManager;
 
 
+    /**
+     * Form endpoint for getting a simple list of devices from a string.
+     * Searches using :deviceName and :deviceDescription.
+     * <p>
+     * Redirects to the more feature complete search page complete with results.
+     *
+     * @param searchModel The search model attrubute injected into the form on the index contoller.
+     * @return The name of the search page template.
+     */
     @RequestMapping(value = "/search", params = {"_basic"}, method = RequestMethod.POST)
     @Transactional
     public String serveSearch(@ModelAttribute("searchModel") SearchModel searchModel)
@@ -62,6 +73,14 @@ public class SearchController
             }
         }
 
-        return "redirect:/";
+        return "search/search-page";
+    }
+
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String renderSearchPage(Model model)
+    {
+        model.addAttribute("deviceList", new ArrayList<Device>());
+        return "search/search-page";
     }
 }
