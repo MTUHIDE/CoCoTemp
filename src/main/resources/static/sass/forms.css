@@ -48,9 +48,13 @@ body {
 
 .error {
   background-color: #e14539;
+  opacitY: 0.8;
   padding: 5px;
   text-align: center;
   color: white;
-  border-radius: 25px; }
+  width: 100%; }
+
+.form-group ul {
+  padding: 0; }
 
 /*# sourceMappingURL=forms.css.map */
