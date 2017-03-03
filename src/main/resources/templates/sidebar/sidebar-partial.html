@@ -68,7 +68,8 @@
     </nav>
     <div class="welcome" sec:authorize="isAuthenticated()">
         <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-        Hello, <b><span sec:authentication="name"></span></b> <a href="/settings"><span
+        Hello, <b sec:authentication="name"></b>
+        <a href="/settings"><span
             class="glyphicon glyphicon-cog"></span></a>
     </div>
 </div>

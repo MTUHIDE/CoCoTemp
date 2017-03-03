@@ -151,7 +151,11 @@
   padding-bottom: 5px; }
 
 .welcome span {
-  color: white; }
+  color: white;
+  font-size: 18px;
+  position: absolute;
+  right: 0;
+  padding: 5px; }
 
 .logo {
   display: block;
