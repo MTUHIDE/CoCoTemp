@@ -27,7 +27,6 @@ public class RouteController
     public String index(Model model)
     {
         model.addAttribute("searchModel", new SearchModel());
-        model.addAttribute("user", userService.getCurrentLoggedInUser());
         return "index";
     }
 
