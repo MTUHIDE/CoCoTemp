@@ -58,7 +58,7 @@ public class SearchController
                                                          .buildQueryBuilder()
                                                          .forEntity(Device.class)
                                                          .get();
-        Query query = queryBuilder.keyword().onFields(
+        Query query = queryBuilder.keyword().fuzzy().onFields(
                 "deviceName",
                 "deviceDescription", "user.username")
                                   .matching(searchQuery)
@@ -77,6 +77,7 @@ public class SearchController
             }
         }
 
+        model.addAttribute("noDevices", castedList.isEmpty());
         model.addAttribute("deviceList", castedList);
 
         return "search/search-page";
@@ -86,6 +87,7 @@ public class SearchController
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String renderSearchPage(Model model)
     {
+        model.addAttribute("noDevices", true);
         model.addAttribute("searchModel", new SearchModel());
         model.addAttribute("deviceList", new ArrayList<Device>());
         model.addAttribute("statisticsUtils", new StatisticsUtils());
