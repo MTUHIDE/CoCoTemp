@@ -1,10 +1,7 @@
 package space.hideaway.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +12,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "data")
-public class Data {
+public class Data
+{
 
     private UUID id;
 
@@ -30,17 +28,16 @@ public class Data {
     private Device device;
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    @JsonView(DataTablesOutput.View.class)
     private Date dateTime;
 
-    @JsonView(DataTablesOutput.View.class)
     private double temperature;
 
 
     /**
      * Instantiates a new Data.
      */
-    public Data() {
+    public Data()
+    {
     }
 
 
@@ -52,7 +49,8 @@ public class Data {
      * @param dateTime    the date time
      * @param temperature the temperature
      */
-    public Data(UUID id, UUID deviceID, Date dateTime, double temperature) {
+    public Data(UUID id, UUID deviceID, Date dateTime, double temperature)
+    {
         this.id = id;
         this.deviceID = deviceID;
         this.dateTime = dateTime;
@@ -66,7 +64,8 @@ public class Data {
      */
     @ManyToOne()
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
-    public Device getDevice() {
+    public Device getDevice()
+    {
         return device;
     }
 
@@ -75,12 +74,14 @@ public class Data {
      *
      * @param device the device
      */
-    public void setDevice(Device device) {
+    public void setDevice(Device device)
+    {
         this.device = device;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return String.format(
                 "Data: [ID: %s Device ID: %s Date: %s Temperature: %s]%n",
                 getId().toString(),
@@ -99,7 +100,8 @@ public class Data {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
     @Column(name = "id")
-    public UUID getId() {
+    public UUID getId()
+    {
         return id;
     }
 
@@ -108,7 +110,8 @@ public class Data {
      *
      * @param id the id
      */
-    public void setId(UUID id) {
+    public void setId(UUID id)
+    {
         this.id = id;
     }
 
@@ -118,7 +121,8 @@ public class Data {
      * @return the device id
      */
     @Column(name = "device_id")
-    public UUID getDeviceID() {
+    public UUID getDeviceID()
+    {
         return deviceID;
     }
 
@@ -127,7 +131,8 @@ public class Data {
      *
      * @param deviceID the device id
      */
-    public void setDeviceID(UUID deviceID) {
+    public void setDeviceID(UUID deviceID)
+    {
         this.deviceID = deviceID;
     }
 
@@ -137,7 +142,8 @@ public class Data {
      * @return the date time
      */
     @Column(name = "date")
-    public Date getDateTime() {
+    public Date getDateTime()
+    {
         return dateTime;
     }
 
@@ -146,7 +152,8 @@ public class Data {
      *
      * @param dateTime the date time
      */
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(Date dateTime)
+    {
         this.dateTime = dateTime;
     }
 
@@ -156,7 +163,8 @@ public class Data {
      * @return the temperature
      */
     @Column(name = "temperature")
-    public double getTemperature() {
+    public double getTemperature()
+    {
         return temperature;
     }
 
@@ -165,7 +173,8 @@ public class Data {
      *
      * @param temperature the temperature
      */
-    public void setTemperature(double temperature) {
+    public void setTemperature(double temperature)
+    {
         this.temperature = temperature;
     }
 
@@ -175,7 +184,8 @@ public class Data {
      * @return the user id
      */
     @Column(name = "user_id")
-    public int getUserID() {
+    public int getUserID()
+    {
         return userID;
     }
 
@@ -184,7 +194,8 @@ public class Data {
      *
      * @param userID the user id
      */
-    public void setUserID(int userID) {
+    public void setUserID(int userID)
+    {
         this.userID = userID;
     }
 
@@ -195,7 +206,8 @@ public class Data {
      */
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
@@ -204,7 +216,8 @@ public class Data {
      *
      * @param user the user
      */
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 }
