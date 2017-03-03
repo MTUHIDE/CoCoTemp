@@ -66,7 +66,7 @@ public class SettingsController
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
         model.addAttribute("user", currentLoggedInUser);
         model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
-        return "/settings/general";
+        return "settings/general";
     }
 
     /**
