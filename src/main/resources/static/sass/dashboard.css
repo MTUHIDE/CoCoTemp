@@ -46,17 +46,20 @@ body, .container-fluid, .row, .side-body {
   .device-list-container > .map-container > #map {
     height: 100%; }
 
-.upload {
-  margin-left: 15px;
-  border-radius: 25px;
-  background-color: white !important;
-  color: #00395e !important;
+.userButton {
+  display: inline-block;
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: #004978 !important;
+  border: 1px solid #002036;
   text-decoration: none !important; }
-  .upload:hover {
+  .userButton a {
+    color: white !important; }
+  .userButton:hover {
     color: white !important;
-    background-color: #00395e !important; }
-    .upload:hover a {
-      color: #007ed0 !important;
+    background-color: #002d4b !important; }
+    .userButton:hover a {
+      color: whitesmoke !important;
       text-decoration: none !important; }
 
 /*# sourceMappingURL=dashboard.css.map */

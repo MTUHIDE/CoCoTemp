@@ -62,7 +62,7 @@
                     <div class="seperator-header">
                         <h1 th:inline="text" class="chart-header-text" th:text="${greeting}"></h1>
 
-                        <div class="btn-group upload">
+                        <div class="btn-group userButton">
                             <button type="button" class="btn btn-default">
                                 <a href="/upload">Upload data</a>
                             </button>
@@ -103,14 +103,16 @@
                     <h1 th:inline="text">Devices</h1>
                     <!-- Single button -->
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            Edit <span class="caret"></span>
+                        <div class="userButton">
+                        <button type="button" class="btn btn-default">
+                            <a href="/settings/new">Create a device</a>
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/settings/new">Create a device</a></li>
-                            <li><a href="/settings">Edit settings</a></li>
-                        </ul>
+                        </div>
+                        <div class="userButton">
+                        <button type="button" class="btn btn-default">
+                            <a href="/settings">Edit Settings</a>
+                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
