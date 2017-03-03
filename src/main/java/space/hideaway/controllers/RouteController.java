@@ -1,14 +1,18 @@
 package space.hideaway.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.SearchModel;
+import space.hideaway.services.UserService;
 
 
 @Controller
 public class RouteController
 {
+    @Autowired
+    UserService userService;
 
     /**
      * The endpoint for the application home page.
@@ -23,6 +27,7 @@ public class RouteController
     public String index(Model model)
     {
         model.addAttribute("searchModel", new SearchModel());
+        model.addAttribute("user", userService.getCurrentLoggedInUser());
         return "index";
     }
 

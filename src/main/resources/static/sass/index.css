@@ -2,8 +2,16 @@
   color: white; }
 
 .searchbar-container {
-  background-color: #009dee;
+  background-color: #00395e;
   padding: 20px;
   margin: 0; }
+  .searchbar-container #search-query {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px; }
+  .searchbar-container #submit-button {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding-right: 5px;
+    padding-right: 15px; }
 
 /*# sourceMappingURL=index.css.map */

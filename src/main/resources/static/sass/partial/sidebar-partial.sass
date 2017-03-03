@@ -2,6 +2,7 @@ $success-color: #449d44
 $error-color: #c33946
 $accent-color: #05ccff
 $secondary-color: #00416A
+$subtle-accent: #00629a
 
 .side-menu
   font-family: "Segoe UI Light", serif
@@ -23,15 +24,16 @@ $secondary-color: #00416A
   .navbar-nav
     .active a
       &:hover
+        background-color: $subtle-accent
         color: white
-        background-color: #0a6088
+      background-color: $secondary-color
       color: white
       margin-right: -1px
-      background-color: $secondary-color
       border-right: 5px solid $accent-color
     li
-      &:hover
-        background-color: #0a6088
+      a
+        &:hover
+          background-color: $subtle-accent
       display: block
       width: 100%
       background-color: $secondary-color
@@ -58,7 +60,7 @@ $secondary-color: #00416A
       &:focus
         color: white
       &:hover
-        background-color: #0a6088
+        background-color: $secondary-color
       border-bottom: 1px solid $secondary-color
     .panel-body
       padding: 0
@@ -67,12 +69,12 @@ $secondary-color: #00416A
         width: 100%
         li
           &:hover
-            background-color: #0a6088
+            background-color: $secondary-color
           a
             &:hover
-              background-color: #0a6088
-            background-color: #002e4f
-          background-color: #002e4f
+              background-color: $secondary-color
+            background-color: $secondary-color
+          background-color: $secondary-color
           padding-left: 15px
           border-bottom: 1px solid $secondary-color
           &:last-child
@@ -148,3 +150,33 @@ $secondary-color: #00416A
 .log-out
   background-color: $error-color
 
+
+.welcome
+  text-align: center
+  bottom: 0
+  position: absolute
+  background-color: $subtle-accent
+  width: 100%
+  color: white
+  padding-top: 5px
+  padding-bottom: 5px
+
+.welcome span
+  color: white
+
+.logo
+  display: block
+  height: 125px
+  width: 150px
+  margin: 0 auto
+  text-align: center
+
+.logo img
+  margin: 0 auto 0 50%
+  text-align: center
+  height: 100px
+
+.nav > li
+  padding-top: 5px
+  padding-bottom: 5px
+  font-size: 16px
