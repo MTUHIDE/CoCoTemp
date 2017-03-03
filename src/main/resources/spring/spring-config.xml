@@ -12,13 +12,6 @@
     <mvc:resources mapping="/static/**" location="/static/"/>
     <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
 
-
-    <bean id="templateResolver"
-          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-        <property name="prefix" value="/templates/" />
-        <property name="templateMode" value="HTML5" />
-    </bean>
-
     <context:property-placeholder location="classpath:/spring/application.properties"/>
 
     <!--PERSISTENCE MANAGEMENT_______________________________________________________________________________________-->
@@ -54,8 +47,7 @@
                 <prop key="hibernate.format_sql">false</prop>
                 <prop key="hibernate.use_sql_comments">true</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
-                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
-                <prop key="hibernate.search.default.indexBase">/indices</prop>
+                <prop key="hibernate.search.default.directory_provider">ram</prop>
             </props>
         </property>
     </bean>

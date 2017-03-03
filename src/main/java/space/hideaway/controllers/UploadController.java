@@ -19,7 +19,8 @@ import java.util.UUID;
 
 
 @Controller
-public class UploadController {
+public class UploadController
+{
 
 
     private final UploadService uploadService;
@@ -66,9 +67,11 @@ public class UploadController {
             @RequestParam(value = "deviceID") UUID deviceID,
             @RequestParam(value = "csvData") MultipartFile file,
             @RequestParam(value = "description") String description
-    ) {
+    )
+    {
         logger.info("Upload request incoming, parse file starting.");
-        return uploadService.setMultipartFile(file).parseFile(deviceID.toString(), description);
+        uploadService.setMultipartFile(file).parseFile(deviceID.toString(), description);
+        return "redirect:/dashboard";
     }
 
 }

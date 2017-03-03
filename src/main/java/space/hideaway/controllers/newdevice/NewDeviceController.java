@@ -57,7 +57,7 @@ public class NewDeviceController
     {
         //Add a blank device to the session's model.
         modelMap.addAttribute("device", new Device());
-        return "/new-device/new-device-form";
+        return "new-device/new-device-form";
     }
 
     /**
@@ -79,10 +79,10 @@ public class NewDeviceController
         newDeviceValidator.validate(device, bindingResult);
         if (bindingResult.hasErrors())
         {
-            return "/new-device/new-device-form";
+            return "new-device/new-device-form";
         }
 
-        return "/new-device/device-questionnaire";
+        return "new-device/device-questionnaire";
     }
 
     /**
@@ -108,7 +108,7 @@ public class NewDeviceController
         newDeviceValidator.validateFinal(device, bindingResult);
         if (bindingResult.hasErrors())
         {
-            return "/new-device/device-questionnaire";
+            return "new-device/device-questionnaire";
         }
 
         //Persist the device.

@@ -20,7 +20,7 @@ public class LoginController
     @RequestMapping
     public String showLogin()
     {
-        return "/login/login";
+        return "login/login";
     }
 
     /**
@@ -35,6 +35,6 @@ public class LoginController
     public String showLoginError(Model model)
     {
         model.addAttribute("loginError", true);
-        return "/login/login";
+        return "login/login";
     }
 }

@@ -93,7 +93,7 @@ public class SettingsController
         }
 
         model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
-        return "/settings/device";
+        return "settings/device";
     }
 
     /**
@@ -138,7 +138,7 @@ public class SettingsController
         {
             User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
             model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
-            return "/settings/general";
+            return "settings/general";
         }
         userManagement.update(user);
         return "redirect:/settings";
