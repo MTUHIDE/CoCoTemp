@@ -11,7 +11,10 @@
   .searchbar-container #submit-button {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
-    padding-right: 5px;
     padding-right: 15px; }
+
+.searchbar-container .searchbar {
+    height: 37px;
+}
 
 /*# sourceMappingURL=index.css.map */
