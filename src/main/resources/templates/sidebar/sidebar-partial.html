@@ -29,6 +29,10 @@
                 </div>
 
                 <!-- Search body -->
+                <div class="welcome" th:if="${#authorization.expression('isAuthenticated()')}">
+                        <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                        Hello, <b><span th:text="${user.getUsername()}"></span></b>
+                </div>
 
 
                 <div id="account-container">
@@ -45,6 +49,7 @@
         <div class="side-menu-container">
             <ul class="nav navbar-nav">
 
+
                 <!--Login and logout buttons.-->
 
 
@@ -58,7 +63,7 @@
                 <li th:classappend="${#strings.equals(active, 'contact')} ? active"><a th:href="@{/contact}"><span
                         class="glyphicon glyphicon-envelope"></span> Contact</a></li>
                 <li th:classappend="${#strings.equals(active, 'about')} ? active"><a th:href="@{/about}"><span
-                        class="glyphicon glyphicon-envelope"></span> About</a></li>
+                        class="glyphicon glyphicon-user"></span> About</a></li>
 
             </ul>
         </div><!-- /.navbar-collapse -->
