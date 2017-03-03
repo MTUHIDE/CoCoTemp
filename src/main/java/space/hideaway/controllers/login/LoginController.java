@@ -3,6 +3,7 @@ package space.hideaway.controllers.login;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
@@ -20,7 +21,7 @@ public class LoginController
     @RequestMapping
     public String showLogin()
     {
-        return "/login/login";
+        return "login/login";
     }
 
     /**
@@ -32,9 +33,9 @@ public class LoginController
      * @return THe path to the login template.
      */
     @RequestMapping(params = "_error")
-    public String showLoginError(Model model)
+    public ModelAndView showLoginError(Model model)
     {
         model.addAttribute("loginError", true);
-        return "login/login";
+        return new ModelAndView("login/login");
     }
 }
