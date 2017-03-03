@@ -7,25 +7,6 @@ body, .container-fluid, .row, .side-body {
     height: 100%;
 }
 
-.seperator-header {
-    height: 50px;
-    padding: 10px;
-    width: 100%;
-    background-color: #00416a;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.seperator-header h1 {
-    margin: 0;
-    color: white;
-    font-size: 1em;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-family: "Segoe UI", serif;
-}
-
 .btn-default, .btn-default:focus, .btn-default:hover, .btn-default:active {
     background-color: transparent !important;
     color: white !important;

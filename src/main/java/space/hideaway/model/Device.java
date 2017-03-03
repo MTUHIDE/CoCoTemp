@@ -30,6 +30,7 @@ public class Device
     private Long userID;
 
     @JsonIgnore
+    @IndexedEmbedded
     private User user;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)

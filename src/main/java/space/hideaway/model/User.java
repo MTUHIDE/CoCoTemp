@@ -1,6 +1,11 @@
 package space.hideaway.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,13 +16,16 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User
+{
 
     @JsonIgnore
     private Long id;
 
     private String email;
 
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @Analyzer(impl = KeywordAnalyzer.class)
     private String username;
 
     @JsonIgnore
@@ -44,7 +52,8 @@ public class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
@@ -53,7 +62,8 @@ public class User {
      *
      * @param id the id
      */
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
@@ -73,7 +83,8 @@ public class User {
      *
      * @return the username
      */
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
@@ -82,7 +93,8 @@ public class User {
      *
      * @param username the username
      */
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
@@ -91,7 +103,8 @@ public class User {
      *
      * @return the password
      */
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
@@ -100,7 +113,8 @@ public class User {
      *
      * @param password the password
      */
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
@@ -110,7 +124,8 @@ public class User {
      * @return the confirmation password
      */
     @Transient
-    public String getConfirmationPassword() {
+    public String getConfirmationPassword()
+    {
         return confirmationPassword;
     }
 
@@ -119,7 +134,8 @@ public class User {
      *
      * @param confirmationPassword the confirmation password
      */
-    public void setConfirmationPassword(String confirmationPassword) {
+    public void setConfirmationPassword(String confirmationPassword)
+    {
         this.confirmationPassword = confirmationPassword;
     }
 
@@ -162,8 +178,10 @@ public class User {
      * @return the role set
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    public Set<Role> getRoleSet() {
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name
+            = "role_id"))
+    public Set<Role> getRoleSet()
+    {
         return roleSet;
     }
 
@@ -172,7 +190,8 @@ public class User {
      *
      * @param roleSet the role set
      */
-    public void setRoleSet(Set<Role> roleSet) {
+    public void setRoleSet(Set<Role> roleSet)
+    {
         this.roleSet = roleSet;
     }
 
@@ -183,7 +202,8 @@ public class User {
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    public Set<Device> getDeviceSet() {
+    public Set<Device> getDeviceSet()
+    {
         return deviceSet;
     }
 
@@ -192,7 +212,8 @@ public class User {
      *
      * @param deviceSet the device set
      */
-    public void setDeviceSet(Set<Device> deviceSet) {
+    public void setDeviceSet(Set<Device> deviceSet)
+    {
         this.deviceSet = deviceSet;
     }
 
