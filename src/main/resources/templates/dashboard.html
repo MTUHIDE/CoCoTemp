@@ -61,14 +61,18 @@
                 <div class="row">
                     <div class="seperator-header">
                         <h1 th:inline="text" class="chart-header-text" th:text="${greeting}"></h1>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                Edit <span class="caret"></span>
+
+                        <div class="btn-group upload">
+                            <button type="button" class="btn btn-default">
+                                <a href="/upload">Upload data</a>
                             </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="/upload">Upload data</a></li>
-                            </ul>
+                            <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"-->
+                                    <!--aria-haspopup="true" aria-expanded="false">-->
+                                <!--Edit <span class="caret"></span>-->
+                            <!--</button>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li><a href="/upload">Upload data</a></li>-->
+                            <!--</ul>-->
                         </div>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
