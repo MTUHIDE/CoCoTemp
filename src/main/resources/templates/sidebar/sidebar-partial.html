@@ -23,16 +23,13 @@
                 <!-- Brand -->
 
                 <div class="brand-name-wrapper">
-                    <a class="navbar-brand" href="/">
-                        CoCoTemp
+                    <a class="navbar-brand logo" href="/">
+                        <img src="/images/logo.png"/>
                     </a>
                 </div>
 
                 <!-- Search body -->
-                <div class="welcome" th:if="${#authorization.expression('isAuthenticated()')}">
-                        <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-                        Hello, <b><span th:text="${user.getUsername()}"></span></b>
-                </div>
+
 
 
                 <div id="account-container">
@@ -67,8 +64,12 @@
 
             </ul>
         </div><!-- /.navbar-collapse -->
-    </nav>
 
+    </nav>
+    <div class="welcome" th:if="${#authorization.expression('isAuthenticated()')}">
+        <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+        Hello, <b><span th:text="${user.getUsername()}"></span></b> <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>
+    </div>
 </div>
 </body>
 </html>
