@@ -60,8 +60,4 @@ public class RouteController
         return "contact";
     }
 
-    //TODO verify this works?
-    @GetMapping("/error")
-    public String error() {return "500";}
-
 }
