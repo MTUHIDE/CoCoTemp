@@ -43,7 +43,7 @@ public class RegisterController
     public String initialPage(final ModelMap modelMap)
     {
         modelMap.addAttribute("user", new User());
-        return "/registration/register";
+        return "registration/register";
     }
 
     @RequestMapping(params = "_question", method = RequestMethod.POST)
@@ -54,10 +54,10 @@ public class RegisterController
         userAccountValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors())
         {
-            return "/registration/register";
+            return "registration/register";
         }
 
-        return "/registration/questionPage";
+        return "registration/questionPage";
     }
 
     @RequestMapping(params = "_finish", method = RequestMethod.POST)
@@ -76,7 +76,7 @@ public class RegisterController
 
         if (bindingResult.hasErrors())
         {
-            return "/registration/questionPage";
+            return "registration/questionPage";
         }
 
         //At this point, all the validation has passed. Save the new account and login the user.

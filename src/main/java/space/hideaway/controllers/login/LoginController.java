@@ -35,6 +35,6 @@ public class LoginController
     public String showLoginError(Model model)
     {
         model.addAttribute("loginError", true);
-        return "/login/login";
+        return "login/login";
     }
 }
