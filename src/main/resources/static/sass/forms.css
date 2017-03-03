@@ -1,64 +1,56 @@
 body {
-    background-color: #00416A;
-}
+  background-color: #00416A; }
 
 .container-fluid {
-    margin-top: 100px;
-}
+  margin-top: 100px; }
 
 .form-header {
-    text-align: center;
-    padding: 25px 25px 0 25px;
-}
-
-.form-header h1 {
+  text-align: center;
+  padding: 25px 25px 0 25px; }
+  .form-header h1 {
     font-family: "Segoe UI Light", serif;
     font-size: 150%;
     font-weight: 200;
-    margin: 0 0 10px 0;
-}
+    margin: 0 0 10px 0; }
 
 .form-body {
-    padding: 0 25px 25px 25px;
-}
+  padding: 0 25px 25px 25px; }
 
 .form-container {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    background-color: white;
-}
-
-.form-container label {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background-color: white; }
+  .form-container label {
     font-size: 80%;
     font-family: "Segoe UI", serif;
-    color: #909090;
-}
-
-.form-container input {
+    color: #909090; }
+  .form-container input {
     background: #f4f4f4;
-    border-radius: 0;
-}
-
-.form-container button {
+    border-radius: 0; }
+  .form-container button {
     width: 100%;
-    border-radius: 2px;
-}
-
-.form-container a {
+    border-radius: 2px; }
+  .form-container a {
     width: 100%;
-    border-radius: 2px;
-}
+    border-radius: 2px; }
 
 .map-container {
-    height: 300px;
-    width: 100%;
-}
-
-.map-container #map {
-    height: 100%;
-}
+  height: 300px;
+  width: 100%; }
+  .map-container #map {
+    height: 100%; }
 
 #deviceLatitude {
-    margin-bottom: 5px;
-}
+  margin-bottom: 5px; }
+
+.logo {
+  text-align: center;
+  margin: 0 auto; }
+
+.error {
+  background-color: #e14539;
+  padding: 5px;
+  text-align: center;
+  color: white;
+  border-radius: 25px; }
 
 /*# sourceMappingURL=forms.css.map */

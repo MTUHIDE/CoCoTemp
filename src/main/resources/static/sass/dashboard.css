@@ -49,7 +49,6 @@ body, .container-fluid, .row, .side-body {
 .upload {
   margin-left: 15px;
   border-radius: 25px;
-  color: white !important;
   background-color: white !important;
   color: #00395e !important;
   text-decoration: none !important; }
