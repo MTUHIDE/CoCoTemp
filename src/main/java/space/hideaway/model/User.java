@@ -1,6 +1,9 @@
 package space.hideaway.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,6 +21,7 @@ public class User {
 
     private String email;
 
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String username;
 
     @JsonIgnore

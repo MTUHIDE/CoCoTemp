@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import space.hideaway.model.Device;
 import space.hideaway.model.SearchModel;
+import space.hideaway.util.StatisticsUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -45,8 +46,11 @@ public class SearchController
      */
     @RequestMapping(value = "/search", params = {"_basic"}, method = RequestMethod.POST)
     @Transactional
-    public String serveSearch(@ModelAttribute("searchModel") SearchModel searchModel)
+    public String serveSearch(@ModelAttribute("searchModel") SearchModel searchModel, Model model)
     {
+        model.addAttribute("searchModel", new SearchModel());
+        model.addAttribute("statisticsUtils", new StatisticsUtils());
+
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         String searchQuery = searchModel.getSearchString();
         logger.info("Search query was: " + searchQuery);
@@ -56,22 +60,24 @@ public class SearchController
                                                          .get();
         Query query = queryBuilder.keyword().onFields(
                 "deviceName",
-                "deviceDescription")
+                "deviceDescription", "user.username")
                                   .matching(searchQuery)
                                   .createQuery();
 
         javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(query, Device.class);
 
         List result = jpaQuery.getResultList();
+        List<Device> castedList = new ArrayList<>();
 
         for (Object o : result)
         {
             if (o instanceof Device)
             {
-                Device device = (Device) o;
-                logger.info(device.getDeviceName());
+                castedList.add((Device) o);
             }
         }
+
+        model.addAttribute("deviceList", castedList);
 
         return "search/search-page";
     }
@@ -80,7 +86,9 @@ public class SearchController
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String renderSearchPage(Model model)
     {
+        model.addAttribute("searchModel", new SearchModel());
         model.addAttribute("deviceList", new ArrayList<Device>());
+        model.addAttribute("statisticsUtils", new StatisticsUtils());
         return "search/search-page";
     }
 }
