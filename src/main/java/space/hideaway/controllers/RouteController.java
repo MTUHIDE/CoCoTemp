@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import space.hideaway.model.SearchModel;
 import space.hideaway.services.UserService;
 
 
@@ -26,7 +25,6 @@ public class RouteController
     @GetMapping({"/", "/home"})
     public String index(Model model)
     {
-        model.addAttribute("searchModel", new SearchModel());
         return "index";
     }
 
