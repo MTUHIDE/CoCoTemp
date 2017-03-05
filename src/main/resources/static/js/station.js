@@ -18,7 +18,7 @@ jQuery(document).ready(function () {
         function buildChart(dates, temperature) {
             var ctx = $('#temperature-chart');
             var myBarChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: dates,
                     datasets: [
@@ -27,12 +27,13 @@ jQuery(document).ready(function () {
                             backgroundColor: 'rgba(5, 204, 255, 0.3)'
                             ,
                             borderColor: 'rgb(5, 204, 255)',
-                            borderWidth: 1,
+                            // borderWidth: 1,
                             data: temperature
                         }
                     ]
                 },
                 options: {
+                    bezierCurve: true,
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {

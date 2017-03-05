@@ -9,11 +9,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <!--/*@thymesVar id="searchModel" type="space.hideaway.model.SearchModel"*/-->
-                <form th:object="${searchModel}" th:action="@{/search?_basic}" method="post">
+                <form id="search-form">
                     <div class="form-group">
-                        <label for="keyboard-input">Keyword</label>
-                        <input type="text" class="form-control" th:field="*{searchString}" id="keyboard-input"
+                        <label for="search-query">Keyword</label>
+                        <input type="text" class="form-control" id="search-query"
                                placeholder="Enter a keyword">
                         <p class="help-block">You can search for identifiers in a site's name, description, or by
                             username.</p>

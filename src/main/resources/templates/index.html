@@ -21,10 +21,10 @@
                     <div class="row searchbar">
                         <!--/*@thymesVar id="searchString" type="java.lang.String"*/-->
                         <!--/*@thymesVar id="searchModel" type="space.hideaway.model.SearchModel"*/-->
-                        <form id="search-form" th:action="@{/search?_basic}" th:object="${searchModel}" method="POST">
+                        <form id="search-form">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input name="search-query" th:field="*{searchString}" id="search-query" type="text"
+                                    <input name="search-query" id="search-query" type="text"
                                            class="form-control"
                                            placeholder="Search for a station by name, description, or username."/>
                                     <span class="input-group-btn"><button id="submit-button" name="submit-button" class="btn btn-default" type="submit">Search</button></span>
