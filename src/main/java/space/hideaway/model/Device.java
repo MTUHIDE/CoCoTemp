@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.bridge.builtin.DoubleBridge;
+import org.hibernate.search.spatial.Coordinates;
 
 import javax.persistence.*;
 import java.util.List;
@@ -120,27 +121,6 @@ public class Device
     public void setUser(User user)
     {
         this.user = user;
-    }
-
-    /**
-     * Gets device longitude.
-     *
-     * @return the device longitude
-     */
-    @Column(name = "device_longitude")
-    public double getDeviceLongitude()
-    {
-        return deviceLongitude;
-    }
-
-    /**
-     * Sets device longitude.
-     *
-     * @param deviceLongitude the device longitude
-     */
-    public void setDeviceLongitude(double deviceLongitude)
-    {
-        this.deviceLongitude = deviceLongitude;
     }
 
     /**
@@ -272,5 +252,46 @@ public class Device
     public void setDeviceDescription(String deviceDescription)
     {
         this.deviceDescription = deviceDescription;
+    }
+
+    @Transient
+    @Spatial(spatialMode = SpatialMode.HASH)
+    public Coordinates getLocation()
+    {
+        return new Coordinates()
+        {
+            @Override
+            public Double getLatitude()
+            {
+                return getDeviceLatitude();
+            }
+
+            @Override
+            public Double getLongitude()
+            {
+                return getDeviceLongitude();
+            }
+        };
+    }
+
+    /**
+     * Gets device longitude.
+     *
+     * @return the device longitude
+     */
+    @Column(name = "device_longitude")
+    public double getDeviceLongitude()
+    {
+        return deviceLongitude;
+    }
+
+    /**
+     * Sets device longitude.
+     *
+     * @param deviceLongitude the device longitude
+     */
+    public void setDeviceLongitude(double deviceLongitude)
+    {
+        this.deviceLongitude = deviceLongitude;
     }
 }

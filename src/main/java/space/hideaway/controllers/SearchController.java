@@ -1,9 +1,13 @@
 package space.hideaway.controllers;
 
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.BooleanJunction;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.query.dsl.Unit;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,48 +37,91 @@ public class SearchController
     private
     EntityManager entityManager;
 
-
-    /**
-     * Form endpoint for getting a simple list of devices from a string.
-     * Searches using :deviceName and :deviceDescription.
-     * <p>
-     * Redirects to the more feature complete search page complete with results.
-     *
-     * @return The name of the search page template.
-     */
-    @RequestMapping(value = "/search", params = {"query"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/search", params = {"type=device"})
     @Transactional
-    public String serveSearch(@RequestParam("query") String searchQuery, Model model)
+    public String renderSearchWithKeywordAndSpatial(
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "range", required = false) String range,
+            Model model
+    )
     {
+
+
+        double latitude = 0;
+        double longitude = 0;
+        double desiredRange = 0;
+
+
+        boolean locationPresent = location != null && !location.isEmpty();
+
+        try
+        {
+            if (locationPresent)
+            {
+                String[] locationComponents = location.replaceAll(" ", "").split(",");
+                latitude = Double.parseDouble(locationComponents[0]);
+                longitude = Double.parseDouble(locationComponents[1]);
+                desiredRange = Double.parseDouble(range.replace("km", "").trim());
+            }
+        } catch (Exception e)
+        {
+            return "redirect:/search?error";
+        }
+
+
         model.addAttribute("statisticsUtils", new StatisticsUtils());
-
+        logger.info("Started location search.");
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
-        logger.info("Search query was: " + searchQuery);
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-                                                         .buildQueryBuilder()
-                                                         .forEntity(Device.class)
-                                                         .get();
-        Query query = queryBuilder.keyword().fuzzy().onFields(
-                "deviceName",
-                "deviceDescription", "user.username")
-                                  .matching(searchQuery)
-                                  .createQuery();
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder()
+                                                         .forEntity(Device.class).get();
 
-        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(query, Device.class);
+        BooleanJunction<BooleanJunction> booleanQuery = queryBuilder.bool();
+        if (query != null && !query.isEmpty())
+        {
+            logger.info("Keyword detected: " + query);
+            booleanQuery.must(queryBuilder.keyword().fuzzy().onFields("deviceName", "deviceDescription", "user" +
+                    ".username").matching(query).createQuery());
+            logger.info("Keyword query built.");
+        }
+        if (locationPresent)
+        {
+            logger.info("Location detected.");
 
-        List result = jpaQuery.getResultList();
-        List<Device> castedList = new ArrayList<>();
+            logger.info(String.format("Latitude: %f Longitude: %f Range: %f", latitude, longitude, desiredRange));
+            booleanQuery.must(queryBuilder.spatial().onField("location").within(desiredRange, Unit.KM).ofLatitude
+                    (latitude)
+                                          .andLongitude
+                                                  (longitude).createQuery());
+            logger.info("Location query built.");
+        }
 
-        for (Object o : result)
+        logger.info("Compiling queries into super query.");
+        Query builtQuery = booleanQuery.createQuery();
+
+        logger.info("Executing full query.");
+        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(builtQuery, Device.class);
+
+        if (locationPresent)
+        {
+            Sort distanceSort = queryBuilder.sort().byDistance().onField("location").fromLatitude(latitude)
+                                            .andLongitude(longitude).createSort();
+            fullTextQuery.setSort(distanceSort);
+        }
+
+        List resultList = fullTextQuery.getResultList();
+
+        List<Device> deviceList = new ArrayList<>();
+        for (Object o : resultList)
         {
             if (o instanceof Device)
             {
-                castedList.add((Device) o);
+                deviceList.add(((Device) o));
             }
         }
 
-        model.addAttribute("noDevices", castedList.isEmpty());
-        model.addAttribute("deviceList", castedList);
+        model.addAttribute("noDevices", deviceList.isEmpty());
+        model.addAttribute("deviceList", deviceList);
 
         return "search/search-page";
     }
