@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Data;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DataRepository;
 import space.hideaway.util.HistoryUnit;
@@ -47,12 +47,12 @@ public class DataServiceImplementation implements DataService
      * @param data The new data point to be saved.
      */
     @Override
-    public void save(Device device, Data data)
+    public void save(Site site, Data data)
     {
         dataRepository.save(data);
 
         //Station statistics hook to recalculate statistics on new data.
-        stationStatisticsService.recalculateStatistics(device);
+        stationStatisticsService.recalculateStatistics(site);
     }
 
     /**
@@ -63,7 +63,7 @@ public class DataServiceImplementation implements DataService
      */
     @Override
     @Transactional
-    public List<Data> batchSave(Device device, List<Data> dataList)
+    public List<Data> batchSave(Site site, List<Data> dataList)
     {
         Session session = entityManager.getEntityManagerFactory().createEntityManager().unwrap(Session.class);
         Transaction transaction = session.beginTransaction();
@@ -82,7 +82,7 @@ public class DataServiceImplementation implements DataService
         session.close();
 
         //Station statistics hook to recalculate statistics on new data.
-        stationStatisticsService.recalculateStatistics(device);
+        stationStatisticsService.recalculateStatistics(site);
         return dataList;
     }
 
@@ -93,25 +93,25 @@ public class DataServiceImplementation implements DataService
     }
 
     @Override
-    public List<Data> getHistoric(HistoryUnit week, Device device)
+    public List<Data> getHistoric(HistoryUnit week, Site site)
     {
         switch (week)
         {
             case WEEK:
-                return getDataDaysBack(device, 7);
+                return getDataDaysBack(site, 7);
             case LAST_30:
-                return getDataDaysBack(device, 30);
+                return getDataDaysBack(site, 30);
             case YEAR:
-                return getDataDaysBack(device, 365);
+                return getDataDaysBack(site, 365);
             case ALL:
-                return SortingUtils.sortMostRecentFirst(device.getDataSet());
+                return SortingUtils.sortMostRecentFirst(site.getDataSet());
         }
-        return getDataDaysBack(device, 7);
+        return getDataDaysBack(site, 7);
     }
 
-    private List<Data> getDataDaysBack(Device device, int delta)
+    private List<Data> getDataDaysBack(Site site, int delta)
     {
-        List<Data> dataList = SortingUtils.sortMostRecentFirst(device.getDataSet());
+        List<Data> dataList = SortingUtils.sortMostRecentFirst(site.getDataSet());
         List<Data> resultList = new ArrayList<>();
 
         Date mostRecent = dataList.get(0).getDateTime();

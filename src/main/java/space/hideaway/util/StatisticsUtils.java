@@ -1,7 +1,7 @@
 package space.hideaway.util;
 
-import space.hideaway.model.Device;
-import space.hideaway.model.StationStatistics;
+import space.hideaway.model.Site;
+import space.hideaway.model.SiteStatistics;
 
 import java.util.List;
 
@@ -10,30 +10,30 @@ import java.util.List;
  */
 public class StatisticsUtils
 {
-    public static double getMostRecentAllMean(Device device)
+    public static double getMostRecentAllMean(Site site)
     {
-        List<StationStatistics> sortMostRecentFirst = SortingUtils.sortMostRecentFirst(device.getStationStatisticsList
+        List<SiteStatistics> sortMostRecentFirst = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList
                 ());
         return sortMostRecentFirst.isEmpty() ? 0 : sortMostRecentFirst.get(0).getAllAvg();
     }
 
-    public static double getMostRecentAllMax(Device device)
+    public static double getMostRecentAllMax(Site site)
     {
-        List<StationStatistics> mostRecentFirst = SortingUtils.sortMostRecentFirst(device.getStationStatisticsList
+        List<SiteStatistics> mostRecentFirst = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList
                 ());
         return mostRecentFirst.isEmpty() ? 0 : mostRecentFirst.get(0).getAllMax();
     }
 
-    public static double getMostRecentAllMin(Device device)
+    public static double getMostRecentAllMin(Site site)
     {
-        List<StationStatistics> mostRecentFirst = SortingUtils.sortMostRecentFirst(device.getStationStatisticsList
+        List<SiteStatistics> mostRecentFirst = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList
                 ());
         return mostRecentFirst.isEmpty() ? 0 : mostRecentFirst.get(0).getAllMin();
     }
 
-    public static double getMostRecentAllDeviation(Device device)
+    public static double getMostRecentAllDeviation(Site site)
     {
-        List<StationStatistics> mostRecentFirst = SortingUtils.sortMostRecentFirst(device.getStationStatisticsList
+        List<SiteStatistics> mostRecentFirst = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList
                 ());
         return mostRecentFirst.isEmpty() ? 0 : mostRecentFirst.get(0).getAllDeviation();
     }

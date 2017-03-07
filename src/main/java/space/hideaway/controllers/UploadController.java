@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.User;
 import space.hideaway.services.UploadService;
 import space.hideaway.services.UserService;
@@ -40,8 +40,8 @@ public class UploadController
     public String showUploadForm(Model model)
     {
         User currentLoggedInUser = userService.getCurrentLoggedInUser();
-        Set<Device> deviceSet = currentLoggedInUser.getDeviceSet();
-        model.addAttribute("devices", deviceSet);
+        Set<Site> siteSet = currentLoggedInUser.getSiteSet();
+        model.addAttribute("sites", siteSet);
         return "upload";
     }
 
@@ -49,26 +49,26 @@ public class UploadController
     /**
      * The API endpoint for loading a CSV file into the database.
      * <p>
-     * URL: /upload/{deviceID}
+     * URL: /upload/{siteID}
      * Secured: Yes
      * Method: POST
      * <p>
      * TODO: Sample JSON response.
      *
-     * @param deviceID The ID of the device the uploaded data is associated with.
+     * @param siteID The ID of the site the uploaded data is associated with.
      * @param file     The file uploaded by the user.
      * @return JSON response indicating the status of the upload.
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public
     String uploadFile(
-            @RequestParam(value = "deviceID") UUID deviceID,
+            @RequestParam(value = "siteID") UUID siteID,
             @RequestParam(value = "csvData") MultipartFile file,
             @RequestParam(value = "description") String description
     )
     {
         logger.info("Upload request incoming, parse file starting.");
-        uploadService.setMultipartFile(file).parseFile(deviceID.toString(), description);
+        uploadService.setMultipartFile(file).parseFile(siteID.toString(), description);
         return "redirect:/dashboard";
     }
 

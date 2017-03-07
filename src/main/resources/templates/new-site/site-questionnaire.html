@@ -13,16 +13,16 @@
 
         <div class="form-container">
             <div class="form-header">
-                <h1>Create a new device</h1>
+                <h1>Create a new site</h1>
             </div>
             <div class="form-body">
-                <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                <form th:action="@{/settings/new?_finish}" method="post" th:object="${device}">
+                <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                <form th:action="@{/settings/new?_finish}" method="post" th:object="${site}">
                     <div class="form-group">
                         <label for="locationDescription">Location Description</label>
                         <textarea class="form-control" id="locationDescription"
                                   placeholder="A description of the location."
-                                  th:field="*{deviceDescription}" required="required"></textarea>
+                                  th:field="*{siteDescription}" required="required"></textarea>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Save</button>

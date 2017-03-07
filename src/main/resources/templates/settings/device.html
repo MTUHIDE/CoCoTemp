@@ -36,50 +36,50 @@
                 </div>
                 <div class="col-lg-9 ">
                     <div class="settings-header">
-                        <h1 th:inline="text">[[${device.getDeviceName()}]] Settings</h1>
+                        <h1 th:inline="text">[[${site.getSiteName()}]] Settings</h1>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <form class="form-horizontal" th:action="@{/settings/device/update?deviceID=} + *{id}"
-                                  method="post" th:object="${device}">
+                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                            <form class="form-horizontal" th:action="@{/settings/site/update?siteID=} + *{id}"
+                                  method="post" th:object="${site}">
                                 <input type="hidden" th:field="*{id}"/>
                                 <div class="form-group">
-                                    <label for="stationName" class="col-sm-2 control-label">Device Name</label>
+                                    <label for="stationName" class="col-sm-2 control-label">Site Name</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="stationName"
-                                               placeholder="" th:field="*{deviceName}"/>
-                                        <p th:if="${#fields.hasErrors('deviceName')}"
-                                           th:errors="*{deviceName}"></p>
+                                               placeholder="" th:field="*{siteName}"/>
+                                        <p th:if="${#fields.hasErrors('siteName')}"
+                                           th:errors="*{siteName}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="stationLatitude" class="col-sm-2 control-label">Device Latitude</label>
+                                    <label for="stationLatitude" class="col-sm-2 control-label">Site Latitude</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="stationLatitude"
-                                               placeholder="" th:field="*{deviceLatitude}"/>
-                                        <p th:if="${#fields.hasErrors('deviceLatitude')}"
-                                           th:errors="*{deviceLatitude}"></p>
+                                               placeholder="" th:field="*{siteLatitude}"/>
+                                        <p th:if="${#fields.hasErrors('siteLatitude')}"
+                                           th:errors="*{siteLatitude}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="stationLongitude" class="col-sm-2 control-label">Device
+                                    <label for="stationLongitude" class="col-sm-2 control-label">Site
                                         Longitude</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="stationLongitude"
-                                               placeholder="" th:field="*{deviceLongitude}"/>
-                                        <p th:if="${#fields.hasErrors('deviceLongitude')}"
-                                           th:errors="*{deviceLongitude}"></p>
+                                               placeholder="" th:field="*{siteLongitude}"/>
+                                        <p th:if="${#fields.hasErrors('siteLongitude')}"
+                                           th:errors="*{siteLongitude}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="stationDescription" class="col-sm-2 control-label">Device
+                                    <label for="stationDescription" class="col-sm-2 control-label">Site
                                         Description</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" id="stationDescription"
-                                                  placeholder="" th:field="*{deviceDescription}"></textarea>
-                                        <p th:if="${#fields.hasErrors('deviceDescription')}"
-                                           th:errors="*{deviceDescription}"></p>
+                                                  placeholder="" th:field="*{siteDescription}"></textarea>
+                                        <p th:if="${#fields.hasErrors('siteDescription')}"
+                                           th:errors="*{siteDescription}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -26,10 +26,10 @@ public class UploadHistory
     UUID id;
 
     /**
-     * The Device id.
+     * The Site id.
      */
-    @JsonProperty("deviceID")
-    UUID deviceID;
+    @JsonProperty("siteID")
+    UUID siteID;
 
 
     @JsonProperty
@@ -37,10 +37,10 @@ public class UploadHistory
 
 
     /**
-     * The Device.
+     * The Site.
      */
     @JsonIgnore
-    Device device;
+    Site site;
 
 
     @JsonProperty("viewed")
@@ -79,7 +79,7 @@ public class UploadHistory
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 16)
     public UUID getId()
     {
         return id;
@@ -96,46 +96,46 @@ public class UploadHistory
     }
 
     /**
-     * Gets device.
+     * Gets site.
      *
-     * @return the device
+     * @return the site
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_id", insertable = false, updatable = false)
-    public Device getDevice()
+    @JoinColumn(name = "site_id", insertable = false, updatable = false)
+    public Site getSite()
     {
-        return device;
+        return site;
     }
 
     /**
-     * Sets device.
+     * Sets site.
      *
-     * @param device the device
+     * @param site the site
      */
-    public void setDevice(Device device)
+    public void setSite(Site site)
     {
-        this.device = device;
+        this.site = site;
     }
 
     /**
-     * Gets device id.
+     * Gets site id.
      *
-     * @return the device id
+     * @return the site id
      */
-    @Column(name = "device_id")
-    public UUID getDeviceID()
+    @Column(name = "site_id", length = 16)
+    public UUID getSiteID()
     {
-        return deviceID;
+        return siteID;
     }
 
     /**
-     * Sets device id.
+     * Sets site id.
      *
-     * @param deviceID the device id
+     * @param siteID the site id
      */
-    public void setDeviceID(UUID deviceID)
+    public void setSiteID(UUID siteID)
     {
-        this.deviceID = deviceID;
+        this.siteID = siteID;
     }
 
     @Column(name = "user_id")

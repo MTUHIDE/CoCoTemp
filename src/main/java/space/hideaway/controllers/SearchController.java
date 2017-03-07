@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.util.StatisticsUtils;
 
 import javax.persistence.EntityManager;
@@ -37,7 +37,7 @@ public class SearchController
     private
     EntityManager entityManager;
 
-    @RequestMapping(value = "/search", params = {"type=device"})
+    @RequestMapping(value = "/search", params = {"type=site"})
     @Transactional
     public String renderSearchWithKeywordAndSpatial(
             @RequestParam(value = "query", required = false) String query,
@@ -74,13 +74,13 @@ public class SearchController
         logger.info("Started location search.");
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder()
-                                                         .forEntity(Device.class).get();
+                                                         .forEntity(Site.class).get();
 
         BooleanJunction<BooleanJunction> booleanQuery = queryBuilder.bool();
         if (query != null && !query.isEmpty())
         {
             logger.info("Keyword detected: " + query);
-            booleanQuery.must(queryBuilder.keyword().fuzzy().onFields("deviceName", "deviceDescription", "user" +
+            booleanQuery.must(queryBuilder.keyword().fuzzy().onFields("siteName", "siteDescription", "user" +
                     ".username").matching(query).createQuery());
             logger.info("Keyword query built.");
         }
@@ -100,7 +100,7 @@ public class SearchController
         Query builtQuery = booleanQuery.createQuery();
 
         logger.info("Executing full query.");
-        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(builtQuery, Device.class);
+        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(builtQuery, Site.class);
 
         if (locationPresent)
         {
@@ -111,17 +111,17 @@ public class SearchController
 
         List resultList = fullTextQuery.getResultList();
 
-        List<Device> deviceList = new ArrayList<>();
+        List<Site> siteList = new ArrayList<>();
         for (Object o : resultList)
         {
-            if (o instanceof Device)
+            if (o instanceof Site)
             {
-                deviceList.add(((Device) o));
+                siteList.add(((Site) o));
             }
         }
 
-        model.addAttribute("noDevices", deviceList.isEmpty());
-        model.addAttribute("deviceList", deviceList);
+        model.addAttribute("nosites", siteList.isEmpty());
+        model.addAttribute("siteList", siteList);
 
         return "search/search-page";
     }
@@ -130,8 +130,8 @@ public class SearchController
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String renderSearchPage(Model model)
     {
-        model.addAttribute("noDevices", true);
-        model.addAttribute("deviceList", new ArrayList<Device>());
+        model.addAttribute("nosites", true);
+        model.addAttribute("siteList", new ArrayList<Site>());
         model.addAttribute("statisticsUtils", new StatisticsUtils());
         return "search/search-page";
     }

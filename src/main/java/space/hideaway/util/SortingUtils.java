@@ -1,7 +1,7 @@
 package space.hideaway.util;
 
 import space.hideaway.model.Data;
-import space.hideaway.model.StationStatistics;
+import space.hideaway.model.SiteStatistics;
 
 import java.util.Comparator;
 import java.util.List;
@@ -20,10 +20,10 @@ public class SortingUtils
                        .collect(Collectors.toList());
     }
 
-    public static List<StationStatistics> sortMostRecentFirst(List<StationStatistics> stationStatisticsList)
+    public static List<SiteStatistics> sortMostRecentFirst(List<SiteStatistics> siteStatisticsList)
     {
-        return stationStatisticsList.stream()
-                                    .sorted(Comparator.comparing(StationStatistics::getDate).reversed()).collect
+        return siteStatisticsList.stream()
+                                 .sorted(Comparator.comparing(SiteStatistics::getDate).reversed()).collect
                         (Collectors.toList());
     }
 }

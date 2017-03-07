@@ -22,10 +22,10 @@ public class Data
     @JsonIgnore
     private User user;
 
-    private UUID deviceID;
+    private UUID siteID;
 
     @JsonIgnore
-    private Device device;
+    private Site site;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date dateTime;
@@ -45,47 +45,47 @@ public class Data
      * Instantiates a new Data.
      *
      * @param id          the id
-     * @param deviceID    the device id
+     * @param siteID    the site id
      * @param dateTime    the date time
      * @param temperature the temperature
      */
-    public Data(UUID id, UUID deviceID, Date dateTime, double temperature)
+    public Data(UUID id, UUID siteID, Date dateTime, double temperature)
     {
         this.id = id;
-        this.deviceID = deviceID;
+        this.siteID = siteID;
         this.dateTime = dateTime;
         this.temperature = temperature;
     }
 
     /**
-     * Gets device.
+     * Gets site.
      *
-     * @return the device
+     * @return the site
      */
     @ManyToOne()
-    @JoinColumn(name = "device_id", insertable = false, updatable = false)
-    public Device getDevice()
+    @JoinColumn(name = "site_id", insertable = false, updatable = false)
+    public Site getSite()
     {
-        return device;
+        return site;
     }
 
     /**
-     * Sets device.
+     * Sets site.
      *
-     * @param device the device
+     * @param site the site
      */
-    public void setDevice(Device device)
+    public void setSite(Site site)
     {
-        this.device = device;
+        this.site = site;
     }
 
     @Override
     public String toString()
     {
         return String.format(
-                "Data: [ID: %s Device ID: %s Date: %s Temperature: %s]%n",
+                "Data: [ID: %s Site ID: %s Date: %s Temperature: %s]%n",
                 getId().toString(),
-                getDeviceID(),
+                getSiteID(),
                 getDateTime(),
                 getTemperature()
         );
@@ -99,7 +99,7 @@ public class Data
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 16)
     public UUID getId()
     {
         return id;
@@ -116,24 +116,24 @@ public class Data
     }
 
     /**
-     * Gets device id.
+     * Gets site id.
      *
-     * @return the device id
+     * @return the site id
      */
-    @Column(name = "device_id")
-    public UUID getDeviceID()
+    @Column(name = "site_id", length = 16)
+    public UUID getSiteID()
     {
-        return deviceID;
+        return siteID;
     }
 
     /**
-     * Sets device id.
+     * Sets site id.
      *
-     * @param deviceID the device id
+     * @param siteID the site id
      */
-    public void setDeviceID(UUID deviceID)
+    public void setSiteID(UUID siteID)
     {
-        this.deviceID = deviceID;
+        this.siteID = siteID;
     }
 
     /**

@@ -22,7 +22,7 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var deviceID = [[${device.getId().toString()}]];
+        var siteID = [[${site.getId().toString()}]];
         /*]]>*/
     </script>
 
@@ -34,8 +34,8 @@
         <div class="side-body">
             <div class="row">
                 <div class="col-lg-12 solid-bar">
-                    <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                    <h1 th:text="${device.getDeviceName()}">Station Name</h1>
+                    <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                    <h1 th:text="${site.getSiteName()}">Station Name</h1>
                 </div>
             </div>
             <div class="row">
@@ -43,8 +43,8 @@
                     <div class="col-lg-3 infocard">
                         <div class="inner primary">
                             <p class="infocard-body">
-                                <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.StationStatistics"*/-->
-                                <span id="device-count" class="infocard-number" th:text="${max}">93&deg; F</span>
+                                <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.SiteStatistics"*/-->
+                                <span id="site-count" class="infocard-number" th:text="${max}">93&deg; F</span>
                                 max
                             </p>
                         </div>
@@ -82,17 +82,17 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 solid-bar">
-                    <h1>Device Information</h1>
+                    <h1>Site Information</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-6 information-container">
                     <div class="row">
                         <div class="col-lg-12">
-                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <h1 th:text="${device.getDeviceName()}"></h1>
-                            <p th:text="${device.getDeviceDescription()}"></p>
-                            <p>Device managed by <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                            <h1 th:text="${site.getSiteName()}"></h1>
+                            <p th:text="${site.getSiteDescription()}"></p>
+                            <p>Site managed by <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
                             <a th:text="${user.getUsername()}"></a></p>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script th:src="@{/js/spring-friendly-datatables.js}"></script>
-<script th:src="@{/js/station.js}"></script>
+<script th:src="@{/js/site.js}"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {

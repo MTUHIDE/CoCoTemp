@@ -3,11 +3,11 @@ package space.hideaway.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Data;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.UploadHistory;
 import space.hideaway.model.json.InfoCardSerializer;
-import space.hideaway.services.DeviceService;
 import space.hideaway.services.RESTService;
+import space.hideaway.services.SiteService;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
@@ -22,55 +22,55 @@ public class RESTController
     RESTService restService;
 
     private final
-    DeviceService deviceService;
+    SiteService siteService;
 
     @Autowired
     public RESTController(
-            DeviceService deviceService,
+            SiteService siteService,
             RESTService restService)
     {
-        this.deviceService = deviceService;
+        this.siteService = siteService;
         this.restService = restService;
     }
 
 
     /**
-     * Obtain information for a specific device.
+     * Obtain information for a specific site.
      * Authenticated: No
      * Method: POST
      * <p>
-     * Sample URL: /device/755e67b5-bda1-4ebf-8db4-e59732fb4e1c/info.json
+     * Sample URL: /site/755e67b5-bda1-4ebf-8db4-e59732fb4e1c/info.json
      * <p>
      * Sample Response
      * {
      * "id": "755e67b5-bda1-4ebf-8db4-e59732fb4e1c",
-     * "deviceName": "Piper's Station",
-     * "deviceLatitude": 47.116876,
-     * "deviceLongitude": -88.543496,
-     * "deviceDescription": "My dorm."
+     * "siteName": "Piper's Station",
+     * "siteLatitude": 47.116876,
+     * "siteLongitude": -88.543496,
+     * "siteDescription": "My dorm."
      * }
      *
-     * @param deviceKey The unique id of the device.
+     * @param siteKey The unique id of the site.
      * @return @see the sample response above.
      */
-    @RequestMapping(value = "/device/{deviceID}/info.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/site/{siteID}/info.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    Device info(@PathVariable("deviceID") String deviceKey)
+    Site info(@PathVariable("siteID") String siteKey)
     {
-        return deviceService.findByKey(deviceKey);
+        return siteService.findByKey(siteKey);
     }
 
     /**
-     * Obtain information for a specific device.
+     * Obtain information for a specific site.
      * Authenticated: No
      * Method: POST
      * <p>
-     * Sample URL: /device/755e67b5-bda1-4ebf-8db4-e59732fb4e1c/info.json
+     * Sample URL: /site/755e67b5-bda1-4ebf-8db4-e59732fb4e1c/info.json
      * <p>
      * Sample Response
      * {
-     * "deviceCount": 2,
+     * "siteCount": 2,
      * "recordCount": 4000,
      * "uploadCount": 4
      * }
@@ -86,38 +86,38 @@ public class RESTController
     }
 
     /**
-     * Obtain a list of devices for the currently logged in user.
+     * Obtain a list of sites for the currently logged in user.
      * Authenticated: Yes
      * Method: POST
      * <p>
-     * Sample URL: /dashboard/devices.json
+     * Sample URL: /dashboard/sites.json
      * <p>
      * Sample Response
      * [
      * {
      * "id": "755e67b5-bda1-4ebf-8db4-e59732fb4e1c",
-     * "deviceName": "Piper's Station",
-     * "deviceLatitude": 47.116876,
-     * "deviceLongitude": -88.543496,
-     * "deviceDescription": "My dorm."
+     * "siteName": "Piper's Station",
+     * "siteLatitude": 47.116876,
+     * "siteLongitude": -88.543496,
+     * "siteDescription": "My dorm."
      * },
      * {
      * "id": "a2f4b833-74de-492c-9348-85e5ab2e2a97",
-     * "deviceName": "Wadsworth Station",
-     * "deviceLatitude": 47.1167836,
-     * "deviceLongitude": -88.5439034,
-     * "deviceDescription": "Located outside my window."
+     * "siteName": "Wadsworth Station",
+     * "siteLatitude": 47.1167836,
+     * "siteLongitude": -88.5439034,
+     * "siteDescription": "Located outside my window."
      * }
      * ]
      *
      * @return @see the sample response above.
      */
-    @RequestMapping(value = "/dashboard/devices.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/dashboard/sites.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<Device> populateDevices()
+    List<Site> populatesites()
     {
-        return restService.populateDevices();
+        return restService.populateSites();
     }
 
     /**
@@ -133,7 +133,7 @@ public class RESTController
      * "dateTime": 1487497031000,
      * "userID": 1,
      * "id": "4f75f024-7de1-411a-8b1a-d74e2cd8edcb",
-     * "deviceID": "a2f4b833-74de-492c-9348-85e5ab2e2a97",
+     * "siteID": "a2f4b833-74de-492c-9348-85e5ab2e2a97",
      * "viewed": false,
      * "error": false,
      * "duration": 5546,
@@ -144,7 +144,7 @@ public class RESTController
      * "dateTime": 1487497071000,
      * "userID": 1,
      * "id": "271a5e98-cfd7-4045-8dc9-0ced586731d4",
-     * "deviceID": "a2f4b833-74de-492c-9348-85e5ab2e2a97",
+     * "siteID": "a2f4b833-74de-492c-9348-85e5ab2e2a97",
      * "viewed": false,
      * "error": false,
      * "duration": 5686,
@@ -155,7 +155,7 @@ public class RESTController
      * "dateTime": 1487498249000,
      * "userID": 1,
      * "id": "99359bd8-e799-4dbe-affa-2d9b99151439",
-     * "deviceID": "755e67b5-bda1-4ebf-8db4-e59732fb4e1c",
+     * "siteID": "755e67b5-bda1-4ebf-8db4-e59732fb4e1c",
      * "viewed": false,
      * "error": false,
      * "duration": 6306,
@@ -166,7 +166,7 @@ public class RESTController
      * "dateTime": 1487498379000,
      * "userID": 1,
      * "id": "fe73a3e5-d4db-4d95-a096-e1fb8adf72bf",
-     * "deviceID": "755e67b5-bda1-4ebf-8db4-e59732fb4e1c",
+     * "siteID": "755e67b5-bda1-4ebf-8db4-e59732fb4e1c",
      * "viewed": false,
      * "error": false,
      * "duration": 5790,
@@ -191,8 +191,11 @@ public class RESTController
     }
 
 
-    @RequestMapping(value = "/device/{deviceID}/temperature.json", method = RequestMethod.POST)
-    public @ResponseBody List<Data> getTemperaturePoints(@PathVariable("deviceID") String deviceID) {
-        return SortingUtils.sortMostRecentFirst(deviceService.findByKey(deviceID).getDataSet());
+    @RequestMapping(value = "/site/{siteID}/temperature.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    List<Data> getTemperaturePoints(@PathVariable("siteID") String siteID)
+    {
+        return SortingUtils.sortMostRecentFirst(siteService.findByKey(siteID).getDataSet());
     }
 }

@@ -41,7 +41,7 @@ public class User
 
     private Set<Role> roleSet;
 
-    private Set<Device> deviceSet;
+    private Set<Site> siteSet;
 
     private Set<UploadHistory> uploadHistorySet;
 
@@ -196,25 +196,25 @@ public class User
     }
 
     /**
-     * Gets device set.
+     * Gets site set.
      *
-     * @return the device set
+     * @return the site set
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    public Set<Device> getDeviceSet()
+    public Set<Site> getSiteSet()
     {
-        return deviceSet;
+        return siteSet;
     }
 
     /**
-     * Sets device set.
+     * Sets site set.
      *
-     * @param deviceSet the device set
+     * @param siteSet the site set
      */
-    public void setDeviceSet(Set<Device> deviceSet)
+    public void setSiteSet(Set<Site> siteSet)
     {
-        this.deviceSet = deviceSet;
+        this.siteSet = siteSet;
     }
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

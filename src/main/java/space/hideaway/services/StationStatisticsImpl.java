@@ -4,8 +4,8 @@ import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Data;
-import space.hideaway.model.Device;
-import space.hideaway.model.StationStatistics;
+import space.hideaway.model.Site;
+import space.hideaway.model.SiteStatistics;
 import space.hideaway.repositories.StationStatisticsRepository;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
@@ -30,75 +30,75 @@ public class StationStatisticsImpl implements StationStatisticsService
     DataService dataService;
 
     @Override
-    public Future<StationStatistics> recalculateStatistics(Device device)
+    public Future<SiteStatistics> recalculateStatistics(Site site)
     {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        return executorService.submit(new StatisticsCalculationRunnable(device));
+        return executorService.submit(new StatisticsCalculationRunnable(site));
     }
 
     @Override
-    public StationStatistics save(StationStatistics stationStatistics)
+    public SiteStatistics save(SiteStatistics siteStatistics)
     {
-        return stationStatisticsRepository.save(stationStatistics);
+        return stationStatisticsRepository.save(siteStatistics);
     }
 
     @Override
-    public StationStatistics getMostRecent(Device device)
+    public SiteStatistics getMostRecent(Site site)
     {
-        List<StationStatistics> stationStatisticss = SortingUtils.sortMostRecentFirst(device.getStationStatisticsList
+        List<SiteStatistics> siteStatisticss = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList
                 ());
-        if (stationStatisticss.isEmpty())
+        if (siteStatisticss.isEmpty())
         {
-            return StationStatistics.EMPTY_STATISTIC;
+            return SiteStatistics.EMPTY_STATISTIC;
         } else
         {
-            return stationStatisticss.get(0);
+            return siteStatisticss.get(0);
         }
     }
 
-    private class StatisticsCalculationRunnable implements Callable<StationStatistics>
+    private class StatisticsCalculationRunnable implements Callable<SiteStatistics>
     {
 
-        Device device;
+        Site site;
         List<Data> weekData;
         List<Data> monthData;
         List<Data> yearData;
         List<Data> allData;
 
-        StatisticsCalculationRunnable(Device device)
+        StatisticsCalculationRunnable(Site site)
         {
-            this.device = device;
+            this.site = site;
         }
 
         @Override
-        public StationStatistics call() throws Exception
+        public SiteStatistics call() throws Exception
         {
-            weekData = dataService.getHistoric(HistoryUnit.WEEK, device);
-            monthData = dataService.getHistoric(HistoryUnit.LAST_30, device);
-            yearData = dataService.getHistoric(HistoryUnit.YEAR, device);
-            allData = dataService.getHistoric(HistoryUnit.ALL, device);
+            weekData = dataService.getHistoric(HistoryUnit.WEEK, site);
+            monthData = dataService.getHistoric(HistoryUnit.LAST_30, site);
+            yearData = dataService.getHistoric(HistoryUnit.YEAR, site);
+            allData = dataService.getHistoric(HistoryUnit.ALL, site);
 
-            StationStatistics stationStatistics = new StationStatistics();
+            SiteStatistics siteStatistics = new SiteStatistics();
             SummaryStatistics summaryStatistics = new SummaryStatistics();
 
             SummaryStatistics weekStatistics = populateStatistics(summaryStatistics, weekData);
-            stationStatistics.setWeek(weekStatistics);
+            siteStatistics.setWeek(weekStatistics);
 
             SummaryStatistics monthStatistics = populateStatistics(summaryStatistics, monthData);
-            stationStatistics.setMonth(monthStatistics);
+            siteStatistics.setMonth(monthStatistics);
 
             SummaryStatistics yearStatistics = populateStatistics(summaryStatistics, yearData);
-            stationStatistics.setYear(yearStatistics);
+            siteStatistics.setYear(yearStatistics);
 
             SummaryStatistics allStatistics = populateStatistics(summaryStatistics, allData);
-            stationStatistics.setAll(allStatistics);
+            siteStatistics.setAll(allStatistics);
 
-            stationStatistics.setDeviceID(device.getId());
-            stationStatistics.setDate(new Date());
+            siteStatistics.setSiteID(site.getId());
+            siteStatistics.setDate(new Date());
 
-            save(stationStatistics);
+            save(siteStatistics);
 
-            return stationStatistics;
+            return siteStatistics;
         }
 
         private SummaryStatistics populateStatistics(SummaryStatistics summaryStatistics, List<Data> someData)

@@ -1,7 +1,7 @@
 package space.hideaway.services;
 
-import space.hideaway.model.Device;
-import space.hideaway.model.StationStatistics;
+import space.hideaway.model.Site;
+import space.hideaway.model.SiteStatistics;
 
 import java.util.concurrent.Future;
 
@@ -10,9 +10,9 @@ import java.util.concurrent.Future;
  */
 public interface StationStatisticsService
 {
-    Future<StationStatistics> recalculateStatistics(Device device);
+    Future<SiteStatistics> recalculateStatistics(Site site);
 
-    StationStatistics save(StationStatistics stationStatistics);
+    SiteStatistics save(SiteStatistics siteStatistics);
 
-    StationStatistics getMostRecent(Device device);
+    SiteStatistics getMostRecent(Site site);
 }
