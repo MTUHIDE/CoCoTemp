@@ -2,23 +2,23 @@ CREATE TABLE data
 (
   id          BINARY(16) PRIMARY KEY              NOT NULL,
   user_id     INT(11)                             NOT NULL,
-  device_id   BINARY(16)                          NOT NULL,
+  site_id     BINARY(16)                          NOT NULL,
   date        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   temperature DOUBLE                              NOT NULL
 );
-CREATE TABLE device
+CREATE TABLE site
 (
-  id                 BINARY(16) PRIMARY KEY NOT NULL,
-  user_id            INT(11)                NOT NULL,
-  device_name        TEXT,
-  device_latitude    DOUBLE(10, 8),
-  device_longitude   DECIMAL(11, 8)         NOT NULL,
-  device_description TEXT                   NOT NULL
+  id               BINARY(16) PRIMARY KEY NOT NULL,
+  user_id          INT(11)                NOT NULL,
+  site_name        TEXT,
+  site_latitude    DOUBLE(10, 8),
+  site_longitude   DECIMAL(11, 8)         NOT NULL,
+  site_description TEXT                   NOT NULL
 );
-CREATE TABLE device_statistics
+CREATE TABLE site_statistics
 (
   statistics_id   BINARY(16) PRIMARY KEY              NOT NULL,
-  device_id       BINARY(16),
+  site_id         BINARY(16),
   date            TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   week_max        DOUBLE DEFAULT '0',
   week_min        DOUBLE DEFAULT '0',
@@ -45,7 +45,7 @@ CREATE TABLE role
 CREATE TABLE upload_history
 (
   id          BINARY(16) PRIMARY KEY              NOT NULL,
-  device_id   BINARY(16),
+  site_id     BINARY(16),
   date        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   duration    MEDIUMTEXT,
   description TEXT,
@@ -73,27 +73,27 @@ CREATE TABLE user_role
 ALTER TABLE data
   ADD FOREIGN KEY (user_id) REFERENCES user (id);
 ALTER TABLE data
-  ADD FOREIGN KEY (device_id) REFERENCES device (id);
-CREATE INDEX data_device_id_fk
-  ON data (device_id);
+  ADD FOREIGN KEY (site_id) REFERENCES site (id);
+CREATE INDEX data_site_id_fk
+  ON data (site_id);
 CREATE INDEX data_user_id_fk
   ON data (user_id);
-ALTER TABLE device
+ALTER TABLE site
   ADD FOREIGN KEY (user_id) REFERENCES user (id);
-CREATE INDEX device_user_id_fk
-  ON device (user_id);
-ALTER TABLE device_statistics
-  ADD FOREIGN KEY (device_id) REFERENCES device (id)
+CREATE INDEX site_user_id_fk
+  ON site (user_id);
+ALTER TABLE site_statistics
+  ADD FOREIGN KEY (site_id) REFERENCES site (id)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
-CREATE INDEX device_statistics_device_id_fk
-  ON device_statistics (device_id);
+CREATE INDEX site_statistics_site_id_fk
+  ON site_statistics (site_id);
 ALTER TABLE upload_history
-  ADD FOREIGN KEY (device_id) REFERENCES device (id);
+  ADD FOREIGN KEY (site_id) REFERENCES site (id);
 ALTER TABLE upload_history
   ADD FOREIGN KEY (user_id) REFERENCES user (id);
-CREATE INDEX upload_history_device_id_fk
-  ON upload_history (device_id);
+CREATE INDEX upload_history_site_id_fk
+  ON upload_history (site_id);
 CREATE UNIQUE INDEX upload_history_id_uindex
   ON upload_history (id);
 CREATE INDEX upload_history_user_id_fk

@@ -48,7 +48,7 @@ public class UploadHistoryImpl implements UploadHistoryService {
 
     @Override
     public UploadHistory savePending(
-            UUID deviceId,
+            UUID siteId,
             int userID,
             boolean error,
             long duration,
@@ -57,7 +57,7 @@ public class UploadHistoryImpl implements UploadHistoryService {
     {
         UploadHistory uploadHistory = new UploadHistory();
         uploadHistory.setDateTime(new Date(System.currentTimeMillis()));
-        uploadHistory.setDeviceID(deviceId);
+        uploadHistory.setSiteID(siteId);
         uploadHistory.setUserID(userID);
         uploadHistory.setError(error);
         uploadHistory.setDuration(duration);

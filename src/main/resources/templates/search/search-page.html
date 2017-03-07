@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="row search-results-container">
-                <div th:unless="${noDevices}" class="col-lg-12">
+                <div th:unless="${noSites}" class="col-lg-12">
                     <table class="table table-hover">
                         <tr>
                             <th>Location</th>
@@ -38,18 +38,18 @@
                             <th>Standard Deviation</th>
                             <th>User</th>
                         </tr>
-                        <tr th:each="device : ${deviceList}">
-                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+                        <tr th:each="site : ${siteList}">
+                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
                             <!--/*@thymesVar id="statisticsUtils" type="space.hideaway.util.StatisticsUtils"*/-->
                             <td>Nebraska, United States</td>
-                            <td><a th:href="@{/device/{deviceID}(deviceID=${device.getId()})}"
-                                   th:text="*{device.getDeviceName()}">University Station</a></td>
-                            <td th:text="*{device.getDeviceDescription()}">Under the sea.</td>
-                            <td th:text="*{statisticsUtils.getMostRecentAllMax(device)}">99</td>
-                            <td th:text="*{statisticsUtils.getMostRecentAllMin(device)}">29</td>
-                            <td th:text="*{statisticsUtils.getMostRecentAllMean(device)}">50</td>
-                            <td th:text="*{statisticsUtils.getMostRecentAllDeviation(device)}">2</td>
-                            <td th:text="*{device.getUser().getUsername()}"></td>
+                            <td><a th:href="@{/site/{siteID}(siteID=${site.getId()})}"
+                                   th:text="*{site.getSiteName()}">University Station</a></td>
+                            <td th:text="*{site.getSiteDescription()}">Under the sea.</td>
+                            <td th:text="*{statisticsUtils.getMostRecentAllMax(site)}">99</td>
+                            <td th:text="*{statisticsUtils.getMostRecentAllMin(site)}">29</td>
+                            <td th:text="*{statisticsUtils.getMostRecentAllMean(site)}">50</td>
+                            <td th:text="*{statisticsUtils.getMostRecentAllDeviation(site)}">2</td>
+                            <td th:text="*{site.getUser().getUsername()}"></td>
                         </tr>
                     </table>
                 </div>

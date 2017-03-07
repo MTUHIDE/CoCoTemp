@@ -2,7 +2,7 @@ package space.hideaway.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.UploadHistory;
 import space.hideaway.model.User;
 import space.hideaway.model.json.InfoCardSerializer;
@@ -19,19 +19,19 @@ public class RESTService
 {
 
     private final DataServiceImplementation dataServiceImplementation;
-    private final DeviceServiceImplementation deviceServiceImplementation;
+    private final SiteServiceImplementation siteServiceImplementation;
     private final UserManagementImpl userManagementImpl;
     private final UploadHistoryService uploadHistoryService;
 
 
     @Autowired
     public RESTService(
-            DeviceServiceImplementation deviceServiceImplementation,
+            SiteServiceImplementation siteServiceImplementation,
             UserManagementImpl userManagementImpl,
             DataServiceImplementation dataServiceImplementation,
             UploadHistoryService uploadHistoryService)
     {
-        this.deviceServiceImplementation = deviceServiceImplementation;
+        this.siteServiceImplementation = siteServiceImplementation;
         this.dataServiceImplementation = dataServiceImplementation;
         this.userManagementImpl = userManagementImpl;
         this.uploadHistoryService = uploadHistoryService;
@@ -41,17 +41,17 @@ public class RESTService
     {
         User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
         InfoCardSerializer infoCardSerializer = new InfoCardSerializer();
-        infoCardSerializer.setDeviceCount(deviceServiceImplementation.countByUserID(currentLoggedInUser));
+        infoCardSerializer.setSiteCount(siteServiceImplementation.countByUserID(currentLoggedInUser));
         infoCardSerializer.setRecordCount(dataServiceImplementation.countByUserID(currentLoggedInUser));
         infoCardSerializer.setUploadCount(uploadHistoryService.countByUserID(currentLoggedInUser));
         return infoCardSerializer;
     }
 
-    public List<Device> populateDevices()
+    public List<Site> populateSites()
     {
         User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
-        ArrayList<Device> deviceList = new ArrayList<>(currentLoggedInUser.getDeviceSet());
-        return deviceList.stream().sorted(Comparator.comparing(Device::getDeviceName)).collect(Collectors.toList());
+        ArrayList<Site> siteList = new ArrayList<>(currentLoggedInUser.getSiteSet());
+        return siteList.stream().sorted(Comparator.comparing(Site::getSiteName)).collect(Collectors.toList());
     }
 
     public List<UploadHistory> getUploadHistory(HistoryUnit historyUnit)

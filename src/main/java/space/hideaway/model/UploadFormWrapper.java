@@ -5,17 +5,17 @@ package space.hideaway.model;
  */
 public class UploadFormWrapper
 {
-    private Device selectedDevice;
+    private Site selectedSite;
     private String description;
 
-    public Device getSelectedDevice()
+    public Site getSelectedSite()
     {
-        return selectedDevice;
+        return selectedSite;
     }
 
-    public void setSelectedDevice(Device selectedDevice)
+    public void setSelectedSite(Site selectedSite)
     {
-        this.selectedDevice = selectedDevice;
+        this.selectedSite = selectedSite;
     }
 
     public String getDescription()

@@ -15,16 +15,16 @@
 
         <div class="form-container">
             <div class="form-header">
-                <h1>Create a new device</h1>
+                <h1>Create a new site</h1>
             </div>
             <div class="form-body">
                 <!--/*@thymesVar id="uploadformwrapper" type="space.hideaway.model.UploadFormWrapper"*/-->
                 <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <select name="deviceID" class="selectpicker">
-                            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                            <option th:each="device : ${devices}" th:value="*{device.getId()}"
-                                    th:text="*{device.getDeviceName()}"></option>
+                        <select name="siteID" class="selectpicker">
+                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                            <option th:each="site : ${sites}" th:value="*{site.getId()}"
+                                    th:text="*{site.getSiteName()}"></option>
                         </select>
                     </div>
                     <input type="file" name="csvData"/>

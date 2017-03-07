@@ -13,24 +13,24 @@
 
         <div class="form-container">
             <div class="form-header">
-                <h1>Create a new device</h1>
+                <h1>Create a new site</h1>
             </div>
             <hr/>
             <div class="form-body">
-                <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
-                <form th:action="@{/settings/new?_questions}" method="post" th:object="${device}">
+                <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                <form th:action="@{/settings/new?_questions}" method="post" th:object="${site}">
 
                     <div class="form-group">
-                        <label for="deviceName">Device Name</label>
-                        <input type="text" class="form-control" id="deviceName"
-                               placeholder="" required="required" th:field="*{deviceName}"/>
+                        <label for="siteName">Site Name</label>
+                        <input type="text" class="form-control" id="siteName"
+                               placeholder="" required="required" th:field="*{siteName}"/>
                     </div>
                     <div>
                         <hr/>
                         <p>Please enter either an address or place, or a latitude and longitude.</p>
                     </div>
                     <div class="form-group">
-                        <label for="locationInput">Device Address</label>
+                        <label for="locationInput">Site Address</label>
                         <input type="text" class="form-control"
                                id="locationInput" placeholder="Enter an address or point of interest"/>
 
@@ -38,13 +38,13 @@
                     <div class="form-group">
                         <label for="locationInput">Latitude and Longitude</label>
                         <input class="form-control"
-                               id="deviceLatitude" placeholder="Enter the latitude" type="number" step="any"
+                               id="siteLatitude" placeholder="Enter the latitude" type="number" step="any"
                                required="required"
-                               th:field="*{deviceLatitude}"/>
+                               th:field="*{siteLatitude}"/>
                         <input class="form-control"
-                               id="deviceLongitude" placeholder="Enter the longitude" type="number" step="any"
+                               id="siteLongitude" placeholder="Enter the longitude" type="number" step="any"
                                required="required"
-                               th:field="*{deviceLongitude}"/>
+                               th:field="*{siteLongitude}"/>
                     </div>
                     <div class="form-group">
                         <button id="locateButton" type="button" class="btn btn-primary">Locate</button>
@@ -73,7 +73,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-<script src="/js/new-device-form.js"></script>
+<script src="/js/new-site-form.js"></script>
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
 

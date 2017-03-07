@@ -1,7 +1,7 @@
 package space.hideaway.services;
 
 import space.hideaway.exceptions.UserNotFoundException;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.User;
 
 import java.util.Set;
@@ -34,13 +34,13 @@ public interface UserService {
 
 
     /**
-     * Obtain a list of devices for a user.
+     * Obtain a list of sites for a user.
      *
-     * @param username The username associated with user to obtain devices for.
-     * @return A list of devices for a given username.
+     * @param username The username associated with user to obtain sites for.
+     * @return A list of sites for a given username.
      * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
-    Set<Device> getDevices(String username) throws UserNotFoundException;
+    Set<Site> getSites(String username) throws UserNotFoundException;
 
     User findByEmail(String email);
 }

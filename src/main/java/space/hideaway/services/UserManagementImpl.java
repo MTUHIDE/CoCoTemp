@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.exceptions.UserNotFoundException;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.UserRepository;
@@ -72,8 +72,8 @@ public class UserManagementImpl implements UserService
                 user.setPassword(oldUser.getPassword());
             if (user.getRoleSet() == null)
                 user.setRoleSet(oldUser.getRoleSet());
-            if (user.getDeviceSet() == null)
-                user.setDeviceSet(oldUser.getDeviceSet());
+            if (user.getSiteSet() == null)
+                user.setSiteSet(oldUser.getSiteSet());
             if (user.getUploadHistorySet() == null)
                 user.setUploadHistorySet(oldUser.getUploadHistorySet());
         }
@@ -119,16 +119,16 @@ public class UserManagementImpl implements UserService
     }
 
     /**
-     * Obtain a list of devices for a user.
+     * Obtain a list of sites for a user.
      *
-     * @param username The username associated with user to obtain devices for.
-     * @return A list of devices for a given username.
+     * @param username The username associated with user to obtain sites for.
+     * @return A list of sites for a given username.
      * @throws UserNotFoundException If the user is not valid, and doesn't exist in the database.
      */
     @Override
-    public Set<Device> getDevices(String username) throws UserNotFoundException
+    public Set<Site> getSites(String username) throws UserNotFoundException
     {
-        return findByUsername(username).getDeviceSet();
+        return findByUsername(username).getSiteSet();
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
-import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.UploadHistory;
 
 import java.io.File;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class UploadService
 {
 
-    private final DeviceServiceImplementation deviceServiceImplementation;
+    private final SiteServiceImplementation siteServiceImplementation;
     private final UserManagementImpl userService;
     private final DataServiceImplementation dataServiceImplementation;
     private final UploadHistoryService uploadHistoryService;
@@ -36,12 +36,12 @@ public class UploadService
     public UploadService(
             DataServiceImplementation dataServiceImplementation,
             UploadHistoryService uploadHistoryService,
-            DeviceServiceImplementation deviceServiceImplementation,
+            SiteServiceImplementation siteServiceImplementation,
             UserManagementImpl userService)
     {
         this.dataServiceImplementation = dataServiceImplementation;
         this.uploadHistoryService = uploadHistoryService;
-        this.deviceServiceImplementation = deviceServiceImplementation;
+        this.siteServiceImplementation = siteServiceImplementation;
         this.userService = userService;
     }
 
@@ -53,7 +53,7 @@ public class UploadService
     }
 
 
-    public String parseFile(String deviceKey, String description)
+    public String parseFile(String siteKey, String description)
     {
         File file = convertToFile();
 
@@ -62,15 +62,15 @@ public class UploadService
             return "";
         }
 
-        if (deviceServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), deviceKey))
+        if (siteServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), siteKey))
         {
             Thread fileUploadThread = new Thread(
-                    new FileUploadHandler(deviceServiceImplementation.findByKey(deviceKey), file, description)
+                    new FileUploadHandler(siteServiceImplementation.findByKey(siteKey), file, description)
             );
             fileUploadThread.start();
             return "{status: \"in progress\"}";
         }
-        return "{status: \"failed\", message: \"You do not authorized to edit this device\"}";
+        return "{status: \"failed\", message: \"You do not authorized to edit this site\"}";
     }
 
 
@@ -94,26 +94,26 @@ public class UploadService
     {
 
         private final File file;
-        private final Device device;
+        private final Site site;
         private final String description;
 
-        FileUploadHandler(Device device, File file, String description)
+        FileUploadHandler(Site site, File file, String description)
         {
             this.description = description;
             this.file = file;
-            this.device = device;
+            this.site = site;
         }
 
         @Override
         public void run()
         {
             long start = System.currentTimeMillis();
-            UUID deviceId = device.getId();
-            Long userId = device.getUserID();
+            UUID siteId = site.getId();
+            Long userId = site.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
 
             UploadHistory pendingHistory = uploadHistoryService.savePending(
-                    deviceId,
+                    siteId,
                     Math.toIntExact(userId),
                     false,
                     0,
@@ -132,11 +132,11 @@ public class UploadService
                 Data dataBean;
                 while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null)
                 {
-                    dataBean.setDeviceID(deviceId);
+                    dataBean.setSiteID(siteId);
                     dataBean.setUserID(userId.intValue());
                     dataList.add(dataBean);
                 }
-                dataServiceImplementation.batchSave(device, dataList);
+                dataServiceImplementation.batchSave(site, dataList);
                 iCsvBeanReader.close();
                 long end = System.currentTimeMillis();
 

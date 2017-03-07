@@ -12,17 +12,17 @@ import java.util.UUID;
  * Created by dough on 2017-02-18.
  */
 @Entity
-@Table(name = "device_statistics")
-public class StationStatistics
+@Table(name = "site_statistics")
+public class SiteStatistics
 {
 
-    public static final StationStatistics EMPTY_STATISTIC = new StationStatistics();
+    public static final SiteStatistics EMPTY_STATISTIC = new SiteStatistics();
 
     UUID statisticsID;
-    UUID deviceID;
+    UUID siteID;
 
     @JsonIgnore
-    Device device;
+    Site site;
     double weekMax;
     double weekMin;
     double weekAvg;
@@ -44,7 +44,7 @@ public class StationStatistics
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-    @Column(name = "statistics_id")
+    @Column(name = "statistics_id", length = 16)
     public UUID getStatisticsID()
     {
         return statisticsID;
@@ -55,27 +55,27 @@ public class StationStatistics
         this.statisticsID = statisticsID;
     }
 
-    @Column(name = "device_id")
-    public UUID getDeviceID()
+    @Column(name = "site_id", length = 16)
+    public UUID getSiteID()
     {
-        return deviceID;
+        return siteID;
     }
 
-    public void setDeviceID(UUID deviceID)
+    public void setSiteID(UUID siteID)
     {
-        this.deviceID = deviceID;
+        this.siteID = siteID;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_id", insertable = false, updatable = false)
-    public Device getDevice()
+    @JoinColumn(name = "site_id", insertable = false, updatable = false)
+    public Site getSite()
     {
-        return device;
+        return site;
     }
 
-    public void setDevice(Device device)
+    public void setSite(Site site)
     {
-        this.device = device;
+        this.site = site;
     }
 
     @Column(name = "date")

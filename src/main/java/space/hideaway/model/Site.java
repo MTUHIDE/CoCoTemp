@@ -16,13 +16,13 @@ import java.util.UUID;
 
 
 /**
- * The type Device.
+ * The type Site.
  */
 @Entity
-@Table(name = "device")
+@Table(name = "site")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Indexed
-public class Device
+public class Site
 {
 
     private UUID id;
@@ -35,18 +35,18 @@ public class Device
     private User user;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    private String deviceName;
+    private String siteName;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @FieldBridge(impl = DoubleBridge.class)
-    private double deviceLatitude;
+    private double siteLatitude;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @FieldBridge(impl = DoubleBridge.class)
-    private double deviceLongitude;
+    private double siteLongitude;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    private String deviceDescription;
+    private String siteDescription;
 
     @JsonIgnore
     private Set<Data> dataSet;
@@ -55,39 +55,39 @@ public class Device
     private Set<UploadHistory> uploadHistories;
 
     @JsonIgnore
-    private List<StationStatistics> stationStatisticsList;
+    private List<SiteStatistics> siteStatisticsList;
 
     /**
-     * Instantiates a new Device.
+     * Instantiates a new Site.
      *
-     * @param deviceName      the device name
-     * @param deviceLatitude  the device latitude
-     * @param deviceLongitude the device longitude
+     * @param siteName      the site name
+     * @param siteLatitude  the site latitude
+     * @param siteLongitude the site longitude
      */
-    public Device(String deviceName, double deviceLatitude, double deviceLongitude)
+    public Site(String siteName, double siteLatitude, double siteLongitude)
     {
-        this.deviceName = deviceName;
-        this.deviceLatitude = deviceLatitude;
-        this.deviceLongitude = deviceLongitude;
+        this.siteName = siteName;
+        this.siteLatitude = siteLatitude;
+        this.siteLongitude = siteLongitude;
     }
 
     /**
-     * Instantiates a new Device.
+     * Instantiates a new Site.
      */
-    public Device()
+    public Site()
     {
     }
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id", updatable = false)
-    public List<StationStatistics> getStationStatisticsList()
+    @JoinColumn(name = "site_id", updatable = false)
+    public List<SiteStatistics> getSiteStatisticsList()
     {
-        return stationStatisticsList;
+        return siteStatisticsList;
     }
 
-    public void setStationStatisticsList(List<StationStatistics> stationStatisticsList)
+    public void setSiteStatisticsList(List<SiteStatistics> siteStatisticsList)
     {
-        this.stationStatisticsList = stationStatisticsList;
+        this.siteStatisticsList = siteStatisticsList;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Device
      * @return the data set
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id", updatable = false)
+    @JoinColumn(name = "site_id", updatable = false)
     public Set<Data> getDataSet()
     {
         return dataSet;
@@ -151,7 +151,7 @@ public class Device
      * @return the upload histories
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id", updatable = false)
+    @JoinColumn(name = "site_id", updatable = false)
     public Set<UploadHistory> getUploadHistories()
     {
         return uploadHistories;
@@ -171,10 +171,10 @@ public class Device
     public String toString()
     {
         return String.format(
-                "Device: [ID: %s Name: %s Location: %s]%n",
+                "Site: [ID: %s Name: %s Location: %s]%n",
                 getId(),
-                getDeviceName(),
-                getDeviceLatitude());
+                getSiteName(),
+                getSiteLatitude());
     }
 
     /**
@@ -185,7 +185,7 @@ public class Device
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 16)
     public UUID getId()
     {
         return id;
@@ -202,56 +202,56 @@ public class Device
     }
 
     /**
-     * Gets device name.
+     * Gets site name.
      *
-     * @return the device name
+     * @return the site name
      */
-    @Column(name = "device_name")
-    public String getDeviceName()
+    @Column(name = "site_name")
+    public String getSiteName()
     {
-        return deviceName;
+        return siteName;
     }
 
     /**
-     * Sets device name.
+     * Sets site name.
      *
-     * @param deviceName the device name
+     * @param siteName the site name
      */
-    public void setDeviceName(String deviceName)
+    public void setSiteName(String siteName)
     {
-        this.deviceName = deviceName;
+        this.siteName = siteName;
     }
 
     /**
-     * Gets device latitude.
+     * Gets site latitude.
      *
-     * @return the device latitude
+     * @return the site latitude
      */
-    @Column(name = "device_latitude")
-    public double getDeviceLatitude()
+    @Column(name = "site_latitude")
+    public double getSiteLatitude()
     {
-        return deviceLatitude;
+        return siteLatitude;
     }
 
     /**
-     * Sets device latitude.
+     * Sets site latitude.
      *
-     * @param deviceLatitude the device latitude
+     * @param siteLatitude the site latitude
      */
-    public void setDeviceLatitude(double deviceLatitude)
+    public void setSiteLatitude(double siteLatitude)
     {
-        this.deviceLatitude = deviceLatitude;
+        this.siteLatitude = siteLatitude;
     }
 
-    @Column(name = "device_description")
-    public String getDeviceDescription()
+    @Column(name = "site_description")
+    public String getSiteDescription()
     {
-        return deviceDescription;
+        return siteDescription;
     }
 
-    public void setDeviceDescription(String deviceDescription)
+    public void setSiteDescription(String siteDescription)
     {
-        this.deviceDescription = deviceDescription;
+        this.siteDescription = siteDescription;
     }
 
     @Transient
@@ -263,35 +263,35 @@ public class Device
             @Override
             public Double getLatitude()
             {
-                return getDeviceLatitude();
+                return getSiteLatitude();
             }
 
             @Override
             public Double getLongitude()
             {
-                return getDeviceLongitude();
+                return getSiteLongitude();
             }
         };
     }
 
     /**
-     * Gets device longitude.
+     * Gets site longitude.
      *
-     * @return the device longitude
+     * @return the site longitude
      */
-    @Column(name = "device_longitude")
-    public double getDeviceLongitude()
+    @Column(name = "site_longitude")
+    public double getSiteLongitude()
     {
-        return deviceLongitude;
+        return siteLongitude;
     }
 
     /**
-     * Sets device longitude.
+     * Sets site longitude.
      *
-     * @param deviceLongitude the device longitude
+     * @param siteLongitude the site longitude
      */
-    public void setDeviceLongitude(double deviceLongitude)
+    public void setSiteLongitude(double siteLongitude)
     {
-        this.deviceLongitude = deviceLongitude;
+        this.siteLongitude = siteLongitude;
     }
 }
