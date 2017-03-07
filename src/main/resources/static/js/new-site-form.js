@@ -3,8 +3,8 @@
  */
 jQuery(document).ready(function () {
 
-    var latitudeInput = $('#deviceLatitude');
-    var longitudeInput = $('#deviceLongitude');
+    var latitudeInput = $('#siteLatitude');
+    var longitudeInput = $('#siteLongitude');
 
     function setupForPlaces(input, map) {
         var autocomplete = new google.maps.places.Autocomplete(input);

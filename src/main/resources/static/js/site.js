@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
     function populateChart() {
         var dates = [], temperature = [];
 
-        $.ajax("/device/" + deviceID + "/temperature.json", {
+        $.ajax("/site/" + siteID + "/temperature.json", {
             method: 'post',
             success: function (data) {
                 var i = 0;
@@ -53,7 +53,7 @@ jQuery(document).ready(function () {
 
     function populateMap() {
 
-        $.ajax("/device/" + deviceID + "/info.json", {
+        $.ajax("/site/" + siteID + "/info.json", {
             method: 'post',
             success: function (data) {
                 createMap(data)
@@ -71,7 +71,7 @@ jQuery(document).ready(function () {
             }).addTo(myMap);
 
 
-            var marker = L.marker([data.deviceLatitude, data.deviceLongitude]).addTo(myMap);
+            var marker = L.marker([data.siteLatitude, data.siteLongitude]).addTo(myMap);
             var group = L.featureGroup([marker]);
             myMap.fitBounds(group.getBounds());
         }

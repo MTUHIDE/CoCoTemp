@@ -80,7 +80,7 @@ jQuery(document).ready(function () {
             queryObject.range = $("#range-selector").val();
         }
 
-        queryObject.type = 'device';
+        queryObject.type = 'site';
         startURL += $.param(queryObject);
         window.location = startURL;
     })

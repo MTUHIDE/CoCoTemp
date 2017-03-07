@@ -70,7 +70,7 @@ var onEachFeature = function (feature, layer) {
 
 $.ajax(
     {
-        url: '/devicePoints.json',
+        url: '/sitePoints.json',
         dataType: "json",
         method: "post",
         success: addPoints

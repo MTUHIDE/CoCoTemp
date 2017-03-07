@@ -27,7 +27,7 @@ jQuery(document).ready(function () {
             type: 'post',
             url: '/dashboard/data.json',
             success: function (data) {
-                $('#device-count').text(data.deviceCount);
+                $('#site-count').text(data.siteCount);
                 $('#record-count').text(data.recordCount);
                 $('#upload-count').text(data.uploadCount)
             },
@@ -113,7 +113,7 @@ jQuery(document).ready(function () {
 
     /*
      <li>
-     <div class="row device">
+     <div class="row site">
      <div class="col-lg-12">
      <h1>Houghton Station</h1>
      <h2>Last updated 6 minutes ago</h2>
@@ -121,42 +121,42 @@ jQuery(document).ready(function () {
      </div>
      </li>
      */
-    function populateDevices() {
-        var deviceMarkers = [];
+    function populateSites() {
+        var siteMarkers = [];
 
         $.ajax({
             type: 'post',
-            url: '/dashboard/devices.json',
+            url: '/dashboard/sites.json',
             success: function (data) {
                 if (data.length == 0) {
                     return;
                 }
-                function appendDevice(data) {
-                    var $device = $('#device-template').clone();
-                    $device.attr({'id': ''});
-                    $device.find('.device-name').attr({'href': '/device/' + data.id}).text(data.deviceName);
+                function appendSite(data) {
+                    var $site = $('#site-template').clone();
+                    $site.attr({'id': ''});
+                    $site.find('.site-name').attr({'href': '/site/' + data.id}).text(data.siteName);
 
-                    var description = data.deviceDescription;
+                    var description = data.siteDescription;
                     var length = description.length;
                     if (length > 50) {
                         description = description.substring(0, 50) + "...";
                     }
-                    $device.find('.device-update').text(description);
-                    $device.appendTo('.device-list');
-                    $device.show();
+                    $site.find('.site-update').text(description);
+                    $site.appendTo('.site-list');
+                    $site.show();
                 }
 
                 for (var i = 0; i < data.length; i++) {
-                    appendDevice(data[i]);
+                    appendSite(data[i]);
 
                     //Add the station locations to the map.
-                    var myMarker = L.marker([data[i].deviceLatitude, data[i].deviceLongitude]).addTo(myMap);
-                    myMarker.bindPopup("<p>" + data[i].deviceName + "</p>");
-                    deviceMarkers.push(myMarker);
+                    var myMarker = L.marker([data[i].siteLatitude, data[i].siteLongitude]).addTo(myMap);
+                    myMarker.bindPopup("<p>" + data[i].siteName + "</p>");
+                    siteMarkers.push(myMarker);
                 }
 
                 //Fit to show all markers on the map.
-                var myGroup = new L.featureGroup(deviceMarkers);
+                var myGroup = new L.featureGroup(siteMarkers);
                 myMap.fitBounds(myGroup.getBounds())
             },
             error: function (results) {
@@ -168,5 +168,5 @@ jQuery(document).ready(function () {
     _.defer(populateMap);
     _.defer(populateChart);
     _.defer(populateInfocards);
-    _.defer(populateDevices);
+    _.defer(populateSites);
 });

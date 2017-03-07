@@ -15,6 +15,6 @@ public interface DataRepository extends CrudRepository<Data, UUID>
     @Query("SELECT count(d) from Data d where d.userID=:id")
     Long countByUserID(@Param("id") int id);
 
-    @Query("select d from Data d where d.dateTime > :previousDate and d.deviceID=:id order by d.dateTime asc ")
-    List<Data> getHistoric(@Param("previousDate") Date previousDate, @Param("id") UUID deviceID);
+    @Query("select d from Data d where d.dateTime > :previousDate and d.siteID=:id order by d.dateTime asc ")
+    List<Data> getHistoric(@Param("previousDate") Date previousDate, @Param("id") UUID siteID);
 }
