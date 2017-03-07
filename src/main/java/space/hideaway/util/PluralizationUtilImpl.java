@@ -14,8 +14,8 @@ public class PluralizationUtilImpl implements PluralizationUtil
      * 1 record
      * 2 records
      * <p>
-     * 1 device
-     * 2 devices
+     * 1 site
+     * 2 sites
      * <p>
      * Should also return the plural form of a word if n is zero.
      * Correct output is 'n [word]' where n is the integer supplied as an argument

@@ -5,18 +5,18 @@ package space.hideaway.model.json;
  */
 public class InfoCardSerializer
 {
-    Long deviceCount;
+    Long siteCount;
     Long recordCount;
     Long uploadCount;
 
-    public Long getDeviceCount()
+    public Long getSiteCount()
     {
-        return deviceCount;
+        return siteCount;
     }
 
-    public void setDeviceCount(Long deviceCount)
+    public void setSiteCount(Long siteCount)
     {
-        this.deviceCount = deviceCount;
+        this.siteCount = siteCount;
     }
 
     public Long getRecordCount()

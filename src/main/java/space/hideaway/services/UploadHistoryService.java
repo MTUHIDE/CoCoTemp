@@ -18,7 +18,7 @@ public interface UploadHistoryService {
 
     UploadHistory setViewed(UUID historyID);
 
-    UploadHistory savePending(UUID deviceId, int userID, boolean error, long duration, String message, int records);
+    UploadHistory savePending(UUID siteId, int userID, boolean error, long duration, String message, int records);
 
     UploadHistory saveFinished(UploadHistory uploadHistory, boolean error, long duration, int size, String message);
 
