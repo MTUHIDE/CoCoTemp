@@ -44,20 +44,6 @@ public class DeviceServiceImplementation implements DeviceService {
     {
         Long id = userService.getCurrentLoggedInUser().getId();
         newDevice.setUserID(id);
-
-//        Device oldDevice = deviceRepository.findOne(newDevice.getId());
-//        if (newDevice.getDeviceName() == null)
-//            newDevice.setDeviceName(oldDevice.getDeviceName());
-//        if (newDevice.getDeviceDescription() == null)
-//            newDevice.setDeviceDescription(oldDevice.getDeviceDescription());
-//        if (newDevice.getDataSet() == null)
-//            newDevice.setDataSet(oldDevice.getDataSet());
-//        if (newDevice.getUploadHistories() == null)
-//            newDevice.setUploadHistories(oldDevice.getUploadHistories());
-//        if (newDevice.getStationStatisticsList() == null)
-//            newDevice.setStationStatisticsList(oldDevice.getStationStatisticsList());
-
-
         deviceRepository.save(newDevice);
         return newDevice;
     }
