@@ -1,6 +1,6 @@
 /*
   This code logs the temperature from a DS18B20 temperature sensor
-  and prints the temperature along with a time stamp and unique UUID using a
+  and prints the temperature along with a time stamp and unique A2 using a
   DS3231 Clock and a SparkFun microSD Transflash Breakout
   It also reads and logs the voltage
 
@@ -9,7 +9,7 @@
    and http://tronixstuff.com/2014/12/01/tutorial-using-ds1307-and-ds3231-real-time-clock-modules-with-arduino/ using the clock
    and https://github.com/OSBSS/TRH/blob/master/TRH.ino main code body
    and https://github.com/jarzebski/Arduino-DS3231 library we use for clock interrupts
-   and https://github.com/sirleech/TrueRandom for UUID
+   and https://github.com/sirleech/TrueRandom for A2
    and https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/ for voltage sensor
    and was modified to save the temperature, in fahrenheit, and time data to a microSD card
 
@@ -66,6 +66,7 @@ float temperature = -12345;
 int sum = 0;                    // sum of samples taken
 unsigned int sample_count = 0; // current sample number
 float voltage = 0.0;            // calculated voltage
+int volt_pin = A3;
 
 // Convert normal decimal numbers to binary coded decimal
 byte decToBcd(byte val)
@@ -114,7 +115,8 @@ float getTemp() {
   ds.select(addr);
   ds.write(0x44, 1); // start conversion, with parasite power on at the end
   
-  byte present = ds.reset();
+  //byte present = ds.reset();
+  ds.reset();
   ds.select(addr);
   ds.write(0xBE); // Read Scratchpad
 
@@ -302,7 +304,8 @@ void append_Temp_To_Disk(float temp) {
     }
   dataFile.print(second);
   dataFile.print(",");
-  //dataFile.println(temp);
+  dataFile.print(temp);
+  dataFile.print(",");
   dataFile.close();
 
 #if DEBUG
@@ -326,43 +329,6 @@ void append_Temp_To_Disk(float temp) {
 void alarmISR()
 {
   sleep_disable();
-}
-
-/*Generate and print UUID to disk
- * https://github.com/sirleech/TrueRandom
- */
-void print_UUID_To_Disk() {
-  File dataFile = SD.open(filename, FILE_WRITE);
-
-  // if the file is available, write to it:
-  if (dataFile) {
-    delay(50);
-    byte uuidNumber[16];
-    TrueRandom.uuid(uuidNumber);
-    
-    for (int i=0; i<16; i++) {
-      if (i==4) dataFile.print("-");
-      if (i==6) dataFile.print("-");
-      if (i==8) dataFile.print("-");
-      if (i==10) dataFile.print("-");
-      
-      int topDigit = uuidNumber[i] >> 4;
-      int bottomDigit = uuidNumber[i] & 0x0f;
-      // Print high hex digit
-#if DEBUG
-      Serial.print( "0123456789ABCDEF"[topDigit]);
-      Serial.print("0123456789ABCDEF"[bottomDigit]);
-#endif
-      dataFile.print( "0123456789ABCDEF"[topDigit] );
-      // Low hex digit
-      dataFile.print( "0123456789ABCDEF"[bottomDigit] );
-    }
-#if DEBUG
-    Serial.println();
-#endif
-
-    dataFile.close();
-  }
 }
 
 /*
@@ -419,6 +385,12 @@ void setup(void) {
 
 }
 
+int freeRam () 
+{
+  extern int __heap_start, *__brkval; 
+  int v; 
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
+}
 
 //continually log data every timeToSleep (specified at the top) number of minutes.
 //go to sleep inbetween. The clock wakes the arduino up every minute to check if
@@ -457,11 +429,6 @@ void loop(void) {
 
    //update until we hit the specified number of minutes to run
 
-#if DEBUG
-  Serial.print("clock.isAlarm1() " + String(clock.isAlarm1(false)) + " && (timeCount < (timeToSleep - 1)) : ");
-  Serial.println(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1)));
-#endif
-
  //check if the desired number of minutes to sleep has elapsed
    if(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1))){
       timeCount++;
@@ -480,7 +447,7 @@ void loop(void) {
     //https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/
     // take a number of analog samples and add them up
     while (sample_count < NUM_VOLTAGE_SAMPLES) {
-        sum += analogRead(A3);
+        sum += analogRead(volt_pin);
         /*REMOVE*/
 #if DEBUG_TO_SD
         write_Text_To_Disk("sum = "+String(sum)+"\n");
@@ -492,11 +459,11 @@ void loop(void) {
         delay(10);
     }
     // use 5.0 for a 5.0V ADC reference voltage
-    // 5.015V is the calibrated reference voltage
+    //5.015V is the calibrated reference voltage
     voltage = ((float)sum / (float)NUM_VOLTAGE_SAMPLES * 5) / 1024.0;
     sample_count = 0;
     sum = 0;
-    voltage *= 11;
+    voltage *= 11*0.646616541;
     // send voltage for display on Serial Monitor
     // voltage multiplied by 11 when using voltage divider that
     // divides by 11. 11.132 is the calibrated voltage divide
@@ -505,17 +472,24 @@ void loop(void) {
     Serial.print(voltage);
     Serial.println (" V");
 #endif    
- 
+
+#if DEBUG_TO_SD
+    write_Text_To_Disk(" "+String(voltage)+"\n");
+#endif                             
     //we finally hit the specified number of minutes to run, log & reset 
     timeCount = 0;
     temperature = getTemp();
     delay(5);
 
-    //log uuid, temp, voltage
-    print_UUID_To_Disk();
-    write_Text_To_Disk(", ");
+    //temp, voltage
     append_Temp_To_Disk(temperature);
     write_Text_To_Disk(" "+String(voltage)+"\n");
+    freeRam();
+    //free memory
+//    write_Text_To_Disk(", "+String(freeRam()) + "\n");
+#if DEBUG_TO_SD
+    write_Text_To_Disk(" "+String(voltage)+"\n");
+#endif
     voltage = -5000;
     
 #if DEBUG
@@ -527,8 +501,7 @@ void loop(void) {
     
     //clear alarm flag and update time To sleep
     clock.clearAlarm1();
-
+    
   }
-
 }
 
