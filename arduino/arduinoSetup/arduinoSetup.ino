@@ -8,7 +8,7 @@ void setup() {
   
   DS3231 clock;
   clock.begin();
-  clock.setDateTime(2016, 11, 25, 12, 44, 00);
+  clock.setDateTime(2017, 3, 16, 22, 12, 30);
   
 }
 
