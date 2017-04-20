@@ -1,16 +1,13 @@
 /*
   This code logs the temperature from a DS18B20 temperature sensor
-  and prints the temperature along with a time stamp and unique A2 using a
+  and prints the temperature along with a time stamp using a
   DS3231 Clock and a SparkFun microSD Transflash Breakout
-  It also reads and logs the voltage
-
+  
   This uses code from http://bildr.org/2011/07/ds18b20-arduino/
    and https://learn.sparkfun.com/tutorials/microsd-shield-and-sd-breakout-hookup-guide sd card code
    and http://tronixstuff.com/2014/12/01/tutorial-using-ds1307-and-ds3231-real-time-clock-modules-with-arduino/ using the clock
    and https://github.com/OSBSS/TRH/blob/master/TRH.ino main code body
    and https://github.com/jarzebski/Arduino-DS3231 library we use for clock interrupts
-   and https://github.com/sirleech/TrueRandom for A2
-   and https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/ for voltage sensor
    and was modified to save the temperature, in fahrenheit, and time data to a microSD card
 
   @author Humane Interface Design Enterprise, Michigan Tech
@@ -60,13 +57,6 @@ DS3231 clock;
 const int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 OneWire ds(DS18S20_Pin); // on digital pin 2
 float temperature = -12345;
-
-//voltage divider variables
-#define NUM_VOLTAGE_SAMPLES 10
-int sum = 0;                    // sum of samples taken
-unsigned int sample_count = 0; // current sample number
-float voltage = 0.0;            // calculated voltage
-int volt_pin = A3;
 
 // Convert normal decimal numbers to binary coded decimal
 byte decToBcd(byte val)
@@ -305,7 +295,7 @@ void append_Temp_To_Disk(float temp) {
   dataFile.print(second);
   dataFile.print(",");
   dataFile.print(temp);
-  dataFile.print(",");
+  dataFile.print("\n");
   dataFile.close();
 
 #if DEBUG
@@ -442,55 +432,17 @@ void loop(void) {
 #if DEBUG
     Serial.println("ALARM TRIGGERED!");
 #endif
-    
-    // calculate the voltage
-    //https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/
-    // take a number of analog samples and add them up
-    while (sample_count < NUM_VOLTAGE_SAMPLES) {
-        sum += analogRead(volt_pin);
-        /*REMOVE*/
-#if DEBUG_TO_SD
-        write_Text_To_Disk("sum = "+String(sum)+"\n");
-#endif
-#if DEBUG       
-        Serial.println("sum = "+String(sum)+"\n");
-#endif
-        sample_count++;
-        delay(10);
-    }
-    // use 5.0 for a 5.0V ADC reference voltage
-    //5.015V is the calibrated reference voltage
-    voltage = ((float)sum / (float)NUM_VOLTAGE_SAMPLES * 5) / 1024.0;
-    sample_count = 0;
-    sum = 0;
-    voltage *= 11*0.646616541;
-    // send voltage for display on Serial Monitor
-    // voltage multiplied by 11 when using voltage divider that
-    // divides by 11. 11.132 is the calibrated voltage divide
-    // value
-#if DEBUG
-    Serial.print(voltage);
-    Serial.println (" V");
-#endif    
 
-#if DEBUG_TO_SD
-    write_Text_To_Disk(" "+String(voltage)+"\n");
-#endif                             
+
+
+    //free memory
+    freeRam();
     //we finally hit the specified number of minutes to run, log & reset 
     timeCount = 0;
     temperature = getTemp();
     delay(5);
-
-    //temp, voltage
     append_Temp_To_Disk(temperature);
-    write_Text_To_Disk(" "+String(voltage)+"\n");
-    freeRam();
-    //free memory
-//    write_Text_To_Disk(", "+String(freeRam()) + "\n");
-#if DEBUG_TO_SD
-    write_Text_To_Disk(" "+String(voltage)+"\n");
-#endif
-    voltage = -5000;
+
     
 #if DEBUG
     Serial.println(temperature);
