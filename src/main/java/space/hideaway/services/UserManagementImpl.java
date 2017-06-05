@@ -54,7 +54,7 @@ public class UserManagementImpl implements UserService
     @Override
     public void update(User user)
     {
-        User oldUser = userRepository.findOne(user.getId());
+        User oldUser = userRepository.getOne(user.getId());//userRepository.findOne(user.getId());
 
         if (oldUser != null)
         {

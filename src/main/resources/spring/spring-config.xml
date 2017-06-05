@@ -76,6 +76,7 @@
         <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/**" access="permitAll()"/>
         <security:csrf disabled="true"/>
+        <security:headers disabled="true"/>
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
