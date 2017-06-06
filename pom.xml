@@ -6,7 +6,7 @@
     <groupId>com.cocotemp</groupId>
     <artifactId>cocotemp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>cocotemp</name>
     <description>Demo project for Spring Boot</description>
@@ -110,6 +110,7 @@
     </dependencies>
 
     <build>
+        <finalName>cocotemp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
