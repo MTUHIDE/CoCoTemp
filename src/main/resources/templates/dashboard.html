@@ -12,7 +12,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
-    <link rel="stylesheet" href="/sass/dashboard.css"/>
+    <link rel="stylesheet" th:href="@{/sass/dashboard.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
 
@@ -67,7 +67,7 @@
                                 Edit <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="/upload">Upload data</a></li>
+                                <li><a th:href="@{/upload}">Upload data</a></li>
                             </ul>
                         </div>
                         <div class="btn-group">
@@ -76,9 +76,9 @@
                                 Range <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="/dashboard?_range=week">Week</a></li>
-                                <li><a href="/dashboard?_range=month">Month</a></li>
-                                <li><a href="/dashboard?_range=year">Year</a></li>
+                                <li><a th:href="@{/dashboard?_range=week}">Week</a></li>
+                                <li><a th:href="@{/dashboard?_range=month}">Month</a></li>
+                                <li><a th:href="@{/dashboard?_range=year}">Year</a></li>
                             </ul>
                         </div>
                     </div>
@@ -104,8 +104,8 @@
                             Edit <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="/settings/new">Create a site</a></li>
-                            <li><a href="/settings">Edit settings</a></li>
+                            <li><a th:href="@{/settings/new}">Create a site</a></li>
+                            <li><a th:href="@{/settings}">Edit settings</a></li>
                         </ul>
                     </div>
                 </div>

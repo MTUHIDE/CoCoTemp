@@ -13,7 +13,7 @@
         <ul class="settings-list">
             <li class="settings-item">
                 <div class="settings-item-inner">
-                    <span><i class="fa fa-cog" aria-hidden="true"></i> <a href="/settings"> General</a></span>
+                    <span><i class="fa fa-cog" aria-hidden="true"></i> <a th:href="@{/settings}"> General</a></span>
                 </div>
             </li>
             <li>
@@ -26,13 +26,13 @@
                 <div class="settings-item-inner">
                     <span><i class="fa fa-thermometer-quarter" aria-hidden="true"></i> <a
                             th:text="*{site.getSiteName()}"
-                            th:href="*{'/settings/site?siteID=' + site.getId()}"></a></span>
+                            th:href="*{'/cocotemp/settings/site?siteID=' + site.getId()}"></a></span>
                 </div>
             </li>
             <li class="settings-item">
                 <div class="settings-item-inner">
                     <span><i class="fa fa-plus" aria-hidden="true"></i> <a
-                            href="/settings/new"> Create a new site</a></span>
+                            th:href="@{/settings/new}"> Create a new site</a></span>
                 </div>
             </li>
         </ul>

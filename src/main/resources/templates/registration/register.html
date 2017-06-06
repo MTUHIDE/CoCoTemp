@@ -4,7 +4,7 @@
     <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" th:href="@{sass/forms.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
 </head>
 <body>
 <div class="container-fluid">
@@ -16,7 +16,7 @@
             </div>
             <hr/>
             <div class="form-body">
-                <form action="register?_question" method="post" th:object="${user}">
+                <form th:action="@{/register?_question}" method="post" th:object="${user}">
                     <div class="form-group">
                         <label for="emailField">Email</label>
                         <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
