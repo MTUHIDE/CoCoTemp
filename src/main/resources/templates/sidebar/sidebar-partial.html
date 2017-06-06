@@ -6,7 +6,7 @@
 <div class="side-menu" th:fragment="sidebar (active)">
 
     <!--Partial CSS-->
-    <link rel="stylesheet" type="text/css" href="/sass/partial/sidebar-partial.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/partial/sidebar-partial.css}"/>
 
     <nav class="navbar navbar-default" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,7 +24,7 @@
 
                 <div class="brand-name-wrapper">
                     <a class="navbar-brand logo" href="/">
-                        <img src="/images/logo.png"/>
+                        <img th:src="@{/images/logo.png}"/>
                     </a>
                 </div>
 
@@ -68,7 +68,7 @@
     </nav>
     <div class="welcome" sec:authorize="isAuthenticated()">
         <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-        Hello, <b><span sec:authentication="name"></span></b> <a href="/settings"><span
+        Hello, <b><span sec:authentication="name"></span></b> <a th:href="@{/settings}"><span
             class="glyphicon glyphicon-cog"></span></a>
     </div>
 </div>

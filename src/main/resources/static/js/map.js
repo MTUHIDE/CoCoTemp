@@ -70,7 +70,7 @@ var onEachFeature = function (feature, layer) {
 
 $.ajax(
     {
-        url: '/sitePoints.json',
+        url: '/cocotemp/sitePoints.json',
         dataType: "json",
         method: "post",
         success: addPoints

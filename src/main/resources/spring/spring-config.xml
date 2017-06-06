@@ -12,7 +12,7 @@
     <mvc:resources mapping="/static/**" location="/static/"/>
     <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
 
-    <context:property-placeholder location="classpath:/spring/application.properties"/>
+    <context:property-placeholder location="classpath:/application.properties"/>
 
     <!--PERSISTENCE MANAGEMENT_______________________________________________________________________________________-->
     <jpa:repositories base-package="space.hideaway.repositories"/>

@@ -65,7 +65,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        var startURL = "/search?";
+        var startURL = "/cocotemp/search?";
 
 
         var $latitude = $latitudeField.val();

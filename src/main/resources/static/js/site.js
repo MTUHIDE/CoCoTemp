@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
     function populateChart() {
         var dates = [], temperature = [];
 
-        $.ajax("/site/" + siteID + "/temperature.json", {
+        $.ajax("/cocotemp/site/" + siteID + "/temperature.json", {
             method: 'post',
             success: function (data) {
                 var i = 0;
@@ -53,7 +53,7 @@ jQuery(document).ready(function () {
 
     function populateMap() {
 
-        $.ajax("/site/" + siteID + "/info.json", {
+        $.ajax("/cocotemp/site/" + siteID + "/info.json", {
             method: 'post',
             success: function (data) {
                 createMap(data)

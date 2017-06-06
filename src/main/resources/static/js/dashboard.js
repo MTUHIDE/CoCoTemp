@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
     function populateInfocards() {
         $.ajax({
             type: 'post',
-            url: '/dashboard/data.json',
+            url: '/cocotemp/dashboard/data.json',
             success: function (data) {
                 $('#site-count').text(data.siteCount);
                 $('#record-count').text(data.recordCount);
@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
 
         $.ajax({
             type: 'post',
-            url: '/history.json?_range=' + range,
+            url: '/cocotemp/history.json?_range=' + range,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].error === true) {
@@ -126,7 +126,7 @@ jQuery(document).ready(function () {
 
         $.ajax({
             type: 'post',
-            url: '/dashboard/sites.json',
+            url: '/cocotemp/dashboard/sites.json',
             success: function (data) {
                 if (data.length == 0) {
                     return;
@@ -134,7 +134,7 @@ jQuery(document).ready(function () {
                 function appendSite(data) {
                     var $site = $('#site-template').clone();
                     $site.attr({'id': ''});
-                    $site.find('.site-name').attr({'href': '/site/' + data.id}).text(data.siteName);
+                    $site.find('.site-name').attr({'href': '/cocotemp/site/' + data.id}).text(data.siteName);
 
                     var description = data.siteDescription;
                     var length = description.length;
