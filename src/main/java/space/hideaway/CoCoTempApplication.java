@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -26,6 +27,7 @@ import java.util.concurrent.Executor;
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")
 @EnableAsync
+@EnableScheduling
 public class CoCoTempApplication extends AsyncConfigurerSupport
 {
 
