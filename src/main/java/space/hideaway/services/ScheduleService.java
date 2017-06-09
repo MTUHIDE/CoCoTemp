@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import space.hideaway.model.Device;
 import space.hideaway.model.Site;
 import space.hideaway.model.User;
+import space.hideaway.repositories.DeviceRepository;
 import space.hideaway.repositories.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
@@ -25,10 +27,13 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final SiteRepository siteRepository;
 
+    private final DeviceRepository deviceRepository;
+
     @Autowired
-    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository){
+    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository, DeviceRepository deviceRepository){
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
+        this.deviceRepository = deviceRepository;
     }
 
     /**
@@ -43,6 +48,12 @@ public class ScheduleService {
         Site site = createSite(user, "test",10.1,11.1,"Test Site");
         userRepository.save(user);
         siteRepository.save(site);
+
+        //Testing device table will remove later
+        Device device = new Device();
+        device.setUserID(user.getId());
+        deviceRepository.save(device);
+
     }
 
     /**
