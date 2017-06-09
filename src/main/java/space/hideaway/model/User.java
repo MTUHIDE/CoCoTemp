@@ -45,6 +45,8 @@ public class User
 
     private Set<UploadHistory> uploadHistorySet;
 
+    private Set<Device> deviceSet;
+
     /**
      * Gets id.
      *
@@ -227,5 +229,17 @@ public class User
     public void setUploadHistorySet(Set<UploadHistory> uploadHistorySet)
     {
         this.uploadHistorySet = uploadHistorySet;
+    }
+
+    //---------------------------------------------------------------
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    public Set<Device> getDeviceSet() {
+        return deviceSet;
+    }
+
+    public void setDeviceSet(Set<Device> deviceSet) {
+        this.deviceSet = deviceSet;
     }
 }

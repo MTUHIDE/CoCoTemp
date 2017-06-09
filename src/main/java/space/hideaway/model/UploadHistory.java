@@ -49,6 +49,11 @@ public class UploadHistory
     @JsonProperty("error")
     boolean error;
 
+    private UUID deviceID;
+
+    @JsonIgnore
+    private Device device;
+
     /**
      * The Date time.
      */
@@ -243,5 +248,28 @@ public class UploadHistory
     public void setViewed(boolean viewed)
     {
         this.viewed = viewed;
+    }
+
+    //____________________________________________________________
+
+    @Column(name = "device_id", length = 16)
+    public UUID getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(UUID deviceID) {
+        this.siteID = deviceID;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "device_id", insertable = false, updatable = false)
+    public Device getDevice()
+    {
+        return device;
+    }
+
+    public void setDevice(Device device)
+    {
+        this.device = device;
     }
 }

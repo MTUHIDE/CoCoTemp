@@ -57,6 +57,9 @@ public class Site
     @JsonIgnore
     private List<SiteStatistics> siteStatisticsList;
 
+    @JsonIgnore
+    private Set<Device> deviceSet;
+
     /**
      * Instantiates a new Site.
      *
@@ -294,4 +297,15 @@ public class Site
     {
         this.siteLongitude = siteLongitude;
     }
+
+    //--------------------------------
+    @ManyToMany(mappedBy = "siteSet")
+    public Set<Device> getDeviceSet() {
+        return deviceSet;
+    }
+
+    public void setDeviceSet(Set<Device> deviceSet) {
+        this.deviceSet = deviceSet;
+    }
+
 }

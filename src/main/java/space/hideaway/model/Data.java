@@ -33,6 +33,11 @@ public class Data
     private double temperature;
 
 
+    private UUID deviceID;
+
+    @JsonIgnore
+    private Device device;
+
     /**
      * Instantiates a new Data.
      */
@@ -219,5 +224,29 @@ public class Data
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+
+    //____________________________________________________________
+
+    @Column(name = "device_id", length = 16)
+    public UUID getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(UUID deviceID) {
+        this.siteID = deviceID;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "device_id", insertable = false, updatable = false)
+    public Device getDevice()
+    {
+        return device;
+    }
+
+    public void setDevice(Device device)
+    {
+        this.device = device;
     }
 }
