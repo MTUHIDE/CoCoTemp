@@ -227,15 +227,13 @@ public class Data
     }
 
 
-    //____________________________________________________________
-
     @Column(name = "device_id", length = 16)
     public UUID getDeviceID() {
         return deviceID;
     }
 
     public void setDeviceID(UUID deviceID) {
-        this.siteID = deviceID;
+        this.deviceID = deviceID;
     }
 
     @ManyToOne()

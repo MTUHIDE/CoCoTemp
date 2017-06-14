@@ -231,7 +231,6 @@ public class User
         this.uploadHistorySet = uploadHistorySet;
     }
 
-    //---------------------------------------------------------------
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

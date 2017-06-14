@@ -15,12 +15,13 @@ import java.util.UUID;
 public class Device {
 
     private UUID id;
-    private Long userID;
+    private Long user_id;
     private User user;
     private Long manufacture_num;
     private String type;
 
-    private Set<Site> siteSet;
+    private Site site_id;
+
     private Set<Data> dataSet;
     private Set<UploadHistory> uploadHistories;
 
@@ -68,32 +69,30 @@ public class Device {
     //-------------------------------user_id-------------------------------------
 
     @Column(name = "user_id")
-    public Long getUserID() {
-        return userID;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     //---------------------------Associations------------------------------------
     //-------------------------------user----------------------------------------
 
-   @ManyToOne()
+    @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
     }
 
     //------------------------------data----------------------------------------
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id", updatable = false)
     public Set<Data> getDataSet() {
         return dataSet;
@@ -117,14 +116,13 @@ public class Device {
 
     //------------------------------device_site---------------------------------
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "device_site", joinColumns = @JoinColumn(name = "device_id"),
-            inverseJoinColumns = @JoinColumn(name = "site_id"))
-    public Set<Site> getSiteSet() {
-        return siteSet;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "device_site", joinColumns = @JoinColumn(name = "device_id"), inverseJoinColumns = @JoinColumn(name = "site_id"))
+    public Site getSite() {
+        return site_id;
     }
 
-    public void setSiteSet(Set<Site> siteSet) {
-        this.siteSet = siteSet;
+    public void setSite(Site site_id) {
+        this.site_id = site_id;
     }
 }

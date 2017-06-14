@@ -250,7 +250,6 @@ public class UploadHistory
         this.viewed = viewed;
     }
 
-    //____________________________________________________________
 
     @Column(name = "device_id", length = 16)
     public UUID getDeviceID() {
@@ -258,7 +257,7 @@ public class UploadHistory
     }
 
     public void setDeviceID(UUID deviceID) {
-        this.siteID = deviceID;
+        this.deviceID = deviceID;
     }
 
     @ManyToOne()

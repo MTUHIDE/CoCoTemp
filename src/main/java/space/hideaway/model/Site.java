@@ -298,8 +298,8 @@ public class Site
         this.siteLongitude = siteLongitude;
     }
 
-    //--------------------------------
-    @ManyToMany(mappedBy = "siteSet")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "site_id")
     public Set<Device> getDeviceSet() {
         return deviceSet;
     }

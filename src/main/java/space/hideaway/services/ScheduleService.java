@@ -27,13 +27,11 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final SiteRepository siteRepository;
 
-    private final DeviceRepository deviceRepository;
 
     @Autowired
-    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository, DeviceRepository deviceRepository){
+    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository){
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
-        this.deviceRepository = deviceRepository;
     }
 
     /**
@@ -46,13 +44,9 @@ public class ScheduleService {
         User user = createUser("TESTACC","password","Test@TEST.com","John",
                 "P","Doe", 1);
         Site site = createSite(user, "test",10.1,11.1,"Test Site");
+
         userRepository.save(user);
         siteRepository.save(site);
-
-        //Testing device table will remove later
-        Device device = new Device();
-        device.setUserID(user.getId());
-        deviceRepository.save(device);
 
     }
 
