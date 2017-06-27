@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Title</title>
+    <title>New Device</title>
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
 </head>
+
 <body>
 <div class="container-fluid">
     <div class="col-lg-5 col-lg-offset-4">
@@ -15,28 +17,31 @@
             <div class="form-header">
                 <h1>Create a new device</h1>
             </div>
+
             <div class="form-body">
                 <form th:action="@{/settings/new/device}" method="post">
                     <div class="form-group">
-                        <select name="siteID" class="selectpicker">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
-                            <option th:each="site : ${sites}" th:value="*{site.getId()}"
-                                    th:text="*{site.getSiteName()}"></option>
+                        <label for="siteID">Site</label>
+                        <select name="siteID" class="selectpicker" id="siteID">
+                            <option th:each="site : ${sites}"
+                                    th:value="*{site.getId()}"
+                                    th:text="*{site.getSiteName()}">
+                            </option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <select name="deviceType" class="selectpicker">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
-                            <option value="ibutton">iButton</option>
-                            <option value="other">Other</option>
+                        <label for="deviceType">Type</label>
+                        <select name="deviceType" class="selectpicker" id="deviceType">
+                            <option value="iButton">iButton</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="deviceID">Device ID</label>
-                        <input type="text" name="Manufacture_num" class="form-control" id="deviceID"
-                                  placeholder="Device ID"/>
+                        <label for="manufacture_num">Manufacture number</label>
+                        <input type="text" name="manufacture_num" class="form-control" id="manufacture_num"
+                                  placeholder="i.e. 123d124-d12344-wd3212"/>
                     </div>
 
                     <div class="form-group">
@@ -45,12 +50,12 @@
 
                 </form>
             </div>
+
         </div>
     </div>
 </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -74,7 +79,6 @@
     ga('send', 'pageview');
 
 </script>
-
 
 </body>
 </html>

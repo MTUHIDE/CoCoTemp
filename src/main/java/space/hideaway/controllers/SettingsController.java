@@ -14,6 +14,7 @@ import space.hideaway.model.Device;
 import space.hideaway.model.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
+import space.hideaway.services.DeviceService;
 import space.hideaway.services.SiteService;
 import space.hideaway.services.UserManagementImpl;
 import space.hideaway.validation.NewSiteValidator;
@@ -37,7 +38,8 @@ public class SettingsController
     NewSiteValidator siteValidator;
     private final
     SiteQuestionnaireValidator siteQuestionnaireValidator;
-    private final DeviceRepository deviceRepository;
+    private final
+    DeviceService deviceService;
     private final
     PersonalDetailsValidator personalDetailsValidator;
 
@@ -48,12 +50,12 @@ public class SettingsController
             NewSiteValidator siteValidator,
             SiteQuestionnaireValidator siteQuestionnaireValidator,
             PersonalDetailsValidator personalDetailsValidator,
-            DeviceRepository deviceRepository)
+            DeviceService deviceService)
     {
         this.userManagement = userManagement;
         this.siteService = siteService;
         this.siteValidator = siteValidator;
-        this.deviceRepository = deviceRepository;
+        this.deviceService = deviceService;
         this.siteQuestionnaireValidator = siteQuestionnaireValidator;
         this.personalDetailsValidator = personalDetailsValidator;
     }
@@ -99,6 +101,7 @@ public class SettingsController
         }
         model.addAttribute("sites", currentLoggedInUser.getSiteSet());
         model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
+        model.addAttribute("siteDevices", siteService.findByKey(siteID.toString()).getDeviceSet());
         return "settings/site";
     }
 
@@ -151,6 +154,8 @@ public class SettingsController
         return "redirect:/settings";
     }
 
+
+
     @RequestMapping(value = "/settings/new/device", method = RequestMethod.GET)
     public String newDevice(Model model){
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
@@ -161,17 +166,39 @@ public class SettingsController
     @RequestMapping(value = "/settings/new/device", method = RequestMethod.POST)
     public String addDevice(@RequestParam (value = "siteID") UUID siteID,
                             @RequestParam (value = "deviceType") String deviceType,
-                            @RequestParam (value = "Manufacture_num") String Manufacture_num){
+                            @RequestParam (value = "manufacture_num") String manufacture_num){
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
         Device device = new Device();
         device.setSiteID(siteID);
         device.setUserID(currentLoggedInUser.getId());
         device.setType(deviceType);
-        device.setManufacture_num(Manufacture_num);
-        deviceRepository.save(device);
+        device.setManufacture_num(manufacture_num);
+        deviceService.save(device);
         return "redirect:/settings";
     }
 
-    
+    @RequestMapping(value = "/settings/device", params = {"deviceID"})
+    public String loadDevice(Model model, @RequestParam("deviceID") UUID deviceID) {
+        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
+
+        if (!model.containsAttribute("device"))
+        {
+            model.addAttribute("device", deviceService.findByKey(deviceID.toString()));
+        }
+        model.addAttribute("sites", currentLoggedInUser.getSiteSet());
+        model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
+        return "settings/device";
+    }
+
+    @RequestMapping(value = "/settings/device/update", method = RequestMethod.POST)
+    public String updateDevice(
+            Model model,
+            @ModelAttribute("device") Device device)
+    {
+        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
+        device.setUserID(currentLoggedInUser.getId());
+        deviceService.save(device);
+        return "redirect:/settings/device?deviceID=" + device.getId().toString();
+    }
 
 }
