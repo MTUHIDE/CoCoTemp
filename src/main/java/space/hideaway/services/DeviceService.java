@@ -22,6 +22,10 @@ public class DeviceService {
         return device;
     }
 
+    public void delete(Device device) {
+        deviceRepository.deleteById(device.getId());
+    }
+
     public Device findByKey(String deviceID) {
         return deviceRepository.getOne(UUID.fromString(deviceID));
     }

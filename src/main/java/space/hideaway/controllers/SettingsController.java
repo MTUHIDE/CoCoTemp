@@ -39,8 +39,6 @@ public class SettingsController
     private final
     SiteQuestionnaireValidator siteQuestionnaireValidator;
     private final
-    DeviceService deviceService;
-    private final
     PersonalDetailsValidator personalDetailsValidator;
 
     @Autowired
@@ -49,13 +47,12 @@ public class SettingsController
             SiteService siteService,
             NewSiteValidator siteValidator,
             SiteQuestionnaireValidator siteQuestionnaireValidator,
-            PersonalDetailsValidator personalDetailsValidator,
-            DeviceService deviceService)
+            PersonalDetailsValidator personalDetailsValidator
+)
     {
         this.userManagement = userManagement;
         this.siteService = siteService;
         this.siteValidator = siteValidator;
-        this.deviceService = deviceService;
         this.siteQuestionnaireValidator = siteQuestionnaireValidator;
         this.personalDetailsValidator = personalDetailsValidator;
     }
@@ -152,53 +149,6 @@ public class SettingsController
         }
         userManagement.update(user);
         return "redirect:/settings";
-    }
-
-
-
-    @RequestMapping(value = "/settings/new/device", method = RequestMethod.GET)
-    public String newDevice(Model model){
-        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
-        model.addAttribute("sites", currentLoggedInUser.getSiteSet());
-        return "/newDevice";
-    }
-
-    @RequestMapping(value = "/settings/new/device", method = RequestMethod.POST)
-    public String addDevice(@RequestParam (value = "siteID") UUID siteID,
-                            @RequestParam (value = "deviceType") String deviceType,
-                            @RequestParam (value = "manufacture_num") String manufacture_num){
-        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
-        Device device = new Device();
-        device.setSiteID(siteID);
-        device.setUserID(currentLoggedInUser.getId());
-        device.setType(deviceType);
-        device.setManufacture_num(manufacture_num);
-        deviceService.save(device);
-        return "redirect:/settings";
-    }
-
-    @RequestMapping(value = "/settings/device", params = {"deviceID"})
-    public String loadDevice(Model model, @RequestParam("deviceID") UUID deviceID) {
-        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
-
-        if (!model.containsAttribute("device"))
-        {
-            model.addAttribute("device", deviceService.findByKey(deviceID.toString()));
-        }
-        model.addAttribute("sites", currentLoggedInUser.getSiteSet());
-        model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
-        return "settings/device";
-    }
-
-    @RequestMapping(value = "/settings/device/update", method = RequestMethod.POST)
-    public String updateDevice(
-            Model model,
-            @ModelAttribute("device") Device device)
-    {
-        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
-        device.setUserID(currentLoggedInUser.getId());
-        deviceService.save(device);
-        return "redirect:/settings/device?deviceID=" + device.getId().toString();
     }
 
 }
