@@ -1,5 +1,8 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -68,6 +71,7 @@ public class Device {
 
     //-------------------------------user_id-------------------------------------
 
+    @JsonIgnore
     @Column(name = "user_id")
     public Long getUserID() {
         return user_id;
@@ -92,6 +96,7 @@ public class Device {
     //---------------------------Associations------------------------------------
     //-------------------------------user----------------------------------------
 
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public User getUser() {
@@ -104,6 +109,7 @@ public class Device {
 
     //------------------------------data----------------------------------------
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id", updatable = false)
     public Set<Data> getDataSet() {
@@ -116,6 +122,7 @@ public class Device {
 
     //------------------------------uploadHistories-----------------------------
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id", updatable = false)
     public Set<UploadHistory> getUploadHistories() {
@@ -128,6 +135,7 @@ public class Device {
 
     //------------------------------site---------------------------------
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id", updatable = false, insertable = false)
     public Site getSite() {

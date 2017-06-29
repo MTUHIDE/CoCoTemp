@@ -2,6 +2,7 @@ package space.hideaway.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import space.hideaway.model.Device;
 import space.hideaway.model.Site;
 import space.hideaway.model.UploadHistory;
 import space.hideaway.model.User;
@@ -52,6 +53,12 @@ public class RESTService
         User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
         ArrayList<Site> siteList = new ArrayList<>(currentLoggedInUser.getSiteSet());
         return siteList.stream().sorted(Comparator.comparing(Site::getSiteName)).collect(Collectors.toList());
+    }
+
+    public List<Device> poplateDevices(){
+        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+        ArrayList<Device> deviceList = new ArrayList<>(currentLoggedInUser.getDeviceSet());
+        return deviceList.stream().sorted(Comparator.comparing(Device::getType)).collect(Collectors.toList());
     }
 
     public List<UploadHistory> getUploadHistory(HistoryUnit historyUnit)

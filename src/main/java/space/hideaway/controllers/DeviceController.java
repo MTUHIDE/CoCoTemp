@@ -34,6 +34,11 @@ public class DeviceController {
     public String loadDevice(Model model, @RequestParam("deviceID") UUID deviceID) {
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
 
+        if (!deviceService.isCorrectUser(currentLoggedInUser, deviceID.toString())) {
+            //TODO create this page for user has no access to site settings.
+            return "error/no-access";
+        }
+
         if (!model.containsAttribute("device"))
         {
             model.addAttribute("device", deviceService.findByKey(deviceID.toString()));
@@ -41,6 +46,20 @@ public class DeviceController {
         model.addAttribute("sites", currentLoggedInUser.getSiteSet());
         model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
         return "settings/device";
+    }
+
+    @RequestMapping(value = "/settings/device", params = {"update"}, method = RequestMethod.POST)
+    public String updateDevice(@ModelAttribute("device") Device device) {
+        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
+        device.setUserID(currentLoggedInUser.getId());
+        deviceService.save(device);
+        return "redirect:/settings/device?deviceID=" + device.getId().toString();
+    }
+
+    @RequestMapping(value = "/settings/device", params = {"delete"}, method = RequestMethod.POST)
+    public String deleteDevice(@ModelAttribute("device") Device device) {
+        deviceService.delete(device);
+        return "redirect:/settings/";
     }
 
     @RequestMapping(value = "/settings/device/new", method = RequestMethod.GET)
@@ -64,17 +83,5 @@ public class DeviceController {
         return "redirect:/settings";
     }
 
-    @RequestMapping(value = "/settings/device/update", params = {"update"}, method = RequestMethod.POST)
-    public String updateDevice(@ModelAttribute("device") Device device) {
-        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
-        device.setUserID(currentLoggedInUser.getId());
-        deviceService.save(device);
-        return "redirect:/settings/device?deviceID=" + device.getId().toString();
-    }
 
-    @RequestMapping(value = "/settings/device/update", params = {"delete"}, method = RequestMethod.POST)
-    public String deleteDevice(@ModelAttribute("device") Device device) {
-        deviceService.delete(device);
-        return "redirect:/settings/";
-    }
 }
