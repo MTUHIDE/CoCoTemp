@@ -48,6 +48,7 @@
                                     <label for="siteID" class="col-sm-2 control-label">Site</label>
                                     <div class="col-sm-10">
                                         <select name="siteID" class="selectpicker" id="siteID">
+                                            <option></option>
                                             <option th:each="site : ${sites}"
                                                     th:value="${site.getId()}"
                                                     th:text="${site.getSiteName()}">

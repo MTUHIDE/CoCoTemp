@@ -3,6 +3,7 @@ package space.hideaway.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DeviceService;
 import space.hideaway.services.UserManagementImpl;
+import space.hideaway.validation.NewDeviceValidator;
 
 import java.util.UUID;
 
@@ -23,9 +25,13 @@ public class DeviceController {
 
     private final UserManagementImpl userManagement;
     private final DeviceService deviceService;
+    private final NewDeviceValidator newDeviceValidator;
 
     @Autowired
-    public DeviceController(UserManagementImpl userManagement, DeviceService deviceService){
+    public DeviceController(UserManagementImpl userManagement,
+                            DeviceService deviceService,
+                            NewDeviceValidator newDeviceValidator){
+        this.newDeviceValidator = newDeviceValidator;
         this.deviceService = deviceService;
         this.userManagement = userManagement;
     }
@@ -75,10 +81,12 @@ public class DeviceController {
                             @RequestParam (value = "manufacture_num") String manufacture_num){
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
         Device device = new Device();
+
         device.setSiteID(siteID);
         device.setUserID(currentLoggedInUser.getId());
         device.setType(deviceType);
         device.setManufacture_num(manufacture_num);
+
         deviceService.save(device);
         return "redirect:/settings";
     }

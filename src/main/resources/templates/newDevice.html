@@ -23,6 +23,7 @@
                     <div class="form-group">
                         <label for="siteID">Site</label>
                         <select name="siteID" class="selectpicker" id="siteID">
+                            <option></option>
                             <option th:each="site : ${sites}"
                                     th:value="*{site.getId()}"
                                     th:text="*{site.getSiteName()}">
@@ -32,16 +33,19 @@
 
                     <div class="form-group">
                         <label for="deviceType">Type</label>
-                        <select name="deviceType" class="selectpicker" id="deviceType">
+                        <select name="deviceType" class="selectpicker" id="deviceType"
+                                onchange="showField(this.options[this.selectedIndex].value)">
                             <option value="iButton">iButton</option>
                             <option value="Other">Other</option>
                         </select>
                     </div>
 
+                    <div id="otherText"></div>
+
                     <div class="form-group">
                         <label for="manufacture_num">Manufacture number</label>
                         <input type="text" name="manufacture_num" class="form-control" id="manufacture_num"
-                                  placeholder="i.e. 123d124-d12344-wd3212"/>
+                                  placeholder="E.g. 3B00000033B76441"/>
                     </div>
 
                     <div class="form-group">
@@ -54,6 +58,14 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function showField(name){
+        if(name=='Other')document.getElementById('otherText').innerHTML='<div class="form-group"><label for="otherType">Device name</label><input type="text" name="otherType" class="form-control" id="otherType" placeholder="E.g. Arduino"/></div>';
+        else document.getElementById('otherText').innerHTML='';
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
