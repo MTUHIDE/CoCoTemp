@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>New Device</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="col-lg-5 col-lg-offset-4">
+
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Create a new device</h1>
+            </div>
+
+            <div class="form-body">
+                <form th:action="@{/settings/device/new}" method="post">
+                    <div class="form-group">
+                        <label for="siteID">Site</label>
+                        <select name="siteID" class="selectpicker" id="siteID">
+                            <option></option>
+                            <option th:each="site : ${sites}"
+                                    th:value="*{site.getId()}"
+                                    th:text="*{site.getSiteName()}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deviceType">Type</label>
+                        <select name="deviceType" class="selectpicker" id="deviceType"
+                                onchange="showField(this.options[this.selectedIndex].value)">
+                            <option value="iButton">iButton</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div id="otherText"></div>
+
+                    <div class="form-group">
+                        <label for="manufacture_num">Manufacture number</label>
+                        <input type="text" name="manufacture_num" class="form-control" id="manufacture_num"
+                                  placeholder="E.g. 3B00000033B76441"/>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-success" type="submit">Save</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function showField(name){
+        if(name=='Other')document.getElementById('otherText').innerHTML='<div class="form-group"><label for="otherType">Device name</label><input type="text" name="otherType" class="form-control" id="otherType" placeholder="E.g. Arduino"/></div>';
+        else document.getElementById('otherText').innerHTML='';
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-89087341-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

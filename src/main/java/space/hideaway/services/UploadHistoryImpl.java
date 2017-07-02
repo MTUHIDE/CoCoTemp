@@ -40,7 +40,7 @@ public class UploadHistoryImpl implements UploadHistoryService {
      */
     @Override
     public UploadHistory setViewed(UUID id) {
-        UploadHistory one = uploadHistoryRepository.getOne(id);//uploadHistoryRepository.findOne(id);
+        UploadHistory one = uploadHistoryRepository.getOne(id);
         one.setViewed(true);
         uploadHistoryRepository.save(one);
         return one;

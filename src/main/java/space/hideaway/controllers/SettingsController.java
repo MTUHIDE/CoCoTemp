@@ -8,15 +8,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import space.hideaway.model.Device;
 import space.hideaway.model.Site;
 import space.hideaway.model.User;
+import space.hideaway.repositories.DeviceRepository;
+import space.hideaway.services.DeviceService;
 import space.hideaway.services.SiteService;
 import space.hideaway.services.UserManagementImpl;
 import space.hideaway.validation.NewSiteValidator;
 import space.hideaway.validation.PersonalDetailsValidator;
 import space.hideaway.validation.SiteQuestionnaireValidator;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -29,12 +34,10 @@ public class SettingsController
     UserManagementImpl userManagement;
     private final
     SiteService siteService;
-
     private final
     NewSiteValidator siteValidator;
     private final
     SiteQuestionnaireValidator siteQuestionnaireValidator;
-
     private final
     PersonalDetailsValidator personalDetailsValidator;
 
@@ -44,7 +47,8 @@ public class SettingsController
             SiteService siteService,
             NewSiteValidator siteValidator,
             SiteQuestionnaireValidator siteQuestionnaireValidator,
-            PersonalDetailsValidator personalDetailsValidator)
+            PersonalDetailsValidator personalDetailsValidator
+)
     {
         this.userManagement = userManagement;
         this.siteService = siteService;
@@ -66,6 +70,7 @@ public class SettingsController
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
         model.addAttribute("user", currentLoggedInUser);
         model.addAttribute("sites", currentLoggedInUser.getSiteSet());
+        model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
         return "settings/general";
     }
 
@@ -91,8 +96,9 @@ public class SettingsController
         {
             model.addAttribute("site", siteService.findByKey(siteID.toString()));
         }
-
         model.addAttribute("sites", currentLoggedInUser.getSiteSet());
+        model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
+        model.addAttribute("siteDevices", siteService.findByKey(siteID.toString()).getDeviceSet());
         return "settings/site";
     }
 
@@ -138,9 +144,11 @@ public class SettingsController
         {
             User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
             model.addAttribute("sites", currentLoggedInUser.getSiteSet());
+            model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
             return "settings/general";
         }
         userManagement.update(user);
         return "redirect:/settings";
     }
+
 }

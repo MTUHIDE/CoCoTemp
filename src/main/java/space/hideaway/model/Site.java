@@ -299,7 +299,7 @@ public class Site
     }
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "site_id")
+    @JoinColumn(name = "site_id", updatable = false)
     public Set<Device> getDeviceSet() {
         return deviceSet;
     }

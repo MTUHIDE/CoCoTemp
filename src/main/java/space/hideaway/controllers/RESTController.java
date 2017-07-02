@@ -3,6 +3,7 @@ package space.hideaway.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Data;
+import space.hideaway.model.Device;
 import space.hideaway.model.Site;
 import space.hideaway.model.UploadHistory;
 import space.hideaway.model.json.InfoCardSerializer;
@@ -118,6 +119,31 @@ public class RESTController
     List<Site> populatesites()
     {
         return restService.populateSites();
+    }
+
+    /**
+     * Obtain a list of devices for the currently logged in user.
+     * Authenticated: Yes
+     * Method: POST
+     * <p>
+     * Sample URL: /dashboard/devices.json
+     * <p>
+     * Sample Response
+     *
+     * [
+     * {
+     * "id": "683e3aad-91d7-4446-8fcb-476100b0e295",
+     * "manufacture_num": "123548",
+     * "type": "iButton",
+     * "siteID": "0cb903f0-5877-4dbb-8d13-cd985079210d",
+     * }
+     * ]
+     *
+     * @return @see the sample response above.
+     */
+    @RequestMapping(value = "/dashboard/devices.json", method = RequestMethod.POST)
+    public @ResponseBody List<Device> populateDevices(){
+        return restService.poplateDevices();
     }
 
     /**

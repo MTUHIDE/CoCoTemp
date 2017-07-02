@@ -1,26 +1,29 @@
 package space.hideaway.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by Justin on 6/8/2017.
- */
 
 @Entity
 @Table(name = "device")
 public class Device {
 
     private UUID id;
+
     private Long user_id;
     private User user;
-    private Long manufacture_num;
+
+    private String manufacture_num;
     private String type;
 
-    private Site site_id;
+    private UUID site_id;
+    private Site site;
 
     private Set<Data> dataSet;
     private Set<UploadHistory> uploadHistories;
@@ -47,11 +50,11 @@ public class Device {
     //--------------------------manufacture_num----------------------------------
 
     @Column(name = "manufacture_num")
-    public Long getManufacture_num(){
+    public String getManufacture_num(){
         return manufacture_num;
     }
 
-    public void setManufacture_num(Long manufacture_num){
+    public void setManufacture_num(String manufacture_num){
         this.manufacture_num = manufacture_num;
     }
 
@@ -68,18 +71,32 @@ public class Device {
 
     //-------------------------------user_id-------------------------------------
 
+    @JsonIgnore
     @Column(name = "user_id")
-    public Long getUser_id() {
+    public Long getUserID() {
         return user_id;
     }
 
-    public void setUser_id(Long user_id) {
+    public void setUserID(Long user_id) {
         this.user_id = user_id;
+    }
+
+
+    //-------------------------------site_id-------------------------------------
+
+    @Column(name = "site_id", length = 16)
+    public UUID getSiteID() {
+        return site_id;
+    }
+
+    public void setSiteID(UUID site_id) {
+        this.site_id = site_id;
     }
 
     //---------------------------Associations------------------------------------
     //-------------------------------user----------------------------------------
 
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public User getUser() {
@@ -92,6 +109,7 @@ public class Device {
 
     //------------------------------data----------------------------------------
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id", updatable = false)
     public Set<Data> getDataSet() {
@@ -104,6 +122,7 @@ public class Device {
 
     //------------------------------uploadHistories-----------------------------
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id", updatable = false)
     public Set<UploadHistory> getUploadHistories() {
@@ -114,15 +133,16 @@ public class Device {
         this.uploadHistories = uploadHistories;
     }
 
-    //------------------------------device_site---------------------------------
+    //------------------------------site---------------------------------
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "device_site", joinColumns = @JoinColumn(name = "device_id"), inverseJoinColumns = @JoinColumn(name = "site_id"))
+    @JoinColumn(name = "site_id", updatable = false, insertable = false)
     public Site getSite() {
-        return site_id;
+        return site;
     }
 
-    public void setSite(Site site_id) {
-        this.site_id = site_id;
+    public void setSite(Site site) {
+        this.site = site;
     }
 }

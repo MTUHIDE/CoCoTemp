@@ -3,7 +3,6 @@
 <head>
     <title>Dashboard</title>
 
-    <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
@@ -15,15 +14,13 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
     <link rel="stylesheet" th:href="@{/sass/settings.css}"/>
-
-
 </head>
+
 <body>
 <div class="row">
 
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='')"></div>
-
 
     <!-- Main Content -->
     <div class="container-fluid">
@@ -31,13 +28,16 @@
         <div class="side-body">
 
             <div class="row settings-body">
+
                 <div class="col-lg-3">
                     <div th:replace="settings/settings-partial :: settings-partial"></div>
                 </div>
+
                 <div class="col-lg-9 ">
                     <div class="settings-header">
                         <h1 th:inline="text">[[${site.getSiteName()}]] Settings</h1>
                     </div>
+
                     <div class="row">
                         <div class="col-lg-12">
                             <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
@@ -89,6 +89,31 @@
                                 </div>
                             </form>
                         </div>
+                    </div>
+
+                    <div class="settings-header">
+                        <h1 th:inline="text">[[${site.getSiteName()}]] Devices</h1>
+                    </div>
+                    <div>
+                        <ul class="settings-list">
+                            <li th:each="device : ${siteDevices}" class="settings-item">
+                                <div class="settings-item-inner">
+                                    <span><i class="fa fa-thermometer-quarter" aria-hidden="true"></i>
+                                        <a th:text="*{device.getType()} + ':' + *{device.getManufacture_num()}"
+                                           th:href="*{'/cocotemp/settings/device?deviceID=' + device.getId()}">
+                                        </a>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="settings-item">
+                                <div class="settings-item-inner">
+                                    <span>
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        <a th:href="@{/settings/device/new}"> Create a new device</a>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
 
                 </div>
