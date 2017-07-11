@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import space.hideaway.model.Device;
+import space.hideaway.model.Site;
 import space.hideaway.model.User;
 import space.hideaway.services.DeviceService;
 import space.hideaway.services.UserManagementImpl;
@@ -72,20 +73,14 @@ public class DeviceController {
     public String newDevice(Model model){
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
         model.addAttribute("sites", currentLoggedInUser.getSiteSet());
+        model.addAttribute("device", new Device());
         return "/newDevice";
     }
 
     @RequestMapping(value = "/settings/device/new", method = RequestMethod.POST)
-    public String addDevice(@RequestParam (value = "siteID") UUID siteID,
-                            @RequestParam (value = "deviceType") String deviceType,
-                            @RequestParam (value = "manufacture_num") String manufacture_num){
+    public String addDevice(@ModelAttribute("device") Device device){
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
-        Device device = new Device();
-
-        device.setSiteID(siteID);
         device.setUserID(currentLoggedInUser.getId());
-        device.setType(deviceType);
-        device.setManufacture_num(manufacture_num);
 
         deviceService.save(device);
         return "redirect:/settings";
