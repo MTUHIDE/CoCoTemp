@@ -83,8 +83,27 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button id="update" name="update" type="submit"
                                                 class="btn btn-default" th:value="update">Update</button>
-                                        <button id="delete" name="delete" type="submit"
-                                                class="btn btn-danger" th:value="delete">Delete</button>
+                                        <button type="button" class="btn btn-danger"
+                                                data-toggle="modal" data-target="#myModal">Delete</button>
+
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete this device?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="delete" name="delete" type="submit"
+                                                                class="btn btn-danger" th:value="delete">Delete</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -92,6 +111,8 @@
 
                         </div>
                     </div>
+
+
 
                 </div>
 
