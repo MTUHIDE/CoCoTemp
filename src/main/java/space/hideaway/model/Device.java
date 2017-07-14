@@ -22,7 +22,7 @@ public class Device {
     private String manufacture_num;
     private String type;
 
-    private UUID site_id;
+    private UUID siteID;
     private Site site;
 
     private Set<Data> dataSet;
@@ -84,13 +84,13 @@ public class Device {
 
     //-------------------------------site_id-------------------------------------
 
-    @Column(name = "site_id", length = 16)
+    @Column(name = "site_id")
     public UUID getSiteID() {
-        return site_id;
+        return siteID;
     }
 
-    public void setSiteID(UUID site_id) {
-        this.site_id = site_id;
+    public void setSiteID(UUID siteID) {
+        this.siteID = siteID;
     }
 
     //---------------------------Associations------------------------------------

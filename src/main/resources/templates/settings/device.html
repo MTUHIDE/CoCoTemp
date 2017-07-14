@@ -47,8 +47,8 @@
                                 <div class="form-group">
                                     <label for="siteID" class="col-sm-2 control-label">Site</label>
                                     <div class="col-sm-10">
-                                        <select name="siteID" class="selectpicker" id="siteID">
-                                            <option></option>
+                                        <select name="siteID" class="selectpicker" id="siteID" th:field="*{siteID}">
+                                            <option value=""></option>
                                             <option th:each="site : ${sites}"
                                                     th:value="${site.getId()}"
                                                     th:text="${site.getSiteName()}">
@@ -60,12 +60,16 @@
                                 <div class="form-group">
                                     <label for="deviceType" class="col-sm-2 control-label">Type</label>
                                     <div class="col-sm-10">
-                                        <select name="deviceType" class="selectpicker" id="deviceType" th:field="*{type}">
+                                        <select name="deviceType" class="selectpicker" id="deviceType"
+                                                onchange="showField(this.options[this.selectedIndex].value)"
+                                                th:field="*{type}">
                                             <option value="iButton">iButton</option>
                                             <option value="Other">Other</option>
                                         </select>
                                     </div>
                                 </div>
+
+                                <!--div id="otherText"></div-->
 
                                 <div class="form-group">
                                     <label for="manufacture_num" class="col-sm-2 control-label">Manufacture number</label>
@@ -77,8 +81,29 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button id="update" name="update" type="submit" class="btn btn-default" th:value="update">Update</button>
-                                        <button id="delete" name="delete" type="submit" class="btn btn-danger" th:value="delete">Delete</button>
+                                        <button id="update" name="update" type="submit"
+                                                class="btn btn-default" th:value="update">Update</button>
+                                        <button type="button" class="btn btn-danger"
+                                                data-toggle="modal" data-target="#myModal">Delete</button>
+
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete this device?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="delete" name="delete" type="submit"
+                                                                class="btn btn-danger" th:value="delete">Delete</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -87,6 +112,8 @@
                         </div>
                     </div>
 
+
+
                 </div>
 
             </div>
@@ -94,6 +121,17 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    function showField(name){
+        if(name=='Other')document.getElementById('otherText').innerHTML=
+            '<div class="form-group">' +
+            '<label for="otherType">Device name</label>' +
+            '<input type="text" name="otherType" class="form-control" id="otherType" placeholder="E.g. Arduino"/>' +
+            '</div>';
+        else document.getElementById('otherText').innerHTML='';
+    }
+</script>
 
 <script src="//code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
