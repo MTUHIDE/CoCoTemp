@@ -4,10 +4,10 @@
     <title>CoCoTemp Home</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/index.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/modal.css}"/>
-    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
 </head>
 <body>
 <div class="row">
@@ -16,8 +16,41 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
+
             <div class="row">
-                <div class="col-lg-12 searchbar-container">
+                <div class="site-header">
+                    <h1 class="text-center">Welcome to CoCo Temp</h1>
+                </div>
+                <p class="col-lg-12"> Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Ut a posuere turpis.
+                    Praesent non lectus sed lorem efficitur dictum.
+                    Maecenas iaculis ante cursus interdum commodo.
+                    Suspendisse id mauris ex.
+                    Cum sociis natoque penatibus et magnis dis parturient montes,
+                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
+                    Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum,
+                    eget consequat nulla placerat. Sed fringilla fermentum erat, quis cursus est
+                    hendrerit nec. Pellentesque risus metus,
+                    vehicula ut dui vehicula, egestas euismod augue.
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Ut a posuere turpis.
+                    Praesent non lectus sed lorem efficitur dictum.
+                    Maecenas iaculis ante cursus interdum commodo.
+                    Suspendisse id mauris ex.
+                    Cum sociis natoque penatibus et magnis dis parturient montes,
+                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
+                    Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum,
+                    eget consequat nulla placerat. Sed fringilla fermentum erat, quis cursus est
+                    hendrerit nec. Pellentesque risus metus,
+                    vehicula ut dui vehicula, egestas euismod augue.
+                </p>
+            </div>
+
+            <div class="row">
+                <div class="seperator-header">
+                    <h1>Community Site Map</h1>
+                </div>
+                <div class="searchbar-container">
                     <div class="row searchbar">
                         <!--/*@thymesVar id="searchString" type="java.lang.String"*/-->
                         <!--/*@thymesVar id="searchModel" type="space.hideaway.model.SearchModel"*/-->
@@ -33,7 +66,64 @@
                         </form>
                     </div>
                 </div>
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="seperator-header">
+                    <h1>News</h1>
+                </div>
+                <ul class="news-list">
+                    <li class="news-item">
+                        <div class="row news">
+                            <article class="col-lg-12">
+                                <h3 class="news-name">Test Post</h3>
+                                <h4>7/15/16</h4>
+                                <p class="news-text">
+                                    Lorem ipsum dolor sit amet,
+                                    consectetur adipiscing elit. Ut a posuere turpis.
+                                    Praesent non lectus sed lorem efficitur dictum.
+                                    Maecenas iaculis ante cursus interdum commodo.
+                                    Suspendisse id mauris ex.
+                                    Cum sociis natoque penatibus et magnis dis parturient montes,
+                                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
+                                    Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum,
+                                    eget consequat nulla placerat. Sed fringilla fermentum erat, quis cursus est
+                                    hendrerit nec. Pellentesque risus metus,
+                                    vehicula ut dui vehicula, egestas euismod augue.
+                                </p>
+                            </article>
+                        </div>
+                    </li>
+                    <li class="news-item">
+                        <div class="row news">
+                            <article class="col-lg-12">
+                                <h3 class="news-name">Test Post 2</h3>
+                                <h4>7/14/16</h4>
+                                <p class="news-text">
+                                    Praesent non lectus sed lorem efficitur dictum.
+                                    Maecenas iaculis ante cursus interdum commodo.
+                                    Suspendisse id mauris ex.
+                                    Lorem ipsum dolor sit amet,
+                                    consectetur adipiscing elit. Ut a posuere turpis.
+                                    Cum sociis natoque penatibus et magnis dis parturient montes,
+                                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
+                                    Donec sodales faucibus malesuada. Sed fringilla fermentum erat, quis cursus est
+                                    hendrerit nec. Pellentesque risus metus,
+                                    vehicula ut dui vehicula, egestas euismod augue. Ut a posuere turpis.
+                                    Praesent non lectus sed lorem efficitur dictum.
+                                    Maecenas iaculis ante cursus interdum commodo.
+                                    Suspendisse id mauris ex.
+                                </p>
+                            </article>
+                        </div>
+                    </li>
+                </ul>
+                <a class="col-lg-12">Older Posts</a>
+            </div>
+
         </div>
     </div>
 </div>
@@ -44,8 +134,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<!--<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>-->
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/map.js}"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {
