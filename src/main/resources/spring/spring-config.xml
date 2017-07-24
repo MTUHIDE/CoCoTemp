@@ -72,6 +72,7 @@
         <security:form-login login-page="/login" authentication-failure-url="/login?_error"/>
         <security:intercept-url pattern="/upload/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/news_post" access="isAuthenticated()"/> <!-->TODO change to admin only<-->
         <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/**" access="permitAll()"/>

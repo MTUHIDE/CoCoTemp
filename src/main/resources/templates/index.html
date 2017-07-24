@@ -20,30 +20,19 @@
             <div class="row">
                 <div class="site-header">
                     <h1 class="text-center">Welcome to CoCo Temp</h1>
+                    <p class="text-center">"An ever growing source of microclimate data"</p>
+                    <p>
+                        Community Collaborative Temperature (CoCo Temp) project is the collaboration of volunteers who's
+                        aim is to map and record microclimate data. Our mission is to provide meaningful insight of the
+                        environment around homes and cities, for the purpose of education and research. This is
+                        accomplish by the use of simple and inexpensive tools, in conjunction with public, interactive
+                        sources of data.<br><br>
+                        If you are interested in joining the CoCo Temp team the only requirement to participate is zest
+                        for climatology. In turn you will be help us learn the impacts of weather on our daily lives.
+                        To get started create an <a th:href="@{/register}">account</a> and follow the getting started
+                        guide.<br><br>
+                    </p>
                 </div>
-                <p class="col-lg-12"> Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Ut a posuere turpis.
-                    Praesent non lectus sed lorem efficitur dictum.
-                    Maecenas iaculis ante cursus interdum commodo.
-                    Suspendisse id mauris ex.
-                    Cum sociis natoque penatibus et magnis dis parturient montes,
-                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
-                    Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum,
-                    eget consequat nulla placerat. Sed fringilla fermentum erat, quis cursus est
-                    hendrerit nec. Pellentesque risus metus,
-                    vehicula ut dui vehicula, egestas euismod augue.
-                    Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Ut a posuere turpis.
-                    Praesent non lectus sed lorem efficitur dictum.
-                    Maecenas iaculis ante cursus interdum commodo.
-                    Suspendisse id mauris ex.
-                    Cum sociis natoque penatibus et magnis dis parturient montes,
-                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
-                    Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum,
-                    eget consequat nulla placerat. Sed fringilla fermentum erat, quis cursus est
-                    hendrerit nec. Pellentesque risus metus,
-                    vehicula ut dui vehicula, egestas euismod augue.
-                </p>
             </div>
 
             <div class="row">
@@ -76,52 +65,21 @@
                     <h1>News</h1>
                 </div>
                 <ul class="news-list">
-                    <li class="news-item">
+                    <li th:each="article : ${articles}" class="news-item" >
                         <div class="row news">
                             <article class="col-lg-12">
-                                <h3 class="news-name">Test Post</h3>
-                                <h4>7/15/16</h4>
-                                <p class="news-text">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Ut a posuere turpis.
-                                    Praesent non lectus sed lorem efficitur dictum.
-                                    Maecenas iaculis ante cursus interdum commodo.
-                                    Suspendisse id mauris ex.
-                                    Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
-                                    Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum,
-                                    eget consequat nulla placerat. Sed fringilla fermentum erat, quis cursus est
-                                    hendrerit nec. Pellentesque risus metus,
-                                    vehicula ut dui vehicula, egestas euismod augue.
-                                </p>
-                            </article>
-                        </div>
-                    </li>
-                    <li class="news-item">
-                        <div class="row news">
-                            <article class="col-lg-12">
-                                <h3 class="news-name">Test Post 2</h3>
-                                <h4>7/14/16</h4>
-                                <p class="news-text">
-                                    Praesent non lectus sed lorem efficitur dictum.
-                                    Maecenas iaculis ante cursus interdum commodo.
-                                    Suspendisse id mauris ex.
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Ut a posuere turpis.
-                                    Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec id tristique nisi, nec elementum elit.
-                                    Donec sodales faucibus malesuada. Sed fringilla fermentum erat, quis cursus est
-                                    hendrerit nec. Pellentesque risus metus,
-                                    vehicula ut dui vehicula, egestas euismod augue. Ut a posuere turpis.
-                                    Praesent non lectus sed lorem efficitur dictum.
-                                    Maecenas iaculis ante cursus interdum commodo.
-                                    Suspendisse id mauris ex.
-                                </p>
+                                <h4 class="news-name" th:inline="text">
+                                    [[*{article.getTitle()}]]
+                                    <small th:text="*{#strings.substringBefore(article.getDateTime(),' ')}"></small>
+                                </h4>
+                                <p th:utext="*{article.getContent()}" class="bs-callout bs-callout-info"></p>
                             </article>
                         </div>
                     </li>
                 </ul>
-                <a class="col-lg-12">Older Posts</a>
+                <div class="col-md-2 col-md-offset-5">
+                    <a class="btn btn-primary" href="#">Older Posts</a>
+                </div>
             </div>
 
         </div>
@@ -136,7 +94,6 @@
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script th:src="@{/js/index.js}"></script>
-<script th:src="@{/js/map.js}"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {

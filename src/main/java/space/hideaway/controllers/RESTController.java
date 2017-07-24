@@ -227,7 +227,7 @@ public class RESTController
     }
 
 
-    @RequestMapping(value = "/sitePoints.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/sites.json", method = RequestMethod.POST)
     public @ResponseBody List<Site> getSitePoints() {
         return siteService.getAllSites();
     }

@@ -22,7 +22,8 @@ jQuery(document).ready(function () {
 
         var marker = new google.maps.Marker({
             map: map,
-            anchorPoint: new google.maps.Point(0, -29)
+            anchorPoint: new google.maps.Point(0, -29),
+            draggable:true
         });
 
         var $locateButton = $('#locateButton');
