@@ -51,8 +51,9 @@ public class DashboardController
     {
         //Obtain the logged in user.
         User user = userManagementImpl.getCurrentLoggedInUser();
-        model.addAttribute("greeting", "Hello, " + user.getFirstName());
-
+        model.addAttribute("greeting", "Hello, " + user.getUsername());
+        model.addAttribute("sites", user.getSiteSet());
+        model.addAttribute("devices", user.getDeviceSet());
         //Refers to dashboard.html.
         return "dashboard";
     }

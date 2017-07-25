@@ -70,7 +70,7 @@ public class RouteController
     /**
      * The endpoint for the news post page.
      * Secured: yes
-     * Method: GET
+     * Method: Post
      * <p>
      * Sample URL: /news_post
      *

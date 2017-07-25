@@ -46,4 +46,9 @@ public class DeviceService {
 
         return found;
     }
+
+    public Long countByUserID(User currentLoggedInUser)
+    {
+        return deviceRepository.countByUserID(currentLoggedInUser.getId());
+    }
 }

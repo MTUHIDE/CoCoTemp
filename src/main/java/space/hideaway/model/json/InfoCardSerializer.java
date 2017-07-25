@@ -8,6 +8,7 @@ public class InfoCardSerializer
     Long siteCount;
     Long recordCount;
     Long uploadCount;
+    Long deviceCount;
 
     public Long getSiteCount()
     {
@@ -38,4 +39,8 @@ public class InfoCardSerializer
     {
         this.uploadCount = uploadCount;
     }
+
+    public Long getDeviceCount() {return deviceCount; }
+
+    public void setDeviceCount(Long deviceCount) {this.deviceCount = deviceCount; }
 }

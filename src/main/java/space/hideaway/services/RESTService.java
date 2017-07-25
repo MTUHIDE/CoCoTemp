@@ -23,6 +23,7 @@ public class RESTService
     private final SiteServiceImplementation siteServiceImplementation;
     private final UserManagementImpl userManagementImpl;
     private final UploadHistoryService uploadHistoryService;
+    private final DeviceService deviceService;
 
 
     @Autowired
@@ -30,12 +31,14 @@ public class RESTService
             SiteServiceImplementation siteServiceImplementation,
             UserManagementImpl userManagementImpl,
             DataServiceImplementation dataServiceImplementation,
-            UploadHistoryService uploadHistoryService)
+            UploadHistoryService uploadHistoryService,
+            DeviceService deviceService)
     {
         this.siteServiceImplementation = siteServiceImplementation;
         this.dataServiceImplementation = dataServiceImplementation;
         this.userManagementImpl = userManagementImpl;
         this.uploadHistoryService = uploadHistoryService;
+        this.deviceService = deviceService;
     }
 
     public InfoCardSerializer populateInfocards()
@@ -45,6 +48,7 @@ public class RESTService
         infoCardSerializer.setSiteCount(siteServiceImplementation.countByUserID(currentLoggedInUser));
         infoCardSerializer.setRecordCount(dataServiceImplementation.countByUserID(currentLoggedInUser));
         infoCardSerializer.setUploadCount(uploadHistoryService.countByUserID(currentLoggedInUser));
+        infoCardSerializer.setDeviceCount(deviceService.countByUserID(currentLoggedInUser));
         return infoCardSerializer;
     }
 
