@@ -57,7 +57,6 @@ public class Site
     @JsonIgnore
     private List<SiteStatistics> siteStatisticsList;
 
-    //@JsonIgnore
     private Set<Device> deviceSet;
 
     /**

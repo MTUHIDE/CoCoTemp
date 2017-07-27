@@ -1,4 +1,4 @@
-jQuery(document).ready(function () {
+$(function () {
 
     var myMap;
 
@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
         });
     }
 
-    function populateMap() {
+    function createMap() {
         myMap = L.map('map').setView([51.505, -0.09], 13);
         L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -33,8 +33,8 @@ jQuery(document).ready(function () {
         var siteMarkers = [];
 
         $.ajax({
-            type: 'post',
-            url: '/cocotemp/sites.json',
+            method: 'post',
+            url: '/cocotemp/dashboard/sites.json',
             success: function (data) {
                 if (data.length == 0) {
                     return;
@@ -57,7 +57,7 @@ jQuery(document).ready(function () {
         });
     }
 
-    _.defer(populateMap);
+    _.defer(createMap);
     _.defer(populateInfocards);
     _.defer(populateSites);
 });

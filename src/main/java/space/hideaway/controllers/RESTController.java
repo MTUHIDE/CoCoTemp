@@ -13,8 +13,6 @@ import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
 import java.util.List;
-import java.util.Set;
-
 
 @RestController
 public class RESTController
