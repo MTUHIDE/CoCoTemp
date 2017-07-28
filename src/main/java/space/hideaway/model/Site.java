@@ -34,6 +34,9 @@ public class Site
     @IndexedEmbedded
     private User user;
 
+    private Globe globe;
+    private UUID globe_id;
+
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String siteName;
 
@@ -124,6 +127,36 @@ public class Site
     {
         this.user = user;
     }
+
+
+
+
+    @Column(name = "globe_id")
+    public UUID getGlobeID()
+    {
+        return globe_id;
+    }
+
+    public void setGlobeID(UUID globe_id)
+    {
+        this.globe_id = globe_id;
+    }
+
+    @OneToOne()
+    @JoinColumn(name = "globe_id", insertable = false, updatable = false)
+    public Globe getGlobe()
+    {
+        return globe;
+    }
+
+    public void setGlobe(Globe globe)
+    {
+        this.globe = globe;
+    }
+
+
+
+
 
     /**
      * Gets data set.

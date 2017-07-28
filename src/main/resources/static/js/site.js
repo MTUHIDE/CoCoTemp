@@ -35,9 +35,12 @@ $(function () {
             method: 'post',
             url: "/cocotemp/site/" + siteID + "/temperature.json",
             success: function (data) {
+                if(data.length == 0){
+                    return;
+                }
 
                 data.forEach(function (datum) {
-                    dates.push(datum['dateTime']);
+                    dates.push(new Date(datum['dateTime']));
                     temperature.push(datum['temperature']);
                 });
                 buildChart(dates, temperature);
@@ -66,12 +69,11 @@ $(function () {
             }];
 
             var layout = {
-                title: 'Temperature',
                 xaxis: {
-                    title: 'Time',
+                    title: 'Time (24hrs)',
                     titlefont: {
                         family: 'Segoe UI',
-                        size: 16,
+                        size: 12,
                         color: '#7f7f7f'
                     }
                 },
