@@ -83,7 +83,7 @@ public class DeviceController {
         device.setUserID(currentLoggedInUser.getId());
 
         deviceService.save(device);
-        return "redirect:/settings";
+        return "redirect:/dashboard";
     }
 
 

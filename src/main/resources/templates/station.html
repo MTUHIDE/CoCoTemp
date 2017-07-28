@@ -76,9 +76,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 chart-container">
-                    <canvas id="temperature-chart"></canvas>
-                </div>
+                <div id="temperature-chart"></div>
             </div>
             <div class="row">
                 <div class="col-lg-12 solid-bar">
@@ -91,9 +89,30 @@
                         <div class="col-lg-12">
                             <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
                             <h1 th:text="${site.getSiteName()}"></h1>
-                            <p th:text="${site.getSiteDescription()}"></p>
-                            <p>Site managed by <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-                            <a th:text="${user.getUsername()}"></a></p>
+                            <blockquote>
+                                <p th:text="${site.getSiteDescription()}"></p>
+                            </blockquote>
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="text-center" data-toggle="collapse" href="#collapse1">More Information</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">Site managed by <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                                                <a th:text="${user.getUsername()}"></a></li>
+                                            <li class="list-group-item"th:inline="text">Site ID: [[${site.getId().toString()}]]</li>
+                                            <li class="list-group-item">Location: </li>
+                                            <li class="list-group-item">Globe Data: </li>
+                                            <li class="list-group-item">Download Data: </li>
+                                            <li class="list-group-item">Devices: </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -104,6 +123,9 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <script
         src="//code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="

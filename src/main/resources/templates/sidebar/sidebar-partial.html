@@ -23,7 +23,7 @@
                 <!-- Brand -->
 
                 <div class="brand-name-wrapper">
-                    <a class="navbar-brand logo" href="/">
+                    <a class="navbar-brand logo" th:href="@{/}">
                         <img th:src="@{/images/logo.png}"/>
                     </a>
                 </div>
@@ -31,7 +31,7 @@
                 <!-- Search body -->
 
 
-
+                <!--Login and logout buttons.-->
                 <div id="account-container">
                     <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn account-button log-in">Login</a>
                     <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn account-button log-out">Log
@@ -46,22 +46,27 @@
         <div class="side-menu-container">
             <ul class="nav navbar-nav">
 
-
-                <!--Login and logout buttons.-->
-
-
                 <!--Normal navigation buttons.-->
-                <li th:classappend="${#strings.equals(active, 'home')} ? active"><a th:href="@{/}">
-                    <span class="glyphicon glyphicon-home"></span> Home
-                </a>
+                <li th:classappend="${#strings.equals(active, 'home')} ? active">
+                    <a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a>
                 </li>
-                <li th:classappend="${#strings.equals(active, 'my dashboard')} ? active"><a
-                        th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a></li>
-                <li th:classappend="${#strings.equals(active, 'contact')} ? active"><a th:href="@{/contact}"><span
-                        class="glyphicon glyphicon-envelope"></span> Contact</a></li>
-                <li th:classappend="${#strings.equals(active, 'about')} ? active"><a th:href="@{/about}"><span
-                        class="glyphicon glyphicon-user"></span> About</a></li>
-
+                <li th:classappend="${#strings.equals(active, 'microclimate Data')} ? active">
+                    <a th:href="@{/data}"><span class="glyphicon glyphicon-globe"></span> Microclimate Data</a>
+                </li>
+                <li th:classappend="${#strings.equals(active, 'my dashboard')} ? active">
+                    <a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>
+                </li>
+                <li th:classappend="${#strings.equals(active, 'upload')} ? active">
+                    <a th:href="@{/upload}"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</a>
+                </li>
+                <div class="dropdown">
+                    <button class="dropbtn"><span class="glyphicon glyphicon-plus"></span> Resources</button>
+                    <div class="dropdown-content">
+                        <a href="#">Getting Started</a>
+                        <a th:href="@{/about}">About</a>
+                        <a th:href="@{/contact}">Contact us</a>
+                    </div>
+                </div>
             </ul>
         </div><!-- /.navbar-collapse -->
 

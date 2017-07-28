@@ -19,11 +19,9 @@ public class SiteServiceImplementation implements SiteService
     private final SecurityServiceImplementation securityServiceImplementation;
     private final SiteRepository siteRepository;
 
-
     @Autowired
     public SiteServiceImplementation(
             DataService dataService,
-
             UserService userService,
             SecurityServiceImplementation securityServiceImplementation,
             SiteRepository siteRepository)
@@ -58,7 +56,7 @@ public class SiteServiceImplementation implements SiteService
     @Override
     public Site findByKey(String siteID)
     {
-        return siteRepository.getOne(UUID.fromString(siteID));
+        return siteRepository.findById(UUID.fromString(siteID)).get();
     }
 
     /**

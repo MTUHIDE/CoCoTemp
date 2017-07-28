@@ -4,10 +4,10 @@
     <title>CoCoTemp Home</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/index.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/modal.css}"/>
-    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
 </head>
 <body>
 <div class="row">
@@ -16,8 +16,30 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
+
             <div class="row">
-                <div class="col-lg-12 searchbar-container">
+                <div class="site-header">
+                    <h1 class="text-center">Welcome to CoCo Temp</h1>
+                    <p class="text-center">"An ever growing source of microclimate data"</p>
+                    <p>
+                        Community Collaborative Temperature (CoCo Temp) project is the collaboration of volunteers who's
+                        aim is to map and record microclimate data. Our mission is to provide meaningful insight of the
+                        environment around homes and cities, for the purpose of education and research. This is
+                        accomplish by the use of simple and inexpensive tools, in conjunction with public, interactive
+                        sources of data.<br><br>
+                        If you are interested in joining the CoCo Temp team the only requirement to participate is zest
+                        for climatology. In turn you will be help us learn the impacts of weather on our daily lives.
+                        To get started create an <a th:href="@{/register}">account</a> and follow the getting started
+                        guide.<br><br>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="seperator-header">
+                    <h1>Community Site Map</h1>
+                </div>
+                <div class="searchbar-container">
                     <div class="row searchbar">
                         <!--/*@thymesVar id="searchString" type="java.lang.String"*/-->
                         <!--/*@thymesVar id="searchModel" type="space.hideaway.model.SearchModel"*/-->
@@ -33,7 +55,33 @@
                         </form>
                     </div>
                 </div>
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="seperator-header">
+                    <h1>News</h1>
+                </div>
+                <ul class="news-list">
+                    <li th:each="article : ${articles}" class="news-item" >
+                        <div class="row news">
+                            <article class="col-lg-12">
+                                <h4 class="news-name" th:inline="text">
+                                    [[*{article.getTitle()}]]
+                                    <small th:text="*{#strings.substringBefore(article.getDateTime(),' ')}"></small>
+                                </h4>
+                                <p th:utext="*{article.getContent()}" class="bs-callout bs-callout-info"></p>
+                            </article>
+                        </div>
+                    </li>
+                </ul>
+                <div class="col-md-2 col-md-offset-5">
+                    <a class="btn btn-primary" href="#">Older Posts</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -44,7 +92,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<!--<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>-->
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script th:src="@{/js/index.js}"></script>
 
 <script>

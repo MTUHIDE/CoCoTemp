@@ -6,11 +6,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
+import space.hideaway.model.News;
 import space.hideaway.model.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
+import space.hideaway.repositories.NewsRepository;
 import space.hideaway.repositories.SiteRepository;
 import space.hideaway.repositories.UserRepository;
+
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Justin on 6/5/2017.
@@ -26,12 +31,13 @@ public class ScheduleService {
 
     private final UserRepository userRepository;
     private final SiteRepository siteRepository;
-
+    private final NewsRepository newsRepository;
 
     @Autowired
-    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository){
+    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository, NewsRepository newsRepository){
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
+        this.newsRepository = newsRepository;
     }
 
     /**
@@ -44,6 +50,14 @@ public class ScheduleService {
         User user = createUser("TESTACC","password","Test@TEST.com","John",
                 "P","Doe", 1);
         Site site = createSite(user, "test",10.1,11.1,"Test Site");
+
+        for (int i = 0; i < 5; i++) {
+            News news = new News();
+            news.setContent("Test post content " + i);
+            news.setTitle("Test Post");
+            news.setDateTime(new Date());
+            newsRepository.save(news);
+        }
 
         userRepository.save(user);
         siteRepository.save(site);

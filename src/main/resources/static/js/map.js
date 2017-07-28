@@ -24,6 +24,18 @@ L.control.zoom({
 L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw',
     {}).addTo(map);
 
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "temperature": 52
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-112, 33]
+    }
+};
+
 var addPoints = function (data) {
     L.geoJSON(data, {
         onEachFeature: onEachFeature,

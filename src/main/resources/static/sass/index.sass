@@ -1,3 +1,36 @@
+.site-header
+  height: 100%
+  padding: 10px
+  width: 100%
+  background-color: white
+  align-items: center
+  justify-content: flex-start
+  h1
+    margin: 0
+    color: #00517e
+    font-size: 1.5em
+    font-weight: 500
+    font-family: "Segoe UI", serif
+  p
+    color: #00517e
+    font-family: "Segoe UI", serif
+
+.bs-callout
+  padding: 20px
+  margin: 20px 0
+  border: 1px solid #eee
+  border-left-width: 5px
+  border-radius: 3px
+  p:last-child
+    margin-bottom: 0
+
+
+.bs-callout + .bs-callout
+  margin-top: -5px
+
+.bs-callout-info
+  border-left-color: #1b809e
+
 .searchbar
   label
     color: white
@@ -18,3 +51,17 @@
 
   .searchbar
     height: 37px
+
+.news-list
+  margin: 0
+  padding: 0
+  list-style: none
+  .news-item
+    width: 100%
+    border-bottom: 2px solid rgba(144, 144, 144, 0.51)
+    padding: 20px
+
+.map-container
+  height: 500px
+  > #map
+    height: 100%

@@ -14,7 +14,6 @@ import space.hideaway.util.SortingUtils;
 
 import java.util.List;
 
-
 @RestController
 public class RESTController
 {
@@ -223,5 +222,11 @@ public class RESTController
     List<Data> getTemperaturePoints(@PathVariable("siteID") String siteID)
     {
         return SortingUtils.sortMostRecentFirst(siteService.findByKey(siteID).getDataSet());
+    }
+
+
+    @RequestMapping(value = "/sites.json", method = RequestMethod.POST)
+    public @ResponseBody List<Site> getSitePoints() {
+        return siteService.getAllSites();
     }
 }
