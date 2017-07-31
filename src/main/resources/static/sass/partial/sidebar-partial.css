@@ -1,108 +1,110 @@
-.side-menu {
-  font-family: "Segoe UI Light", serif;
-  z-index: 3000;
-  position: fixed;
-  width: 300px;
-  height: 100%;
+@media (max-width: 768px) {
+  .side-menu {
+    font-family: "Segoe UI Light", serif;
+    width: 100%;
+    border-right: 0;
+    background-color: #00416a;
+    border-bottom: 1px solid #00416a;
+  }
+
+  .side-menu .brand-name-wrapper .navbar-brand {
+    display: inline-block;
+  }
+}
+
+@media (min-width: 769px) {
+  .side-menu {
+    font-family: "Segoe UI Light", serif;
+    z-index: 3000;
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background-color: #00416A;
+    border-right: 1px solid #00416A;
+  }
+}
+
+.side-menu .btn-default {
+  color: white !important;
+}
+
+.side-menu .navbar {
+  border: none;
+  margin: 0px;
+}
+
+.side-menu .navbar-header {
+  margin: 0px;
+  color: white;
+  width: 100%;
   background-color: #00416A;
-  border-right: 1px solid #00416A;  }
+  border-bottom: 1px solid #00416A;
+}
 
-  .side-menu .btn-default {
-    color: white !important;  }
+.side-menu .navbar-collapse {
+  padding: 0px;
+}
 
-  .side-menu .navbar {
-    border: none;  }
+.side-menu .navbar-nav {
+  margin: 0px;
+}
 
-  .side-menu .navbar-header {
-    color: white;
-    width: 100%;
-    background-color: #00416A;
-    border-bottom: 1px solid #00416A;  }
-
-  .side-menu .navbar-nav .active a {
-    background-color: #00416A;
-    color: white;
-    margin-right: -1px;
-    border-right: 5px solid #05ccff; }
-
-    .side-menu .navbar-nav .active a:hover {
-      background-color: #00629a;
-      color: white;  }
-
-  .side-menu .navbar-nav li {
-    display: block;
-    width: 100%;
-    background-color: #00416A;
-    border-bottom: 1px solid #00416A;  }
-
-    .side-menu .navbar-nav li a:hover {
-      background-color: #00629a;  }
-
-    .side-menu .navbar-nav li a {
-      color: white;
-      padding: 15px;  }
-
-      .side-menu .navbar-nav li a:hover {
-        color: white;  }
-
-      .side-menu .navbar-nav li a .glyphicon {
-        padding-right: 10px;  }
-
-.dropbtn {
+.side-menu .navbar-nav .active a {
   background-color: #00416A;
   color: white;
-  padding: 15px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;  }
+  margin-right: -1px;
+  border-right: 5px solid #05ccff; }
 
-.dropdown {
+  .side-menu .navbar-nav .active a:hover {
+    background-color: #00629a;
+    color: white;
+  }
+
+.side-menu .navbar-nav li {
+  display: block;
   width: 100%;
   background-color: #00416A;
-  position: relative;
-  display: inline-block;  }
+  border-bottom: 1px solid #00416A;
+}
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  width: 100%;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;  }
+  .side-menu .navbar-nav li a:hover {
+    background-color: #00629a;
+  }
 
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;  }
+  .side-menu .navbar-nav li a {
+    color: white;
+    padding: 15px;
+  }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+    .side-menu .navbar-nav li a:hover {
+      color: white;
+    }
 
-.dropdown:hover .dropdown-content {
-  display: block;  }
+    .side-menu .navbar-nav li a .glyphicon {
+      padding-right: 10px;
+    }
 
 .side-menu .navbar-nav button .glyphicon {
-  padding-right: 10px;  }
-
-.dropdown:hover .dropbtn {
-  background-color: #00629a;  }
-
-.dropdown:hover {
-  background-color: #00629a;
+  padding-right: 10px;
 }
 
 #account-container {
-  padding: 15px; }
+  background-color: #00416A;
+  padding: 15px;
+}
   #account-container a {
     color: white;
     border-radius: 2px;
-    width: 100%; }
+    width: 100%;
+  }
 
 .log-in {
-  background-color: #449d44; }
+  background-color: #449d44;
+}
 
 .log-out {
-  background-color: #c33946; }
+  background-color: #c33946;
+}
 
 .welcome {
   text-align: center;
@@ -112,26 +114,31 @@
   width: 100%;
   color: white;
   padding-top: 5px;
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+}
 
 .welcome span {
-  color: white; }
+  color: white;
+}
 
 .logo {
   display: block;
   height: 125px;
   width: 150px;
   margin: 0 auto;
-  text-align: center; }
+  text-align: center;
+}
 
 .logo img {
   margin: 0 auto 0 50%;
   text-align: center;
-  height: 100px; }
+  height: 100px;
+}
 
 .nav > li {
   padding-top: 5px;
   padding-bottom: 5px;
-  font-size: 16px; }
+  font-size: 15px;
+}
 
 /*# sourceMappingURL=sidebar-partial.css.map */

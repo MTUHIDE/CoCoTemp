@@ -1,19 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       lang="en">
+
 <head>
 </head>
+
 <body>
 <div class="side-menu" th:fragment="sidebar (active)">
 
     <!--Partial CSS-->
     <link rel="stylesheet" type="text/css" th:href="@{/sass/partial/sidebar-partial.css}"/>
 
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <div class="brand-wrapper">
+            <div class="navbar-header">
                 <!-- Hamburger -->
-                <button type="button" class="navbar-toggle">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -21,61 +23,61 @@
                 </button>
 
                 <!-- Brand -->
-
                 <div class="brand-name-wrapper">
                     <a class="navbar-brand logo" th:href="@{/}">
                         <img th:src="@{/images/logo.png}"/>
                     </a>
                 </div>
 
-                <!-- Search body -->
+            </div>
+        </div>
 
+        <!-- Main Menu -->
+        <div class="collapse navbar-collapse" id="myNavbar">
 
+            <ul class="nav navbar-nav">
                 <!--Login and logout buttons.-->
                 <div id="account-container">
                     <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn account-button log-in">Login</a>
                     <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn account-button log-out">Log
                         Out</a>
                 </div>
-            </div>
-
-        </div>
-
-
-        <!-- Main Menu -->
-        <div class="side-menu-container">
-            <ul class="nav navbar-nav">
 
                 <!--Normal navigation buttons.-->
-                <li th:classappend="${#strings.equals(active, 'home')} ? active">
-                    <a th:href="@{/}"><span class="glyphicon glyphicon-home"></span> Home</a>
-                </li>
                 <li th:classappend="${#strings.equals(active, 'microclimate Data')} ? active">
                     <a th:href="@{/data}"><span class="glyphicon glyphicon-globe"></span> Microclimate Data</a>
                 </li>
-                <li th:classappend="${#strings.equals(active, 'my dashboard')} ? active">
-                    <a th:href="@{/dashboard}"><span class="glyphicon glyphicon-th-large"></span> My Dashboard</a>
+                <li th:classappend="${#strings.equals(active, 'getting started')} ? active">
+                    <a th:href="@{/}"><span class="glyphicon glyphicon-book"></span> Getting Started</a>
+                </li>
+                <li th:classappend="${#strings.equals(active, 'my sites')} ? active">
+                    <a th:href="@{/dashboard}"><span class="glyphicon glyphicon-map-marker"></span> My Sites</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'upload')} ? active">
                     <a th:href="@{/upload}"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</a>
                 </li>
-                <div class="dropdown">
-                    <button class="dropbtn"><span class="glyphicon glyphicon-plus"></span> Resources</button>
-                    <div class="dropdown-content">
-                        <a href="#">Getting Started</a>
-                        <a th:href="@{/about}">About</a>
-                        <a th:href="@{/contact}">Contact us</a>
-                    </div>
-                </div>
+                <li th:classappend="${#strings.equals(active, 'contact')} ? active">
+                    <a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a>
+                </li>
+                <li th:classappend="${#strings.equals(active, 'acknowledgements')} ? active">
+                    <a th:href="@{/about}"><span class="glyphicon glyphicon-th-large"></span> Acknowledgements</a>
+                </li>
+                <li th:classappend="${#strings.equals(active, 'external resources')} ? active">
+                    <a th:href="@{/}"><span class="glyphicon glyphicon-share-alt"></span> External Resources</a>
+                </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-
+        </div>
     </nav>
+
     <div class="welcome" sec:authorize="isAuthenticated()">
         <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
         Hello, <b><span sec:authentication="name"></span></b> <a th:href="@{/settings}"><span
             class="glyphicon glyphicon-cog"></span></a>
     </div>
 </div>
+</div>
+
+
 </body>
+
 </html>
