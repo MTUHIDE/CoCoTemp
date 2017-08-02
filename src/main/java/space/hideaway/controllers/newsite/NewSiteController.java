@@ -4,14 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import space.hideaway.model.globe.Globe;
 import space.hideaway.model.Site;
+import space.hideaway.repositories.GlobeRepository;
 import space.hideaway.services.SiteService;
 import space.hideaway.validation.NewSiteValidator;
+
+import java.util.List;
 
 /**
  * The controller for the multi-page new site registration. Contains a session attribute "site"
@@ -29,6 +30,8 @@ public class NewSiteController
     private final
     NewSiteValidator newSiteValidator;
 
+    private final GlobeRepository globeRepository;
+
     /**
      * The service responsible for CRUD operations on sites.
      */
@@ -38,8 +41,10 @@ public class NewSiteController
     @Autowired
     public NewSiteController(
             NewSiteValidator newSiteValidator,
-            SiteService siteService)
+            SiteService siteService,
+            GlobeRepository globeRepository)
     {
+        this.globeRepository = globeRepository;
         this.newSiteValidator = newSiteValidator;
         this.siteService = siteService;
     }
@@ -57,6 +62,7 @@ public class NewSiteController
     {
         //Add a blank site to the session's model.
         modelMap.addAttribute("site", new Site());
+        modelMap.addAttribute("globe", new Globe());
         return "new-site/new-site-form";
     }
 
@@ -85,23 +91,11 @@ public class NewSiteController
         return "new-site/site-questionnaire";
     }
 
-    /**
-     * The final page of the new site registration route. Validation is performed on fields from the previous page
-     * and the site is persisted if no issues are present.
-     *
-     * @param site          The site that exists in the model with fields populated by what the user
-     *                      entered into the form on the second page.
-     * @param bindingResult The error module for this page, allows bindings between the validation module
-     *                      and the actual page.
-     * @param sessionStatus The session module for the new site registration route.
-     * @return A redirect command to the dashboard, or the path to the site-questionnaire if validation
-     * has failed on fields from the previous page.
-     */
-    @RequestMapping(params = "_finish", method = RequestMethod.POST)
-    public String createSite(
-            @ModelAttribute("site") Site site,
-            BindingResult bindingResult,
-            SessionStatus sessionStatus
+    @RequestMapping(params = "_globe", method = RequestMethod.POST)
+    public String globePage(
+            final @ModelAttribute("site") Site site,
+            final BindingResult bindingResult,
+            final @ModelAttribute("globe") Globe globe
     )
     {
         //Perform validation on the fields, and redirect to the previous page if errors are present.
@@ -111,8 +105,48 @@ public class NewSiteController
             return "new-site/site-questionnaire";
         }
 
+        return "new-site/globe-questionnaire";
+    }
+
+
+    /**
+     * The final page of the new site registration route. Validation is performed on fields from the previous page
+     * and the site is persisted if no issues are present.
+     *
+     * @param site          The site that exists in the model with fields populated by what the user
+     *                      entered into the form on the second page.
+     * @param sessionStatus The session module for the new site registration route.
+     * @return A redirect command to the dashboard, or the path to the site-questionnaire if validation
+     * has failed on fields from the previous page.
+     */
+    @RequestMapping(params = "_finish", method = RequestMethod.POST)
+    public String createSite(@ModelAttribute("site") Site site, SessionStatus sessionStatus) {
+
         //Persist the site.
         siteService.save(site);
+        //Set the session complete, as the site has been safely persisted.
+        sessionStatus.setComplete();
+
+        //Redirect to the dashboard.
+        return "redirect:/dashboard";
+    }
+
+    @RequestMapping(params = "_finish_globe", method = RequestMethod.POST)
+    public String createGlobeSite(@ModelAttribute("site") Site site, SessionStatus sessionStatus,
+                                  @RequestParam("answers") String[] answer) {
+
+        //Persist the site.
+        siteService.save(site);
+
+        //I'm sure is a better way of doing this
+        for (byte i = 0; i < answer.length; i++) {
+            Globe globe = new Globe();
+            globe.setSite(site);
+            globe.setSiteID(site.getId());
+            globe.setAnswer(answer[i]);
+            globe.setQuestion_number((byte)(i + 1));
+            globeRepository.save(globe);
+        }
 
         //Set the session complete, as the site has been safely persisted.
         sessionStatus.setComplete();

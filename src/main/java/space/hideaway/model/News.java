@@ -77,6 +77,7 @@ public class News {
         this.title = title;
     }
 
+    @Lob
     @Column(name = "content", length = Short.MAX_VALUE)
     public String getContent() {
         return content;

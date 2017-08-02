@@ -8,6 +8,7 @@ import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.bridge.builtin.DoubleBridge;
 import org.hibernate.search.spatial.Coordinates;
+import space.hideaway.model.globe.Globe;
 
 import javax.persistence.*;
 import java.util.List;
@@ -34,9 +35,6 @@ public class Site
     @IndexedEmbedded
     private User user;
 
-    private Globe globe;
-    private UUID globe_id;
-
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String siteName;
 
@@ -50,6 +48,9 @@ public class Site
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String siteDescription;
+
+    @JsonIgnore
+    private List<Globe> globeSet;
 
     @JsonIgnore
     private Set<Data> dataSet;
@@ -128,36 +129,6 @@ public class Site
         this.user = user;
     }
 
-
-
-
-    @Column(name = "globe_id")
-    public UUID getGlobeID()
-    {
-        return globe_id;
-    }
-
-    public void setGlobeID(UUID globe_id)
-    {
-        this.globe_id = globe_id;
-    }
-
-    @OneToOne()
-    @JoinColumn(name = "globe_id", insertable = false, updatable = false)
-    public Globe getGlobe()
-    {
-        return globe;
-    }
-
-    public void setGlobe(Globe globe)
-    {
-        this.globe = globe;
-    }
-
-
-
-
-
     /**
      * Gets data set.
      *
@@ -178,6 +149,28 @@ public class Site
     public void setDataSet(Set<Data> dataSet)
     {
         this.dataSet = dataSet;
+    }
+
+    /**
+     * Gets globe set.
+     *
+     * @return the globe set
+     */
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "site_id", updatable = false)
+    public List<Globe> getGlobeSet()
+    {
+        return globeSet;
+    }
+
+    /**
+     * Sets globe set.
+     *
+     * @param globeSet the data set
+     */
+    public void setGlobeSet(List<Globe> globeSet)
+    {
+        this.globeSet = globeSet;
     }
 
     /**

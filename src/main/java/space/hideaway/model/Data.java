@@ -32,7 +32,6 @@ public class Data
 
     private double temperature;
 
-
     private UUID deviceID;
 
     @JsonIgnore

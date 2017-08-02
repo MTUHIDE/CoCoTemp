@@ -67,6 +67,8 @@
                 </li>
             </ul>
         </div>
+
+
     </nav>
 
     <div class="welcome" sec:authorize="isAuthenticated()">
@@ -74,7 +76,6 @@
         Hello, <b><span sec:authentication="name"></span></b> <a th:href="@{/settings}"><span
             class="glyphicon glyphicon-cog"></span></a>
     </div>
-</div>
 </div>
 
 
