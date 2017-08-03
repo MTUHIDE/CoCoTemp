@@ -41,7 +41,7 @@
                         <tr th:each="site : ${siteList}">
                             <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
                             <!--/*@thymesVar id="statisticsUtils" type="space.hideaway.util.StatisticsUtils"*/-->
-                            <td>Nebraska, United States</td>
+                            <td>(Not working)</td>
                             <td><a th:href="@{/site/{siteID}(siteID=${site.getId()})}"
                                    th:text="*{site.getSiteName()}">University Station</a></td>
                             <td th:text="*{site.getSiteDescription()}">Under the sea.</td>
@@ -57,8 +57,8 @@
         </div>
     </div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"

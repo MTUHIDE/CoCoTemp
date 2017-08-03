@@ -48,13 +48,13 @@ public class ScheduleService {
     @Scheduled(fixedRate = Long.MAX_VALUE)
     private void insertData(){
         User user = createUser("TESTACC","password","Test@TEST.com","John",
-                "P","Doe", 1);
-        Site site = createSite(user, "test",10.1,11.1,"Test Site");
+                "Doe","P", 1);
+        Site site = createSite(user, "A site for local testing.",37,-95,"Test Site");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             News news = new News();
-            news.setContent("Test post content " + i);
-            news.setTitle("Test Post");
+            news.setContent("Local test post. Content area.");
+            news.setTitle("Test Post " + i);
             news.setDateTime(new Date());
             newsRepository.save(news);
         }

@@ -45,14 +45,13 @@ public class StationStatisticsImpl implements StationStatisticsService
     @Override
     public SiteStatistics getMostRecent(Site site)
     {
-        List<SiteStatistics> siteStatisticss = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList
-                ());
-        if (siteStatisticss.isEmpty())
+        List<SiteStatistics> siteStatistics = SortingUtils.sortMostRecentFirst(site.getSiteStatisticsList());
+        if (siteStatistics.isEmpty())
         {
             return SiteStatistics.EMPTY_STATISTIC;
         } else
         {
-            return siteStatisticss.get(0);
+            return siteStatistics.get(0);
         }
     }
 
