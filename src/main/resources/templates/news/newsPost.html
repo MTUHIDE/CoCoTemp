@@ -13,48 +13,41 @@
     <div class="container-fluid">
         <div class="col-lg-5 col-lg-offset-4">
 
-                    <div class="form-container">
+            <div class="form-container">
 
-                        <div class="form-header">
-                            <h1>News Post</h1>
+                <div class="form-header">
+                    <h1>News Post</h1>
+                </div>
+
+                <!-- Form Area -->
+                <div class="form-body">
+                    <!-- Form -->
+                    <form th:action="@{/news_post}" method="post">
+
+                        <div class="form-group">
+                            <div class="col-sm">
+                                <input type="text" name="title" id="title" required="required" class="form-control"
+                                       placeholder="Title"/>
+                            </div>
                         </div>
-
-                        <!-- Form Area -->
-                        <div class="form-body">
-                            <!-- Form -->
-                            <form th:action="@{/news_post}" method="post">
-
-                                <div class="form-group">
-                                    <div class="col-sm">
-                                        <input type="text" name="title" id="title" required="required" class="form-control"
-                                               placeholder="Title"/>
-                                    </div>
-                                </div>
-                                <p><b>Note:</b> Use HTML tags for formatting</p>
-                                <div class="form-group">
-                                    <div class="col-sm">
-                                    <textarea name="content" id="content" class="form-control" required="required"
-                                              placeholder="Message"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm">
-                                        <!-- Send Button -->
-                                        <button type="submit" id="submit" name="submit" class="btn btn-success">
-                                            Send
-                                            Message
-                                        </button>
-                                    </div>
-                                </div>
-
-
-
-
-
-
-                            </form>
-                        </div><!-- End Contact Form Area -->
-                    </div>
+                        <p><b>Note:</b> Use HTML tags for formatting</p>
+                        <div class="form-group">
+                            <div class="col-sm">
+                            <textarea name="content" id="content" class="form-control" required="required"
+                                      placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm">
+                                <!-- Send Button -->
+                                <button type="submit" id="submit" name="submit" class="btn btn-success">
+                                    Post
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!-- End Contact Form Area -->
+            </div>
 
         </div>
     </div>

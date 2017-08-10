@@ -2,34 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 
-    <title>Title</title>
+    <title>Acknowledgments</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
 </head>
 <body>
 <div class="row">
-    <div th:replace="sidebar/sidebar-partial :: sidebar(active='about')"></div>
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='acknowledgment')"></div>
 
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
 
-            <h1>About</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a posuere turpis. Praesent non
-                lectus sed lorem
-                efficitur dictum. Maecenas iaculis ante cursus interdum commodo. Suspendisse id mauris ex. Cum
-                sociis
-                natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id tristique
-                nisi, nec
-                elementum elit. Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum, eget
-                consequat
-                nulla placerat. Sed fringilla fermentum erat, quis cursus est hendrerit nec. Pellentesque risus
-                metus,
-                vehicula ut dui vehicula, egestas euismod augue.
-            </p>
+            <div class="seperator-header">
+                <h1>Acknowledgments</h1>
+            </div>
+            <div class="row sub-seperator-header">
+                <p>
+                    The Community Collaborative Temperature (CoCo Temp) project could not have been
+                    possible without the following people:
+                </p>
+            </div>
 
+            <div class="person-container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <img style="float:left" th:src="@{/images/person.png}">
+                                <div class="about">
+                                    <h2>Name<small> Project Role</small></h2>
+                                    <hr>
+                                    <p>Contact: email@email.com/Phone #</p>
+                                    <p>Short description of the person's role in the project</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <img style="float:left" th:src="@{/images/person.png}">
+                                <div class="about">
+                                    <h2>Name<small> Project Role</small></h2>
+                                    <hr>
+                                    <p>Contact: email@email.com/Phone #</p>
+                                    <p>Short description of the person's role in the project</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <img style="float:left" th:src="@{/images/person.png}">
+                                <div class="about">
+                                    <h2>Name<small> Project Role</small></h2>
+                                    <hr>
+                                    <p>Contact: email@email.com/Phone #</p>
+                                    <p>Short description of the person's role in the project</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

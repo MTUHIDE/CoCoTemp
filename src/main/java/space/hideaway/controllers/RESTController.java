@@ -216,7 +216,7 @@ public class RESTController
     }
 
 
-    @RequestMapping(value = "/site/{siteID}/temperature.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/site/{siteID}/temperature.json", method = RequestMethod.GET)
     public
     @ResponseBody
     List<Data> getTemperaturePoints(@PathVariable("siteID") String siteID)

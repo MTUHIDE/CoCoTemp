@@ -32,7 +32,7 @@ $(function () {
     function populateChart() {
         var dates = [], temperature = [];
         $.ajax({
-            method: 'post',
+            method: 'get',
             url: "/cocotemp/site/" + siteID + "/temperature.json",
             success: function (data) {
                 if(data.length == 0){
@@ -54,19 +54,19 @@ $(function () {
                 .append('div')
                 .style({
                     width: '100%',
-
                     height: '100%'
                 });
 
             var gd = gd3.node();
 
-            var data = [{
+            var collectedTemps = {
                 x: dates,
                 y: temperature,
                 name: 'site\'s temperature',
-                type: 'scatter',
-                line: {shape: 'spline'}
-            }];
+                type: 'scatter'
+            }
+
+            var data = [collectedTemps];
 
             var layout = {
                 xaxis: {
@@ -84,10 +84,21 @@ $(function () {
                         size: 16,
                         color: '#7f7f7f'
                     }
-                }
+                },
+                shapes: [{
+                    type: 'line',
+                    xref: 'paper',
+                    yref: 'y',
+                    x0: 0,
+                    y0: 0,
+                    x1: 1,
+                    y1: 0,
+                    line: {
+                        color: 'rgb(0, 0, 255)',
+                        width: 1
+                    }
+                }]
             };
-
-
 
             Plotly.plot(gd, data, layout, {modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian', 'hoverClosestCartesian', 'resetScale2d' ,'toggleSpikelines','zoom2d','select2d','lasso2d',]});
 

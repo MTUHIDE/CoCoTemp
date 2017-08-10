@@ -41,9 +41,13 @@
                         <tr th:each="site : ${siteList}">
                             <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
                             <!--/*@thymesVar id="statisticsUtils" type="space.hideaway.util.StatisticsUtils"*/-->
-                            <td>(Not working)</td>
-                            <td><a th:href="@{/site/{siteID}(siteID=${site.getId()})}"
-                                   th:text="*{site.getSiteName()}">University Station</a></td>
+                            <td th:inline="text">
+                                [[${site.getSiteLatitude().toString()}]], [[${site.getSiteLongitude().toString()}]]
+                            </td>
+                            <td>
+                                <a th:href="@{/site/{siteID}(siteID=${site.getId()})}"
+                                   th:text="*{site.getSiteName()}">University Station</a>
+                            </td>
                             <td th:text="*{site.getSiteDescription()}">Under the sea.</td>
                             <td th:text="*{statisticsUtils.getMostRecentAllMax(site)}">99</td>
                             <td th:text="*{statisticsUtils.getMostRecentAllMin(site)}">29</td>

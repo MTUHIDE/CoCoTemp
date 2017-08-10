@@ -45,7 +45,7 @@
 
                 <!--Normal navigation buttons.-->
                 <li th:classappend="${#strings.equals(active, 'microclimate Data')} ? active">
-                    <a th:href="@{/data}"><span class="glyphicon glyphicon-globe"></span> Microclimate Data</a>
+                    <a th:href="@{/}"><span class="glyphicon glyphicon-globe"></span> Microclimate Data</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'getting started')} ? active">
                     <a th:href="@{/}"><span class="glyphicon glyphicon-book"></span> Getting Started</a>
@@ -60,7 +60,7 @@
                     <a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'acknowledgements')} ? active">
-                    <a th:href="@{/about}"><span class="glyphicon glyphicon-th-large"></span> Acknowledgements</a>
+                    <a th:href="@{/acknowledgment}"><span class="glyphicon glyphicon-th-large"></span> Acknowledgements</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'external resources')} ? active">
                     <a th:href="@{/}"><span class="glyphicon glyphicon-share-alt"></span> External Resources</a>

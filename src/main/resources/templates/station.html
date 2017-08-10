@@ -43,24 +43,24 @@
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
-                            <p class="infocard-body"><span id="record-count" class="infocard-number" th:text="${min}">12&deg;
-                                F</span>
+                            <p class="infocard-body">
+                                <span id="record-count" class="infocard-number" th:text="${min}">12&deg;F</span>
                                 min
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
-                            <p class="infocard-body"><span id="upload-count" class="infocard-number" th:text="${avg}">80&deg;
-                                F</span>
+                            <p class="infocard-body">
+                                <span id="upload-count" class="infocard-number" th:text="${avg}">80&deg;F</span>
                                 avg
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
-                            <p class="infocard-body"><span id="last-update" class="infocard-number"
-                                                           th:text="${deviation}">12&deg; F</span>
+                            <p class="infocard-body">
+                                <span id="last-update" class="infocard-number" th:text="${deviation}">12&deg; F</span>
                                 standard deviation
                             </p>
                         </div>
@@ -106,15 +106,14 @@
                                             </li>
                                             <li class="list-group-item">Globe Data</li>
                                             <li class="list-group-item">
-                                                <form th:action="@{/site/{siteID}/temperature.json (siteID = ${site.getId().toString()})}" method="post">
-                                                    <button class="btn-link">Download Temperature Data</button>
-                                                </form>
+                                                <a th:href="@{/site/{siteID}/temperature.json (siteID = ${site.getId().toString()})}"
+                                                   download="temperatures.json">Download Temperature Data</a>
                                             </li>
                                             <li class="list-group-item" >Devices
                                                 <ul th:each="device : ${site.getDeviceSet()}">
                                                     <li th:inline="text">[[*{device.getType()} + ':' + *{device.getManufacture_num()}]]</li>
                                                 </ul>
-                                                <p th:text="${site.getDeviceSet().isEmpty()} ? '    • None'"></p>
+                                                <p th:text="${site.getDeviceSet().isEmpty()} ? '• None'"></p>
                                             </li>
                                         </ul>
                                     </div>
