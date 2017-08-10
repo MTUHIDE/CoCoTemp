@@ -36,7 +36,7 @@ $(function () {
                 for (var i = 0; i < data.length; i++) {
                     //Add the station locations to the map.
                     var myMarker = L.marker([data[i].siteLatitude, data[i].siteLongitude]).addTo(myMap);
-                    myMarker.bindPopup("<a href='data[i].id'>" + data[i].siteName + "</a>");
+                    myMarker.bindPopup('<a href="site/' + data[i].id + '">' + data[i].siteName + '</a>');
                     siteMarkers.push(myMarker);
                 }
             },
