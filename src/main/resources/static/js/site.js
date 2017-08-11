@@ -35,9 +35,6 @@ $(function () {
             method: 'get',
             url: "/cocotemp/site/" + siteID + "/temperature.json",
             success: function (data) {
-                if(data.length == 0){
-                    return;
-                }
 
                 data.forEach(function (datum) {
                     dates.push(new Date(datum['dateTime']));

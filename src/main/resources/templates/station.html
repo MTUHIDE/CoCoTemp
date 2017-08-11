@@ -77,50 +77,68 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 information-container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
-                            <h1 th:text="${site.getSiteName()}"></h1>
-                            <blockquote>
-                                <p th:text="${site.getSiteDescription()}"></p>
-                            </blockquote>
-                            <div class="panel-group">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#collapse1">More Information</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse1" class="panel-collapse collapse">
-                                        <ul class="list-group">
-                                            <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-                                            <li class="list-group-item">Site managed by
-                                                <a th:text="${user.getUsername()}"></a>
-                                            </li>
-                                            <li class="list-group-item" th:inline="text">Site ID:
-                                                [[${site.getId().toString()}]]
-                                            </li>
-                                            <li class="list-group-item" th:inline="text">Location:
-                                                [[${site.getSiteLatitude().toString()}]],
-                                                [[${site.getSiteLongitude().toString()}]]
-                                            </li>
-                                            <li class="list-group-item">Globe Data</li>
-                                            <li class="list-group-item">
-                                                <a th:href="@{/site/{siteID}/temperature.json (siteID = ${site.getId().toString()})}"
-                                                   download="temperatures.json">Download Temperature Data</a>
-                                            </li>
-                                            <li class="list-group-item" >Devices
-                                                <ul th:each="device : ${site.getDeviceSet()}">
-                                                    <li th:inline="text">[[*{device.getType()} + ':' + *{device.getManufacture_num()}]]</li>
-                                                </ul>
-                                                <p th:text="${site.getDeviceSet().isEmpty()} ? '• None'"></p>
-                                            </li>
+
+                    <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                    <h1 th:text="${site.getSiteName()}"></h1>
+
+                    <blockquote>
+                        <p th:text="${site.getSiteDescription()}"></p>
+                    </blockquote>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#siteMeta">View Metadata</a>
+                                </h4>
+                            </div>
+                            <div id="siteMeta" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                                    <li class="list-group-item">Site managed by
+                                        <a th:text="${user.getUsername()}"></a>
+                                    </li>
+                                    <li class="list-group-item" th:inline="text">Site ID:
+                                        [[${site.getId().toString()}]]
+                                    </li>
+                                    <li class="list-group-item" th:inline="text">Location:
+                                        [[${site.getSiteLatitude().toString()}]],
+                                        [[${site.getSiteLongitude().toString()}]]
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a th:href="@{/site/{siteID}/temperature.json (siteID = ${site.getId().toString()})}"
+                                           download="temperatures.json">Download Temperature Data</a>
+                                    </li>
+                                    <li class="list-group-item" >Devices
+                                        <ul th:each="device : ${site.getDeviceSet()}">
+                                            <li th:inline="text">[[*{device.getType()} + ':' + *{device.getManufacture_num()}]]</li>
                                         </ul>
-                                    </div>
-                                </div>
+                                        <p th:text="${site.getDeviceSet().isEmpty()} ? '• None'"></p>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#globeMeta">View Globe Metadata</a>
+                                </h4>
+                            </div>
+                            <div id="globeMeta" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item" th:text="${site.getGlobeSet().isEmpty()} ? 'No data'">
+                                    </li>
+                                    <li class="list-group-item" th:each="answer : ${site.getGlobeSet()}">
+                                        <p th:text="*{answer.getAnswer()}"></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-lg-6 map-container">
                     <div id="map"></div>

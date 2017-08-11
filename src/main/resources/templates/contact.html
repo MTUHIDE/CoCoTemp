@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 
-    <title>Title</title>
+    <title>Contact CoCo Temp</title>
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
@@ -17,62 +18,61 @@
         <div class="side-body">
 
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="seperator-header">
-                        <h1>Contact</h1>
-                    </div>
-                    <div class="inner contact">
-                        <!-- Form Area -->
-                        <div class="contact-form">
-                            <!-- Form -->
-                            <form id="contact-us" method="post" action="#">
-                                <!-- Left Inputs -->
-                                <div class="col-xs-6 wow animated slideInLeft" data-wow-delay=".5s">
-                                    <!-- Name -->
-                                    <input type="text" name="name" id="name" required="required" class="form"
-                                           placeholder="Name"/>
-                                    <!-- Email -->
-                                    <input type="email" name="mail" id="mail" required="required" class="form"
-                                           placeholder="Email"/>
-                                    <!-- Subject -->
-                                    <input type="text" name="subject" id="subject" required="required" class="form"
-                                           placeholder="Subject"/>
-                                </div><!-- End Left Inputs -->
-                                <!-- Right Inputs -->
-                                <div class="col-xs-6 wow animated slideInRight" data-wow-delay=".5s">
-                                    <!-- Message -->
-                                    <textarea name="message" id="message" class="form textarea"
-                                              placeholder="Message"></textarea>
-                                </div><!-- End Right Inputs -->
-                                <!-- Bottom Submit -->
-                                <div class="relative fullwidth col-xs-12">
-                                    <!-- Send Button -->
-                                    <button type="submit" id="submit" name="submit" class="form-btn semibold standard">
-                                        Send
-                                        Message
-                                    </button>
-                                </div><!-- End Bottom Submit -->
-                                <!-- Clear -->
-                                <div class="clear"></div>
-                            </form>
+                <div class="seperator-header">
+                    <h1>Contact CoCo Temp</h1>
+                </div>
 
-                            <!-- Your Mail Message -->
-                            <div class="mail-message-area">
+                <div class="inner contact">
+                    <!-- Form Area -->
+                    <div class="contact-form">
+                        <!-- Form -->
+                        <form id="contact-us" method="post" action="#">
+                            <!-- Left Inputs -->
+                            <div class="col-xs-6 wow animated slideInLeft" data-wow-delay=".5s">
+                                <!-- Name -->
+                                <input type="text" name="name" id="name" required="required" class="form"
+                                       placeholder="Name"/>
+                                <!-- Email -->
+                                <input type="email" name="mail" id="mail" required="required" class="form"
+                                       placeholder="Email"/>
+                                <!-- Subject -->
+                                <input type="text" name="subject" id="subject" required="required" class="form"
+                                       placeholder="Subject"/>
+                            </div><!-- End Left Inputs -->
+
+                            <!-- Right Inputs -->
+                            <div class="col-xs-6 wow animated slideInRight" data-wow-delay=".5s">
                                 <!-- Message -->
-                                <div class="alert gray-bg mail-message not-visible-message">
-                                    <strong>Thank You !</strong> Your email has been delivered.
-                                </div>
-                            </div>
+                                <textarea name="message" id="message" class="form textarea"
+                                          placeholder="Message"></textarea>
+                            </div><!-- End Right Inputs -->
 
-                        </div><!-- End Contact Form Area -->
-                    </div>
+                            <!-- Bottom Submit -->
+                            <div class="relative fullwidth col-xs-12">
+                                <!-- Send Button -->
+                                <button type="submit" id="submit" name="submit" class="form-btn semibold standard">
+                                    Send Message
+                                </button>
+                            </div><!-- End Bottom Submit -->
+                            <!-- Clear -->
+                            <div class="clear"></div>
+                        </form>
+
+                        <!-- Your Mail Message -->
+                        <div class="mail-message-area">
+                            <!-- Message -->
+                            <div class="alert gray-bg mail-message not-visible-message">
+                                <strong>Thank You!</strong> Your email has been delivered.
+                            </div>
+                        </div>
+
+                    </div><!-- End Contact Form Area -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
