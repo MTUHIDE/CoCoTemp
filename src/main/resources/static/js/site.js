@@ -32,12 +32,9 @@ $(function () {
     function populateChart() {
         var dates = [], temperature = [];
         $.ajax({
-            method: 'post',
+            method: 'get',
             url: "/cocotemp/site/" + siteID + "/temperature.json",
             success: function (data) {
-                if(data.length == 0){
-                    return;
-                }
 
                 data.forEach(function (datum) {
                     dates.push(new Date(datum['dateTime']));
@@ -54,19 +51,23 @@ $(function () {
                 .append('div')
                 .style({
                     width: '100%',
-
                     height: '100%'
                 });
 
             var gd = gd3.node();
 
-            var data = [{
+            var collectedTemps = {
                 x: dates,
                 y: temperature,
                 name: 'site\'s temperature',
-                type: 'scatter',
-                line: {shape: 'spline'}
-            }];
+                type: 'scatter'
+            }
+
+            var indexTemp = [0, 31, 35, 44, 56];
+            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
+            var indexName = ['Freezing','Caution','Ex. Caution','Danger','Ex. Danger'];
+
+            var data = [collectedTemps];
 
             var layout = {
                 xaxis: {
@@ -84,12 +85,48 @@ $(function () {
                         size: 16,
                         color: '#7f7f7f'
                     }
-                }
+                },
+                shapes: [],
+                annotations: []
             };
 
+            for(var i = 0; i < indexTemp.length; i++){
+                var index = {
+                    type: 'line',
+                        xref: 'paper',
+                    yref: 'y',
+                    x0: 0,
+                    y0: indexTemp[i],
+                    x1: 1,
+                    y1: indexTemp[i],
+                    line: {
+                    color: indexColors[i],
+                        width: 1
+                    }
+                }
+                layout.shapes.push(index);
+            }
+
+            for(var i = 0; i < indexTemp.length; i++){
+                var index = {
+                    xref: 'paper',
+                    x: 1,
+                    y: indexTemp[i],
+                    xanchor: 'left',
+                    yanchor: 'middle',
+                    text: indexName[i],
+                    showarrow: false,
+                    font: {
+                        family: 'Segoe UI',
+                        size: 14,
+                        color: '#7f7f7f'
+                    }
+                }
+                layout.annotations.push(index);
+            }
 
 
-            Plotly.plot(gd, data, layout, {modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian', 'hoverClosestCartesian', 'resetScale2d' ,'toggleSpikelines','zoom2d','select2d','lasso2d',]});
+            Plotly.plot(gd, data, layout);
 
             window.onresize = function() {
                 Plotly.Plots.resize(gd);

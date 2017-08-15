@@ -47,11 +47,9 @@ public class SearchController
     )
     {
 
-
         double latitude = 0;
         double longitude = 0;
         double desiredRange = 0;
-
 
         boolean locationPresent = location != null && !location.isEmpty();
 
@@ -69,12 +67,10 @@ public class SearchController
             return "redirect:/search?error";
         }
 
-
         model.addAttribute("statisticsUtils", new StatisticsUtils());
         logger.info("Started location search.");
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder()
-                                                         .forEntity(Site.class).get();
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Site.class).get();
 
         BooleanJunction<BooleanJunction> booleanQuery = queryBuilder.bool();
         if (query != null && !query.isEmpty())
@@ -84,16 +80,20 @@ public class SearchController
                     ".username").matching(query).createQuery());
             logger.info("Keyword query built.");
         }
+
         if (locationPresent)
         {
             logger.info("Location detected.");
 
             logger.info(String.format("Latitude: %f Longitude: %f Range: %f", latitude, longitude, desiredRange));
             booleanQuery.must(queryBuilder.spatial().onField("location").within(desiredRange, Unit.KM).ofLatitude
-                    (latitude)
-                                          .andLongitude
-                                                  (longitude).createQuery());
+                    (latitude).andLongitude(longitude).createQuery());
             logger.info("Location query built.");
+        }
+
+        // Returns all sites if search fields are empty
+        if(!locationPresent && (query.isEmpty() || query == null)){
+            booleanQuery.must(queryBuilder.all().createQuery());
         }
 
         logger.info("Compiling queries into super query.");

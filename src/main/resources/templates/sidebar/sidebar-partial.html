@@ -45,7 +45,7 @@
 
                 <!--Normal navigation buttons.-->
                 <li th:classappend="${#strings.equals(active, 'microclimate Data')} ? active">
-                    <a th:href="@{/data}"><span class="glyphicon glyphicon-globe"></span> Microclimate Data</a>
+                    <a th:href="@{/}"><span class="glyphicon glyphicon-globe"></span> View Microclimate Data</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'getting started')} ? active">
                     <a th:href="@{/}"><span class="glyphicon glyphicon-book"></span> Getting Started</a>
@@ -54,13 +54,13 @@
                     <a th:href="@{/dashboard}"><span class="glyphicon glyphicon-map-marker"></span> My Sites</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'upload')} ? active">
-                    <a th:href="@{/upload}"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</a>
+                    <a th:href="@{/upload}"><span class="glyphicon glyphicon-cloud-upload"></span> Upload Data</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'contact')} ? active">
-                    <a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact</a>
+                    <a th:href="@{/contact}"><span class="glyphicon glyphicon-envelope"></span> Contact CoCo Temp</a>
                 </li>
-                <li th:classappend="${#strings.equals(active, 'acknowledgements')} ? active">
-                    <a th:href="@{/about}"><span class="glyphicon glyphicon-th-large"></span> Acknowledgements</a>
+                <li th:classappend="${#strings.equals(active, 'acknowledgments')} ? active">
+                    <a th:href="@{/acknowledgment}"><span class="glyphicon glyphicon-th-large"></span> Acknowledgments</a>
                 </li>
                 <li th:classappend="${#strings.equals(active, 'external resources')} ? active">
                     <a th:href="@{/}"><span class="glyphicon glyphicon-share-alt"></span> External Resources</a>

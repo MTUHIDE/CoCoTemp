@@ -46,10 +46,10 @@ public class RouteController
      *
      * @return The path to the about page template.
      */
-    @GetMapping("/about")
-    public String about()
+    @GetMapping("/acknowledgment")
+    public String acknowledgment()
     {
-        return "about";
+        return "acknowledgment";
     }
 
     /**
@@ -67,31 +67,4 @@ public class RouteController
         return "contact";
     }
 
-    /**
-     * The endpoint for the news post page.
-     * Secured: yes
-     * Method: Post
-     * <p>
-     * Sample URL: /news_post
-     *
-     * @return The name of the news post page template.
-     */
-    @RequestMapping(value = "/news_post", method = RequestMethod.POST)
-    public String newsPost(@RequestParam(value = "title") String title,
-                           @RequestParam(value = "content") String content)
-    {
-        News news = new News();
-        news.setContent(content);
-        news.setTitle(title);
-        news.setDateTime(new Date());
-        newsRepository.save(news);
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/news_post")
-    public String news()
-    {
-        return "/newsPost";
-    }
 }

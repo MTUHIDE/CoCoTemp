@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 
-    <title>Title</title>
+    <title>News</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/news.css}"/>
 </head>
 <body>
 <div class="row">
@@ -15,21 +16,28 @@
     <div class="container-fluid">
         <div class="side-body">
 
-            <h1>About</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a posuere turpis. Praesent non
-                lectus sed lorem
-                efficitur dictum. Maecenas iaculis ante cursus interdum commodo. Suspendisse id mauris ex. Cum
-                sociis
-                natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id tristique
-                nisi, nec
-                elementum elit. Donec sodales faucibus malesuada. Quisque luctus enim ut velit condimentum, eget
-                consequat
-                nulla placerat. Sed fringilla fermentum erat, quis cursus est hendrerit nec. Pellentesque risus
-                metus,
-                vehicula ut dui vehicula, egestas euismod augue.
-            </p>
+            <div class="seperator-header">
+                <h1>News Posts</h1>
+            </div>
 
+                <ul class="news-list" id="accordion">
+                    <li th:each="article, iterStat : ${articles}" class="news-item" >
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <p th:inline="text">
+                                        [[*{article.getTitle()}]]
+                                        <small th:text="*{#strings.substringBefore(article.getDateTime(),' ')}"></small>
+                                    </p>
+                                </h4>
+                            </div>
+
+                            <article class="panel-body">
+                                <p th:utext="*{article.getContent()}"></p>
+                            </article>
+                        </div>
+                    </li>
+                </ul>
         </div>
     </div>
 </div>
@@ -45,8 +53,8 @@
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
         a = s.createElement(o),
             m = s.getElementsByTagName(o)[0];
         a.async = 1;
