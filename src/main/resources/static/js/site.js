@@ -63,6 +63,10 @@ $(function () {
                 type: 'scatter'
             }
 
+            var indexTemp = [0, 31, 35, 44, 56];
+            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
+            var indexName = ['Freezing','Caution','Ex. Caution','Danger','Ex. Danger'];
+
             var data = [collectedTemps];
 
             var layout = {
@@ -82,22 +86,47 @@ $(function () {
                         color: '#7f7f7f'
                     }
                 },
-                shapes: [{
-                    type: 'line',
-                    xref: 'paper',
-                    yref: 'y',
-                    x0: 0,
-                    y0: 0,
-                    x1: 1,
-                    y1: 0,
-                    line: {
-                        color: 'rgb(0, 0, 255)',
-                        width: 1
-                    }
-                }]
+                shapes: [],
+                annotations: []
             };
 
-            Plotly.plot(gd, data, layout, {modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian', 'hoverClosestCartesian', 'resetScale2d' ,'toggleSpikelines','zoom2d','select2d','lasso2d',]});
+            for(var i = 0; i < indexTemp.length; i++){
+                var index = {
+                    type: 'line',
+                        xref: 'paper',
+                    yref: 'y',
+                    x0: 0,
+                    y0: indexTemp[i],
+                    x1: 1,
+                    y1: indexTemp[i],
+                    line: {
+                    color: indexColors[i],
+                        width: 1
+                    }
+                }
+                layout.shapes.push(index);
+            }
+
+            for(var i = 0; i < indexTemp.length; i++){
+                var index = {
+                    xref: 'paper',
+                    x: 1,
+                    y: indexTemp[i],
+                    xanchor: 'left',
+                    yanchor: 'middle',
+                    text: indexName[i],
+                    showarrow: false,
+                    font: {
+                        family: 'Segoe UI',
+                        size: 14,
+                        color: '#7f7f7f'
+                    }
+                }
+                layout.annotations.push(index);
+            }
+
+
+            Plotly.plot(gd, data, layout);
 
             window.onresize = function() {
                 Plotly.Plots.resize(gd);
