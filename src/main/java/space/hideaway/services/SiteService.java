@@ -12,7 +12,6 @@ public interface SiteService
      * Save a new site into the database.
      *
      * @param site The new site to be inserted.
-     * @return
      */
     Site save(Site site);
 

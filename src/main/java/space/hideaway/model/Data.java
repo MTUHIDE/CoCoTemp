@@ -18,23 +18,16 @@ public class Data
     private UUID id;
 
     private int userID;
-
-    @JsonIgnore
     private User user;
 
     private UUID siteID;
-
-    @JsonIgnore
     private Site site;
 
-    @Temporal(value = TemporalType.TIMESTAMP)
     private Date dateTime;
 
     private double temperature;
 
     private UUID deviceID;
-
-    @JsonIgnore
     private Device device;
 
     /**
@@ -43,7 +36,6 @@ public class Data
     public Data()
     {
     }
-
 
     /**
      * Instantiates a new Data.
@@ -66,6 +58,7 @@ public class Data
      *
      * @return the site
      */
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "site_id", insertable = false, updatable = false)
     public Site getSite()
@@ -145,6 +138,7 @@ public class Data
      *
      * @return the date time
      */
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "date")
     public Date getDateTime()
     {
@@ -208,6 +202,7 @@ public class Data
      *
      * @return the user
      */
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public User getUser()
@@ -235,6 +230,7 @@ public class Data
         this.deviceID = deviceID;
     }
 
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
     public Device getDevice()

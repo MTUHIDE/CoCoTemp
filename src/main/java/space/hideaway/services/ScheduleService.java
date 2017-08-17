@@ -15,6 +15,7 @@ import space.hideaway.repositories.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -34,7 +35,10 @@ public class ScheduleService {
     private final NewsRepository newsRepository;
 
     @Autowired
-    public ScheduleService(UserRepository userRepository, SiteRepository siteRepository, NewsRepository newsRepository){
+    public ScheduleService(UserRepository userRepository,
+                           SiteRepository siteRepository,
+                           NewsRepository newsRepository)
+    {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.newsRepository = newsRepository;
@@ -46,22 +50,35 @@ public class ScheduleService {
      * Site name: 'Test Site' and is assigned to 'TESTACC' account.
      */
     @Scheduled(fixedRate = Long.MAX_VALUE)
-    private void insertData(){
-        User user = createUser("TESTACC","password","Test@TEST.com","John",
+    private void insertData()
+    {
+        User user = createUser(
+                "TESTACC","password",
+                "Test@TEST.com","John",
                 "Doe","P", 1);
-        Site site = createSite(user, "A site for local testing.",37,-95,"Test Site");
+        Site site = createSite(
+                user, "A site for local testing.",
+                37,-95,"Test Site");
 
-        for (int i = 0; i < 3; i++) {
-            News news = new News();
-            news.setContent("Local test post. Content area.");
-            news.setTitle("Test Post " + i);
-            news.setDateTime(new Date());
+        for (int i = 0; i < 3; i++)
+        {
+            News news = createNewsPost("Local test post. Created at: " + System.currentTimeMillis() + "ms",
+                    "Test Post " + i);
             newsRepository.save(news);
         }
 
         userRepository.save(user);
         siteRepository.save(site);
 
+    }
+
+    private News createNewsPost(String content, String title)
+    {
+        News news = new News();
+        news.setContent(content);
+        news.setTitle(title);
+        news.setDateTime(new Date());
+        return news;
     }
 
     /**
@@ -75,8 +92,10 @@ public class ScheduleService {
      * @param id User ID
      * @return A user
      */
-    private User createUser(String username, String rawPassword, String email,
-                            String firstName, String lastName, String middleInitial, long id){
+    private User createUser(
+            String username, String rawPassword, String email,
+            String firstName, String lastName, String middleInitial, long id)
+    {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         User user = new User();
         user.setUsername(username);

@@ -21,20 +21,20 @@
 
                 <!-- Form Area -->
                 <div class="form-body">
-                    <!-- Form -->
-                    <form th:action="@{/news_post}" method="post">
+                    <!--/*@thymesVar id="post" type="space.hideaway.model.News"*/-->
+                    <form th:action="@{/news_post}" method="post" th:object="${post}">
 
                         <div class="form-group">
                             <div class="col-sm">
                                 <input type="text" name="title" id="title" required="required" class="form-control"
-                                       placeholder="Title"/>
+                                       placeholder="Title" th:field="*{title}"/>
                             </div>
                         </div>
                         <p><b>Note:</b> Use HTML tags for formatting</p>
                         <div class="form-group">
                             <div class="col-sm">
                             <textarea name="content" id="content" class="form-control" required="required"
-                                      placeholder="Message"></textarea>
+                                      placeholder="Message" th:field="*{content}"></textarea>
                             </div>
                         </div>
                         <div class="form-group">

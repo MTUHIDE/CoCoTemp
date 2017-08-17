@@ -14,7 +14,6 @@ import space.hideaway.services.UserService;
 public class UserAccountValidator implements Validator
 {
 
-
     private final UserService userService;
 
     @Autowired
@@ -24,13 +23,15 @@ public class UserAccountValidator implements Validator
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
+    public boolean supports(Class<?> aClass)
+    {
         return User.class.equals(aClass);
     }
 
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(Object o, Errors errors)
+    {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
@@ -41,23 +42,30 @@ public class UserAccountValidator implements Validator
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
+
+        if (user.getUsername().length() < 6 || user.getUsername().length() > 32)
+        {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        try {
+        try
+        {
             User byUsername = userService.findByUsername(user.getUsername());
-            if (byUsername != null) {
+            if (byUsername != null)
+            {
                 errors.rejectValue("username", "Duplicate.userForm.user.username");
             }
         } catch (UserNotFoundException ignored) {
+
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
+        if (user.getPassword().length() < 8 || user.getPassword().length() > 32)
+        {
             errors.rejectValue("password", "Size.userForm.password");
         }
 
-        if (!user.getConfirmationPassword().equals(user.getPassword())) {
+        if (!user.getConfirmationPassword().equals(user.getPassword()))
+        {
             errors.rejectValue("confirmationPassword", "Diff.userForm.passwordConfirm");
         }
     }

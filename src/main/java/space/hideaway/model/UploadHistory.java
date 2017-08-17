@@ -19,39 +19,18 @@ import java.util.UUID;
 public class UploadHistory
 {
 
-    /**
-     * The Id.
-     */
-    @JsonProperty("id")
-    UUID id;
+    private UUID id;
 
-    /**
-     * The Site id.
-     */
-    @JsonProperty("siteID")
-    UUID siteID;
+    private UUID siteID;
+    private Site site;
 
+    private int userID;
 
-    @JsonProperty
-    int userID;
+    private boolean viewed;
 
-
-    /**
-     * The Site.
-     */
-    @JsonIgnore
-    Site site;
-
-
-    @JsonProperty("viewed")
-    boolean viewed;
-
-    @JsonProperty("error")
-    boolean error;
+    private boolean error;
 
     private UUID deviceID;
-
-    @JsonIgnore
     private Device device;
 
     /**
@@ -59,28 +38,29 @@ public class UploadHistory
      */
     @JsonProperty("dateTime")
     @Temporal(value = TemporalType.TIMESTAMP)
-    Date dateTime;
+    private Date dateTime;
 
     /**
      * The Duration.
      */
     @JsonProperty("duration")
-    Long duration;
+    private Long duration;
 
     /**
      * The Description.
      */
     @JsonProperty("description")
-    String description;
+    private String description;
 
     @JsonProperty("records")
-    Integer records;
+    private Integer records;
 
     /**
      * Gets id.
      *
      * @return the id
      */
+    @JsonProperty("id")
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Id
@@ -105,6 +85,7 @@ public class UploadHistory
      *
      * @return the site
      */
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id", insertable = false, updatable = false)
     public Site getSite()
@@ -127,6 +108,7 @@ public class UploadHistory
      *
      * @return the site id
      */
+    @JsonProperty("siteID")
     @Column(name = "site_id", length = 16)
     public UUID getSiteID()
     {
@@ -143,6 +125,7 @@ public class UploadHistory
         this.siteID = siteID;
     }
 
+    @JsonProperty
     @Column(name = "user_id")
     public int getUserID()
     {
@@ -155,6 +138,7 @@ public class UploadHistory
     }
 
     @Column(name = "error")
+    @JsonProperty("error")
     public boolean isError()
     {
         return error;
@@ -240,6 +224,7 @@ public class UploadHistory
     }
 
     @Column(name = "viewed")
+    @JsonProperty("viewed")
     public boolean isViewed()
     {
         return viewed;
@@ -261,6 +246,7 @@ public class UploadHistory
     }
 
     @ManyToOne()
+    @JsonIgnore
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
     public Device getDevice()
     {

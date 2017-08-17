@@ -18,27 +18,28 @@ public class SiteStatistics
 
     public static final SiteStatistics EMPTY_STATISTIC = new SiteStatistics();
 
-    UUID statisticsID;
-    UUID siteID;
+    private UUID statisticsID;
 
-    @JsonIgnore
-    Site site;
-    double weekMax;
-    double weekMin;
-    double weekAvg;
-    double weekDeviation;
-    double monthMax;
-    double monthMin;
-    double monthAvg;
-    double monthDeviation;
-    double yearMax;
-    double yearMin;
-    double yearAvg;
-    double yearDeviation;
-    double allMax;
-    double allMin;
-    double allAvg;
-    double allDeviation;
+    private UUID siteID;
+    private Site site;
+
+    private double weekMax;
+    private double weekMin;
+    private double weekAvg;
+    private double weekDeviation;
+    private double monthMax;
+    private double monthMin;
+    private double monthAvg;
+    private double monthDeviation;
+    private double yearMax;
+    private double yearMin;
+    private double yearAvg;
+    private double yearDeviation;
+    private double allMax;
+    private double allMin;
+    private double allAvg;
+    private double allDeviation;
+
     private Date date;
 
     @GeneratedValue(generator = "uuid2")
@@ -66,6 +67,7 @@ public class SiteStatistics
         this.siteID = siteID;
     }
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id", insertable = false, updatable = false)
     public Site getSite()

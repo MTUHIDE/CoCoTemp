@@ -31,11 +31,10 @@ import java.util.logging.Logger;
 @Transactional
 public class SearchController
 {
-    Logger logger = Logger.getLogger(getClass().getName());
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
-    private
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @RequestMapping(value = "/search", params = {"type=site"})
     @Transactional
@@ -43,8 +42,7 @@ public class SearchController
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "range", required = false) String range,
-            Model model
-    )
+            Model model)
     {
 
         double latitude = 0;
@@ -92,7 +90,7 @@ public class SearchController
         }
 
         // Returns all sites if search fields are empty
-        if(!locationPresent && (query.isEmpty() || query == null)){
+        if(!locationPresent && (query == null || query.isEmpty())){
             booleanQuery.must(queryBuilder.all().createQuery());
         }
 

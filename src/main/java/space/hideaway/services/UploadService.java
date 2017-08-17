@@ -27,7 +27,7 @@ public class UploadService
 {
 
     private final SiteServiceImplementation siteServiceImplementation;
-    private final UserManagementImpl userService;
+    private final UserServiceImplementation userService;
     private final DataServiceImplementation dataServiceImplementation;
     private final UploadHistoryService uploadHistoryService;
     private MultipartFile multipartFile;
@@ -37,7 +37,7 @@ public class UploadService
             DataServiceImplementation dataServiceImplementation,
             UploadHistoryService uploadHistoryService,
             SiteServiceImplementation siteServiceImplementation,
-            UserManagementImpl userService)
+            UserServiceImplementation userService)
     {
         this.dataServiceImplementation = dataServiceImplementation;
         this.uploadHistoryService = uploadHistoryService;
@@ -45,34 +45,28 @@ public class UploadService
         this.userService = userService;
     }
 
-
     public UploadService setMultipartFile(MultipartFile multipartFile)
     {
         this.multipartFile = multipartFile;
         return this;
     }
 
-
     public String parseFile(String siteKey, String description)
     {
         File file = convertToFile();
 
-        if (file.length() == 0)
-        {
-            return "";
-        }
+        if (file.length() == 0) return "";
 
         if (siteServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), siteKey))
         {
             Thread fileUploadThread = new Thread(
-                    new FileUploadHandler(siteServiceImplementation.findByKey(siteKey), file, description)
-            );
+                    new FileUploadHandler(siteServiceImplementation.findByKey(siteKey), file, description));
+
             fileUploadThread.start();
             return "{status: \"in progress\"}";
         }
         return "{status: \"failed\", message: \"You do not authorized to edit this site\"}";
     }
-
 
     private File convertToFile()
     {
@@ -121,14 +115,18 @@ public class UploadService
                     0);
 
             ICsvBeanReader iCsvBeanReader;
+
             try
             {
                 iCsvBeanReader = new CsvBeanReader(new FileReader(file), CsvPreference.STANDARD_PREFERENCE);
+
                 final CellProcessor[] cellProcessors = new CellProcessor[]{
                         new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
                         new ParseDouble()
                 };
+
                 final String[] header = iCsvBeanReader.getHeader(true);
+
                 Data dataBean;
                 while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null)
                 {
@@ -136,6 +134,7 @@ public class UploadService
                     dataBean.setUserID(userId.intValue());
                     dataList.add(dataBean);
                 }
+
                 dataServiceImplementation.batchSave(site, dataList);
                 iCsvBeanReader.close();
                 long end = System.currentTimeMillis();
@@ -143,11 +142,9 @@ public class UploadService
                 //Create a record that the file was parsed and saved correctly.
                 uploadHistoryService.saveFinished(pendingHistory, false, end - start, dataList.size(), description);
 
-            } catch (Exception e)
-            {
-                uploadHistoryService.saveFinished(pendingHistory, true, 0, 0, "Upload failed: " +
-                        String.format("%s%n %s", e
-                                .getMessage(), description));
+            } catch (Exception e) {
+                uploadHistoryService.saveFinished(pendingHistory, true, 0, 0,
+                        "Upload failed: " + String.format("%s%n %s", e.getMessage(), description));
             }
         }
     }

@@ -13,12 +13,14 @@ import java.util.UUID;
 
 
 @Service
-public class UploadHistoryImpl implements UploadHistoryService {
+public class UploadHistoryServiceImplementation implements UploadHistoryService
+{
 
     private final UploadHistoryRepository uploadHistoryRepository;
 
     @Autowired
-    public UploadHistoryImpl(UploadHistoryRepository uploadHistoryRepository) {
+    public UploadHistoryServiceImplementation(UploadHistoryRepository uploadHistoryRepository)
+    {
         this.uploadHistoryRepository = uploadHistoryRepository;
     }
 
@@ -39,7 +41,8 @@ public class UploadHistoryImpl implements UploadHistoryService {
      * @param id The ID of the uploadHistory record in the database.
      */
     @Override
-    public UploadHistory setViewed(UUID id) {
+    public UploadHistory setViewed(UUID id)
+    {
         UploadHistory one = uploadHistoryRepository.getOne(id);
         one.setViewed(true);
         uploadHistoryRepository.save(one);

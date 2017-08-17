@@ -28,10 +28,6 @@ public class Device {
     private Set<Data> dataSet;
     private Set<UploadHistory> uploadHistories;
 
-    public Device(){
-
-    }
-
     //-------------------------------Columns------------------------------------
     //----------------------------------id--------------------------------------
 

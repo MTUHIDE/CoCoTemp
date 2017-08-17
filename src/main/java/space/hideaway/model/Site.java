@@ -3,6 +3,7 @@ package space.hideaway.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
@@ -28,40 +29,21 @@ public class Site
 
     private UUID id;
 
-    @JsonIgnore
     private Long userID;
-
-    @JsonIgnore
-    @IndexedEmbedded
     private User user;
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String siteName;
-
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    @FieldBridge(impl = DoubleBridge.class)
     private double siteLatitude;
-
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    @FieldBridge(impl = DoubleBridge.class)
     private double siteLongitude;
-
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String siteDescription;
 
-    @JsonIgnore
     private List<Globe> globeSet;
-
-    @JsonIgnore
+    private Set<Device> deviceSet;
     private Set<Data> dataSet;
 
-    @JsonIgnore
     private Set<UploadHistory> uploadHistories;
 
-    @JsonIgnore
     private List<SiteStatistics> siteStatisticsList;
-
-    private Set<Device> deviceSet;
 
     /**
      * Instantiates a new Site.
@@ -84,6 +66,7 @@ public class Site
     {
     }
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "site_id", updatable = false)
     public List<SiteStatistics> getSiteStatisticsList()
@@ -102,6 +85,7 @@ public class Site
      * @return the user id
      */
     @Column(name = "user_id")
+    @JsonIgnore
     public Long getUserID()
     {
         return userID;
@@ -117,6 +101,8 @@ public class Site
         this.userID = userID;
     }
 
+    @JsonIgnore
+    @IndexedEmbedded
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public User getUser()
@@ -134,6 +120,7 @@ public class Site
      *
      * @return the data set
      */
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "site_id", updatable = false)
     public Set<Data> getDataSet()
@@ -156,6 +143,7 @@ public class Site
      *
      * @return the globe set
      */
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "site_id", updatable = false)
     public List<Globe> getGlobeSet()
@@ -178,6 +166,7 @@ public class Site
      *
      * @return the upload histories
      */
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "site_id", updatable = false)
     public Set<UploadHistory> getUploadHistories()
@@ -193,16 +182,6 @@ public class Site
     public void setUploadHistories(Set<UploadHistory> uploadHistories)
     {
         this.uploadHistories = uploadHistories;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format(
-                "Site: [ID: %s Name: %s Location: %s]%n",
-                getId(),
-                getSiteName(),
-                getSiteLatitude());
     }
 
     /**
@@ -234,6 +213,7 @@ public class Site
      *
      * @return the site name
      */
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @Column(name = "site_name")
     public String getSiteName()
     {
@@ -255,6 +235,8 @@ public class Site
      *
      * @return the site latitude
      */
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @FieldBridge(impl = DoubleBridge.class)
     @Column(name = "site_latitude")
     public double getSiteLatitude()
     {
@@ -271,6 +253,7 @@ public class Site
         this.siteLatitude = siteLatitude;
     }
 
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @Column(name = "site_description")
     public String getSiteDescription()
     {
@@ -307,6 +290,8 @@ public class Site
      *
      * @return the site longitude
      */
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @FieldBridge(impl = DoubleBridge.class)
     @Column(name = "site_longitude")
     public double getSiteLongitude()
     {
@@ -331,6 +316,16 @@ public class Site
 
     public void setDeviceSet(Set<Device> deviceSet) {
         this.deviceSet = deviceSet;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format(
+                "Site: [ID: %s Name: %s Location: %s]%n",
+                getId(),
+                getSiteName(),
+                getSiteLatitude());
     }
 
 }

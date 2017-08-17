@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.User;
-import space.hideaway.services.UserManagementImpl;
+import space.hideaway.services.UserServiceImplementation;
 
 
 /**
@@ -16,24 +16,19 @@ import space.hideaway.services.UserManagementImpl;
 public class DashboardController
 {
 
-    /**
-     * The service responsible for user CRUD operations.
-     */
-    private final UserManagementImpl userManagementImpl;
+    // The service responsible for user CRUD operations.
+    private final UserServiceImplementation userServiceImplementation;
 
-
-    /**
-     * Obtain the default temperature unit from the application.properties file and inject
+    /* Obtain the default temperature unit from the application.properties file and inject
      * it into a variable for later use.
-     */
+    */
     @Value("${cocotemp.temperature.unit}")
     String temperatureUnit;
 
     @Autowired
-    public DashboardController(
-            UserManagementImpl userManagementImpl)
+    public DashboardController(UserServiceImplementation userServiceImplementation)
     {
-        this.userManagementImpl = userManagementImpl;
+        this.userServiceImplementation = userServiceImplementation;
     }
 
     /**
@@ -50,11 +45,11 @@ public class DashboardController
     public String dashboard(Model model)
     {
         //Obtain the logged in user.
-        User user = userManagementImpl.getCurrentLoggedInUser();
+        User user = userServiceImplementation.getCurrentLoggedInUser();
         model.addAttribute("greeting", "Hello, " + user.getUsername());
         model.addAttribute("sites", user.getSiteSet());
         model.addAttribute("devices", user.getDeviceSet());
-        //Refers to dashboard.html.
+
         return "dashboard";
     }
 }

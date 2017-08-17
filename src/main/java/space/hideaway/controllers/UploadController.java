@@ -21,20 +21,19 @@ import java.util.UUID;
 public class UploadController
 {
 
-
     private final UploadService uploadService;
     private final UserService userService;
 
-    Logger logger = Logger.getLogger(getClass());
-
+    private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    public UploadController(UploadService uploadService, UserService userService)
+    public UploadController(
+            UploadService uploadService,
+            UserService userService)
     {
         this.uploadService = uploadService;
         this.userService = userService;
     }
-
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String showUploadForm(Model model)
@@ -44,7 +43,6 @@ public class UploadController
         model.addAttribute("sites", siteSet);
         return "upload";
     }
-
 
     /**
      * The API endpoint for loading a CSV file into the database.
@@ -64,8 +62,7 @@ public class UploadController
     String uploadFile(
             @RequestParam(value = "siteID") UUID siteID,
             @RequestParam(value = "csvData") MultipartFile file,
-            @RequestParam(value = "description") String description
-    )
+            @RequestParam(value = "description") String description)
     {
         logger.info("Upload request incoming, parse file starting.");
         uploadService.setMultipartFile(file).parseFile(siteID.toString(), description);

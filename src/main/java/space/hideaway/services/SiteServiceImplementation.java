@@ -16,18 +16,14 @@ public class SiteServiceImplementation implements SiteService
 {
 
     private final UserService userService;
-    private final SecurityServiceImplementation securityServiceImplementation;
     private final SiteRepository siteRepository;
 
     @Autowired
     public SiteServiceImplementation(
-            DataService dataService,
             UserService userService,
-            SecurityServiceImplementation securityServiceImplementation,
             SiteRepository siteRepository)
     {
         this.userService = userService;
-        this.securityServiceImplementation = securityServiceImplementation;
         this.siteRepository = siteRepository;
     }
 
@@ -36,7 +32,6 @@ public class SiteServiceImplementation implements SiteService
      * Save a new newSite into the database.
      *
      * @param newSite The new newSite to be inserted.
-     * @return
      */
     @Override
     public Site save(Site newSite)
@@ -81,17 +76,14 @@ public class SiteServiceImplementation implements SiteService
     @Override
     public boolean isCorrectUser(User user, String siteID)
     {
-        if (user == null) {
-            return false;
-        }
+        if (user == null) return false;
+
         boolean found = false;
         Set<Site> siteSet = user.getSiteSet();
+
         for (Site site : siteSet)
         {
-            if (site.getId().toString().equals(siteID))
-            {
-                found = true;
-            }
+            if (site.getId().toString().equals(siteID)) found = true;
         }
         return found;
     }

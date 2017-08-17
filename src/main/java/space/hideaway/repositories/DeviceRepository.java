@@ -10,7 +10,8 @@ import java.util.UUID;
 /**
  * Created by Justin on 6/8/2017.
  */
-public interface DeviceRepository extends JpaRepository<Device, UUID> {
+public interface DeviceRepository extends JpaRepository<Device, UUID>
+{
     @Query("SELECT count(d) from Device d where d.userID=:id")
     Long countByUserID(@Param("id") Long id);
 }

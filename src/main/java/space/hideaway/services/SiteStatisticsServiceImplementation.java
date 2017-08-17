@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import space.hideaway.model.Data;
 import space.hideaway.model.Site;
 import space.hideaway.model.SiteStatistics;
-import space.hideaway.repositories.StationStatisticsRepository;
+import space.hideaway.repositories.SiteStatisticsRepository;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
@@ -21,13 +21,20 @@ import java.util.concurrent.Future;
  * Created by dough on 2017-02-19.
  */
 @Service
-public class StationStatisticsImpl implements StationStatisticsService
+public class SiteStatisticsServiceImplementation implements SiteStatisticsService
 {
-    @Autowired
-    StationStatisticsRepository stationStatisticsRepository;
+
+    private final SiteStatisticsRepository siteStatisticsRepository;
+    private final DataService dataService;
 
     @Autowired
-    DataService dataService;
+    public SiteStatisticsServiceImplementation(
+            SiteStatisticsRepository siteStatisticsRepository,
+            DataService dataService)
+    {
+        this.dataService = dataService;
+        this.siteStatisticsRepository = siteStatisticsRepository;
+    }
 
     @Override
     public Future<SiteStatistics> recalculateStatistics(Site site)
@@ -39,7 +46,7 @@ public class StationStatisticsImpl implements StationStatisticsService
     @Override
     public SiteStatistics save(SiteStatistics siteStatistics)
     {
-        return stationStatisticsRepository.save(siteStatistics);
+        return siteStatisticsRepository.save(siteStatistics);
     }
 
     @Override

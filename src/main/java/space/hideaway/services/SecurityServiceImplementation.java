@@ -12,15 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class SecurityServiceImplementation implements SecurityService {
+public class SecurityServiceImplementation implements SecurityService
+{
 
-    private final
-    UserDetailsServiceImplementation userDetailsServiceImplementation;
+    private final UserDetailsServiceImplementation userDetailsServiceImplementation;
 
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public SecurityServiceImplementation(AuthenticationManager authenticationManager, UserDetailsServiceImplementation userDetailsServiceImplementation) {
+    public SecurityServiceImplementation(
+            AuthenticationManager authenticationManager,
+            UserDetailsServiceImplementation userDetailsServiceImplementation)
+    {
         this.authenticationManager = authenticationManager;
         this.userDetailsServiceImplementation = userDetailsServiceImplementation;
     }
@@ -31,7 +34,8 @@ public class SecurityServiceImplementation implements SecurityService {
      * @return The username of the current logged in user.
      */
     @Override
-    public String findLoggedInUsername() {
+    public String findLoggedInUsername()
+    {
         Authentication userDetails = SecurityContextHolder.getContext().getAuthentication();
         return userDetails.getName();
     }
@@ -44,26 +48,25 @@ public class SecurityServiceImplementation implements SecurityService {
      * @return JSON response representing
      */
     @Transactional(readOnly = true)
-    public String tryLogin(String username, String password) {
-        try {
+    public String tryLogin(String username, String password)
+    {
+        try
+        {
             UserDetails userDetails = userDetailsServiceImplementation.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    password,
-                    userDetails.getAuthorities()
-            );
+                    userDetails, password, userDetails.getAuthorities());
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-            if (usernamePasswordAuthenticationToken.isAuthenticated()) {
+
+            if (usernamePasswordAuthenticationToken.isAuthenticated())
+            {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                return "{\"status\": true, " +
-                        "\"location\": \"/dashboard\"}";
+                return "{\"status\": true, \"location\": \"/dashboard\"}";
             } else {
                 SecurityContextHolder.getContext().setAuthentication(null);
             }
         } catch (AuthenticationException e) {
             return "{\"status\": false, \"error\": \"Username or password is incorrect.\"}";
         }
-
         return "{\"status\": false, \"error\": \"Username or password is incorrect.\"}";
     }
 
@@ -74,26 +77,21 @@ public class SecurityServiceImplementation implements SecurityService {
      * @param password The password of the user to log in.
      */
     @Override
-    public void autoLogin(String username, String password) {
+    public void autoLogin(String username, String password)
+    {
         UserDetails userDetails = userDetailsServiceImplementation.loadUserByUsername(username);
-
-
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                password,
-                userDetails.getAuthorities()
-        );
+                userDetails, password, userDetails.getAuthorities());
 
-
-        try {
-
+        try
+        {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
 
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-
+        if (usernamePasswordAuthenticationToken.isAuthenticated())
+        {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
     }

@@ -18,7 +18,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
+@EnableAutoConfiguration(
+        exclude = {DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
         SecurityAutoConfiguration.class})

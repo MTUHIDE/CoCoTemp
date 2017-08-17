@@ -8,7 +8,7 @@ import java.util.concurrent.Future;
 /**
  * Created by dough on 2017-02-19.
  */
-public interface StationStatisticsService
+public interface SiteStatisticsService
 {
     Future<SiteStatistics> recalculateStatistics(Site site);
 

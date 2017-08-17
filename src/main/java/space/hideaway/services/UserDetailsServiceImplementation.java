@@ -16,16 +16,16 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class UserDetailsServiceImplementation implements UserDetailsService {
-
+public class UserDetailsServiceImplementation implements UserDetailsService
+{
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserDetailsServiceImplementation(UserRepository userRepository) {
+    public UserDetailsServiceImplementation(UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
-
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -41,12 +41,15 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
      */
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
         User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found.");
-        }
-        Set<GrantedAuthority> grantedAuthoritySet = user.getRoleSet().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+
+        if (user == null) throw new UsernameNotFoundException("User not found.");
+
+        Set<GrantedAuthority> grantedAuthoritySet = user.getRoleSet().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthoritySet);
     }
 }

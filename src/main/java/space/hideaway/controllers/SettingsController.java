@@ -8,20 +8,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import space.hideaway.model.Device;
 import space.hideaway.model.Site;
 import space.hideaway.model.User;
-import space.hideaway.repositories.DeviceRepository;
 import space.hideaway.services.DeviceService;
 import space.hideaway.services.SiteService;
-import space.hideaway.services.UserManagementImpl;
+import space.hideaway.services.UserServiceImplementation;
 import space.hideaway.validation.NewSiteValidator;
 import space.hideaway.validation.PersonalDetailsValidator;
 import space.hideaway.validation.SiteQuestionnaireValidator;
 
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -30,31 +27,29 @@ import java.util.UUID;
 @Controller
 public class SettingsController
 {
-    private final
-    UserManagementImpl userManagement;
-    private final
-    SiteService siteService;
-    private final
-    NewSiteValidator siteValidator;
-    private final
-    SiteQuestionnaireValidator siteQuestionnaireValidator;
-    private final
-    PersonalDetailsValidator personalDetailsValidator;
+    private final UserServiceImplementation userManagement;
+    private final SiteService siteService;
+    private final NewSiteValidator siteValidator;
+    private final SiteQuestionnaireValidator siteQuestionnaireValidator;
+    private final PersonalDetailsValidator personalDetailsValidator;
+
+    private final DeviceService deviceService;
 
     @Autowired
     public SettingsController(
-            UserManagementImpl userManagement,
+            UserServiceImplementation userManagement,
             SiteService siteService,
             NewSiteValidator siteValidator,
             SiteQuestionnaireValidator siteQuestionnaireValidator,
-            PersonalDetailsValidator personalDetailsValidator
-)
+            PersonalDetailsValidator personalDetailsValidator,
+            DeviceService deviceService)
     {
         this.userManagement = userManagement;
         this.siteService = siteService;
         this.siteValidator = siteValidator;
         this.siteQuestionnaireValidator = siteQuestionnaireValidator;
         this.personalDetailsValidator = personalDetailsValidator;
+        this.deviceService = deviceService;
     }
 
 
@@ -105,7 +100,6 @@ public class SettingsController
     /**
      * The controller mapping for update a site's properties via a post request from a form.
      *
-     * @param model              The model maintained by Spring for the settings/site/update endpoint.
      * @param site             The site that has been edited.
      * @param bindingResult      The module for linking validation errors to the template.
      * @param redirectAttributes Model for persisting objects across a redirect as opposed to a
@@ -115,20 +109,22 @@ public class SettingsController
      */
     @RequestMapping(value = "/settings/site/update", method = RequestMethod.POST)
     public String updateSite(
-            Model model,
             @ModelAttribute("site") Site site,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes)
     {
         siteValidator.validate(site, bindingResult);
         siteQuestionnaireValidator.validate(site, bindingResult);
+
         if (bindingResult.hasErrors())
         {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.site", bindingResult);
             redirectAttributes.addFlashAttribute("site", site);
             return "redirect:/settings/site?siteID=" + site.getId().toString();
         }
+
         siteService.save(site);
+
         return "redirect:/settings/site?siteID=" + site.getId().toString();
     }
 
@@ -136,10 +132,10 @@ public class SettingsController
     public String updateGeneral(
             Model model,
             @ModelAttribute("user") User user,
-            BindingResult bindingResult
-    )
+            BindingResult bindingResult)
     {
         personalDetailsValidator.validate(user, bindingResult);
+
         if (bindingResult.hasErrors())
         {
             User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
@@ -147,8 +143,49 @@ public class SettingsController
             model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
             return "settings/general";
         }
+
         userManagement.update(user);
         return "redirect:/settings";
+    }
+
+
+    @RequestMapping(value = "/settings/device", params = {"deviceID"})
+    public String loadDevice(
+            Model model,
+            @RequestParam("deviceID") UUID deviceID)
+    {
+        User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
+
+        if (!deviceService.isCorrectUser(currentLoggedInUser, deviceID.toString())) {
+            //TODO create this page for user has no access to site settings.
+            return "error/no-access";
+        }
+
+        if (!model.containsAttribute("device"))
+        {
+            model.addAttribute("device", deviceService.findByKey(deviceID.toString()));
+        }
+
+        model.addAttribute("sites", currentLoggedInUser.getSiteSet());
+        model.addAttribute("devices", currentLoggedInUser.getDeviceSet());
+
+        return "settings/device";
+    }
+
+    @RequestMapping(value = "/settings/device", params = {"update"}, method = RequestMethod.POST)
+    public String updateDevice(@ModelAttribute("device") Device device)
+    {
+        deviceService.save(device);
+
+        return "redirect:/settings/device?deviceID=" + device.getId().toString();
+    }
+
+    @RequestMapping(value = "/settings/device", params = {"delete"}, method = RequestMethod.POST)
+    public String deleteDevice(@ModelAttribute("device") Device device)
+    {
+        deviceService.delete(device);
+
+        return "redirect:/settings/";
     }
 
 }

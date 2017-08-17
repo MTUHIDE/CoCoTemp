@@ -33,8 +33,6 @@ public class Globe {
         this.id = id;
     }
 
-
-
     @Column(name = "site_id", length = 16)
     public UUID getSiteID() {
         return siteID;
@@ -43,8 +41,6 @@ public class Globe {
     public void setSiteID(UUID siteID) {
         this.siteID = siteID;
     }
-
-
 
     @ManyToOne()
     @JoinColumn(name = "site_id", updatable = false, insertable = false)
@@ -56,8 +52,6 @@ public class Globe {
         this.site = site;
     }
 
-
-
     @Column(name = "answer")
     public String getAnswer() {
         return answer;
@@ -66,8 +60,6 @@ public class Globe {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-
-
 
     @Column(name = "question_number")
     public byte getQuestion_number() {

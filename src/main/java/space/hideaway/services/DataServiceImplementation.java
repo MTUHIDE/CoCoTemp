@@ -27,12 +27,18 @@ public class DataServiceImplementation implements DataService
 {
 
     private final DataRepository dataRepository;
+
+    //BUG
     @Autowired
-    StationStatisticsService stationStatisticsService;
-    Logger logger = Logger.getLogger(getClass());
+    SiteStatisticsService siteStatisticsService;
+
+    private Logger logger = Logger.getLogger(getClass());
+
     @PersistenceContext
     private EntityManager entityManager;
+
     @Value("${hibernate.jdbc.batch_size}")
+
     private int batchSize;
 
     @Autowired
@@ -52,7 +58,7 @@ public class DataServiceImplementation implements DataService
         dataRepository.save(data);
 
         //Station statistics hook to recalculate statistics on new data.
-        stationStatisticsService.recalculateStatistics(site);
+        siteStatisticsService.recalculateStatistics(site);
     }
 
     /**
@@ -76,13 +82,12 @@ public class DataServiceImplementation implements DataService
                 session.flush();
                 session.clear();
             }
-            System.out.println(i);
         }
         transaction.commit();
         session.close();
 
         //Station statistics hook to recalculate statistics on new data.
-        stationStatisticsService.recalculateStatistics(site);
+        siteStatisticsService.recalculateStatistics(site);
         return dataList;
     }
 

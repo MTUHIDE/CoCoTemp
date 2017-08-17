@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-
     <title>Contact CoCo Temp</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
-    <link th:href="@{/sass/contact.css}" type="text/css" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/contact.css}" />
 </head>
 <body>
 <div class="row">
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='contact')"></div>
-
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
-
             <div class="row">
                 <div class="seperator-header">
                     <h1>Contact CoCo Temp</h1>
@@ -65,13 +62,13 @@
                                 <strong>Thank You!</strong> Your email has been delivered.
                             </div>
                         </div>
-
                     </div><!-- End Contact Form Area -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
@@ -94,7 +91,6 @@
 
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
-
 </script>
 
 </body>

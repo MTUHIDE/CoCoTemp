@@ -21,29 +21,28 @@ public class RESTService
 
     private final DataServiceImplementation dataServiceImplementation;
     private final SiteServiceImplementation siteServiceImplementation;
-    private final UserManagementImpl userManagementImpl;
+    private final UserServiceImplementation userServiceImplementation;
     private final UploadHistoryService uploadHistoryService;
     private final DeviceService deviceService;
-
 
     @Autowired
     public RESTService(
             SiteServiceImplementation siteServiceImplementation,
-            UserManagementImpl userManagementImpl,
+            UserServiceImplementation userServiceImplementation,
             DataServiceImplementation dataServiceImplementation,
             UploadHistoryService uploadHistoryService,
             DeviceService deviceService)
     {
         this.siteServiceImplementation = siteServiceImplementation;
         this.dataServiceImplementation = dataServiceImplementation;
-        this.userManagementImpl = userManagementImpl;
+        this.userServiceImplementation = userServiceImplementation;
         this.uploadHistoryService = uploadHistoryService;
         this.deviceService = deviceService;
     }
 
     public InfoCardSerializer populateInfocards()
     {
-        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+        User currentLoggedInUser = userServiceImplementation.getCurrentLoggedInUser();
         InfoCardSerializer infoCardSerializer = new InfoCardSerializer();
         infoCardSerializer.setSiteCount(siteServiceImplementation.countByUserID(currentLoggedInUser));
         infoCardSerializer.setRecordCount(dataServiceImplementation.countByUserID(currentLoggedInUser));
@@ -54,30 +53,28 @@ public class RESTService
 
     public List<Site> populateSites()
     {
-        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+        User currentLoggedInUser = userServiceImplementation.getCurrentLoggedInUser();
         ArrayList<Site> siteList = new ArrayList<>(currentLoggedInUser.getSiteSet());
         return siteList.stream().sorted(Comparator.comparing(Site::getSiteName)).collect(Collectors.toList());
     }
 
-    public List<Device> poplateDevices(){
-        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+    public List<Device> populateDevices(){
+        User currentLoggedInUser = userServiceImplementation.getCurrentLoggedInUser();
         ArrayList<Device> deviceList = new ArrayList<>(currentLoggedInUser.getDeviceSet());
         return deviceList.stream().sorted(Comparator.comparing(Device::getType)).collect(Collectors.toList());
     }
 
     public List<UploadHistory> getUploadHistory(HistoryUnit historyUnit)
     {
-        User currentLoggedInUser = userManagementImpl.getCurrentLoggedInUser();
+        User currentLoggedInUser = userServiceImplementation.getCurrentLoggedInUser();
         switch (historyUnit)
         {
             case WEEK:
                 return uploadHistoryService.getLastWeek(currentLoggedInUser);
-
             case LAST_30:
                 return uploadHistoryService.getLastMonth(currentLoggedInUser);
             case YEAR:
                 return uploadHistoryService.getLastYear(currentLoggedInUser);
-
         }
         return uploadHistoryService.getLastMonth(currentLoggedInUser);
     }

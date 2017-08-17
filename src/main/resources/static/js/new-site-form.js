@@ -1,7 +1,7 @@
 /**
  * Created by dough on 2017-02-09.
  */
-jQuery(document).ready(function () {
+$(function () {
 
     var latitudeInput = $('#siteLatitude');
     var longitudeInput = $('#siteLongitude');

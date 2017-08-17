@@ -18,11 +18,8 @@ import java.util.List;
 public class RESTController
 {
 
-    private final
-    RESTService restService;
-
-    private final
-    SiteService siteService;
+    private final RESTService restService;
+    private final SiteService siteService;
 
     @Autowired
     public RESTController(
@@ -32,7 +29,6 @@ public class RESTController
         this.siteService = siteService;
         this.restService = restService;
     }
-
 
     /**
      * Obtain information for a specific site.
@@ -141,8 +137,10 @@ public class RESTController
      * @return @see the sample response above.
      */
     @RequestMapping(value = "/dashboard/devices.json", method = RequestMethod.POST)
-    public @ResponseBody List<Device> populateDevices(){
-        return restService.poplateDevices();
+    public
+    @ResponseBody
+    List<Device> populateDevices(){
+        return restService.populateDevices();
     }
 
     /**
@@ -224,9 +222,11 @@ public class RESTController
         return SortingUtils.sortMostRecentFirst(siteService.findByKey(siteID).getDataSet());
     }
 
-
     @RequestMapping(value = "/sites.json", method = RequestMethod.POST)
-    public @ResponseBody List<Site> getSitePoints() {
+    public
+    @ResponseBody
+    List<Site> getSitePoints()
+    {
         return siteService.getAllSites();
     }
 }

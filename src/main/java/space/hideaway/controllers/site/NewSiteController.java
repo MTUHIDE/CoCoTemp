@@ -1,4 +1,4 @@
-package space.hideaway.controllers.newsite;
+package space.hideaway.controllers.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +12,6 @@ import space.hideaway.repositories.GlobeRepository;
 import space.hideaway.services.SiteService;
 import space.hideaway.validation.NewSiteValidator;
 
-import java.util.List;
-
 /**
  * The controller for the multi-page new site registration. Contains a session attribute "site"
  * to persist a template site across the multiple pages of the new site registration route.
@@ -24,19 +22,12 @@ import java.util.List;
 public class NewSiteController
 {
 
-    /**
-     * The validator for a site.
-     */
-    private final
-    NewSiteValidator newSiteValidator;
-
+    // The validator for a site.
+    private final NewSiteValidator newSiteValidator;
+    //
     private final GlobeRepository globeRepository;
-
-    /**
-     * The service responsible for CRUD operations on sites.
-     */
-    private final
-    SiteService siteService;
+    // The service responsible for CRUD operations on sites.
+    private final SiteService siteService;
 
     @Autowired
     public NewSiteController(
@@ -60,9 +51,8 @@ public class NewSiteController
     @RequestMapping
     public String initialPage(final ModelMap modelMap)
     {
-        //Add a blank site to the session's model.
+        // Add a blank site to the session's model.
         modelMap.addAttribute("site", new Site());
-        modelMap.addAttribute("globe", new Globe());
         return "new-site/new-site-form";
     }
 
@@ -79,10 +69,11 @@ public class NewSiteController
     @RequestMapping(params = "_questions", method = RequestMethod.POST)
     public String questionPage(
             final @ModelAttribute("site") Site site,
-            final BindingResult bindingResult
-    )
+            final BindingResult bindingResult)
     {
+        //Perform validation on the fields, and redirect to the previous page if errors are present.
         newSiteValidator.validate(site, bindingResult);
+
         if (bindingResult.hasErrors())
         {
             return "new-site/new-site-form";
@@ -94,9 +85,7 @@ public class NewSiteController
     @RequestMapping(params = "_globe", method = RequestMethod.POST)
     public String globePage(
             final @ModelAttribute("site") Site site,
-            final BindingResult bindingResult,
-            final @ModelAttribute("globe") Globe globe
-    )
+            final BindingResult bindingResult)
     {
         //Perform validation on the fields, and redirect to the previous page if errors are present.
         newSiteValidator.validateFinal(site, bindingResult);
@@ -120,8 +109,10 @@ public class NewSiteController
      * has failed on fields from the previous page.
      */
     @RequestMapping(params = "_finish", method = RequestMethod.POST)
-    public String createSite(@ModelAttribute("site") Site site, SessionStatus sessionStatus) {
-
+    public String createSite(
+            @ModelAttribute("site") Site site,
+            SessionStatus sessionStatus)
+    {
         //Persist the site.
         siteService.save(site);
         //Set the session complete, as the site has been safely persisted.
@@ -132,9 +123,11 @@ public class NewSiteController
     }
 
     @RequestMapping(params = "_finish_globe", method = RequestMethod.POST)
-    public String createGlobeSite(@ModelAttribute("site") Site site, SessionStatus sessionStatus,
-                                  @RequestParam("answers") String[] answer) {
-
+    public String createGlobeSite(
+            @ModelAttribute("site") Site site,
+            SessionStatus sessionStatus,
+            @RequestParam("answers") String[] answer)
+    {
         //Persist the site.
         siteService.save(site);
 

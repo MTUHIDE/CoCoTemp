@@ -1,168 +1,89 @@
-$success-color: #449d44
-$error-color: #c33946
-$accent-color: #05ccff
-$secondary-color: #00416A
-$subtle-accent: #00629a
+@media (max-width: 768px)
+  .side-menu
+    font-family: "Segoe UI Light", serif
+    width: 100%
+    border-right: 0
+    background-color: #00416a
+    border-bottom: 1px solid #00416a
+    .brand-name-wrapper .navbar-brand
+      display: inline-block
+
+@media (min-width: 769px)
+  .side-menu
+    font-family: "Segoe UI Light", serif
+    z-index: 3000
+    position: fixed
+    width: 300px
+    height: 100%
+    background-color: #00416A
+    border-right: 1px solid #00416A
+  .welcome
+    position: absolute
 
 .side-menu
-  font-family: "Segoe UI Light", serif
   .btn-default
     color: white !important
-  z-index: 3000
-  position: fixed
-  width: 300px
-  height: 100%
-  background-color: $secondary-color
-  border-right: 1px solid $secondary-color
   .navbar
     border: none
+    margin: 0px
   .navbar-header
+    margin: 0px
     color: white
     width: 100%
-    background-color: $secondary-color
-    border-bottom: 1px solid $secondary-color
+    background-color: #00416A
+    border-bottom: 1px solid #00416A
+  .navbar-collapse
+    padding: 0px
   .navbar-nav
+    margin: 0px
     .active a
-      &:hover
-        background-color: $subtle-accent
-        color: white
-      background-color: $secondary-color
+      background-color: #00416A
       color: white
       margin-right: -1px
-      border-right: 5px solid $accent-color
+      border-right: 5px solid #05ccff
+      &:hover
+        background-color: #00629a
+        color: white
     li
-      a
-        &:hover
-          background-color: $subtle-accent
       display: block
       width: 100%
-      background-color: $secondary-color
-      border-bottom: 1px solid $secondary-color
+      background-color: #00416A
+      border-bottom: 1px solid #00416A
       a
         &:hover
+          background-color: #00629a
           color: white
         color: white
         padding: 15px
         .glyphicon
           padding-right: 10px
-  #dropdown
-    border: 0
-    margin-bottom: 0
-    border-radius: 0
-    background-color: $secondary-color
-    box-shadow: none
-    .caret
-      float: right
-      margin: 9px 5px 0
-    .indicator
-      float: right
-    > a
-      &:focus
-        color: white
-      &:hover
-        background-color: $secondary-color
-      border-bottom: 1px solid $secondary-color
-    .panel-body
-      padding: 0
-      background-color: $secondary-color
-      .navbar-nav
-        width: 100%
-        li
-          &:hover
-            background-color: $secondary-color
-          a
-            &:hover
-              background-color: $secondary-color
-            background-color: $secondary-color
-          background-color: $secondary-color
-          padding-left: 15px
-          border-bottom: 1px solid $secondary-color
-          &:last-child
-            border-bottom: none
-      .panel > a
-        margin-left: -20px
-        padding-left: 35px
-      .panel-body
-        margin-left: -15px
-        li
-
-          padding-left: 30px
-          &:last-child
-            border-bottom: 1px solid $secondary-color
-  #search-trigger
-    background-color: $secondary-color
-    border: 0
-    border-radius: 0
-    position: absolute
-    top: 0
-    right: 0
-    padding: 15px 18px
-  .brand-name-wrapper
-    min-height: 50px
-    .navbar-brand
-      font-family: "Segoe UI", serif
-      font-weight: 500
-      color: white
-      display: block
-  #search
-    position: relative
-    z-index: 1000
-    .panel-body
-      padding: 0
-      .navbar-form
-        padding: 0
-        padding-right: 50px
-        width: 100%
-        margin: 0
-        position: relative
-        border-top: 1px solid $secondary-color
-        .form-group
-          width: 100%
-          position: relative
-        input
-          border: 0
-          border-radius: 0
-          box-shadow: none
-          width: 100%
-          height: 50px
-        .btn
-          position: absolute
-          right: 0
-          top: 0
-          border: 0
-          border-radius: 0
-          background-color: $secondary-color
-          padding: 15px 18px
-  .side-menu-container
-    background-color: $secondary-color
+    button .glyphicon
+      padding-right: 10px
 
 #account-container
+  background-color: #00416A
   padding: 15px
   a
-    //box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
     color: white
     border-radius: 2px
     width: 100%
 
 .log-in
-  background-color: $success-color
+  background-color: #449d44
 
 .log-out
-  background-color: $error-color
-
+  background-color: #c33946
 
 .welcome
   text-align: center
-  bottom: 0
-  position: absolute
-  background-color: $subtle-accent
+  bottom: 0px
+  background-color: #00629a
   width: 100%
   color: white
   padding-top: 5px
   padding-bottom: 5px
-
-.welcome span
-  color: white
+  span
+    color: white
 
 .logo
   display: block
@@ -170,13 +91,12 @@ $subtle-accent: #00629a
   width: 150px
   margin: 0 auto
   text-align: center
-
-.logo img
-  margin: 0 auto 0 50%
-  text-align: center
-  height: 100px
+  img
+    margin: 0 auto 0 50%
+    text-align: center
+    height: 100px
 
 .nav > li
   padding-top: 5px
   padding-bottom: 5px
-  font-size: 16px
+  font-size: 15px

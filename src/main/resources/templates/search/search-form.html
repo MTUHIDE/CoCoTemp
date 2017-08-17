@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
 </head>
 <body>
 <div class="search-form-container" th:fragment="search-form">
@@ -17,6 +15,7 @@
                         <p class="help-block">You can search for identifiers in a site's name, description, or by
                             username.</p>
                     </div>
+
                     <div class="form-group">
                         <label for="location-query">Location Search</label>
                         <input type="text" class="form-control" id="location-query"
@@ -32,11 +31,13 @@
                                 <input type="text" class="form-control" id="latitude-query"
                                        placeholder=""/>
                             </div>
+
                             <div id="longitude-container" class="col-lg-4">
                                 <label for="location-query">Longitude</label>
                                 <input type="text" class="form-control" id="longitude-query"
                                        placeholder=""/>
                             </div>
+
                             <div id="range-container" class="col-lg-4">
                                 <label for="range-selector">Range</label>
                                 <select class="form-control" id="range-selector">
@@ -48,6 +49,7 @@
                             </div>
                         </div>
                     </div>
+
                     <button type="submit" class="btn btn-default">Search</button>
                 </form>
             </div>

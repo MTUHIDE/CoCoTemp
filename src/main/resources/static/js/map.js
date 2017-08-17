@@ -1,3 +1,6 @@
+
+/*_____THIS JAVASCRIPT NOT IN USED_____*/
+
 /* Limit map view to the USA */
 var maxBounds = L.latLngBounds(
     L.latLng(5.090944175, -172.44140625), //Southwest

@@ -19,16 +19,12 @@ import java.util.Set;
 public class User
 {
 
-    @JsonIgnore
     private Long id;
 
     private String email;
 
-    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.NO)
-    @Analyzer(impl = KeywordAnalyzer.class)
     private String username;
 
-    @JsonIgnore
     private String password;
 
     private String firstName;
@@ -54,6 +50,7 @@ public class User
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     public Long getId()
     {
         return id;
@@ -85,6 +82,8 @@ public class User
      *
      * @return the username
      */
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @Analyzer(impl = KeywordAnalyzer.class)
     public String getUsername()
     {
         return username;
@@ -105,6 +104,7 @@ public class User
      *
      * @return the password
      */
+    @JsonIgnore
     public String getPassword()
     {
         return password;

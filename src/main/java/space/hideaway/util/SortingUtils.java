@@ -15,15 +15,13 @@ public class SortingUtils
 {
     public static List<Data> sortMostRecentFirst(Set<Data> dataList)
     {
-        return dataList.stream()
-                       .sorted(Comparator.comparing(Data::getDateTime).reversed())
-                       .collect(Collectors.toList());
+        return dataList.stream().sorted(Comparator.comparing(Data::getDateTime).reversed())
+                .collect(Collectors.toList());
     }
 
     public static List<SiteStatistics> sortMostRecentFirst(List<SiteStatistics> siteStatisticsList)
     {
-        return siteStatisticsList.stream()
-                                 .sorted(Comparator.comparing(SiteStatistics::getDate).reversed()).collect
-                        (Collectors.toList());
+        return siteStatisticsList.stream().sorted(Comparator.comparing(SiteStatistics::getDate).reversed())
+                .collect(Collectors.toList());
     }
 }

@@ -14,7 +14,7 @@ import java.util.Set;
 
 
 @Service
-public class UserManagementImpl implements UserService
+public class UserServiceImplementation implements UserService
 {
 
     private final UserRepository userRepository;
@@ -26,8 +26,10 @@ public class UserManagementImpl implements UserService
     private final SecurityServiceImplementation securityServiceImplementation;
 
     @Autowired
-    public UserManagementImpl(
-            RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
+    public UserServiceImplementation(
+            RoleRepository roleRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            UserRepository userRepository,
             SecurityServiceImplementation securityServiceImplementation)
     {
         this.roleRepository = roleRepository;
@@ -35,7 +37,6 @@ public class UserManagementImpl implements UserService
         this.userRepository = userRepository;
         this.securityServiceImplementation = securityServiceImplementation;
     }
-
 
     /**
      * Save a new user into the database.
@@ -45,7 +46,6 @@ public class UserManagementImpl implements UserService
     @Override
     public void save(User user)
     {
-
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoleSet(new HashSet<>(roleRepository.findAll()));
         userRepository.save(user);
@@ -54,7 +54,7 @@ public class UserManagementImpl implements UserService
     @Override
     public void update(User user)
     {
-        User oldUser = userRepository.getOne(user.getId());//userRepository.findOne(user.getId());
+        User oldUser = userRepository.getOne(user.getId());
 
         if (oldUser != null)
         {
@@ -74,6 +74,8 @@ public class UserManagementImpl implements UserService
                 user.setRoleSet(oldUser.getRoleSet());
             if (user.getSiteSet() == null)
                 user.setSiteSet(oldUser.getSiteSet());
+            if (user.getDeviceSet() == null)
+                user.setDeviceSet(oldUser.getDeviceSet());
             if (user.getUploadHistorySet() == null)
                 user.setUploadHistorySet(oldUser.getUploadHistorySet());
         }
@@ -91,8 +93,7 @@ public class UserManagementImpl implements UserService
         try
         {
             return findByUsername(securityServiceImplementation.findLoggedInUsername());
-        } catch (UserNotFoundException e)
-        {
+        } catch (UserNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -112,8 +113,7 @@ public class UserManagementImpl implements UserService
         if (user == null)
         {
             throw new UserNotFoundException("The user was not found in the database.");
-        } else
-        {
+        } else {
             return user;
         }
     }

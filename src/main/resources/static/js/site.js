@@ -18,7 +18,7 @@ $(function () {
             method: 'post',
             url: "/cocotemp/site/" + siteID + "/info.json",
             success: function (data) {
-                if (data.length == 0) {
+                if (data.length === 0) {
                     return;
                 }
 
@@ -47,8 +47,7 @@ $(function () {
         function buildChart(dates, temperature) {
             var d3 = Plotly.d3;
 
-            var gd3 = d3.select('div[id=\'temperature-chart\']')
-                .append('div')
+            var gd3 = d3.select('div[id=\'temperature-chart\']').append('div')
                 .style({
                     width: '100%',
                     height: '100%'
@@ -61,7 +60,7 @@ $(function () {
                 y: temperature,
                 name: 'site\'s temperature',
                 type: 'scatter'
-            }
+            };
 
             var indexTemp = [0, 31, 35, 44, 56];
             var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
@@ -91,7 +90,7 @@ $(function () {
             };
 
             for(var i = 0; i < indexTemp.length; i++){
-                var index = {
+                var lines = {
                     type: 'line',
                         xref: 'paper',
                     yref: 'y',
@@ -103,26 +102,26 @@ $(function () {
                     color: indexColors[i],
                         width: 1
                     }
-                }
-                layout.shapes.push(index);
+                };
+                layout.shapes.push(lines);
             }
 
-            for(var i = 0; i < indexTemp.length; i++){
-                var index = {
+            for(var j = 0; j < indexTemp.length; j++){
+                var annotations = {
                     xref: 'paper',
                     x: 1,
-                    y: indexTemp[i],
+                    y: indexTemp[j],
                     xanchor: 'left',
                     yanchor: 'middle',
-                    text: indexName[i],
+                    text: indexName[j],
                     showarrow: false,
                     font: {
                         family: 'Segoe UI',
                         size: 14,
                         color: '#7f7f7f'
                     }
-                }
-                layout.annotations.push(index);
+                };
+                layout.annotations.push(annotations);
             }
 
 

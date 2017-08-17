@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public interface UploadHistoryRepository extends JpaRepository<UploadHistory, UUID> {
+public interface UploadHistoryRepository extends JpaRepository<UploadHistory, UUID>
+{
     @Query("SELECT count(u) from UploadHistory u where u.userID=:id")
     long countByUserID(@Param("id") int id);
 
