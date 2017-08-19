@@ -1,15 +1,18 @@
-package space.hideaway.model;
+package space.hideaway.model.site;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.bridge.builtin.DoubleBridge;
 import org.hibernate.search.spatial.Coordinates;
+import space.hideaway.model.Data;
+import space.hideaway.model.Device;
+import space.hideaway.model.User;
 import space.hideaway.model.globe.Globe;
+import space.hideaway.model.upload.UploadHistory;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.UUID;
 
 
 /**
- * The type Site.
+ * The table Site.
  */
 @Entity
 @Table(name = "site")
@@ -66,6 +69,11 @@ public class Site
     {
     }
 
+    /**
+     * Gets site statistics.
+     *
+     * @return the site statistics.
+     */
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "site_id", updatable = false)
@@ -74,6 +82,11 @@ public class Site
         return siteStatisticsList;
     }
 
+    /**
+     * Sets site statistics.
+     *
+     * @param siteStatisticsList the site statistics.
+     */
     public void setSiteStatisticsList(List<SiteStatistics> siteStatisticsList)
     {
         this.siteStatisticsList = siteStatisticsList;
@@ -253,6 +266,11 @@ public class Site
         this.siteLatitude = siteLatitude;
     }
 
+    /**
+     * Gets the site description.
+     *
+     * @return the site description.
+     */
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @Column(name = "site_description")
     public String getSiteDescription()
@@ -260,29 +278,14 @@ public class Site
         return siteDescription;
     }
 
+    /**
+     * Sets the site description.
+     *
+     * @param siteDescription the site description.
+     */
     public void setSiteDescription(String siteDescription)
     {
         this.siteDescription = siteDescription;
-    }
-
-    @Transient
-    @Spatial(spatialMode = SpatialMode.HASH)
-    public Coordinates getLocation()
-    {
-        return new Coordinates()
-        {
-            @Override
-            public Double getLatitude()
-            {
-                return getSiteLatitude();
-            }
-
-            @Override
-            public Double getLongitude()
-            {
-                return getSiteLongitude();
-            }
-        };
     }
 
     /**
@@ -308,24 +311,68 @@ public class Site
         this.siteLongitude = siteLongitude;
     }
 
+    /**
+     * Gets the site device set.
+     *
+     * @return the site device set.
+     */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "site_id", updatable = false)
-    public Set<Device> getDeviceSet() {
+    public Set<Device> getDeviceSet()
+    {
         return deviceSet;
     }
 
-    public void setDeviceSet(Set<Device> deviceSet) {
+    /**
+     * Sets the site device set.
+     *
+     * @param deviceSet the site device set.
+     */
+    public void setDeviceSet(Set<Device> deviceSet)
+    {
         this.deviceSet = deviceSet;
     }
 
+    /**
+     * Formats the site's location into a coordinate.
+     *
+     * @return A coordinate
+     */
+    @Transient
+    @JsonIgnore
+    @Spatial(spatialMode = SpatialMode.HASH)
+    public Coordinates getLocation()
+    {
+        return new Coordinates()
+        {
+            @Override
+            public Double getLatitude()
+            {
+                return getSiteLatitude();
+            }
+
+            @Override
+            public Double getLongitude()
+            {
+                return getSiteLongitude();
+            }
+        };
+    }
+
+    /**
+     * Site: [ID: 12354034804 Name: Demo Site Location: 25, 56]
+     *
+     * @return A String.
+     */
     @Override
     public String toString()
     {
         return String.format(
-                "Site: [ID: %s Name: %s Location: %s]%n",
+                "Site: [ID: %s Name: %s Location: %s, %s]%n",
                 getId(),
                 getSiteName(),
-                getSiteLatitude());
+                getSiteLatitude(),
+                getSiteLongitude());
     }
 
 }

@@ -1,4 +1,4 @@
-package space.hideaway.services;
+package space.hideaway.services.security;
 
 public interface SecurityService {
     /**

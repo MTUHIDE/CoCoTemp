@@ -5,14 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import space.hideaway.model.Site;
-import space.hideaway.model.SiteStatistics;
-import space.hideaway.services.SiteService;
-import space.hideaway.services.SiteStatisticsService;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.site.SiteStatistics;
+import space.hideaway.services.site.SiteService;
+import space.hideaway.services.site.SiteStatisticsService;
 import space.hideaway.util.FormatUtils;
 
 import java.util.UUID;
 
+/**
+ * Edited by Justin Havely
+ * 8/18/17
+ *
+ * Serves the site page to the user.
+ */
 @Controller
 public class SiteController
 {
@@ -30,15 +36,15 @@ public class SiteController
     }
 
     /**
-     * The endpoint for station pages.
-     * <p>
+     * The endpoint for site pages.
+     *
      * URL: /site/{siteID}
      * Secured: No
      * Method: GET
      *
-     * @param model    The model maintained by Spring.
+     * @param model The model maintained by Spring.
      * @param siteID The ID of the associated site to be rendered.
-     * @return The name of the station view template.
+     * @return The name of the site template.
      */
     @RequestMapping(value = "/site/{siteID}")
     public String showSite(
@@ -50,6 +56,7 @@ public class SiteController
         model.addAttribute("siteID", site.getId());
         model.addAttribute("user", site.getUser());
 
+        // Values for the site page title card.
         SiteStatistics siteStatistics = siteStatisticsService.getMostRecent(site);
         model.addAttribute("max", FormatUtils.doubleToVisualString(siteStatistics.getAllMax()));
         model.addAttribute("min", FormatUtils.doubleToVisualString(siteStatistics.getAllMin()));

@@ -1,9 +1,11 @@
-package space.hideaway.model;
+package space.hideaway.model.upload;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.hibernate.annotations.GenericGenerator;
+import space.hideaway.model.Device;
+import space.hideaway.model.site.Site;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,35 +26,17 @@ public class UploadHistory
     private UUID siteID;
     private Site site;
 
-    private int userID;
-
-    private boolean viewed;
-
-    private boolean error;
-
     private UUID deviceID;
     private Device device;
 
-    /**
-     * The Date time.
-     */
-    @JsonProperty("dateTime")
-    @Temporal(value = TemporalType.TIMESTAMP)
+    private int userID;
+
+    private boolean viewed;
+    private boolean error;
+
     private Date dateTime;
-
-    /**
-     * The Duration.
-     */
-    @JsonProperty("duration")
     private Long duration;
-
-    /**
-     * The Description.
-     */
-    @JsonProperty("description")
     private String description;
-
-    @JsonProperty("records")
     private Integer records;
 
     /**
@@ -125,6 +109,11 @@ public class UploadHistory
         this.siteID = siteID;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id.
+     */
     @JsonProperty
     @Column(name = "user_id")
     public int getUserID()
@@ -132,11 +121,21 @@ public class UploadHistory
         return userID;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userID the user id.
+     */
     public void setUserID(int userID)
     {
         this.userID = userID;
     }
 
+    /**
+     * Gets error.
+     *
+     * @return the error.
+     */
     @Column(name = "error")
     @JsonProperty("error")
     public boolean isError()
@@ -144,6 +143,11 @@ public class UploadHistory
         return error;
     }
 
+    /**
+     * Sets error.
+     *
+     * @param error the error
+     */
     public void setError(boolean error)
     {
         this.error = error;
@@ -154,6 +158,8 @@ public class UploadHistory
      *
      * @return the date time
      */
+    @JsonProperty("dateTime")
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "date")
     public Date getDateTime()
     {
@@ -175,6 +181,7 @@ public class UploadHistory
      *
      * @return the duration
      */
+    @JsonProperty("duration")
     @Column(name = "duration")
     public Long getDuration()
     {
@@ -196,6 +203,7 @@ public class UploadHistory
      *
      * @return the description
      */
+    @JsonProperty("description")
     @Column(name = "description")
     public String getDescription()
     {
@@ -212,17 +220,33 @@ public class UploadHistory
         this.description = description;
     }
 
+    /**
+     * Gets records.
+     *
+     * @return the records
+     */
+    @JsonProperty("records")
     @Column(name = "records")
     public Integer getRecords()
     {
         return records;
     }
 
+    /**
+     * Sets records.
+     *
+     * @param records the records
+     */
     public void setRecords(Integer records)
     {
         this.records = records;
     }
 
+    /**
+     * Gets viewed.
+     *
+     * @return the viewed
+     */
     @Column(name = "viewed")
     @JsonProperty("viewed")
     public boolean isViewed()
@@ -230,21 +254,40 @@ public class UploadHistory
         return viewed;
     }
 
+    /**
+     * Sets viewed.
+     *
+     * @param viewed the
+     */
     public void setViewed(boolean viewed)
     {
         this.viewed = viewed;
     }
 
-
+    /**
+     * Gets device id.
+     *
+     * @return the device id
+     */
     @Column(name = "device_id", length = 16)
     public UUID getDeviceID() {
         return deviceID;
     }
 
+    /**
+     * Sets device id.
+     *
+     * @param deviceID the device id
+     */
     public void setDeviceID(UUID deviceID) {
         this.deviceID = deviceID;
     }
 
+    /**
+     * Gets device.
+     *
+     * @return the device
+     */
     @ManyToOne()
     @JsonIgnore
     @JoinColumn(name = "device_id", insertable = false, updatable = false)
@@ -253,6 +296,11 @@ public class UploadHistory
         return device;
     }
 
+    /**
+     * Sets device.
+     *
+     * @param device the device
+     */
     public void setDevice(Device device)
     {
         this.device = device;

@@ -1,7 +1,7 @@
 package space.hideaway.util;
 
-import space.hideaway.model.Site;
-import space.hideaway.model.SiteStatistics;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.site.SiteStatistics;
 
 import java.util.List;
 

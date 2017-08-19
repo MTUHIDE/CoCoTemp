@@ -23,6 +23,9 @@ public class StartupService
         this.entityManager = entityManager;
     }
 
+    /**
+     * Call at the startup of the server. Enables Hibernate's FullTextEntityManager for Full-text searching.
+     */
     public void initialize()
     {
         logger.info("Linking entityManager.");

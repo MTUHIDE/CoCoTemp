@@ -1,4 +1,4 @@
-package space.hideaway.model;
+package space.hideaway.model.site;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
@@ -27,20 +27,25 @@ public class SiteStatistics
     private double weekMin;
     private double weekAvg;
     private double weekDeviation;
+
     private double monthMax;
     private double monthMin;
     private double monthAvg;
     private double monthDeviation;
+
     private double yearMax;
     private double yearMin;
     private double yearAvg;
     private double yearDeviation;
+
     private double allMax;
     private double allMin;
     private double allAvg;
     private double allDeviation;
 
     private Date date;
+
+    /*----------------------------id----------------------------*/
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -55,6 +60,8 @@ public class SiteStatistics
     {
         this.statisticsID = statisticsID;
     }
+
+    /*----------------------------site----------------------------*/
 
     @Column(name = "site_id", length = 16)
     public UUID getSiteID()
@@ -80,6 +87,8 @@ public class SiteStatistics
         this.site = site;
     }
 
+    /*----------------------------date----------------------------*/
+
     @Column(name = "date")
     public Date getDate()
     {
@@ -90,6 +99,8 @@ public class SiteStatistics
     {
         this.date = date;
     }
+
+    /*----------------------------week----------------------------*/
 
     @Column(name = "week_max")
     public double getWeekMax()
@@ -135,6 +146,8 @@ public class SiteStatistics
         this.weekDeviation = weekDeviation;
     }
 
+    /*----------------------------month----------------------------*/
+
     @Column(name = "month_max")
     public double getMonthMax()
     {
@@ -178,6 +191,8 @@ public class SiteStatistics
     {
         this.monthDeviation = monthDeviation;
     }
+
+    /*----------------------------year----------------------------*/
 
     @Column(name = "year_max")
     public double getYearMax()
@@ -223,6 +238,8 @@ public class SiteStatistics
         this.yearDeviation = yearDeviation;
     }
 
+    /*----------------------------all----------------------------*/
+
     @Column(name = "all_max")
     public double getAllMax()
     {
@@ -267,6 +284,11 @@ public class SiteStatistics
         this.allDeviation = allDeviation;
     }
 
+    /**
+     * Sets min, max, mean, and deviation for a week
+     *
+     * @param week Statistics for the week
+     */
     public void setWeek(SummaryStatistics week)
     {
         this.weekMin = week.getMin();
@@ -275,6 +297,11 @@ public class SiteStatistics
         this.weekDeviation = week.getStandardDeviation();
     }
 
+    /**
+     * Sets min, max, mean, and deviation for a month.
+     *
+     * @param month Statistics for the month.
+     */
     public void setMonth(SummaryStatistics month)
     {
         this.monthMin = month.getMin();
@@ -283,6 +310,11 @@ public class SiteStatistics
         this.monthDeviation = month.getStandardDeviation();
     }
 
+    /**
+     * Sets min, max, mean, and deviation for a year.
+     *
+     * @param year Statistics for the year.
+     */
     public void setYear(SummaryStatistics year)
     {
         this.yearMin = year.getMin();
@@ -291,6 +323,11 @@ public class SiteStatistics
         this.yearDeviation = year.getStandardDeviation();
     }
 
+    /**
+     * Sets min, max, mean, and deviation for a all.
+     *
+     * @param all Statistics for the all.
+     */
     public void setAll(SummaryStatistics all)
     {
         this.allMin = all.getMin();

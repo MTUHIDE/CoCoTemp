@@ -6,6 +6,8 @@ import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Store;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.upload.UploadHistory;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -24,23 +26,16 @@ public class User
     private String email;
 
     private String username;
-
     private String password;
-
-    private String firstName;
-
-    private String middleInitial;
-
-    private String lastName;
-
     private String confirmationPassword;
 
+    private String firstName;
+    private String middleInitial;
+    private String lastName;
+
     private Set<Role> roleSet;
-
     private Set<Site> siteSet;
-
     private Set<UploadHistory> uploadHistorySet;
-
     private Set<Device> deviceSet;
 
     /**
@@ -66,12 +61,22 @@ public class User
         this.id = id;
     }
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     @Column(name = "email")
     public String getEmail()
     {
         return email;
     }
 
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
     public void setEmail(String email)
     {
         this.email = email;
@@ -141,34 +146,64 @@ public class User
         this.confirmationPassword = confirmationPassword;
     }
 
+    /**
+     * Gets first name.
+     *
+     * @return the first name
+     */
     @Column(name = "first_name")
     public String getFirstName()
     {
         return firstName;
     }
 
+    /**
+     * Sets first name.
+     *
+     * @param firstName the first name
+     */
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
     }
 
+    /**
+     * Gets middle initial.
+     *
+     * @return the middle initial
+     */
     @Column(name = "middle_initial")
     public String getMiddleInitial()
     {
         return middleInitial;
     }
 
+    /**
+     * Sets middle initial.
+     *
+     * @param middleInitial the middle initial
+     */
     public void setMiddleInitial(String middleInitial)
     {
         this.middleInitial = middleInitial;
     }
 
+    /**
+     * Gets last name.
+     *
+     * @return the last name
+     */
     @Column(name = "last_name")
     public String getLastName()
     {
         return lastName;
     }
 
+    /**
+     * Sets last name.
+     *
+     * @param lastName the last name
+     */
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
@@ -219,6 +254,11 @@ public class User
         this.siteSet = siteSet;
     }
 
+    /**
+     * Gets upload history set.
+     *
+     * @return the upload history
+     */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     public Set<UploadHistory> getUploadHistorySet()
@@ -226,18 +266,32 @@ public class User
         return uploadHistorySet;
     }
 
+    /**
+     * Sets upload history set.
+     *
+     * @param uploadHistorySet the upload history set
+     */
     public void setUploadHistorySet(Set<UploadHistory> uploadHistorySet)
     {
         this.uploadHistorySet = uploadHistorySet;
     }
 
-
+    /**
+     * Gets device set.
+     *
+     * @return the device set
+     */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     public Set<Device> getDeviceSet() {
         return deviceSet;
     }
 
+    /**
+     * Sets device set.
+     *
+     * @param deviceSet the device set
+     */
     public void setDeviceSet(Set<Device> deviceSet) {
         this.deviceSet = deviceSet;
     }

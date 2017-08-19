@@ -1,17 +1,19 @@
 package space.hideaway.controllers;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.News;
-import space.hideaway.repositories.NewsRepository;
 import space.hideaway.services.NewsService;
 
-import java.util.Date;
 
+/**
+ * Created by Justin Havely
+ * 6/27/2017
+ *
+ * Serves the news pages to the user.
+ */
 @Controller
 public class NewsController {
 
@@ -26,11 +28,12 @@ public class NewsController {
     /**
      * The endpoint for the news post page.
      * Secured: yes
-     * Method: Post
-     * <p>
-     * Sample URL: /news_post
+     * Method: POST
      *
-     * @return The name of the news post page template.
+     * Sample URL: /news_post
+     * @param news The news that exists in the model with fields populated by what the user
+     *             entered into the form.
+     * @return A redirect command to the home page.
      */
     @RequestMapping(value = "/news_post", method = RequestMethod.POST)
     public String newsPost(@ModelAttribute ("post") News news)
@@ -39,6 +42,16 @@ public class NewsController {
         return "redirect:/";
     }
 
+    /**
+     * The endpoint for the news post page. This page
+     * contains the title and content fields.
+     * Secured: yes
+     * Method: GET
+     *
+     * Sample URL: /news_post
+     * @param model The model maintained by Spring for a news.
+     * @return The path to the news template.
+     */
     @GetMapping("/news_post")
     public String news(Model model)
     {
@@ -46,9 +59,19 @@ public class NewsController {
         return "news/newsPost";
     }
 
+    /**
+     * The endpoint for the news history page.
+     * Secured: NO
+     * Method: GET
+     *
+     * Sample URL: /news_history
+     * @param model The model maintained by Spring for a news.
+     * @return The path to the news history template.
+     */
     @GetMapping({"/news_history"})
     public String index(Model model)
     {
+        // Adds every news post in the database from newest to oldest.
         model.addAttribute("articles", newsService.getAll());
         return "news/newsHistory";
     }

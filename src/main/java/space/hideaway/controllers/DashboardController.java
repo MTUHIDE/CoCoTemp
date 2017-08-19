@@ -10,18 +10,17 @@ import space.hideaway.services.UserServiceImplementation;
 
 
 /**
- * The controller responsible for displaying the dashboard page.
+ * The controller responsible for displaying the dashboard (aka "My Sites") page.
  */
 @Controller
 public class DashboardController
 {
 
-    // The service responsible for user CRUD operations.
     private final UserServiceImplementation userServiceImplementation;
 
-    /* Obtain the default temperature unit from the application.properties file and inject
-     * it into a variable for later use.
-    */
+
+    // Obtain the default temperature unit from the application.properties file and inject
+    // it into a variable for later use. (Not implemented)
     @Value("${cocotemp.temperature.unit}")
     String temperatureUnit;
 
@@ -32,14 +31,14 @@ public class DashboardController
     }
 
     /**
-     * The endpoint for the dashboard view.
+     * The endpoint for the dashboard view (aka "My sites").
      * Secured: Yes
      * Method: GET
      *
      * Sample URL: /dashboard
      *
-     * @param model The model maintained by Spring for the dashboard page.
-     * @return The path to the dashboard template.
+     * @param model The model maintained by Spring for the dashboard (aka "My Sites") page.
+     * @return The path to the dashboard (aka "My Sites") template.
      */
     @GetMapping("/dashboard")
     public String dashboard(Model model)

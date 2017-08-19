@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.exceptions.UserNotFoundException;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.UserRepository;
+import space.hideaway.services.security.SecurityServiceImplementation;
 
 import java.util.HashSet;
 import java.util.Set;

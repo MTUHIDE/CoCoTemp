@@ -5,27 +5,23 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import space.hideaway.model.Device;
 import space.hideaway.model.News;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
-import space.hideaway.repositories.DeviceRepository;
 import space.hideaway.repositories.NewsRepository;
-import space.hideaway.repositories.SiteRepository;
+import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
 import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
 
 /**
- * Created by Justin on 6/5/2017.
+ * Created by Justin
+ * 6/5/2017
  *
  * This class is used to insert test data into the database
  * at startup when the 'local' environment is active.
  *
  */
-
 @Service
 @Profile("local")
 public class ScheduleService {
@@ -46,6 +42,7 @@ public class ScheduleService {
 
     /**
      * Ran once at startup to insert a test user and site in the database.
+     * Also adds three news posts.
      * Account username: 'TESTACC' and password: 'password'.
      * Site name: 'Test Site' and is assigned to 'TESTACC' account.
      */
@@ -72,6 +69,13 @@ public class ScheduleService {
 
     }
 
+    /**
+     * Creates a news post
+     *
+     * @param content The text body of the news post
+     * @param title The title of the news post
+     * @return A news post
+     */
     private News createNewsPost(String content, String title)
     {
         News news = new News();
@@ -83,6 +87,7 @@ public class ScheduleService {
 
     /**
      * Creates a user for the CoCo Temp website
+     *
      * @param username Account's username
      * @param rawPassword Non encrypted password
      * @param email Account's Email
@@ -110,6 +115,7 @@ public class ScheduleService {
 
     /**
      * Create a site
+     *
      * @param user The user the site is assigned to
      * @param description Information about the site
      * @param latitude The location

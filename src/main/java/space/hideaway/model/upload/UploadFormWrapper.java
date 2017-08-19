@@ -1,4 +1,6 @@
-package space.hideaway.model;
+package space.hideaway.model.upload;
+
+import space.hideaway.model.site.Site;
 
 /**
  * Created by dough on 2017-02-18.

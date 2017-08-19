@@ -1,7 +1,7 @@
-package space.hideaway.services;
+package space.hideaway.services.site;
 
-import space.hideaway.model.Site;
-import space.hideaway.model.SiteStatistics;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.site.SiteStatistics;
 
 import java.util.concurrent.Future;
 

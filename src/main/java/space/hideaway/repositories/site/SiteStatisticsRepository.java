@@ -1,7 +1,7 @@
-package space.hideaway.repositories;
+package space.hideaway.repositories.site;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import space.hideaway.model.SiteStatistics;
+import space.hideaway.model.site.SiteStatistics;
 
 import java.util.UUID;
 

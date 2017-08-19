@@ -1,7 +1,7 @@
 package space.hideaway.services;
 
 import space.hideaway.exceptions.UserNotFoundException;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 
 import java.util.Set;

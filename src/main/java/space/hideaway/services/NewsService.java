@@ -9,6 +9,10 @@ import space.hideaway.repositories.NewsRepository;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by Justin Havely
+ * 7/7/17
+ */
 @Service
 public class NewsService {
 
@@ -20,6 +24,12 @@ public class NewsService {
         this.newsRepository = newsRepository;
     }
 
+    /**
+     * Saves a news post into the database. Automatically sets the time the news post was posted.
+     *
+     * @param news The news post to save
+     * @return The saved news post
+     */
     public News save(News news)
     {
         news.setDateTime(new Date());
@@ -27,6 +37,11 @@ public class NewsService {
         return news;
     }
 
+    /**
+     * Gets all of the news post in the database.
+     *
+     * @return All news posts in the database
+     */
     public List<News> getAll()
     {
         return newsRepository.findAll(Sort.by("id").descending());

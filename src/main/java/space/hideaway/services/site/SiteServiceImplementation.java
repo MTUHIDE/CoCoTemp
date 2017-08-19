@@ -1,10 +1,11 @@
-package space.hideaway.services;
+package space.hideaway.services.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
-import space.hideaway.repositories.SiteRepository;
+import space.hideaway.repositories.site.SiteRepository;
+import space.hideaway.services.UserService;
 
 import java.util.List;
 import java.util.Set;
@@ -27,9 +28,8 @@ public class SiteServiceImplementation implements SiteService
         this.siteRepository = siteRepository;
     }
 
-
     /**
-     * Save a new newSite into the database.
+     * Save a new newSite into the database. Automatically sets the user who created the device.
      *
      * @param newSite The new newSite to be inserted.
      */
@@ -99,6 +99,12 @@ public class SiteServiceImplementation implements SiteService
         return isCorrectUser(userService.getCurrentLoggedInUser(), siteKey);
     }
 
+    /**
+     * Gets the count of sites created by an user.
+     *
+     * @param currentLoggedInUser The user id of the current login user
+     * @return The number of sites.
+     */
     @Override
     public Long countByUserID(User currentLoggedInUser)
     {

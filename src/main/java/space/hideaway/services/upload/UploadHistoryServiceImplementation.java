@@ -1,8 +1,8 @@
-package space.hideaway.services;
+package space.hideaway.services.upload;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import space.hideaway.model.UploadHistory;
+import space.hideaway.model.upload.UploadHistory;
 import space.hideaway.model.User;
 import space.hideaway.repositories.UploadHistoryRepository;
 

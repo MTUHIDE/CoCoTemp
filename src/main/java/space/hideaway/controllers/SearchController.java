@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.util.StatisticsUtils;
 
 import javax.persistence.EntityManager;
@@ -25,17 +25,33 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Created by dough on 2017-03-01.
+ * Created by dough
+ * 2017-03-01
+ *
+ * Edited by Justin Havely
+ * 8/18/17
+ *
+ * Serves the search page to the user.
  */
 @Controller
 @Transactional
 public class SearchController
 {
+    //Logs the search process, also used for debugging.
     private Logger logger = Logger.getLogger(getClass().getName());
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
+    /**
+     * The mapping for the search page.
+     *
+     * @param query Keyword(s) entered by the user.
+     * @param location Location entered by the user.
+     * @param range Range entered by the user.
+     * @param model The Spring model for the search page.
+     * @return The template for the search page.
+     */
     @RequestMapping(value = "/search", params = {"type=site"})
     @Transactional
     public String renderSearchWithKeywordAndSpatial(
@@ -49,12 +65,14 @@ public class SearchController
         double longitude = 0;
         double desiredRange = 0;
 
+        // Checks if the search contains a location
         boolean locationPresent = location != null && !location.isEmpty();
 
         try
         {
             if (locationPresent)
             {
+                // Parses the location and range strings into doubles
                 String[] locationComponents = location.replaceAll(" ", "").split(",");
                 latitude = Double.parseDouble(locationComponents[0]);
                 longitude = Double.parseDouble(locationComponents[1]);
@@ -65,12 +83,18 @@ public class SearchController
             return "redirect:/search?error";
         }
 
+        // Adds site statistics to the model
         model.addAttribute("statisticsUtils", new StatisticsUtils());
+
+        // Creates the Query
         logger.info("Started location search.");
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Site.class).get();
 
+        // Query into a boolean query. Meaning you can query by location OR keywords OR empty.
         BooleanJunction<BooleanJunction> booleanQuery = queryBuilder.bool();
+
+        // Query by keywords
         if (query != null && !query.isEmpty())
         {
             logger.info("Keyword detected: " + query);
@@ -79,6 +103,7 @@ public class SearchController
             logger.info("Keyword query built.");
         }
 
+        // Query by location
         if (locationPresent)
         {
             logger.info("Location detected.");
@@ -89,17 +114,20 @@ public class SearchController
             logger.info("Location query built.");
         }
 
-        // Returns all sites if search fields are empty
+        // Query by empty. Returns all sites if search fields are empty.
         if(!locationPresent && (query == null || query.isEmpty())){
             booleanQuery.must(queryBuilder.all().createQuery());
         }
 
+        // Compiling queries into one query.
         logger.info("Compiling queries into super query.");
         Query builtQuery = booleanQuery.createQuery();
 
+        // Executing full query.
         logger.info("Executing full query.");
         FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(builtQuery, Site.class);
 
+        // Sorts sites by distance.
         if (locationPresent)
         {
             Sort distanceSort = queryBuilder.sort().byDistance().onField("location").fromLatitude(latitude)
@@ -107,8 +135,10 @@ public class SearchController
             fullTextQuery.setSort(distanceSort);
         }
 
+        // Ordered query results.
         List resultList = fullTextQuery.getResultList();
 
+        // Filters the results to Site objects.
         List<Site> siteList = new ArrayList<>();
         for (Object o : resultList)
         {
@@ -118,13 +148,19 @@ public class SearchController
             }
         }
 
+        // Finally, adds sites to model
         model.addAttribute("nosites", siteList.isEmpty());
         model.addAttribute("siteList", siteList);
 
         return "search/search-page";
     }
 
-
+    /**
+     * The mapping for the search page.
+     *
+     * @param model The Spring model for the search page.
+     * @return The template for the search page.
+     */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String renderSearchPage(Model model)
     {

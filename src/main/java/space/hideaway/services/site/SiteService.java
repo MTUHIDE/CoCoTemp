@@ -1,6 +1,6 @@
-package space.hideaway.services;
+package space.hideaway.services.site;
 
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 
 import java.util.List;
@@ -48,5 +48,11 @@ public interface SiteService
      */
     boolean isCorrectUser(String siteKey);
 
+    /**
+     * Gets the count of sites created by an user.
+     *
+     * @param currentLoggedInUser The user id of the current login user
+     * @return The number of sites.
+     */
     Long countByUserID(User currentLoggedInUser);
 }

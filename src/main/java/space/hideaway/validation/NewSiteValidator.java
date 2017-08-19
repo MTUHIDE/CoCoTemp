@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 
 /**
  * Created by dough on 2017-02-09.

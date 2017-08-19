@@ -1,4 +1,4 @@
-package space.hideaway.services;
+package space.hideaway.services.upload;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +10,11 @@ import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
-import space.hideaway.model.Site;
-import space.hideaway.model.UploadHistory;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.upload.UploadHistory;
+import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.data.DataServiceImplementation;
+import space.hideaway.services.site.SiteServiceImplementation;
 
 import java.io.File;
 import java.io.FileOutputStream;

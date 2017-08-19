@@ -8,15 +8,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
-import space.hideaway.services.UploadService;
+import space.hideaway.services.upload.UploadService;
 import space.hideaway.services.UserService;
 
 import java.util.Set;
 import java.util.UUID;
 
-
+/**
+ * Created by dough
+ * 1/25/2017
+ *
+ * Edited by Justin Havely
+ * 8/18/17
+ *
+ * Serves the upload page to the user.
+ */
 @Controller
 public class UploadController
 {
@@ -35,6 +43,12 @@ public class UploadController
         this.userService = userService;
     }
 
+    /**
+     * The mapping for the upload page.
+     *
+     * @param model The Spring model for the upload page.
+     * @return The template for the upload page.
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String showUploadForm(Model model)
     {
@@ -54,7 +68,7 @@ public class UploadController
      * TODO: Sample JSON response.
      *
      * @param siteID The ID of the site the uploaded data is associated with.
-     * @param file     The file uploaded by the user.
+     * @param file The file uploaded by the user.
      * @return JSON response indicating the status of the upload.
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)

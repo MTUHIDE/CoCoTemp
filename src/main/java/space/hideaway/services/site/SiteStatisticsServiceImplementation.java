@@ -1,12 +1,13 @@
-package space.hideaway.services;
+package space.hideaway.services.site;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Data;
-import space.hideaway.model.Site;
-import space.hideaway.model.SiteStatistics;
-import space.hideaway.repositories.SiteStatisticsRepository;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.site.SiteStatistics;
+import space.hideaway.repositories.site.SiteStatisticsRepository;
+import space.hideaway.services.data.DataService;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
@@ -18,7 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Created by dough on 2017-02-19.
+ * Created by dough
+ * 2017-02-19
  */
 @Service
 public class SiteStatisticsServiceImplementation implements SiteStatisticsService
@@ -36,6 +38,11 @@ public class SiteStatisticsServiceImplementation implements SiteStatisticsServic
         this.siteStatisticsRepository = siteStatisticsRepository;
     }
 
+    /**
+     *
+     * @param site
+     * @return
+     */
     @Override
     public Future<SiteStatistics> recalculateStatistics(Site site)
     {

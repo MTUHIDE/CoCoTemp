@@ -1,6 +1,6 @@
-package space.hideaway.services;
+package space.hideaway.services.upload;
 
-import space.hideaway.model.UploadHistory;
+import space.hideaway.model.upload.UploadHistory;
 import space.hideaway.model.User;
 
 import java.util.List;

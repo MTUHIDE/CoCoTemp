@@ -1,4 +1,4 @@
-package space.hideaway.services;
+package space.hideaway.services.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import space.hideaway.services.UserDetailsServiceImplementation;
 
 
 @Service

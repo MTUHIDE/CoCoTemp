@@ -2,6 +2,8 @@ package space.hideaway.model.json;
 
 /**
  * Created by dough on 1/24/2017.
+ *
+ * Serializer/Wrapper for the info card on the dashboard (aka "My Sites")
  */
 public class InfoCardSerializer
 {

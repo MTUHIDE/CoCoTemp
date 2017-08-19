@@ -1,15 +1,20 @@
 package space.hideaway.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.upload.UploadHistory;
 
 import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
-
+/**
+ * Created By Justin Havely
+ * 6/7/17
+ *
+ * The device type.
+ */
 @Entity
 @Table(name = "device")
 public class Device {

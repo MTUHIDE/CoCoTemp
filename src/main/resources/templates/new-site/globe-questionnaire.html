@@ -14,7 +14,7 @@
             <div class="form-header">
                 <h1>Globe Site Survey</h1>
                 <p>This section is optional, but provides valuable information about your site if completed.</p>
-                <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
                 <form th:action="@{/settings/new?_finish}" method="post" th:object="${site}">
                     <div class="form-group">
                         <button class="btn btn-success">Skip and Save</button>

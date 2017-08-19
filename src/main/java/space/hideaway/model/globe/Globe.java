@@ -1,11 +1,14 @@
 package space.hideaway.model.globe;
 
 import org.hibernate.annotations.GenericGenerator;
-import space.hideaway.model.Site;
+import space.hideaway.model.site.Site;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * The table globe.
+ */
 @Entity
 @Table(name = "globe")
 public class Globe {
@@ -18,6 +21,8 @@ public class Globe {
     private byte question_number;
 
     private String answer;
+
+    /*----------------------------id----------------------------*/
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -32,6 +37,8 @@ public class Globe {
     {
         this.id = id;
     }
+
+    /*----------------------------site----------------------------*/
 
     @Column(name = "site_id", length = 16)
     public UUID getSiteID() {
@@ -52,6 +59,8 @@ public class Globe {
         this.site = site;
     }
 
+    /*----------------------------answer----------------------------*/
+
     @Column(name = "answer")
     public String getAnswer() {
         return answer;
@@ -61,6 +70,8 @@ public class Globe {
         this.answer = answer;
     }
 
+    /*----------------------------question_number----------------------------*/
+
     @Column(name = "question_number")
     public byte getQuestion_number() {
         return question_number;
@@ -69,6 +80,5 @@ public class Globe {
     public void setQuestion_number(byte question_number) {
         this.question_number = question_number;
     }
-
 
 }

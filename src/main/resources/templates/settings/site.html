@@ -31,7 +31,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                            <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
                             <form class="form-horizontal" th:action="@{/settings/site/update?siteID=} + *{id}"
                                   method="post" th:object="${site}">
                                 <input type="hidden" th:field="*{id}"/>

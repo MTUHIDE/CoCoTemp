@@ -12,6 +12,12 @@ import java.util.UUID;
  */
 public interface DeviceRepository extends JpaRepository<Device, UUID>
 {
+    /**
+     * Gets the count of devices created by an user.
+     *
+     * @param id The user id
+     * @return The number of devices.
+     */
     @Query("SELECT count(d) from Device d where d.userID=:id")
     Long countByUserID(@Param("id") Long id);
 }
