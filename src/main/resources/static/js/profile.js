@@ -1,3 +1,5 @@
+/*_____THIS JAVASCRIPT NOT IN USED_____*/
+
 jQuery(document).ready(function ($) {
 
     //Initialize location search box.

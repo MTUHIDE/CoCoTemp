@@ -1,4 +1,4 @@
-package space.hideaway.services;
+package space.hideaway.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

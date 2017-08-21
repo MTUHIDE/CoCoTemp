@@ -1,4 +1,4 @@
-package space.hideaway.services;
+package space.hideaway.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +19,6 @@ public class UserServiceImplementation implements UserService
 {
 
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -52,6 +51,11 @@ public class UserServiceImplementation implements UserService
         userRepository.save(user);
     }
 
+    /**
+     * Updates a user's information.
+     *
+     * @param user the user to update
+     */
     @Override
     public void update(User user)
     {
@@ -132,6 +136,12 @@ public class UserServiceImplementation implements UserService
         return findByUsername(username).getSiteSet();
     }
 
+    /**
+     * Finds a user base on their email.
+     *
+     * @param email The email associated with the user
+     * @return the user with the associated email
+     */
     @Override
     public User findByEmail(String email)
     {

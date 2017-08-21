@@ -1,7 +1,10 @@
 package space.hideaway.util;
 
 /**
- * Created by dough on 2017-02-09.
+ * Created by dough
+ * 2017-02-09
+ *
+ * Fixed units of time.
  */
 public enum HistoryUnit
 {

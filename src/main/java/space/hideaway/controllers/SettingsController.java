@@ -14,10 +14,9 @@ import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.services.DeviceService;
 import space.hideaway.services.site.SiteService;
-import space.hideaway.services.UserServiceImplementation;
-import space.hideaway.validation.NewSiteValidator;
+import space.hideaway.services.user.UserServiceImplementation;
+import space.hideaway.validation.SiteValidator;
 import space.hideaway.validation.PersonalDetailsValidator;
-import space.hideaway.validation.SiteQuestionnaireValidator;
 
 import java.util.UUID;
 
@@ -38,8 +37,7 @@ public class SettingsController
     private final SiteService siteService;
     private final DeviceService deviceService;
 
-    private final NewSiteValidator siteValidator;
-    private final SiteQuestionnaireValidator siteQuestionnaireValidator;
+    private final SiteValidator siteValidator;
     private final PersonalDetailsValidator personalDetailsValidator;
 
 
@@ -47,15 +45,13 @@ public class SettingsController
     public SettingsController(
             UserServiceImplementation userManagement,
             SiteService siteService,
-            NewSiteValidator siteValidator,
-            SiteQuestionnaireValidator siteQuestionnaireValidator,
+            SiteValidator siteValidator,
             PersonalDetailsValidator personalDetailsValidator,
             DeviceService deviceService)
     {
         this.userManagement = userManagement;
         this.siteService = siteService;
         this.siteValidator = siteValidator;
-        this.siteQuestionnaireValidator = siteQuestionnaireValidator;
         this.personalDetailsValidator = personalDetailsValidator;
         this.deviceService = deviceService;
     }
@@ -153,7 +149,7 @@ public class SettingsController
     {
         // Validates siteName and siteDescription
         siteValidator.validate(site, bindingResult);
-        siteQuestionnaireValidator.validate(site, bindingResult);
+        siteValidator.validateDescription(site, bindingResult);
 
         if (bindingResult.hasErrors())
         {

@@ -10,7 +10,7 @@ import space.hideaway.model.globe.Globe;
 import space.hideaway.model.site.Site;
 import space.hideaway.repositories.GlobeRepository;
 import space.hideaway.services.site.SiteService;
-import space.hideaway.validation.NewSiteValidator;
+import space.hideaway.validation.SiteValidator;
 
 /**
  * Edited by Justin Havely
@@ -27,18 +27,18 @@ import space.hideaway.validation.NewSiteValidator;
 public class NewSiteController
 {
 
-    private final NewSiteValidator newSiteValidator;
+    private final SiteValidator siteValidator;
     private final GlobeRepository globeRepository;
     private final SiteService siteService;
 
     @Autowired
     public NewSiteController(
-            NewSiteValidator newSiteValidator,
+            SiteValidator siteValidator,
             SiteService siteService,
             GlobeRepository globeRepository)
     {
         this.globeRepository = globeRepository;
-        this.newSiteValidator = newSiteValidator;
+        this.siteValidator = siteValidator;
         this.siteService = siteService;
     }
 
@@ -76,7 +76,7 @@ public class NewSiteController
             final BindingResult bindingResult)
     {
         // Perform validation on the Site name, Latitude, and Longitude fields.
-        newSiteValidator.validate(site, bindingResult);
+        siteValidator.validate(site, bindingResult);
         // Redirect to the previous page if errors are present.
         if (bindingResult.hasErrors())
         {
@@ -103,7 +103,7 @@ public class NewSiteController
             final BindingResult bindingResult)
     {
         // Perform validation on the site's description field.
-        newSiteValidator.validateFinal(site, bindingResult);
+        siteValidator.validateDescription(site, bindingResult);
         // Redirect to the previous page if errors are present.
         if (bindingResult.hasErrors())
         {

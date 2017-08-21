@@ -10,6 +10,7 @@ import space.hideaway.model.json.InfoCardSerializer;
 import space.hideaway.services.data.DataServiceImplementation;
 import space.hideaway.services.site.SiteServiceImplementation;
 import space.hideaway.services.upload.UploadHistoryService;
+import space.hideaway.services.user.UserServiceImplementation;
 import space.hideaway.util.HistoryUnit;
 
 import java.util.ArrayList;

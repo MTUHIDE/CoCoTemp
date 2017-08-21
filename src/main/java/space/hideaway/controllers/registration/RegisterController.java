@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import space.hideaway.model.User;
 import space.hideaway.services.security.SecurityService;
-import space.hideaway.services.UserService;
+import space.hideaway.services.user.UserService;
 import space.hideaway.validation.PersonalDetailsValidator;
 import space.hideaway.validation.UserAccountValidator;
 

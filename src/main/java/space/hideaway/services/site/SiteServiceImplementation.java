@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.site.SiteRepository;
-import space.hideaway.services.UserService;
+import space.hideaway.services.user.UserService;
 
 import java.util.List;
 import java.util.Set;

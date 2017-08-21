@@ -16,6 +16,7 @@ import java.util.UUID;
 public class SiteStatistics
 {
 
+    // In case a site has no calculated statistics.
     public static final SiteStatistics EMPTY_STATISTIC = new SiteStatistics();
 
     private UUID statisticsID;

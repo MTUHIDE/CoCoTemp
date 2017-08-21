@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.repositories.DeviceRepository;
+import space.hideaway.services.user.UserService;
 
 import java.util.Set;
 import java.util.UUID;
@@ -87,7 +88,7 @@ public class DeviceService {
     /**
      * Gets the count of devices created by an user.
      *
-     * @param currentLoggedInUser The user id of the current login user
+     * @param currentLoggedInUser The user id of the currently login user
      * @return The number of devices.
      */
     public Long countByUserID(User currentLoggedInUser)

@@ -12,7 +12,7 @@ import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.upload.UploadHistory;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.user.UserServiceImplementation;
 import space.hideaway.services.data.DataServiceImplementation;
 import space.hideaway.services.site.SiteServiceImplementation;
 
@@ -48,18 +48,41 @@ public class UploadService
         this.userService = userService;
     }
 
+    /**
+     * Sets the multipartFile. This file comes from the HTTP upload post. The file is csv
+     * formatted and looks like the following:
+     *
+     * dateTime, temperature
+     * 2014-07-24 09:15:54, 23.3
+     * 2014-07-24 10:15:54, 22.6
+     *
+     * @param multipartFile the multipartFile
+     * @return <code>this</code> upload object
+     */
     public UploadService setMultipartFile(MultipartFile multipartFile)
     {
         this.multipartFile = multipartFile;
         return this;
     }
 
+    /**
+     * Takes the multipart file and parses the data to be saved in the database.
+     * Use <code>setMultipartFile</code> to set the multipart file for parsing.
+     * Uploads are parse and saved on a new thread, so not to slow down the server.
+     *
+     * @param siteKey The id of the site associated with the upload
+     * @param description The user's description of the upload
+     * @return The status of the upload: "" for no data, "in progress", or "failed"
+     */
     public String parseFile(String siteKey, String description)
     {
+        // Converts the multipartFile into a Java file object
         File file = convertToFile();
 
+        // No data in the file
         if (file.length() == 0) return "";
 
+        // Checks if the user owns the site associated with the upload
         if (siteServiceImplementation.isCorrectUser(userService.getCurrentLoggedInUser(), siteKey))
         {
             Thread fileUploadThread = new Thread(
@@ -71,6 +94,11 @@ public class UploadService
         return "{status: \"failed\", message: \"You do not authorized to edit this site\"}";
     }
 
+    /**
+     * Converts the multipartFile into a Java file object.
+     *
+     * @return the data file
+     */
     private File convertToFile()
     {
         File convertedFile = null;
@@ -87,6 +115,9 @@ public class UploadService
         return convertedFile;
     }
 
+    /**
+     * A runnable class to parse the data file.
+     */
     private class FileUploadHandler implements Runnable
     {
 
@@ -101,6 +132,9 @@ public class UploadService
             this.site = site;
         }
 
+        /**
+         * Handles the process of parsing and saving the temperature readings.
+         */
         @Override
         public void run()
         {
@@ -109,6 +143,7 @@ public class UploadService
             Long userId = site.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
 
+            // Saves that a upload attempt was made by this user
             UploadHistory pendingHistory = uploadHistoryService.savePending(
                     siteId,
                     Math.toIntExact(userId),
@@ -117,20 +152,26 @@ public class UploadService
                     "In Progress",
                     0);
 
+            // A class for converting csv objects into Java objects
             ICsvBeanReader iCsvBeanReader;
 
             try
             {
                 iCsvBeanReader = new CsvBeanReader(new FileReader(file), CsvPreference.STANDARD_PREFERENCE);
 
+                // Format settings
                 final CellProcessor[] cellProcessors = new CellProcessor[]{
                         new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
                         new ParseDouble()
                 };
 
+                // Gets the header of the csv (i.e. dateTime, temperature)
                 final String[] header = iCsvBeanReader.getHeader(true);
 
+                // A data object to contain the temperature and time.
                 Data dataBean;
+
+                // Parse each row in the csv file into a data object
                 while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null)
                 {
                     dataBean.setSiteID(siteId);
@@ -138,11 +179,13 @@ public class UploadService
                     dataList.add(dataBean);
                 }
 
+                // Writes each data object into the database in batches, so not to overload the server
                 dataServiceImplementation.batchSave(site, dataList);
                 iCsvBeanReader.close();
+
                 long end = System.currentTimeMillis();
 
-                //Create a record that the file was parsed and saved correctly.
+                // Create a record that the file was parsed and saved correctly. Over writes pendingHistory.
                 uploadHistoryService.saveFinished(pendingHistory, false, end - start, dataList.size(), description);
 
             } catch (Exception e) {

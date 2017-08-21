@@ -2,6 +2,7 @@ package space.hideaway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -29,6 +30,7 @@ import java.util.concurrent.Executor;
 @ImportResource("classpath:/spring/spring-config.xml")
 @EnableAsync
 @EnableScheduling
+@SpringBootApplication
 public class CoCoTempApplication extends AsyncConfigurerSupport
 {
 
@@ -37,6 +39,12 @@ public class CoCoTempApplication extends AsyncConfigurerSupport
         SpringApplication.run(CoCoTempApplication.class, args);
     }
 
+    /**
+     * Sets the Executor's max number of threads and cores available to the site.
+     * Used during the processing of uploaded data and site statistics calculations.
+     *
+     * @return the executor
+     */
     @Override
     public Executor getAsyncExecutor()
     {

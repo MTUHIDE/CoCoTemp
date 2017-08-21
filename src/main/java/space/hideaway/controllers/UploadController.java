@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.services.upload.UploadService;
-import space.hideaway.services.UserService;
+import space.hideaway.services.user.UserService;
 
 import java.util.Set;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package space.hideaway.services;
+package space.hideaway.services.user;
 
 import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.site.Site;
@@ -15,6 +15,11 @@ public interface UserService {
      */
     void save(User user);
 
+    /**
+     * Updates a user's information.
+     *
+     * @param user the user to update
+     */
     void update(User user);
 
     /**
@@ -32,7 +37,6 @@ public interface UserService {
      */
     User findByUsername(String username) throws UserNotFoundException;
 
-
     /**
      * Obtain a list of sites for a user.
      *
@@ -42,5 +46,11 @@ public interface UserService {
      */
     Set<Site> getSites(String username) throws UserNotFoundException;
 
+    /**
+     * Finds a user base on their email.
+     *
+     * @param email The email associated with the user
+     * @return the user with the associated email
+     */
     User findByEmail(String email);
 }

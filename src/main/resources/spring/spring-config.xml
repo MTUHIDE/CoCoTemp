@@ -61,7 +61,7 @@
     <!--END PERSISTENCE MANAGEMENT___________________________________________________________________________________-->
 
     <!--CUSTOM BEANS_________________________________________________________________________________________________-->
-    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
+    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.user.UserDetailsServiceImplementation"/>
     <bean id="securityServiceImplementation" class="space.hideaway.services.security.SecurityServiceImplementation"/>
 
     <!--Bean that runs on startup.-->

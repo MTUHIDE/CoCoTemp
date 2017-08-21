@@ -8,7 +8,10 @@ import org.springframework.validation.Validator;
 import space.hideaway.model.User;
 
 /**
- * Created by dough on 1/19/2017.
+ * Created by dough
+ * 1/19/2017
+ *
+ * Validates a user's first, middle, and last names are not empty.
  */
 @Component
 public class PersonalDetailsValidator implements Validator
@@ -19,6 +22,12 @@ public class PersonalDetailsValidator implements Validator
         return User.class.equals(clazz);
     }
 
+    /**
+     * Validates a user's first, middle, and last names are not empty.
+     *
+     * @param target the user
+     * @param errors the bindingResult
+     */
     @Override
     public void validate(Object target, Errors errors)
     {

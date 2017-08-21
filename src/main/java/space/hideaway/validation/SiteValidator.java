@@ -8,10 +8,16 @@ import org.springframework.validation.Validator;
 import space.hideaway.model.site.Site;
 
 /**
- * Created by dough on 2017-02-09.
+ * Created by dough
+ * 2017-02-09
+ *
+ * Edited by Justin Havely
+ * 2017-21-08
+ *
+ * Validates a site in two parts. Part one being the name and part two being the description.
  */
 @Component
-public class NewSiteValidator implements Validator
+public class SiteValidator implements Validator
 {
     @Override
     public boolean supports(Class<?> clazz)
@@ -19,6 +25,12 @@ public class NewSiteValidator implements Validator
         return Site.class.equals(clazz);
     }
 
+    /**
+     * Validates the site's name to be less than 27 characters long.
+     *
+     * @param target the site
+     * @param errors the bindingResult
+     */
     @Override
     public void validate(Object target, Errors errors)
     {
@@ -30,8 +42,14 @@ public class NewSiteValidator implements Validator
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "siteName", "Site.emptyName");
     }
 
-    public void validateFinal(Site site, BindingResult bindingResult)
+    /**
+     * Validates the site's description to be filled.
+     *
+     * @param site the site
+     * @param errors the bindingResult
+     */
+    public void validateDescription(Site site, Errors errors)
     {
-        ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "siteDescription", "Site.emptyDescription");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "siteDescription", "Site.emptyDescription");
     }
 }

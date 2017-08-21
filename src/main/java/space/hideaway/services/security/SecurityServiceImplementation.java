@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import space.hideaway.services.UserDetailsServiceImplementation;
+import space.hideaway.services.user.UserDetailsServiceImplementation;
 
 
 @Service

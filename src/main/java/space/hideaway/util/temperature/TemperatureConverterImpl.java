@@ -1,9 +1,9 @@
-package space.hideaway.util;
+package space.hideaway.util.temperature;
 
 /**
  * Created by dough on 1/24/2017.
  */
-public interface TemperatureConverter
+public class TemperatureConverterImpl implements TemperatureConverter
 {
     /**
      * Converts a string representation of a temperature from celsius format to fahrenheit format.
@@ -16,7 +16,15 @@ public interface TemperatureConverter
      * @param celsius The incoming temperature.
      * @return Fahrenheit representation of the input celsius string.
      */
-    String celsiusToFahrenheit(String celsius);
+    @Override
+    public String celsiusToFahrenheit(String celsius)
+    {
+        String finishedString = "";
+
+        //TODO implement function here.
+
+        return appendSymbol(TemperatureUnit.FAHRENHEIT, finishedString);
+    }
 
     /**
      * Converts a string representation of a temperature from fahrenheit format to celsius format.
@@ -29,16 +37,26 @@ public interface TemperatureConverter
      * @param fahrenheit The incoming temperature.
      * @return Celsius representation of the input Fahrenheit string.
      */
-    String fahrenheitToCelsius(String fahrenheit);
+    @Override
+    public String fahrenheitToCelsius(String fahrenheit)
+    {
+        String finishedString = "";
 
+        //TODO implement function here.
+
+        return appendSymbol(TemperatureUnit.CELSIUS, finishedString);
+    }
 
     /**
-     * Appends the correct temperature unit symbol and degree symbol at the end of a string.
-     * Eg. °F or °C
-     *
      * @param temperatureUnit An enum that can either be TemperatureUnit.CELSIUS or TemperatureUnit.FAHRENHEIT.
      * @param temperature     The input temperature string.
-     * @ The new temperature string.
+     * @return The new temperature string.
      */
-    String appendSymbol(TemperatureUnit temperatureUnit, String temperature);
+    @Override
+    public String appendSymbol(TemperatureUnit temperatureUnit, String temperature)
+    {
+        //TODO implement function here.
+
+        return null;
+    }
 }

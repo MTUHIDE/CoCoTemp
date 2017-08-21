@@ -1,9 +1,9 @@
-package space.hideaway.util;
+package space.hideaway.util.temperature;
 
 /**
  * Created by dough on 1/24/2017.
  */
-public class TemperatureConverterImpl implements TemperatureConverter
+public interface TemperatureConverter
 {
     /**
      * Converts a string representation of a temperature from celsius format to fahrenheit format.
@@ -16,15 +16,7 @@ public class TemperatureConverterImpl implements TemperatureConverter
      * @param celsius The incoming temperature.
      * @return Fahrenheit representation of the input celsius string.
      */
-    @Override
-    public String celsiusToFahrenheit(String celsius)
-    {
-        String finishedString = "";
-
-        //TODO implement function here.
-
-        return appendSymbol(TemperatureUnit.FAHRENHEIT, finishedString);
-    }
+    String celsiusToFahrenheit(String celsius);
 
     /**
      * Converts a string representation of a temperature from fahrenheit format to celsius format.
@@ -37,27 +29,16 @@ public class TemperatureConverterImpl implements TemperatureConverter
      * @param fahrenheit The incoming temperature.
      * @return Celsius representation of the input Fahrenheit string.
      */
-    @Override
-    public String fahrenheitToCelsius(String fahrenheit)
-    {
-        String finishedString = "";
+    String fahrenheitToCelsius(String fahrenheit);
 
-        //TODO implement function here.
-
-        return appendSymbol(TemperatureUnit.CELSIUS, finishedString);
-    }
 
     /**
+     * Appends the correct temperature unit symbol and degree symbol at the end of a string.
+     * Eg. °F or °C
+     *
      * @param temperatureUnit An enum that can either be TemperatureUnit.CELSIUS or TemperatureUnit.FAHRENHEIT.
      * @param temperature     The input temperature string.
-     * @return The new temperature string.
+     * @ The new temperature string.
      */
-    @Override
-    public String appendSymbol(TemperatureUnit temperatureUnit, String temperature)
-    {
-        //TODO implement function here.
-
-
-        return null;
-    }
+    String appendSymbol(TemperatureUnit temperatureUnit, String temperature);
 }

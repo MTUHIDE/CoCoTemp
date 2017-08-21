@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.services.DeviceService;
-import space.hideaway.services.UserServiceImplementation;
+import space.hideaway.services.user.UserServiceImplementation;
 
 
 /**

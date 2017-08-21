@@ -28,6 +28,7 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
      * Save a new uploadHistory object into the database.
      *
      * @param uploadHistory The newly created uploadHistory object.
+     * @return the uploadHistory object
      */
     @Override
     public UploadHistory save(UploadHistory uploadHistory)
@@ -36,9 +37,10 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
     }
 
     /**
-     * Delete an uploadHistory object from the database by ID.
+     * Sets viewed to true for an uploadHistory object.
      *
      * @param id The ID of the uploadHistory record in the database.
+     * @return the uploadHistory object
      */
     @Override
     public UploadHistory setViewed(UUID id)
@@ -49,6 +51,19 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
         return one;
     }
 
+    /**
+     * Saves information about an upload before it has been completely processed.
+     * Once the upload is processed <code>saveFinished</code> should be called to
+     * update the upload history record.
+     *
+     * @param siteId The id of the site where the data was collected
+     * @param userID The id of the user who uploaded the data
+     * @param error If an error has occurred during the upload process
+     * @param duration The time the server took to process the upload
+     * @param message The upload notes
+     * @param records The data being uploaded
+     * @return the upload history object
+     */
     @Override
     public UploadHistory savePending(
             UUID siteId,
@@ -69,6 +84,16 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
         return save(uploadHistory);
     }
 
+    /**
+     * Saves information about an upload after it has been completely processed.
+     *
+     * @param uploadHistory the upload history object
+     * @param error if an error has occurred during the upload process
+     * @param duration The time the server took to process the upload
+     * @param size the number of data records uploaded
+     * @param message the upload notes
+     * @return the upload history object
+     */
     @Override
     public UploadHistory saveFinished(
             UploadHistory uploadHistory,
@@ -84,12 +109,24 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
         return save(uploadHistory);
     }
 
+    /**
+     * Gets the count of uploads by an user.
+     *
+     * @param currentLoggedInUser The user id of the currently login user
+     * @return The number of uploads.
+     */
     @Override
     public long countByUserID(User currentLoggedInUser)
     {
         return uploadHistoryRepository.countByUserID(Math.toIntExact(currentLoggedInUser.getId()));
     }
 
+    /**
+     * Gets all uploads by a user in the last week.
+     *
+     * @param user The user
+     * @return All uploads in the last week
+     */
     @Override
     public List<UploadHistory> getLastWeek(User user)
     {
@@ -99,6 +136,12 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
         return uploadHistoryRepository.getHistoric(date, Math.toIntExact(user.getId()));
     }
 
+    /**
+     * Gets all uploads by a user in the last month.
+     *
+     * @param user The user
+     * @return All uploads in the last month
+     */
     @Override
     public List<UploadHistory> getLastMonth(User user)
     {
@@ -108,6 +151,12 @@ public class UploadHistoryServiceImplementation implements UploadHistoryService
         return uploadHistoryRepository.getHistoric(date, Math.toIntExact(user.getId()));
     }
 
+    /**
+     * Gets all uploads by a user in the last year.
+     *
+     * @param user The user
+     * @return All uploads in the last year
+     */
     @Override
     public List<UploadHistory> getLastYear(User user)
     {
