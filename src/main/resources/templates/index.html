@@ -4,10 +4,27 @@
     <title>CoCoTemp Home</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/index.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/modal.css}"/>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
+            integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
+            crossorigin=""></script>
+    <script th:src="@{/js/map.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
 </head>
 <body>
 <div class="row">
@@ -62,7 +79,16 @@
 
                 <div class="map-container">
                     <div id="map"></div>
+                    <div id="basemaps-wrapper" class="leaflet-bar">
+                        <select name="basemaps" id="basemaps">
+                            <option value="Streets">Streets</option>
+                            <option value="Imagery">Satellite</option>
+                        </select>
+                    </div>
                 </div>
+
+
+
             </div>
 
             <div class="row">
@@ -91,15 +117,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-<script th:src="@{/js/index.js}"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {

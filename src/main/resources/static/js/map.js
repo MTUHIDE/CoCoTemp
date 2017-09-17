@@ -1,32 +1,123 @@
+/*
+ * Creates the default leaflet map
+ * @return {Leaflet Map}
+ */
+function createMap() {
 
-/*_____THIS JAVASCRIPT NOT IN USED_____*/
+    /* Limit map view to the USA */
+    var maxBounds = L.latLngBounds(
+        L.latLng(5.090944175, -172.44140625), //Southwest
+        L.latLng(71.8014103014, -32.16796875)  //Northeast
+    );
 
-/* Limit map view to the USA */
-var maxBounds = L.latLngBounds(
-    L.latLng(5.090944175, -172.44140625), //Southwest
-    L.latLng(71.8014103014, -32.16796875)  //Northeast
-);
+    /* Initialize Map */
+    var map = L.map('map', {
+        dragging: true,
+        zoomControl: false,
+        minZoom: 4
+    });
+    map.setView([37.0902, -95.7129], 4);
+    map.setMaxBounds(maxBounds);
 
-/* Initialize Map */
-var map = L.map('map', {
-    dragging: true,
-    zoomControl: false,
-    maxZoom: 18,
-    minZoom: 4
-});
-map.setView([35, -100], 5);
-map.setMaxBounds(maxBounds);
-map.setZoom(0);
+    //Zoom buttons
+    L.control.zoom({
+        position: 'topleft'
+    }).addTo(map);
 
-//Because Piper needed zoom buttons
-L.control.zoom({
-    position: 'topright'
-}).addTo(map);
+    var layer = L.esri.basemapLayer('Streets').addTo(map);
 
-/* Style layer from MapBox */
-L.tileLayer('https://api.mapbox.com/styles/v1/cjsumner/ciu0aibyr002p2iqd51spbo9p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2pzdW1uZXIiLCJhIjoiY2lmeDhkMDB3M3NpcHUxbTBlZnoycXdyYyJ9.NKtr-pvthf3saPDsRDGTmw',
-    {}).addTo(map);
+    return map;
+}
 
+
+/*
+ * Takes a lat/lon coordinate and marks the location on the map
+ * @param {Leaflet map} myMap
+ * @param {Leaflet marker} marker - previous mark on map
+ * @param {Number} latitudeInput
+ * @param {Number} longitudeInput
+ * @return {Leaflet marker} marker - new mark on map
+ */
+function markLocation(myMap, latitudeInput, longitudeInput) {
+
+    if (latitudeInput === "" || longitudeInput === "") {
+        return;
+    }
+
+    /* Remove markers from previous search */
+    myMap.eachLayer(function(layer){
+        if(layer instanceof L.Marker) {
+            myMap.removeLayer(layer);
+        }
+    });
+
+    var marker = L.marker([parseFloat(latitudeInput), parseFloat(longitudeInput)]).addTo(myMap);
+
+    /* Zoom to new location */
+    var zoomLevel = 12;
+    if (myMap.getZoom() > zoomLevel) {
+        zoomLevel = myMap.getZoom();
+    }
+
+    myMap.setView([parseFloat(latitudeInput), parseFloat(longitudeInput)], zoomLevel);
+
+    return marker;
+}
+
+/*
+ * Change the map layer
+ * @param {String} The basemap layer ('Streets', 'Imagery')
+ */
+function changeBasemap(myMap, basemap) {
+    /* Remove the current base layer maps */
+    myMap.eachLayer(function(layer){
+        if(!(layer instanceof L.Marker)) {
+            myMap.removeLayer(layer);
+        }
+    });
+
+    var layer = L.esri.basemapLayer(basemap);
+    myMap.addLayer(layer);
+
+    if (basemap === 'Imagery') {
+        var layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+        myMap.addLayer(layerLabels);
+    } else if (basemap === 'Streets') {
+
+    }
+}
+
+/*
+ * Add all site pins to map
+ * @param {Leaflet Map} myMap
+ */
+function populateSites(myMap) {
+    var siteMarkers = [];
+
+    $.ajax({
+        method: 'post',
+        url: '/cocotemp/sites.json',
+        success: function (data) {
+            if (data.length === 0) {
+                return;
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                //Add the station locations to the map.
+                var myMarker = L.marker([data[i].siteLatitude, data[i].siteLongitude]).addTo(myMap);
+                myMarker.bindPopup('<a href="site/' + data[i].id + '">' + data[i].siteName + '</a>');
+                siteMarkers.push(myMarker);
+            }
+        },
+        error: function (results) {
+
+        }
+    });
+}
+
+
+
+/*
 var geojsonFeature = {
     "type": "Feature",
     "properties": {
@@ -75,6 +166,7 @@ var addPoints = function (data) {
     }).addTo(map);
 };
 
+
 var onEachFeature = function (feature, layer) {
     var stationName = feature.properties.name;
     var temperature = feature.properties.temperature;
@@ -91,3 +183,4 @@ $.ajax(
         success: addPoints
     }
 );
+*/
