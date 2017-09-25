@@ -104,9 +104,8 @@
                                         [[${site.getSiteLatitude().toString()}]],
                                         [[${site.getSiteLongitude().toString()}]]
                                     </li>
-                                    <li class="list-group-item">
-                                        <a th:href="@{/site/{siteID}/temperature.json (siteID = ${site.getId().toString()})}"
-                                           download="temperatures.json">Download Temperature Data</a>
+                                    <li class="list-group-item" th:inline="text">Elevation:
+                                        [[${site.getSiteElevation().toString()}]] meters
                                     </li>
                                     <li class="list-group-item" >Devices
                                         <ul th:each="device : ${site.getDeviceSet()}">
