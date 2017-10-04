@@ -39,6 +39,7 @@ public class Site
     private double siteLatitude;
     private double siteLongitude;
     private String siteDescription;
+    private double siteElevation;
 
     private List<Globe> globeSet;
     private Set<Device> deviceSet;
@@ -309,6 +310,27 @@ public class Site
     public void setSiteLongitude(double siteLongitude)
     {
         this.siteLongitude = siteLongitude;
+    }
+
+    /**
+     * Gets site elevation.
+     *
+     * @return the site elevation
+     */
+    @Column(name = "site_elevation")
+    public double getSiteElevation()
+    {
+        return siteElevation;
+    }
+
+    /**
+     * Sets site elevation.
+     *
+     * @param siteElevation the site elevation
+     */
+    public void setSiteElevation(double siteElevation)
+    {
+        this.siteElevation = siteElevation;
     }
 
     /**

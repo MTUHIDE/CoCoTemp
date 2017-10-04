@@ -7,6 +7,7 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/sass/forms.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/news.css}" />
 </head>
 <body>
 
@@ -22,7 +23,7 @@
                 <!-- Form Area -->
                 <div class="form-body">
                     <!--/*@thymesVar id="post" type="space.hideaway.model.News"*/-->
-                    <form th:action="@{/news_post}" method="post" th:object="${post}">
+                    <form th:action="@{/news_post}" id="news-post-form" method="post" th:object="${post}">
 
                         <div class="form-group">
                             <div class="col-sm">
@@ -39,10 +40,28 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm">
-                                <!-- Send Button -->
-                                <button type="submit" id="submit" name="submit" class="btn btn-success">
-                                    Post
-                                </button>
+
+                                <!-- Initial Submit Button (Opens modal) -->
+                                <button type="submit" class="btn btn-success">Submit</button>
+
+                                <!-- Modal HTML -->
+                                <div class="modal fade" id="confirm-submit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to post this?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                                <button type="submit"onclick="this.form.submitted=true" class="btn btn-success">Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </form>
@@ -52,13 +71,13 @@
         </div>
     </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script th:src="@{/js/newsPost.js}"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {

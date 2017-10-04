@@ -6,6 +6,7 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
     <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -29,29 +30,25 @@
                     </div>
                     <div>
                         <hr/>
-                        <p>Please enter either an address or place, or a latitude and longitude.</p>
-                    </div>
-                    <div class="form-group">
-                        <label for="locationInput">Site Address</label>
-                        <input type="text" class="form-control"
-                               id="locationInput" placeholder="Enter an address or point of interest"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="locationInput">Latitude and Longitude</label>
-                        <input class="form-control"
-                               id="siteLatitude" placeholder="Enter the latitude" type="number" step="any"
-                               required="required" th:field="*{siteLatitude}"/>
-                        <input class="form-control"
-                               id="siteLongitude" placeholder="Enter the longitude" type="number" step="any"
-                               required="required" th:field="*{siteLongitude}"/>
-                    </div>
-                    <div class="form-group">
-                        <button id="locateButton" type="button" class="btn btn-primary">Locate</button>
+                        <label>Please use the map below to select or search a location: </label>
                     </div>
                     <div class="form-group">
                         <div class="map-container">
                             <div id="map"></div>
+                            <div id="search">
+                                <input type="text" name="search" id="address">
+                            </div>
+
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="siteLatitude">Latitude and Longitude</label>
+                        <input class="form-control"
+                               id="siteLatitude" placeholder="Enter the latitude" type="number" step="any"
+                               required="required" th:field="*{siteLatitude}" readonly/>
+                        <input class="form-control"
+                               id="siteLongitude" placeholder="Enter the longitude" type="number" step="any"
+                               required="required" th:field="*{siteLongitude}" readonly/>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Continue</button>
@@ -69,12 +66,14 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-<script th:src="@{/js/new-site-form.js}"></script>
+<script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
+        integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
+        crossorigin=""></script>
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
-
+<script th:src="@{/js/map.js}"></script>
+<script th:src="@{/js/new-site-form.js}"></script>
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;

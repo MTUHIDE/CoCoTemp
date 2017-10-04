@@ -57,6 +57,7 @@ body {
 .map-container {
     height: 300px;
     width: 100%;
+    position: relative;
 }
 
 .map-container #map {
@@ -66,5 +67,40 @@ body {
 #siteLatitude {
     margin-bottom: 5px;
 }
+
+div#search {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 400;
+}
+
+div#results {
+    color: black;
+    font-size: 75%;
+}
+
+#search input[type=text] {
+    width: 50px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    padding: 8px 8px 8px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-image: url('../images/glyphicons-28-search.png');
+    background-position: 5px;
+    background-repeat: no-repeat;
+}
+
+#search input[type=text]:focus {
+    width: 300px;
+}
+
 
 /*# sourceMappingURL=forms.css.map */
