@@ -26,6 +26,8 @@ $(function () {
                 window.alert("No details available for input: '" + place.name + "'");
                 return;
             }
+            latitudeInput.val(place.geometry.location.lat());
+            longitudeInput.val(place.geometry.location.lng());
             markLocation(myMap, place.geometry.location.lat(), place.geometry.location.lng());
         });
     }
