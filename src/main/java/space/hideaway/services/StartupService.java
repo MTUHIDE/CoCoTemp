@@ -4,6 +4,8 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import space.hideaway.model.Role;
+import space.hideaway.repositories.RoleRepository;
 
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
@@ -16,15 +18,20 @@ public class StartupService
     private Logger logger = Logger.getLogger(getClass().getName());
 
     private final EntityManager entityManager;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public StartupService(EntityManager entityManager)
+    public StartupService(EntityManager entityManager, RoleRepository roleRepository)
     {
         this.entityManager = entityManager;
+        this.roleRepository = roleRepository;
     }
 
     /**
-     * Call at the startup of the server. Enables Hibernate's FullTextEntityManager for Full-text searching.
+     * Call at the startup of the server.
+     *
+     *  - Enables Hibernate's FullTextEntityManager for Full-text searching.
+     *  - Initializes roles in database
      */
     public void initialize()
     {
@@ -41,6 +48,27 @@ public class StartupService
         }
 
         logger.info("Index complete.");
+
+        // Initialize user roles in database
+        Role publicRole = createRole(1, "ROLE_PUBLIC");
+        roleRepository.save(publicRole);
+        Role adminRole = createRole(2, "ROLE_ADMIN");
+        roleRepository.save(adminRole);
+    }
+
+    /**
+     * Creates a user role which can restrict access on the site
+     *
+     * @param id - Uniq role id
+     * @param name - Name of role (ex. 'ROLE_PUBLIC' & 'ROLE_ADMIN')
+     * @return A role
+     */
+    private Role createRole(long id, String name)
+    {
+        Role role = new Role();
+        role.setId(id);
+        role.setName(name);
+        return role;
     }
 
 }

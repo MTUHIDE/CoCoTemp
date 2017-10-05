@@ -1,15 +1,18 @@
 package space.hideaway.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.exceptions.UserNotFoundException;
+import space.hideaway.model.Role;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.UserRepository;
 import space.hideaway.services.security.SecurityServiceImplementation;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +50,8 @@ public class UserServiceImplementation implements UserService
     public void save(User user)
     {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoleSet(new HashSet<>(roleRepository.findAll()));
+        Role userRole = roleRepository.findByName("PUBLIC");
+        user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
     }
 
