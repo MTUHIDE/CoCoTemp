@@ -6,54 +6,49 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import space.hideaway.model.User;
-import space.hideaway.services.UserManagementImpl;
+import space.hideaway.services.user.UserServiceImplementation;
 
 
 /**
- * The controller responsible for displaying the dashboard page.
+ * The controller responsible for displaying the dashboard (aka "My Sites") page.
  */
 @Controller
 public class DashboardController
 {
 
-    /**
-     * The service responsible for user CRUD operations.
-     */
-    private final UserManagementImpl userManagementImpl;
+    private final UserServiceImplementation userServiceImplementation;
 
 
-    /**
-     * Obtain the default temperature unit from the application.properties file and inject
-     * it into a variable for later use.
-     */
+    // Obtain the default temperature unit from the application.properties file and inject
+    // it into a variable for later use. (Not implemented)
     @Value("${cocotemp.temperature.unit}")
     String temperatureUnit;
 
     @Autowired
-    public DashboardController(
-            UserManagementImpl userManagementImpl)
+    public DashboardController(UserServiceImplementation userServiceImplementation)
     {
-        this.userManagementImpl = userManagementImpl;
+        this.userServiceImplementation = userServiceImplementation;
     }
 
     /**
-     * The endpoint for the dashboard view.
+     * The endpoint for the dashboard view (aka "My sites").
      * Secured: Yes
      * Method: GET
      *
      * Sample URL: /dashboard
      *
-     * @param model The model maintained by Spring for the dashboard page.
-     * @return The path to the dashboard template.
+     * @param model The model maintained by Spring for the dashboard (aka "My Sites") page.
+     * @return The path to the dashboard (aka "My Sites") template.
      */
     @GetMapping("/dashboard")
     public String dashboard(Model model)
     {
         //Obtain the logged in user.
-        User user = userManagementImpl.getCurrentLoggedInUser();
-        model.addAttribute("greeting", "Hello, " + user.getFirstName());
+        User user = userServiceImplementation.getCurrentLoggedInUser();
+        model.addAttribute("greeting", "Hello, " + user.getUsername());
+        model.addAttribute("sites", user.getSiteSet());
+        model.addAttribute("devices", user.getDeviceSet());
 
-        //Refers to dashboard.html.
         return "dashboard";
     }
 }

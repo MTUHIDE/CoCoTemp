@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Title</title>
+    <title>Registration</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" th:href="@{sass/forms.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
 </head>
 <body>
 <div class="container-fluid">
     <div class="col-lg-2 col-lg-offset-5">
-
         <div class="form-container">
             <div class="form-header">
                 <h1>Registration</h1>
             </div>
+
             <hr/>
+
             <div class="form-body">
-                <form action="register?_question" method="post" th:object="${user}">
+                <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                <form th:action="@{/register?_question}" method="post" th:object="${user}">
                     <div class="form-group">
                         <label for="emailField">Email</label>
                         <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
@@ -59,8 +61,7 @@
     </div>
 </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -82,7 +83,6 @@
 
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
-
 </script>
 
 </body>

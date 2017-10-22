@@ -1,3 +1,5 @@
+/*_____THIS JAVASCRIPT NOT IN USED_____*/
+
 jQuery(document).ready(function ($) {
 
     //Initialize location search box.
@@ -22,11 +24,11 @@ jQuery(document).ready(function ($) {
             data: data,
             dataType: 'json',
             type: 'post',
-            url: '/manage/sites/add'
+            url: '/cocotemp/manage/sites/add'
         }).done(function (data) {
             console.log(JSON.stringify(data));
             if (data['error'] == false) {
-                window.location.href = "/manage"
+                window.location.href = "/cocotemp/manage"
             }
         });
     })

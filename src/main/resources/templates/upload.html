@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Title</title>
+    <title>Upload</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
@@ -12,27 +12,30 @@
 <body>
 <div class="container-fluid">
     <div class="col-lg-5 col-lg-offset-4">
-
         <div class="form-container">
             <div class="form-header">
                 <h1>Upload data to a site</h1>
             </div>
+
             <div class="form-body">
-                <!--/*@thymesVar id="uploadformwrapper" type="space.hideaway.model.UploadFormWrapper"*/-->
+                <!--/*@thymesVar id="uploadformwrapper" type="space.hideaway.model.upload.UploadFormWrapper"*/-->
                 <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <select name="siteID" class="selectpicker">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+                            <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
                             <option th:each="site : ${sites}" th:value="*{site.getId()}"
                                     th:text="*{site.getSiteName()}"></option>
                         </select>
                     </div>
+
                     <input type="file" name="csvData"/>
+
                     <div class="form-group">
                         <label for="locationDescription">Upload Notes</label>
                         <textarea name="description" class="form-control" id="locationDescription"
                                   placeholder="Comments for this upload"></textarea>
                     </div>
+
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Save</button>
                     </div>
@@ -42,8 +45,7 @@
     </div>
 </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -66,7 +68,6 @@
 
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
-
 </script>
 
 </body>

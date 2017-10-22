@@ -1,145 +1,131 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Dashboard</title>
+    <title>My Sites</title>
 
-    <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-
-    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
-    <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
-    <link rel="stylesheet" href="/sass/dashboard.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
-
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/dashboard.css}"/>
 </head>
+
 <body>
 <div class="row">
 
     <!--Sidebar Partial-->
-    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
-
-
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my sites')"></div>
 
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
+
             <div class="row">
                 <div class="infocard-container">
                     <div class="col-lg-3 infocard">
                         <div class="inner primary">
-                            <p class="infocard-body"><span id="site-count" class="infocard-number">0</span> sites
-                            </p>
+                            <p class="infocard-body"><span id="site-count" class="infocard-number">0</span> sites</p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
-                            <p class="infocard-body"><span id="record-count" class="infocard-number">0</span> records
-                            </p>
+                            <p class="infocard-body"><span id="device-count" class="infocard-number">0</span> devices</p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
-                            <p class="infocard-body"><span id="upload-count" class="infocard-number">0</span> uploads
-                            </p>
+                            <p class="infocard-body"><span id="record-count" class="infocard-number">0</span> records</p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
-                            <p class="infocard-body"><span id="last-update" class="infocard-number"></span> Nothing here
-                                yet.
-                            </p>
+                            <p class="infocard-body"><span id="upload-count" class="infocard-number">0</span> uploads</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="row">
-                    <div class="seperator-header">
-                        <h1 th:inline="text" class="chart-header-text" th:text="${greeting}"></h1>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                Edit <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="/upload">Upload data</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                Range <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="/dashboard?_range=week">Week</a></li>
-                                <li><a href="/dashboard?_range=month">Month</a></li>
-                                <li><a href="/dashboard?_range=year">Year</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="chart-body">
-                        <div class="row chart-container">
-                            <div class="col-lg-12">
-                                <canvas id="upload-history-chart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="row">
                 <div class="seperator-header">
-
-                    <h1 th:inline="text">Sites</h1>
-                    <!-- Single button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            Edit <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/settings/new">Create a site</a></li>
-                            <li><a href="/settings">Edit settings</a></li>
-                        </ul>
-                    </div>
+                    <h1 th:inline="text" class="chart-header-text" th:text="${greeting}"></h1>
+                    <a th:href="@{/settings}">Settings</a>
                 </div>
             </div>
-            <div class="row site-list-container">
+
+            <div class="row">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+
+            <div class="row list-container">
                 <div class="col-lg-6">
-                    <ul class=" site-list">
-                        <li id="site-template" style="display: none">
-                            <div class="row site">
+                    <div class="seperator-header">
+                        <h1>My Sites</h1>
+                    </div>
+                    <ul class="list">
+                        <li th:each="site : ${sites}">
+                            <div class="row item">
                                 <div class="col-lg-12">
-                                    <a class="site-name">Houghton Station</a>
-                                    <h2 class="site-update">Last updated 6 minutes ago</h2>
+                                    <a th:text="*{site.getSiteName()}" th:href="*{'/cocotemp/site/' + site.getId()}"></a>
+                                    <h2 th:text="*{site.getSiteDescription()}"></h2>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row item">
+                                <div class="col-lg-12">
+                                    <span>
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        <a th:href="@{/settings/new}"> Create a new site</a>
+                                    </span>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-6 map-container">
-                    <div id="map"></div>
+
+                <div class="col-lg-6">
+                    <div class="seperator-header">
+                        <h1>My Devices</h1>
+                    </div>
+
+                    <ul class="list">
+                        <li th:each="device : ${devices}">
+                            <div class="row item">
+                                <div class="col-lg-12">
+                                    <a th:text="*{device.getType()} + ':' + *{device.getManufacture_num()}"
+                                       th:href="*{'/cocotemp/settings/device?deviceID=' + device.getId()}">
+                                    </a>
+                                    <h2 th:text="*{device.getSite() != null} ? *{device.getSite().getSiteName()} : 'None!'"></h2>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row item">
+                                <div class="col-lg-12">
+                                    <span>
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        <a th:href="@{/device/new}"> Add a device</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
-<script
-        src="//code.jquery.com/jquery-3.1.1.min.js"
+
+<script src="//code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
 <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>

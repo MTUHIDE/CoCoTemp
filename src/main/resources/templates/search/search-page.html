@@ -8,7 +8,6 @@
     <link type="text/css" rel="stylesheet" th:href="@{/sass/search.css}"/>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
 </head>
 <body>
 <div class="row">
@@ -20,11 +19,13 @@
             <div class="row">
                 <div th:replace="search/search-form :: search-form"></div>
             </div>
+
             <div class="row">
                 <div class="seperator-header">
                     <h1>Search Results</h1>
                 </div>
             </div>
+
             <div class="row search-results-container">
                 <div th:unless="${noSites}" class="col-lg-12">
                     <table class="table table-hover">
@@ -38,13 +39,24 @@
                             <th>Standard Deviation</th>
                             <th>User</th>
                         </tr>
+
+                        <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
                         <tr th:each="site : ${siteList}">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
                             <!--/*@thymesVar id="statisticsUtils" type="space.hideaway.util.StatisticsUtils"*/-->
-                            <td>Nebraska, United States</td>
-                            <td><a th:href="@{/site/{siteID}(siteID=${site.getId()})}"
-                                   th:text="*{site.getSiteName()}">University Station</a></td>
-                            <td th:text="*{site.getSiteDescription()}">Under the sea.</td>
+                            <td th:inline="text">
+                                [[${site.getSiteLatitude().toString()}]], [[${site.getSiteLongitude().toString()}]]
+                            </td>
+                            <td>
+                                <a th:href="@{/site/{siteID}(siteID=${site.getId()})}"
+                                   th:text="*{site.getSiteName()}">University Station
+                                </a>
+                            </td>
+                            <td th:text="*{site.getSiteDescription()}">
+                                Under the sea. Down here all the fish is happy, as off through the waves they roll.
+                                The fish on the land ain't happy; they sad 'cause they in their bowl,
+                                but fish in the bowl is lucky. They in for a worser fate.
+                                One day when the boss get hungry, guess who's gon' be on the plate?
+                            </td>
                             <td th:text="*{statisticsUtils.getMostRecentAllMax(site)}">99</td>
                             <td th:text="*{statisticsUtils.getMostRecentAllMin(site)}">29</td>
                             <td th:text="*{statisticsUtils.getMostRecentAllMean(site)}">50</td>
@@ -57,8 +69,8 @@
         </div>
     </div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -67,7 +79,7 @@
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-<script src="/js/search.js"></script>
+<script th:src="@{/js/search.js}"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {
@@ -84,7 +96,6 @@
 
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
-
 </script>
 
 </body>

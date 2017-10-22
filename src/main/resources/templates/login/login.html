@@ -2,45 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta name="viewport" content="width=site-width, initial-scale=1.0"/>
-    <title>Title</title>
+    <title>Login</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" th:href="@{sass/forms.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/forms.css}"/>
 </head>
 <body>
 <div class="container-fluid">
     <div class="col-lg-4 col-lg-offset-4">
         <div class="form-container">
+
             <div class="form-header">
                 <h1>Login</h1>
             </div>
+
             <hr/>
+
             <div class="form-body">
-                <form action="/login" method="post">
+                <form th:action="@{/login}" method="post">
                     <p th:if="${loginError}" class="error">Wrong username or password.</p>
                     <div class="form-group">
                         <label for="usernameField">Username</label>
                         <input id="usernameField" class="form-control" type="text" name="username"/>
-
                     </div>
                     <div class="form-group">
                         <label for="passwordField">Password</label>
                         <input id="passwordField" class="form-control" type="password" name="password"/>
                     </div>
                     <div class="form-group">
-                        <p>Don't have an account? <a href="/register">Create one now!</a></p>
+                        <p>Don't have an account? <a th:href="@{/register}">Create one now!</a></p>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Login</button>
                     </div>
                 </form>
             </div>
+
         </div>
     </div>
 </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -62,7 +64,6 @@
 
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
-
 </script>
 
 </body>

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
- * Serve the login page to the user.
+ * Serves the login page to the user.
  */
 @Controller
 @RequestMapping("/login")
@@ -29,7 +29,7 @@ public class LoginController
      * message for the login template.
      *
      * @param model The Spring model for the login page.
-     * @return THe path to the login template.
+     * @return The path to the login template.
      */
     @RequestMapping(params = "_error")
     public String showLoginError(Model model)

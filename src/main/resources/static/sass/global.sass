@@ -1,6 +1,3 @@
-$primary-color: #79D0B4
-$secondary-color: #00416a
-
 \:focus
   outline: none
 
@@ -19,14 +16,6 @@ $secondary-color: #00416a
 
 /* small screen
 @media (max-width: 768px)
-  .side-menu
-    position: relative
-    width: 100%
-    height: 0
-    border-right: 0
-    border-bottom: 1px solid $secondary-color
-    .brand-name-wrapper .navbar-brand
-      display: inline-block
   /* Slide in animation
   @-moz-keyframes slidein
     0%
@@ -71,6 +60,19 @@ $secondary-color: #00416a
       left: -300px
 
   .side-menu-container > .navbar-nav
+    position: fixed
+    left: -300px
+    width: 300px
+    top: 43px
+    height: 100%
+    border-right: 1px solid #00416a
+    background-color: #00416a
+    -moz-animation: slideout 300ms forwards
+    -o-animation: slideout 300ms forwards
+    -webkit-animation: slideout 300ms forwards
+    animation: slideout 300ms forwards
+    -webkit-transform-style: preserve-3d
+    transform-style: preserve-3d
     &.slide-in
       -moz-animation: slidein 300ms forwards
       -o-animation: slidein 300ms forwards
@@ -78,20 +80,6 @@ $secondary-color: #00416a
       animation: slidein 300ms forwards
       -webkit-transform-style: preserve-3d
       transform-style: preserve-3d
-
-    position: fixed
-    left: -300px
-    width: 300px
-    top: 43px
-    height: 100%
-    border-right: 1px solid $secondary-color
-    background-color: $secondary-color
-    -moz-animation: slideout 300ms forwards
-    -o-animation: slideout 300ms forwards
-    -webkit-animation: slideout 300ms forwards
-    animation: slideout 300ms forwards
-    -webkit-transform-style: preserve-3d
-    transform-style: preserve-3d
   @-moz-keyframes bodyslidein
     0%
       left: 0
@@ -136,8 +124,8 @@ $secondary-color: #00416a
 
   /* Slide side body
   .side-body
-    margin-left: 5px
-    margin-top: 70px
+    margin-left: 0px
+    margin-top: 0px
     position: relative
     -moz-animation: bodyslideout 300ms forwards
     -o-animation: bodyslideout 300ms forwards
@@ -152,31 +140,9 @@ $secondary-color: #00416a
     animation: bodyslidein 300ms forwards
     -webkit-transform-style: preserve-3d
     transform-style: preserve-3d
-  /* Hamburger
-  .navbar-toggle
-    .icon-bar
-      background-color: white !important
-    border: 0
-    float: left
-    padding: 18px
-    margin: 0
-    border-radius: 0
-    background-color: $secondary-color
-  /* Search
-  #search .panel-body .navbar-form
-    border-bottom: 0
-    .form-group
-      margin: 0
-  .navbar-header
-    /* this is probably redundant
-    position: fixed
-    z-index: 3
-    background-color: $secondary-color
-  /* Dropdown tweek
-  #dropdown .panel-body .navbar-nav
-    margin: 0
 
 h2
+  margin: 0px
   padding-top: 10px
 
 .infocard-container
@@ -185,9 +151,6 @@ h2
     padding: 0
     .inner
       padding: 20px
-      //height: 125px
-      //background-color: #efefef
-      //border-radius: 3px
       .infocard-header
         text-transform: uppercase
         font-family: "Segoe UI", serif
@@ -205,7 +168,7 @@ h2
   .tertiary
     background-color: #009dee
   .quaternary
-    background-color: rgb(5, 204, 255)
+    background-color: #05ccff
 
 .seperator-header
   height: 50px
@@ -222,3 +185,20 @@ h2
     font-weight: 500
     text-transform: uppercase
     font-family: "Segoe UI", serif
+
+.sub-seperator-header
+  height: 50px
+  padding: 10px
+  margin-bottom: 10px
+  width: 100%
+  background-color: #e6e6e6
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  p
+    margin: 0
+    font-size: 1em
+    font-weight: 500
+    font-family: "Segoe UI", serif
+
+/*# sourceMappingURL=global.css.map

@@ -1,20 +1,71 @@
-.searchbar
-  label
-    color: white
+.site-header
+  width: 100%
+  padding: 15px
+  background: url("../images/siteHeaderBackGround.png") no-repeat left
+  h1
+    margin: 5px
+    color: #00517e
+    font-size: 1.5em
+    font-weight: 500
+    font-family: "Segoe UI", serif
+  p
+    color: #00395e
+    font-weight: 500
+    font-family: "Segoe UI", serif
+
+.bs-callout
+  padding: 20px
+  margin: 20px 0
+  border: 1px solid #eee
+  border-left-width: 5px
+  border-radius: 3px
+  p:last-child
+    margin-bottom: 0
+  + .bs-callout
+    margin-top: -5px
+
+/* Tighten up space between multiple callouts
+
+.bs-callout-info
+  border-left-color: #00517e
+
+.searchbar label
+  color: white
 
 .searchbar-container
   background-color: #00395e
   padding: 20px
   margin: 0
-
   #search-query
     border-top-left-radius: 25px
     border-bottom-left-radius: 25px
-
   #submit-button
     border-top-right-radius: 25px
     border-bottom-right-radius: 25px
     padding-right: 15px
-
   .searchbar
     height: 37px
+
+.news-list
+  margin: 0
+  padding: 0
+  list-style: none
+  .news-item
+    font-family: "Segoe UI", serif
+    width: 100%
+    border-bottom: 1px solid rgba(144, 144, 144, 0.51)
+    padding: 20px
+
+.map-container
+  height: 500px
+  position: relative
+  > #map
+    height: 100%
+
+#basemaps-wrapper
+  position: absolute
+  top: 10px
+  right: 10px
+  z-index: 400
+  background: white
+  padding: 10px

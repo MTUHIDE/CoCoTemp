@@ -4,7 +4,6 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import space.hideaway.repositories.UserRepository;
 
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
@@ -14,34 +13,33 @@ import java.util.logging.Logger;
 public class StartupService
 {
 
-    Logger logger = Logger.getLogger(getClass().getName());
-
-    private final
-    UserRepository userRepository;
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     private final EntityManager entityManager;
 
     @Autowired
-    public StartupService(UserRepository userRepository, EntityManager entityManager)
+    public StartupService(EntityManager entityManager)
     {
-        this.userRepository = userRepository;
         this.entityManager = entityManager;
     }
 
-
+    /**
+     * Call at the startup of the server. Enables Hibernate's FullTextEntityManager for Full-text searching.
+     */
     public void initialize()
     {
         logger.info("Linking entityManager.");
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         logger.info(String.format("entityManager: %s linked.", entityManager));
+
         try
         {
             logger.info("Beginning to index data.");
             fullTextEntityManager.createIndexer().startAndWait();
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         logger.info("Index complete.");
     }
 

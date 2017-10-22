@@ -3,41 +3,71 @@
 </head>
 <body>
 <div class="settings-partial" th:fragment="settings-partial">
-
     <!--Partial CSS-->
-    <link rel="stylesheet" type="text/css" th:href="@{/sass/partial/settings-partial.css}"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
-
+    <link rel="stylesheet" type="text/css" th:href="@{/sass/partial/settings-partial.css}"/>
     <div>
         <ul class="settings-list">
             <li class="settings-item">
                 <div class="settings-item-inner">
-                    <span><i class="fa fa-cog" aria-hidden="true"></i> <a href="/settings"> General</a></span>
+                    <span><i class="fa fa-cog" aria-hidden="true"></i> <a th:href="@{/settings}"> General</a></span>
                 </div>
             </li>
+
             <li>
                 <div class="settings-seperator">
                     <h1 class="seperator-text">Sites</h1>
                 </div>
             </li>
-            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
+
+            <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
             <li th:each="site : ${sites}" class="settings-item">
                 <div class="settings-item-inner">
-                    <span><i class="fa fa-thermometer-quarter" aria-hidden="true"></i> <a
-                            th:text="*{site.getSiteName()}"
-                            th:href="*{'/settings/site?siteID=' + site.getId()}"></a></span>
+                    <span>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <a th:text="*{site.getSiteName()}"
+                           th:href="*{'/cocotemp/settings/site?siteID=' + site.getId()}">
+                        </a>
+                    </span>
                 </div>
             </li>
+
             <li class="settings-item">
                 <div class="settings-item-inner">
                     <span><i class="fa fa-plus" aria-hidden="true"></i> <a
-                            href="/settings/new"> Create a new site</a></span>
+                            th:href="@{/settings/new}"> Create a new site</a></span>
+                </div>
+            </li>
+
+            <li>
+                <div class="settings-seperator">
+                    <h1 class="seperator-text">Devices</h1>
+                </div>
+            </li>
+
+            <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
+            <li th:each="device : ${devices}" class="settings-item">
+                <div class="settings-item-inner">
+                    <span>
+                        <i class="fa fa-thermometer-quarter" aria-hidden="true"></i>
+                        <a th:text="*{device.getType()} + ':' + *{device.getManufacture_num()}"
+                           th:href="*{'/cocotemp/settings/device?deviceID=' + device.getId()}">
+                        </a>
+                    </span>
+                </div>
+            </li>
+
+            <li class="settings-item">
+                <div class="settings-item-inner">
+                    <span>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <a th:href="@{/device/new}"> Add a device</a>
+                    </span>
                 </div>
             </li>
         </ul>
     </div>
-
 </div>
 </body>
 </html>

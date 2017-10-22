@@ -2,9 +2,9 @@
     padding: 20px;
 }
 
-.location-container .col-lg-4 {
-    margin: 0;
-    padding: 0;
+.location-group {
+    margin-left: -15px;
+    margin-right: -15px;
 }
 
 /*# sourceMappingURL=search.css.map */

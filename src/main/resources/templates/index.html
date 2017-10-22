@@ -4,10 +4,12 @@
     <title>CoCoTemp Home</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link type="text/css" rel="stylesheet" th:href="@{sass/global.css}"/>
-    <link type="text/css" rel="stylesheet" th:href="@{sass/index.css}"/>
-    <link type="text/css" rel="stylesheet" th:href="@{sass/modal.css}"/>
-    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/index.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/modal.css}"/>
 </head>
 <body>
 <div class="row">
@@ -16,8 +18,31 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
+
             <div class="row">
-                <div class="col-lg-12 searchbar-container">
+                <div class="site-header">
+                    <h1 class="text-center">Welcome to CoCo Temp</h1>
+                    <p class="text-center">"An ever growing source of microclimate data"</p>
+                    <p>
+                        Community Collaborative Temperature (CoCo Temp) project is the collaboration of volunteers who
+                        aim to map and record microclimate data. Our mission is to provide meaningful insight of the
+                        environment around homes and cities, for the purpose of education and research. This is
+                        accomplished through the use of simple and inexpensive tools, in conjunction with public, interactive
+                        sources of data.<br><br>
+                        If you are interested in joining the CoCo Temp team, the only requirement to participate is zest
+                        for climatology. In turn, you will be able to help us learn the impacts of weather on our daily lives.
+                        To get started, create an <a th:href="@{/register}">account</a> then follow the getting started
+                        guide.<br><br>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="seperator-header">
+                    <h1>Community Site Map</h1>
+                </div>
+
+                <div class="searchbar-container">
                     <div class="row searchbar">
                         <!--/*@thymesVar id="searchString" type="java.lang.String"*/-->
                         <!--/*@thymesVar id="searchModel" type="space.hideaway.model.SearchModel"*/-->
@@ -27,26 +52,75 @@
                                     <input name="search-query" id="search-query" type="text"
                                            class="form-control"
                                            placeholder="Search for a station by name, description, or username."/>
-                                    <span class="input-group-btn"><button id="submit-button" name="submit-button" class="btn btn-default" type="submit">Search</button></span>
+                                    <span class="input-group-btn">
+                                        <button id="submit-button" name="submit-button"
+                                                class="btn btn-default" type="submit">Search</button>
+                                    </span>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+
+                <div class="map-container">
+                    <div id="map"></div>
+                    <div id="basemaps-wrapper" class="leaflet-bar">
+                        <select name="basemaps" id="basemaps">
+                            <option value="Streets">Streets</option>
+                            <option value="Imagery">Satellite</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="row">
+                <div class="seperator-header">
+                    <h1>News</h1>
+                </div>
+
+                <div class="row sub-seperator-header">
+                    <p>
+                        Please contact CoCoTemp with suggestions for news items:
+                    </p>
+                </div>
+
+                <ul class="news-list">
+                    <li th:each="article : ${articles}" class="news-item" >
+                        <div class="row news">
+                            <article class="col-lg-12">
+                                <h4 class="news-name" th:inline="text">
+                                    [[*{article.getTitle()}]]
+                                    <small th:text="*{#strings.substringBefore(article.getDateTime(),' ')}"></small>
+                                </h4>
+                                <p th:utext="*{article.getContent()}" class="bs-callout bs-callout-info"></p>
+                            </article>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="col-xs-offset-5">
+                    <a class="btn btn-primary" th:href="@{/news_history}">Older Posts</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<!--<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>-->
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
+        integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
+        crossorigin=""></script>
+<script th:src="@{/js/map.js}"></script>
 <script th:src="@{/js/index.js}"></script>
-
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -62,7 +136,6 @@
 
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
-
 </script>
 
 </body>

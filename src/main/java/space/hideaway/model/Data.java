@@ -2,6 +2,7 @@ package space.hideaway.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import space.hideaway.model.site.Site;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,20 +19,17 @@ public class Data
     private UUID id;
 
     private int userID;
-
-    @JsonIgnore
     private User user;
 
     private UUID siteID;
-
-    @JsonIgnore
     private Site site;
 
-    @Temporal(value = TemporalType.TIMESTAMP)
+    private UUID deviceID;
+    private Device device;
+
     private Date dateTime;
 
     private double temperature;
-
 
     /**
      * Instantiates a new Data.
@@ -39,7 +37,6 @@ public class Data
     public Data()
     {
     }
-
 
     /**
      * Instantiates a new Data.
@@ -62,6 +59,7 @@ public class Data
      *
      * @return the site
      */
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "site_id", insertable = false, updatable = false)
     public Site getSite()
@@ -77,18 +75,6 @@ public class Data
     public void setSite(Site site)
     {
         this.site = site;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format(
-                "Data: [ID: %s Site ID: %s Date: %s Temperature: %s]%n",
-                getId().toString(),
-                getSiteID(),
-                getDateTime(),
-                getTemperature()
-        );
     }
 
     /**
@@ -141,6 +127,7 @@ public class Data
      *
      * @return the date time
      */
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "date")
     public Date getDateTime()
     {
@@ -204,6 +191,7 @@ public class Data
      *
      * @return the user
      */
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public User getUser()
@@ -219,5 +207,65 @@ public class Data
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+    /**
+     * Gets device id.
+     *
+     * @return the device id
+     */
+    @Column(name = "device_id", length = 16)
+    public UUID getDeviceID() {
+        return deviceID;
+    }
+
+    /**
+     * Sets device id.
+     *
+     * @param deviceID the device id
+     */
+    public void setDeviceID(UUID deviceID) {
+        this.deviceID = deviceID;
+    }
+
+    /**
+     * Gets device.
+     *
+     * @return the device
+     */
+    @JsonIgnore
+    @ManyToOne()
+    @JoinColumn(name = "device_id", insertable = false, updatable = false)
+    public Device getDevice()
+    {
+        return device;
+    }
+
+    /**
+     * Sets device.
+     *
+     * @param device the device
+     */
+    public void setDevice(Device device)
+    {
+        this.device = device;
+    }
+
+    /**
+     * Data: [ID: c9e3ba13-c0b1-46ac-b96a-432ef5a9425c Site ID: c9e3ba13-c0b1-46ac-b96a-432ef5a9425c
+     * Date: 1503090032723 Temperature: 22]
+     *
+     * @return A String
+     */
+    @Override
+    public String toString()
+    {
+        return String.format(
+                "Data: [ID: %s Site ID: %s Date: %s Temperature: %s]%n",
+                getId().toString(),
+                getSiteID(),
+                getDateTime(),
+                getTemperature()
+        );
     }
 }

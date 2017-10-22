@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Dashboard</title>
-
-    <title>Title</title>
+    <title>Site</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-
     <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
     <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
-    <link rel="stylesheet" th:href="@{/sass/station.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/station.css}"/>
 
 </head>
 <body>
@@ -33,17 +30,11 @@
     <div class="container-fluid">
         <div class="side-body">
             <div class="row">
-                <div class="col-lg-12 solid-bar">
-                    <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
-                    <h1 th:text="${site.getSiteName()}">Station Name</h1>
-                </div>
-            </div>
-            <div class="row">
                 <div class="infocard-container">
                     <div class="col-lg-3 infocard">
                         <div class="inner primary">
                             <p class="infocard-body">
-                                <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.SiteStatistics"*/-->
+                                <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.site.SiteStatistics"*/-->
                                 <span id="site-count" class="infocard-number" th:text="${max}">93&deg; F</span>
                                 max
                             </p>
@@ -51,24 +42,24 @@
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
-                            <p class="infocard-body"><span id="record-count" class="infocard-number" th:text="${min}">12&deg;
-                                F</span>
+                            <p class="infocard-body">
+                                <span id="record-count" class="infocard-number" th:text="${min}">12&deg;F</span>
                                 min
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
-                            <p class="infocard-body"><span id="upload-count" class="infocard-number" th:text="${avg}">80&deg;
-                                F</span>
+                            <p class="infocard-body">
+                                <span id="upload-count" class="infocard-number" th:text="${avg}">80&deg;F</span>
                                 avg
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
-                            <p class="infocard-body"><span id="last-update" class="infocard-number"
-                                                           th:text="${deviation}">12&deg; F</span>
+                            <p class="infocard-body">
+                                <span id="last-update" class="infocard-number" th:text="${deviation}">12&deg; F</span>
                                 standard deviation
                             </p>
                         </div>
@@ -76,9 +67,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 chart-container">
-                    <canvas id="temperature-chart"></canvas>
-                </div>
+                <div id="temperature-chart"></div>
             </div>
             <div class="row">
                 <div class="col-lg-12 solid-bar">
@@ -87,15 +76,67 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 information-container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!--/*@thymesVar id="site" type="space.hideaway.model.Site"*/-->
-                            <h1 th:text="${site.getSiteName()}"></h1>
-                            <p th:text="${site.getSiteDescription()}"></p>
-                            <p>Site managed by <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-                            <a th:text="${user.getUsername()}"></a></p>
+
+                    <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
+                    <h1 th:text="${site.getSiteName()}"></h1>
+
+                    <blockquote>
+                        <p th:text="${site.getSiteDescription()}"></p>
+                    </blockquote>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#siteMeta">View CoCoTemp Metadata</a>
+                                </h4>
+                            </div>
+                            <div id="siteMeta" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                                    <li class="list-group-item">Site managed by
+                                        <a th:text="${user.getUsername()}"></a>
+                                    </li>
+                                    <li class="list-group-item" th:inline="text">Site ID:
+                                        [[${site.getId().toString()}]]
+                                    </li>
+                                    <li class="list-group-item" th:inline="text">Location:
+                                        [[${site.getSiteLatitude().toString()}]],
+                                        [[${site.getSiteLongitude().toString()}]]
+                                    </li>
+                                    <li class="list-group-item" th:inline="text">Elevation:
+                                        [[${site.getSiteElevation().toString()}]] meters
+                                    </li>
+                                    <li class="list-group-item" >Devices
+                                        <ul th:each="device : ${site.getDeviceSet()}">
+                                            <li th:inline="text">[[*{device.getType()} + ':' + *{device.getManufacture_num()}]]</li>
+                                        </ul>
+                                        <p th:text="${site.getDeviceSet().isEmpty()} ? '• None'"></p>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#globeMeta">View GLOBE Metadata</a>
+                                </h4>
+                            </div>
+                            <div id="globeMeta" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item" th:text="${site.getGlobeSet().isEmpty()} ? 'No data'">
+                                    </li>
+                                    <li class="list-group-item" th:each="answer : ${site.getGlobeSet()}">
+                                        <p th:text="*{answer.getAnswer()}"></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-lg-6 map-container">
                     <div id="map"></div>
@@ -104,8 +145,9 @@
         </div>
     </div>
 </div>
-<script
-        src="//code.jquery.com/jquery-3.1.1.min.js"
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="//code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"

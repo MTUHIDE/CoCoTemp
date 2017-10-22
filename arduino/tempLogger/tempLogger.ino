@@ -1,10 +1,8 @@
-
-
 /*
   This code logs the temperature from a DS18B20 temperature sensor
   and prints the temperature along with a time stamp using a
   DS3231 Clock and a SparkFun microSD Transflash Breakout
-
+  
   This uses code from http://bildr.org/2011/07/ds18b20-arduino/
    and https://learn.sparkfun.com/tutorials/microsd-shield-and-sd-breakout-hookup-guide sd card code
    and http://tronixstuff.com/2014/12/01/tutorial-using-ds1307-and-ds3231-real-time-clock-modules-with-arduino/ using the clock
@@ -13,30 +11,22 @@
    and was modified to save the temperature, in fahrenheit, and time data to a microSD card
 
   @author Humane Interface Design Enterprise, Michigan Tech
-    -Stephen Radachy
     -Nicholas Lanter
     -Kyle Bray
-
+    -Stephen Radachy
+    
     NOTES:
-    1) AFTER SETTING THE TIME COMMENT IT OUT
-       OTHERWISE THE CLOCK IS SET TO THAT DATE EVERY
-       TIME YOU BOOT UP
+    1) BEFORE UPLOADING THIS PROGRAM, FIRST UPLOAD THE ARDUINOSETUP PROGRAM!!!
 
-    2) The processor doesn't begin logging until the
-       minute it is on finishes but then it consistently
-       runs from there, so if it starts at 10:01:29 it waits
-       until 10:02:00 to begin
+    2) On power up, the temperature sensor sends 185 deg F to verify booting
 
-    3) On power up, the temperature sensor sends 185 deg F to verify booting
-       This code omits that initial log, so it may actually begin logging after
-       up to one plus timeToSleep minutes
-
-    4) Currently, the processor wakes up every minute to see if the specified
+    3) Currently, the processor wakes up every minute to see if the specified
        timeToSleep minutes have passed, and then it logs when true. This is due
        to the nature of the RTC's alarm, and with some math it can be configured
        to wake up only once every timeToSleep minutes
 */
 
+//Libraries
 #include <OneWire.h> //temp sensor
 #include <SPI.h>
 #include "SdFat.h" //sd card
@@ -44,23 +34,29 @@ SdFat SD;
 #include "Wire.h"
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
-#define DEBUG 1
-#define DEBUG_TO_SD 0
+#include "TrueRandom.h" //https://github.com/sirleech/TrueRandom
+
+//debug settings
+#define DEBUG 0 //0 debug off, 1 debug on. turn off when unnecessary to preserve power
+#define DEBUG_TO_SD 0 //0 debug off, 1 debug on
+
+//sd card variables
 #define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
+const String filename = "data.txt"; //name of file we log data to
+const int chipSelect = 8;  //set chip select to whichever pin the sd reader's chip select goes to on the arduino. default is 10
 
-//Clock var's
-#define DS3231_I2C_ADDRESS 0x68 //default address for DS3231
-#define wakePin 3
-unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
-int timeCount = 0; //don't modify this
-
+//clock variables
+#define DS3231_I2C_ADDRESS 0x68 //default address for DS3231 clock
+#define wakePin 3 //pin that comes from clock and wakes the arduino from sleep
+const unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
+unsigned int timeCount = 0; //don't modify this, used internally to keep track of when to wake from sleep
 SPISettings mySettings;
 DS3231 clock;
 
-//temp sensor var's
-int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
+//temp sensor variables
+const int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 OneWire ds(DS18S20_Pin); // on digital pin 2
-
+float temperature = -12345;
 
 // Convert normal decimal numbers to binary coded decimal
 byte decToBcd(byte val)
@@ -85,25 +81,32 @@ float getTemp() {
   if ( !ds.search(addr)) {
     //no more sensors on chain, reset search
     ds.reset_search();
+#if DEBUG
     Serial.println("Cannot find an address for temp sensor");
+#endif
     return -1000;
   }
 
   if ( OneWire::crc8( addr, 7) != addr[7]) {
+#if DEBUG    
     Serial.println("CRC is not valid!");
+#endif
     return -1001;
   }
 
   if ( addr[0] != 0x10 && addr[0] != 0x28) {
+#if DEBUG    
     Serial.print("Device is not recognized");
+#endif
     return -1002;
   }
 
   ds.reset();
   ds.select(addr);
   ds.write(0x44, 1); // start conversion, with parasite power on at the end
-
-  byte present = ds.reset();
+  
+  //byte present = ds.reset();
+  ds.reset();
   ds.select(addr);
   ds.write(0xBE); // Read Scratchpad
 
@@ -131,23 +134,18 @@ float getTemp() {
  */
 void sd_setup() {
 
-
 #if DEBUG
     Serial.print("Initializing SD card...");
 #endif
-
-  const int chipSelect = 8;  //set chip select to whichever pin the sd reader's chip select goes to on the arduino
-
-  // make sure that the default chip select pin is set to
-  // output, even if you don't use it:
-  pinMode(10, OUTPUT);
 
   // The chipSelect pin you use should also be set to output
   pinMode(chipSelect, OUTPUT);
 
   // see if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
+#if DEBUG
     Serial.println("Card failed, or not present");
+#endif
     // don't do anything more:
     return;
   }
@@ -193,7 +191,7 @@ void printTime(void){
   // retrieve data from DS3231
   readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,
   &year);
-
+#if DEBUG
   // print to the serial port:
   //yyyy-mm-dd hh:mm:ss
   Serial.print(year);
@@ -207,13 +205,14 @@ void printTime(void){
   Serial.print(minute);
   Serial.print(":");
   Serial.print(second);
-
+#endif
 }
 
 /*
- *Write a string to sd
+ *Write a string Str to sd card 
+ *file's name = filename
  */
-void write_Text_To_Disk(String filename,String str) {
+void write_Text_To_Disk(String str) {
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   File dataFile = SD.open(filename, FILE_WRITE);
@@ -221,47 +220,38 @@ void write_Text_To_Disk(String filename,String str) {
   if (dataFile) {
     delay(50);
     dataFile.print(str);
-    dataFile.print("\n");
     dataFile.close();
   }
   else{
-
+#if DEBUG
     Serial.println("error writing text to disk data.txt");
+#endif
   }
 }
 
 /*
  * Write the temperature and time data to SD
+ * Pads with 0s if necessary.
+ * Does not print a new line since that comes after the voltage reading
  */
-void append_to_disk(float temp) {
+void append_Temp_To_Disk(float temp) {
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  File dataFile = SD.open("data.txt", FILE_WRITE);
+  File dataFile = SD.open(filename, FILE_WRITE);
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    delay(50);
 
   byte second, minute, hour, dayOfWeek, dayOfMonth, month, year;
   // retrieve data from DS3231
   readDS3231time(&second, &minute, &hour, &dayOfWeek, &dayOfMonth, &month,
   &year);
 
-  // if the file is available, write to it:
-  if (dataFile) {
-    delay(50);
-
-//Currently off
-#if 0
-    //185 is what temp sensor returns on boot
-    //don't write -1000 either
-    if (temp == 185.0 || temp == -1000)
-      return;
-#endif
-
 #if DEBUG
   Serial.println("Printing Data:");
 #endif
-
-    
-
 
   //print comma seperated values in form:
   //yyyy-mm-dd hh:mm:ss,temperature
@@ -304,7 +294,8 @@ void append_to_disk(float temp) {
     }
   dataFile.print(second);
   dataFile.print(",");
-  dataFile.println(temp);
+  dataFile.print(temp);
+  dataFile.print("\n");
   dataFile.close();
 
 #if DEBUG
@@ -314,7 +305,9 @@ void append_to_disk(float temp) {
   }
   // if the file isn't open, pop up an error:
   else {
+#if DEBUG
     Serial.println("error opening data.txt");
+#endif
   }
 }
 
@@ -330,7 +323,8 @@ void alarmISR()
 
 /*
  * Initialize the clock time, the alarm for the clock,
- * and the interrupt associated with it
+ * and the interrupt associated with it which is used
+ * to wake the arduino from sleep
  */
 void setup_Clock(void) {
 
@@ -357,25 +351,14 @@ void setup_Clock(void) {
 }
 
 
-//set up the pin modes, the clock
-//sd card, temp sensor, and the
-//device id
+/*set up the pin modes, the clock
+/sd card, temp sensor, and the device id
+*/
 void setup(void) {
 
 #if DEBUG
   Serial.begin(9600);
 #endif
-
-  // set pin 4 (POWA) to output so that we can control the
-  //power of the sd reader and the temp sensor
-  pinMode(POWA, OUTPUT);
-
-  // turn on SD card and temp sensor
-  digitalWrite(POWA, HIGH);
-
-  // give some delay to ensure RTC and SD are initialized properly
-  delay(1);
-
 
   //set up sd card
   sd_setup();
@@ -383,14 +366,21 @@ void setup(void) {
   //set up clock
   setup_Clock();
 
+  //Temp sensor
   Wire.begin();
 
   #if DEBUG_TO_SD
-    write_Text_To_Disk("data.txt","setting up system");
+    write_Text_To_Disk("setting up system");
   #endif
 
 }
 
+int freeRam () 
+{
+  extern int __heap_start, *__brkval; 
+  int v; 
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
+}
 
 //continually log data every timeToSleep (specified at the top) number of minutes.
 //go to sleep inbetween. The clock wakes the arduino up every minute to check if
@@ -402,7 +392,7 @@ void loop(void) {
 #endif
 
 #if DEBUG_TO_SD
-  write_Text_To_Disk("data.txt","Going To Sleep");
+  write_Text_To_Disk("Going To Sleep");
 #endif
 
   //enter deep sleep
@@ -413,27 +403,21 @@ void loop(void) {
   sei();
 
 #if DEBUG
-  //let serial have time print
+  //let serial have time print before sleep
   delay(75);
 #endif
+
   sleep_cpu();
 
 
 #if DEBUG
     printTime();
-#endif
-#if 0
     Serial.print("timeCount is ");
     Serial.println(timeCount);
     Serial.println("isAlarm() is: " + String(clock.isAlarm1(false)));
 #endif
 
    //update until we hit the specified number of minutes to run
-
-#if 0
-  Serial.print("clock.isAlarm1() " + String(clock.isAlarm1(false)) + " && (timeCount < (timeToSleep - 1)) : ");
-  Serial.println(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1)));
-#endif
 
  //check if the desired number of minutes to sleep has elapsed
    if(clock.isAlarm1(false) && (timeCount < (timeToSleep - 1))){
@@ -445,29 +429,31 @@ void loop(void) {
   //processor and the alarm flag is set. Clear the flag and
   //handle whatever we need to do.
   else {
-#if DEBUG_TO_SD
-  write_Text_To_Disk("data.txt","Woke up, logging");
-#endif
-
 #if DEBUG
     Serial.println("ALARM TRIGGERED!");
 #endif
-    delay(1);
 
-    //we finally hit the specified number of minutes to run, reset and log
+
+
+    //free memory
+    freeRam();
+    //we finally hit the specified number of minutes to run, log & reset 
     timeCount = 0;
-
-    float temperature = getTemp();
+    temperature = getTemp();
     delay(5);
-    append_to_disk(temperature);
+    append_Temp_To_Disk(temperature);
+
+    
 #if DEBUG
     Serial.println(temperature);
 #endif
 
+    temperature = -54321; //set to this so we dont get the same temp reading each time 
+    //if something is wrong with sensor
+    
     //clear alarm flag and update time To sleep
     clock.clearAlarm1();
-
+    
   }
-
 }
 

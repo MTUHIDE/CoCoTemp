@@ -6,7 +6,7 @@
     <groupId>com.cocotemp</groupId>
     <artifactId>cocotemp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>cocotemp</name>
     <description>Demo project for Spring Boot</description>
@@ -25,6 +25,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
@@ -101,10 +106,10 @@
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
             <version>LATEST</version>
         </dependency>
-
     </dependencies>
 
     <build>
+        <finalName>cocotemp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

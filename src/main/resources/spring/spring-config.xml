@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:tx="http://www.springframework.org/schema/cache"
        xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
 
     <tx:annotation-driven/>
     <!--STATIC RESOURCE PATHS________________________________________________________________________________________-->
     <mvc:resources mapping="/static/**" location="/static/"/>
-    <!--END STATIC RESOURCE PATHS_____________________________________________________________________________________-->
+    <!--END STATIC RESOURCE PATHS____________________________________________________________________________________-->
 
-    <context:property-placeholder location="classpath:/spring/application.properties"/>
+    <context:property-placeholder location="classpath:/application.properties"/>
 
     <!--PERSISTENCE MANAGEMENT_______________________________________________________________________________________-->
     <jpa:repositories base-package="space.hideaway.repositories"/>
@@ -24,10 +25,10 @@
         <property name="username" value="${spring.datasource.username}"/>
         <property name="password" value="${spring.datasource.password}"/>
     </bean>
+
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="spring.validation"/>
     </bean>
-
 
     <bean name="entityManagerFactory" id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -60,8 +61,8 @@
     <!--END PERSISTENCE MANAGEMENT___________________________________________________________________________________-->
 
     <!--CUSTOM BEANS_________________________________________________________________________________________________-->
-    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.UserDetailsServiceImplementation"/>
-    <bean id="securityServiceImplementation" class="space.hideaway.services.SecurityServiceImplementation"/>
+    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.user.UserDetailsServiceImplementation"/>
+    <bean id="securityServiceImplementation" class="space.hideaway.services.security.SecurityServiceImplementation"/>
 
     <!--Bean that runs on startup.-->
     <bean id="startupService" class="space.hideaway.services.StartupService" init-method="initialize"/>
@@ -72,10 +73,12 @@
         <security:form-login login-page="/login" authentication-failure-url="/login?_error"/>
         <security:intercept-url pattern="/upload/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/dashboard" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/news_post" access="isAuthenticated()"/> <!-->TODO change to admin only<-->
         <security:intercept-url pattern="/register" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/login" access="permitAll()" method="POST"/>
         <security:intercept-url pattern="/**" access="permitAll()"/>
         <security:csrf disabled="true"/>
+        <security:headers disabled="true"/>
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
@@ -88,7 +91,6 @@
         <constructor-arg name="strength" value="11"/>
     </bean>
     <!--END AUTHENTICATION___________________________________________________________________________________________-->
-
 
     <mvc:annotation-driven/>
 </beans>
