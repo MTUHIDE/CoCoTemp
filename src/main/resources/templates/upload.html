@@ -14,22 +14,25 @@
     <div class="col-lg-5 col-lg-offset-4">
         <div class="form-container">
             <div class="form-header">
-                <h1>Upload data to a site</h1>
+                <h1>Upload data from a site</h1>
             </div>
 
             <div class="form-body">
                 <!--/*@thymesVar id="uploadformwrapper" type="space.hideaway.model.upload.UploadFormWrapper"*/-->
                 <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <select name="siteID" class="selectpicker">
+                    <label for="selectPicker">Site</label>
+                    <div class="form-group" id="selectPicker">
+                        <select name="siteID" class="selectpicker" th:if="${not #lists.isEmpty(sites)}">
                             <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
                             <option th:each="site : ${sites}" th:value="*{site.getId()}"
                                     th:text="*{site.getSiteName()}"></option>
                         </select>
+                        <a th:href="@{/settings/new}" th:if="${#lists.isEmpty(sites)}">You have no sites! Click here to make your first one.</a>
                     </div>
-
-                    <input type="file" name="csvData"/>
-
+                    <div class="form-group">
+                        <label for="fileChooser">Upload File</label>
+                        <input type="file" name="csvData" id="fileChooser"/>
+                    </div>
                     <div class="form-group">
                         <label for="locationDescription">Upload Notes</label>
                         <textarea name="description" class="form-control" id="locationDescription"
@@ -69,6 +72,5 @@
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
 </script>
-
 </body>
 </html>
