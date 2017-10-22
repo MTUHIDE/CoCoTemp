@@ -6,13 +6,18 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.News;
+import space.hideaway.model.Role;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.NewsRepository;
+import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Justin
@@ -29,15 +34,18 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final SiteRepository siteRepository;
     private final NewsRepository newsRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public ScheduleService(UserRepository userRepository,
                            SiteRepository siteRepository,
-                           NewsRepository newsRepository)
+                           NewsRepository newsRepository,
+                           RoleRepository roleRepository)
     {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.newsRepository = newsRepository;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -53,9 +61,22 @@ public class ScheduleService {
                 "TESTACC","password",
                 "Test@TEST.com","John",
                 "Doe","P", 1);
+        Role userRole = roleRepository.findByName("ROLE_PUBLIC");
+        user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
+        userRepository.save(user);
+
+        User admin = createUser(
+                "ADMINACC","password",
+                "Admin@TEST.com","John",
+                "Doe","P", 2);
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
+        userRepository.save(admin);
+
         Site site = createSite(
                 user, "A site for local testing.",
                 37,-95,"Test Site");
+        siteRepository.save(site);
 
         for (int i = 0; i < 3; i++)
         {
@@ -63,10 +84,6 @@ public class ScheduleService {
                     "Test Post " + i);
             newsRepository.save(news);
         }
-
-        userRepository.save(user);
-        siteRepository.save(site);
-
     }
 
     /**
