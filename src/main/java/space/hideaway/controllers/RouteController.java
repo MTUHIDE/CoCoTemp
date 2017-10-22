@@ -70,4 +70,18 @@ public class RouteController
         return "contact";
     }
 
+
+    @GetMapping("/getting_started")
+    public String getting_started()
+    {
+        return "getting_started";
+    }
+
+    @GetMapping("/external_resources")
+    public String external_resources()
+    {
+        return "external_resources";
+    }
+
+
 }

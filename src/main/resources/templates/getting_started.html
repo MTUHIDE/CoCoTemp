@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Getting Started</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+</head>
+<body>
+<div class="row">
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='acknowledgments')"></div>
+
+
+     <!--Main Content-->
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="seperator-header">
+                <h1>Getting Started</h1>
+            </div>
+            <div class="row sub-seperator-header">
+                <p>
+                    Creating a site, creating a device, and uploading data.
+                </p>
+            </div>
+            <div id="row" style="padding-top: 0px; padding-left: 10px">
+                <h1>Step 1: Creating A Site</h1>
+                <hr>
+                <h4>To begin uploading data to the world, you will have to make a site! First off, navigate to the <a th:href="@{/dashboard}">Dashboard</a>.</h4>
+                <h4>From the dashboard, under the My Sites section, click Create A Site.</h4>
+                <img th:src="@{/images/CreateASite.png}" style="padding-top: 10px; padding-bottom: 10px">
+                <h4>Once in the create a site page, you are able to set the name of your site. This site should describe where you are. Ex. Your house name, a business name, etc.</h4>
+                <h4>Beneath the site name, you are able to choose the location of the site. You can either click on the map where the location is, or you can search your location on the top right of the map.</h4>
+                <img th:src="@{/images/MAP.PNG}" style="padding-top: 10px; padding-bottom: 10px">
+                <h4>Once you choose a site name and the location, you are able to add a small description about the site. This can be location relative to landmarks or information about whether it is a house or business.</h4>
+                <h4>It is required that you fill out a description of the site, so it is reccommended to take your time and be thorough.</h4>
+                <h4>Lastly, there is a quick survey about the site, to help determine the conditions of the site. This is optional, but highly recommended.</h4>
+                <h4>You will now see your site under the My Sites section. You've created your first site!</h4>
+                <br>
+                <h1>Step 2: Creating A Device</h1>
+                <hr>
+                <h4>Now that you have a site, you can create a device! The device will be the physical device at the site.</h4>
+                <h4>Just like how you made the site, you will head to the <a th:href="@{/dashboard}">Dashboard</a> but click on Create A Device.</h4>
+                <h4>From here, you will want to enter in a device name. This could be a nickname for the location of the device at the site, or just a temporary name for the probe.</h4>
+                <br>
+                <h1>Uploading Data</h1>
+                <hr>
+                <h4>Congratulations! You've set up a device on your site. Now, you'll need some data.</h4>
+                <h4>After running your probe for an ample amount of time, you will need to upload your data.</h4>
+                <h4>On the sidebar, click the page for Uploading Data. There, you will have a couple requirements.</h4>
+                <h4>Firstly, you will have a drop-down selection menu of your sites. This will help if you manage multiple sites.</h4>
+                <h4>Then, you will have to upload the actual data. From your probe, you should have a .csv file, containing all of your readings</h4>
+                <h4>Click the Choose File button and find that file to upload it.</h4>
+                <h4>Lastly, you are able to fill in some notes about the upload, such as the type of weather you were experiencing.</h4>
+                <br>
+                <h1>Congratulations, you've uploaded your first set of data! Keep at it!</h1>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-89087341-2', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</body>
+</html>

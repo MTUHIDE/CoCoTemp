@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>External Resources</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/sass/global.css}"/>
+</head>
+<body>
+<div class="row">
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='external resources')"></div>
+
+
+     <!--Main Content-->
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="seperator-header">
+                <h1>External Resources</h1>
+            </div>
+
+            <div class="row sub-seperator-header">
+                <p>
+                    External resources that can be used with or instead of the CoCoTemp probe:
+                </p>
+            </div>
+            <div id="row" style="padding: 20px; height: 100px">
+                <img th:src="@{/images/iButton.png}" th:width="75px" th:height="75px" style="float: left">
+                <div style="float: left; padding-left: 10px">
+                    <h2><a href="http://www.mouser.com/ProductDetail/Maxim-Integrated/DS1923-F5/?qs=g%252bEszo6zu8PuaBJBj4p9Qg%3d%3d&utm_source=maxim-integrated&utm_medium=supplier&utm_campaign=DS1923-F5#&utm_term=DS1923-F5#&utm_content=Maxim Integrated" target="_blank">
+                        IButton
+                    </a></h2>
+                    <h4>An alternative to the CoCoTemp module. Small and versatile.</h4>
+                </div>
+            </div>
+            <hr>
+            <div id="row" style="padding: 20px; height: 100px">
+                <img th:src="@{/images/iAdapter.jpg}" th:width="75px" th:height="75px" style="float: left">
+                <div style="float: left; padding-left: 10px">
+                    <h2><a href="http://www.mouser.com/ProductDetail/Maxim-Integrated/DS9490B/?qs=g%252bEszo6zu8Nlmay8YtOI5g%3d%3d&utm_source=maxim-integrated&utm_medium=supplier&utm_campaign=DS9490B#&utm_term=DS9490B#&utm_content=Maxim Integrated" target="_blank">
+                        IButton Adapter
+                    </a></h2>
+                    <h4>An adapter to connect the iButton to a computer via USB.</h4>
+                </div>
+            </div>
+            <hr>
+            <div id="row" style="padding: 20px; height: 100px">
+                <img th:src="@{/images/GLOBE.png}" th:width="75px" th:height="75px" style="float: left">
+                <div style="float: left; padding-left: 10px">
+                    <h2><a href="https://www.globe.gov/" target="_blank">
+                        GLOBE
+                    </a></h2>
+                    <h4>A worldwide science and education program, providing communities the opportunity to participate in data collection and research.</h4>
+                </div>
+            </div>
+            <hr>
+            <div id="row" style="padding: 20px; height: 100px">
+                <img th:src="@{/images/CoCoRaHS.png}" th:width="75px" th:height="75px" style="float: left">
+                <div style="float: left; padding-left: 10px">
+                    <h2><a href="https://www.cocorahs.org/" target="_blank">
+                        CoCoRaHS
+                    </a></h2>
+                    <h4>Volunteers working together to measure precipitation across the nations.</h4>
+                </div>
+            </div>
+            <hr>
+            <div id="row" style="padding: 20px; height: 100px">
+                <img th:src="@{/images/NOAA.png}" th:width="75px" th:height="75px" style="float: left">
+                <div style="float: left; padding-left: 10px">
+                    <h2><a href="http://www.noaa.gov/" target="_blank">
+                        NOAA
+                    </a></h2>
+                    <h4>Organization that focuses on the conditions of the oceans and the atmosphere.</h4>
+                </div>
+            </div>
+            <hr>
+            <div id="row" style="padding: 20px; height: 100px">
+                <img th:src="@{/images/NAU.png}" th:width="75px" th:height="75px" style="float: left">
+                <div style="float: left; padding-left: 10px">
+                    <h2><a href="https://nau.edu/CEFNS/SICCS/Labs/Complex-Systems-Informatics-Laboratory/Community-Collaborative-Microclimate-Temperature-Network-(CoCoTemp)/" target="_blank">
+                        NAU CoCo Temp Lab
+                    </a></h2>
+                    <h4>Our partners and sponsor in creating, researching, and developing CoCoTemp.</h4>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-89087341-2', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</body>
+</html>

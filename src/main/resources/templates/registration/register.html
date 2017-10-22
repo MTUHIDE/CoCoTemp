@@ -39,18 +39,14 @@
                         <label for="passwordField">Password</label>
                         <input th:field="*{password}" type="password" name="passwordField" class="form-control"
                                id="passwordField" placeholder="Enter your password." required="required"/>
-                        <ul>
-                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
-                        </ul>
+                        <p th:each="err : ${#fields.errors('password')}" th:text="${err}"></p>
                     </div>
                     <div class="form-group">
                         <label for="confirmField">Confirm Password</label>
                         <input th:field="*{confirmationPassword}" type="password" name="confirmField"
                                class="form-control" id="confirmField"
                                placeholder="Enter your password again." required="required"/>
-                        <ul>
-                            <li th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></li>
-                        </ul>
+                        <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Next</button>
