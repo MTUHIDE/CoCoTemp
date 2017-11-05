@@ -1,0 +1,35 @@
+.solid-bar {
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #00416A; }
+  .solid-bar h1 {
+    margin: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Segoe UI", serif; }
+
+.chart-container {
+  padding: 20px;
+  height: 400px; }
+
+.map-container {
+  padding: 0;
+  height: 400px; }
+  .map-container #map {
+    height: 100%; }
+
+.btn-link {
+  padding: 0;
+  border: 0; }
+
+/*# sourceMappingURL=station.css.map */
