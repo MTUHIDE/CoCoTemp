@@ -28,5 +28,5 @@ nbdist/
 *.log
 node_modules/
 
-# Ignore built CSS files (plus sourcemaps)
-src/main/resources/static/css
+-# Ignore built CSS sourcemaps
+-src/main/resources/static/css/*.css.map

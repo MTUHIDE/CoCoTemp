@@ -1,0 +1,61 @@
+body {
+  background: #f7f7f7;
+  overflow-y: auto;
+  height: 100%; }
+
+.container-fluid, .row, .side-body {
+  height: 100%; }
+
+.btn-default {
+  background-color: transparent !important;
+  color: white !important;
+  border: none !important; }
+  .btn-default:focus, .btn-default:hover, .btn-default:active {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important; }
+
+.chart-body {
+  padding: 10px;
+  height: 400px;
+  background-color: white; }
+  .chart-body > .chart-container > .col-lg-12 {
+    height: 100%; }
+
+.list-container .col-lg-6 {
+  padding: 10px;
+  margin: 0; }
+
+.list {
+  list-style: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0; }
+  .list a, .list h2 {
+    padding: 3px;
+    margin: 0; }
+  .list a {
+    font-size: 1em;
+    font-family: "Segoe UI", serif;
+    font-weight: 500; }
+  .list h2 {
+    font-size: 1em;
+    font-family: "Segoe UI Light", serif;
+    font-style: italic;
+    color: #909090; }
+  .list .item {
+    padding: 20px;
+    border: 1px solid rgba(144, 144, 144, 0.45);
+    background-color: white; }
+
+.map-container {
+  height: 400px; }
+  .map-container > #map {
+    height: 100%; }
+
+.seperator-header a {
+  color: #009dee;
+  padding-left: 10px; }
+
+/*# sourceMappingURL=dashboard.css.map */
+
+/*# sourceMappingURL=dashboard.css.map */

@@ -39,5 +39,5 @@ gulp.task("build", ["build:css"]);
 gulp.task("clean", ["clean:css"]);
 
 gulp.task("watch", function() {
-    gulp.src(paths.src.css+ "/**/*", ["build:css"]);
+    gulp.watch(paths.src.css+ "/**/*", ["build:css"]);
 });
