@@ -1,0 +1,245 @@
+:focus {
+    outline: none;
+}
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* Main body section */
+.side-body {
+    margin-left: 300px;
+}
+
+/* small screen */
+@media (max-width: 768px) {
+    /* Slide in animation */
+    @-moz-keyframes slidein {
+        0% {
+            left: -300px;
+        }
+        100% {
+            left: 10px;
+        }
+    }
+    @-webkit-keyframes slidein {
+        0% {
+            left: -300px;
+        }
+        100% {
+            left: 10px;
+        }
+    }
+    @keyframes slidein {
+        0% {
+            left: -300px;
+        }
+        100% {
+            left: 10px;
+        }
+    }
+    @-moz-keyframes slideout {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: -300px;
+        }
+    }
+    @-webkit-keyframes slideout {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: -300px;
+        }
+    }
+    @keyframes slideout {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: -300px;
+        }
+    }
+    .side-menu-container > .navbar-nav {
+        position: fixed;
+        left: -300px;
+        width: 300px;
+        top: 43px;
+        height: 100%;
+        border-right: 1px solid #00416a;
+        background-color: #00416a;
+        -moz-animation: slideout 300ms forwards;
+        -o-animation: slideout 300ms forwards;
+        -webkit-animation: slideout 300ms forwards;
+        animation: slideout 300ms forwards;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    .side-menu-container > .navbar-nav.slide-in {
+        -moz-animation: slidein 300ms forwards;
+        -o-animation: slidein 300ms forwards;
+        -webkit-animation: slidein 300ms forwards;
+        animation: slidein 300ms forwards;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    @-moz-keyframes bodyslidein {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: 300px;
+        }
+    }
+    @-webkit-keyframes bodyslidein {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: 300px;
+        }
+    }
+    @keyframes bodyslidein {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: 300px;
+        }
+    }
+    @-moz-keyframes bodyslideout {
+        0% {
+            left: 300px;
+        }
+        100% {
+            left: 0;
+        }
+    }
+    @-webkit-keyframes bodyslideout {
+        0% {
+            left: 300px;
+        }
+        100% {
+            left: 0;
+        }
+    }
+    @keyframes bodyslideout {
+        0% {
+            left: 300px;
+        }
+        100% {
+            left: 0;
+        }
+    }
+    /* Slide side body */
+    .side-body {
+        margin-left: 0px;
+        margin-top: 0px;
+        position: relative;
+        -moz-animation: bodyslideout 300ms forwards;
+        -o-animation: bodyslideout 300ms forwards;
+        -webkit-animation: bodyslideout 300ms forwards;
+        animation: bodyslideout 300ms forwards;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .body-slide-in {
+        -moz-animation: bodyslidein 300ms forwards;
+        -o-animation: bodyslidein 300ms forwards;
+        -webkit-animation: bodyslidein 300ms forwards;
+        animation: bodyslidein 300ms forwards;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+}
+
+h2 {
+    margin: 0px;
+    padding-top: 10px;
+}
+
+.infocard-container .infocard {
+    color: white;
+    padding: 0;
+}
+
+.infocard-container .infocard .inner {
+    padding: 20px;
+}
+
+.infocard-container .infocard .inner .infocard-header {
+    text-transform: uppercase;
+    font-family: "Segoe UI", serif;
+    font-size: 1em;
+}
+
+.infocard-container .infocard .inner .infocard-body {
+    font-family: "Segoe UI Light", serif;
+    font-size: 1em;
+}
+
+.infocard-container .infocard .inner .infocard-number {
+    font-family: "Segoe UI Light", serif;
+    font-size: 2em;
+}
+.infocard-container .primary {
+    background-color: #00629a;
+}
+.infocard-container .secondary {
+    background-color: #0080bf;
+}
+.infocard-container .tertiary {
+    background-color: #009dee;
+}
+.infocard-container .quaternary {
+    background-color: #05ccff;
+}
+
+.seperator-header {
+    height: 50px;
+    padding: 10px;
+    width: 100%;
+    background-color: #00416a;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.seperator-header h1 {
+    margin: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Segoe UI", serif;
+}
+
+.sub-seperator-header {
+    height: 50px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.sub-seperator-header p {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: "Segoe UI", serif;
+}
+
+/*# sourceMappingURL=global.css.map */

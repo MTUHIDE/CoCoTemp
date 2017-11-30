@@ -1,0 +1,106 @@
+body {
+    background-color: #00416A;
+}
+
+.container-fluid {
+    margin-top: 100px;
+}
+
+.form-header {
+    text-align: center;
+    padding: 25px 25px 0 25px;
+}
+
+.form-header h1 {
+    font-family: "Segoe UI Light", serif;
+    font-size: 150%;
+    font-weight: 200;
+    margin: 0 0 10px 0;
+}
+
+.form-body {
+    padding: 0 25px 25px 25px;
+}
+
+.form-container {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    background-color: white;
+}
+
+.form-container label {
+    font-size: 80%;
+    font-family: "Segoe UI", serif;
+    color: #909090;
+}
+
+.form-container input {
+    background: #f4f4f4;
+    border-radius: 0;
+}
+
+.form-container button {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.form-container a {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.form-container textarea {
+    width: 100%;
+    border-radius: 2px;
+    resize: vertical;
+}
+
+.map-container {
+    height: 300px;
+    width: 100%;
+    position: relative;
+}
+
+.map-container #map {
+    height: 100%;
+}
+
+#siteLatitude {
+    margin-bottom: 5px;
+}
+
+div#search {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 400;
+}
+
+div#results {
+    color: black;
+    font-size: 75%;
+}
+
+#search input[type=text] {
+    width: 50px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    padding: 8px 8px 8px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-image: url('../images/glyphicons-28-search.png');
+    background-position: 5px;
+    background-repeat: no-repeat;
+}
+
+#search input[type=text]:focus {
+    width: 300px;
+}
+
+
+/*# sourceMappingURL=forms.css.map */
