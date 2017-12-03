@@ -8,9 +8,9 @@ body {
   text-align: center;
   padding: 25px 25px 0 25px; }
   .form-header h1 {
-    font-family: "Segoe UI Light", serif;
+    font-family: "Segoe UI", serif;
     font-size: 150%;
-    font-weight: 200;
+    font-weight: 500;
     margin: 0 0 10px 0; }
 
 .form-body {
@@ -20,15 +20,16 @@ body {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   background-color: white; }
   .form-container label {
-    font-size: 80%;
-    font-family: "Segoe UI", serif;
+    font-size: 110%;
+    font-family: "Segoe UI Light", serif;
     color: #909090; }
   .form-container input {
     background: #f4f4f4;
     border-radius: 0; }
   .form-container button, .form-container a {
     width: 100%;
-    border-radius: 2px; }
+    border-radius: 2px;
+    font-size: 110%; }
   .form-container textarea {
     width: 100%;
     border-radius: 2px;
