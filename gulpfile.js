@@ -17,7 +17,7 @@ var gulp    = require("gulp"),
 
 // Build the Sass
 gulp.task("build:css", function() {
-    return gulp.src(paths.src.css + "/**/*")
+    return gulp.src(paths.src.css + "/*")
         // Prevents Sass from hanging on errors (syntax error, etc.)
         .pipe(plugins.plumber())
         .pipe(plugins.sourcemaps.init())
@@ -39,5 +39,5 @@ gulp.task("build", ["build:css"]);
 gulp.task("clean", ["clean:css"]);
 
 gulp.task("watch", function() {
-    gulp.watch(paths.src.css+ "/**/*", ["build:css"]);
+    gulp.watch(paths.src.css + "/**/*", ["build:css"]);
 });
