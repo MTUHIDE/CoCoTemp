@@ -23,6 +23,8 @@ public class LoginController
         return "login/login";
     }
 
+
+
     /**
      * The mapping for a login error. Sprint automatically appends a ?_error
      * parameter when the login fails. We add an "error flag" to turn on the error
