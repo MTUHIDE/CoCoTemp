@@ -141,7 +141,7 @@ public class UserServiceImplementation implements UserService
     }
 
     /**
-     * Finds a user base on their email.
+     * Finds a user based on their email.
      *
      * @param email The email associated with the user
      * @return the user with the associated email

@@ -3,7 +3,7 @@ package space.hideaway.exceptions;
 /**
  * Handles the case when a user is not found in the database.
  */
-public class UserNotFoundException extends Throwable {
+public class UserNotFoundException extends RuntimeException {
     /**
      * User not found.
      *

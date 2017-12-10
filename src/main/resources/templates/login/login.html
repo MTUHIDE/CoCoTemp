@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=site-width, initial-scale=1.0"/>
     <title>Login</title>
+    <link rel="icon" type="image/png" href="/cocotemp/images/CoCoIcon.png">
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/forms.css}"/>
@@ -30,7 +32,11 @@
                         <input id="passwordField" class="form-control" type="password" name="password"/>
                     </div>
                     <div class="form-group">
-                        <p>Don't have an account? <a th:href="@{/register}">Create one now!</a></p>
+                        <!--th:text="#{message.resetPassword}"-->
+                        <p>Forgot your password? <a th:href="@{/forgotPassword}" > Reset it here.</a></p>
+                    </div>
+                    <div class="form-group">
+                        <p>Don't have an account? <a th:href="@{/register.html}">Create one now!</a></p>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Login</button>
