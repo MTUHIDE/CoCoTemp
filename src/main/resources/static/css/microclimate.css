@@ -1,0 +1,63 @@
+.solid-bar {
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #00416A; }
+  .solid-bar h1 {
+    margin: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Segoe UI", serif; }
+
+/* For small screens just hide sidebar on collapse */
+.collapsed {
+  display: none; }
+
+@media (min-width: 992px) {
+  .collapsed {
+    display: block;
+    margin-right: -25%; } }
+
+#row-main {
+  overflow-x: hidden; }
+
+#content {
+  transition: width 0.3s ease; }
+
+#sidebar {
+  transition: margin 0.3s ease; }
+
+.search-form-container {
+  margin-bottom: 10px; }
+
+.container {
+  width: auto; }
+
+.location-container .col-sm-4 {
+  padding-right: 5px;
+  padding-left: 0px; }
+
+.map-container {
+  height: 400px;
+  position: relative; }
+  .map-container > #map {
+    height: 100%; }
+
+#basemaps-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 400;
+  background: white;
+  padding: 10px; }
+
+/*# sourceMappingURL=microclimate.css.map */

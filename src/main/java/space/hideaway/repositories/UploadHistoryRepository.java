@@ -29,4 +29,6 @@ public interface UploadHistoryRepository extends JpaRepository<UploadHistory, UU
      */
     @Query("select u from UploadHistory u where u.dateTime > :previousDate and u.userID=:id order by u.dateTime asc ")
     List<UploadHistory> getHistoric(@Param("previousDate") Date previousDate, @Param("id") int id);
+
+
 }

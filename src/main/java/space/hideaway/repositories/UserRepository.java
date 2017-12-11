@@ -1,6 +1,7 @@
 package space.hideaway.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import space.hideaway.model.Threshold;
 import space.hideaway.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long>
@@ -21,4 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long>
      * @return A user represented by the given email.
      */
     User findByEmail(String email);
+
 }

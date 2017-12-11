@@ -37,6 +37,7 @@ public class User
     private Set<Site> siteSet;
     private Set<UploadHistory> uploadHistorySet;
     private Set<Device> deviceSet;
+    private Set<Threshold> thresholdSet;
 
     /**
      * Gets id.
@@ -295,4 +296,25 @@ public class User
     public void setDeviceSet(Set<Device> deviceSet) {
         this.deviceSet = deviceSet;
     }
+
+    /**
+     * Gets the threshold set
+     *
+     * @return the threshold lines
+     */
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    public Set<Threshold> getThresholdSet() {
+        return thresholdSet;
+    }
+
+    /**
+     * Sets threshold set
+     *
+     * @param thresholds a set of user defined threshold lines
+     */
+    public void setThresholdSet(Set<Threshold> thresholds) {
+        this.thresholdSet = thresholds;
+    }
+
 }

@@ -5,12 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import space.hideaway.model.Threshold;
+import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteStatistics;
+import space.hideaway.repositories.ThresholdRepository;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.services.site.SiteStatisticsService;
+import space.hideaway.services.user.UserService;
 import space.hideaway.util.FormatUtils;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -25,14 +32,20 @@ public class SiteController
 
     private final SiteService siteService;
     private final SiteStatisticsService siteStatisticsService;
+    private final UserService userService;
+    private final ThresholdRepository thresholdRepository;
 
     @Autowired
     public SiteController(
             SiteService siteService,
-            SiteStatisticsService siteStatisticsService)
+            SiteStatisticsService siteStatisticsService,
+            UserService userService,
+            ThresholdRepository thresholdRepository)
     {
         this.siteService = siteService;
         this.siteStatisticsService = siteStatisticsService;
+        this.userService = userService;
+        this.thresholdRepository = thresholdRepository;
     }
 
     /**
@@ -51,10 +64,16 @@ public class SiteController
             Model model,
             @PathVariable(value = "siteID") UUID siteID)
     {
+
         Site site = siteService.findByKey(siteID.toString());
         model.addAttribute("site", site);
         model.addAttribute("siteID", site.getId());
         model.addAttribute("user", site.getUser());
+
+        // Get threshold lines for site/user
+        User curUser = userService.getCurrentLoggedInUser();
+        List<Threshold> thresholds = thresholdRepository.getThreshold(site.getId(), curUser.getId());
+        model.addAttribute("thresholds", thresholds);
 
         // Values for the site page title card.
         SiteStatistics siteStatistics = siteStatisticsService.getMostRecent(site);

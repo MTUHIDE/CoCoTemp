@@ -7,10 +7,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.News;
 import space.hideaway.model.Role;
+import space.hideaway.model.Threshold;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.NewsRepository;
 import space.hideaway.repositories.RoleRepository;
+import space.hideaway.repositories.ThresholdRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
@@ -35,17 +37,20 @@ public class ScheduleService {
     private final SiteRepository siteRepository;
     private final NewsRepository newsRepository;
     private final RoleRepository roleRepository;
+    private final ThresholdRepository thresholdRepository;
 
     @Autowired
     public ScheduleService(UserRepository userRepository,
                            SiteRepository siteRepository,
                            NewsRepository newsRepository,
-                           RoleRepository roleRepository)
+                           RoleRepository roleRepository,
+                           ThresholdRepository thresholdRepository)
     {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.newsRepository = newsRepository;
         this.roleRepository = roleRepository;
+        this.thresholdRepository = thresholdRepository;
     }
 
     /**
@@ -78,12 +83,32 @@ public class ScheduleService {
                 37,-95,"Test Site");
         siteRepository.save(site);
 
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 5; i++) {
+            site = createSite(
+                    user, "A site for local testing.",
+                    37 + i,-95 + i,"Test Site" + i);
+            siteRepository.save(site);
+        }
+
+        for (int i = 0; i < 3; i++) {
             News news = createNewsPost("Local test post. Created at: " + System.currentTimeMillis() + "ms",
                     "Test Post " + i);
             newsRepository.save(news);
         }
+
+        Threshold threshold = new Threshold();
+        threshold.setSiteId(site.getId());
+        threshold.setUserId(user.getId());
+        threshold.setThresholdName("Tomato Temperature");
+        threshold.setThresholdValue(50);
+        thresholdRepository.save(threshold);
+
+        Threshold threshold1 = new Threshold();
+        threshold1.setSiteId(site.getId());
+        threshold1.setUserId(user.getId());
+        threshold1.setThresholdName("Another temp");
+        threshold1.setThresholdValue(40);
+        thresholdRepository.save(threshold1);
     }
 
     /**

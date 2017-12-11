@@ -62,10 +62,6 @@ $(function () {
                 type: 'scatter'
             };
 
-            var indexTemp = [0, 31, 35, 44, 56];
-            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
-            var indexName = ['Freezing','Caution','Ex. Caution','Danger','Ex. Danger'];
-
             var data = [collectedTemps];
 
             var layout = {
@@ -86,27 +82,63 @@ $(function () {
                     }
                 },
                 shapes: [],
-                annotations: []
+                annotations: [],
+                showlegend: true
             };
 
-            for(var i = 0; i < indexTemp.length; i++){
+            thresholds.forEach(function(threshold) {
                 var lines = {
                     type: 'line',
-                        xref: 'paper',
+                    xref: 'paper',
                     yref: 'y',
                     x0: 0,
-                    y0: indexTemp[i],
+                    y0: threshold.thresholdValue,
                     x1: 1,
-                    y1: indexTemp[i],
+                    y1: threshold.thresholdValue,
                     line: {
-                    color: indexColors[i],
+                        color: 'rgb(0, 0, 255)',
                         width: 1
                     }
                 };
                 layout.shapes.push(lines);
-            }
 
+                var annotations = {
+                    xref: 'paper',
+                    x: 1,
+                    y: threshold.thresholdValue,
+                    xanchor: 'left',
+                    yanchor: 'middle',
+                    text: threshold.thresholdName,
+                    showarrow: false,
+                    font: {
+                        family: 'Segoe UI',
+                        size: 14,
+                        color: '#7f7f7f'
+                    }
+                };
+                layout.annotations.push(annotations);
+            });
+
+            var indexTemp = [0, 31, 35, 44, 56];
+            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
+            var indexName = ['Freezing','Caution','Ex. Caution','Danger','Ex. Danger'];
             for(var j = 0; j < indexTemp.length; j++){
+
+                var lines = {
+                    type: 'line',
+                    xref: 'paper',
+                    yref: 'y',
+                    x0: 0,
+                    y0: indexTemp[j],
+                    x1: 1,
+                    y1: indexTemp[j],
+                    line: {
+                        color: indexColors[j],
+                        width: 1
+                    }
+                };
+                layout.shapes.push(lines);
+
                 var annotations = {
                     xref: 'paper',
                     x: 1,
