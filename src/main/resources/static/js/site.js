@@ -83,10 +83,14 @@ $(function () {
                 },
                 shapes: [],
                 annotations: [],
-                showlegend: true
+                showlegend: true,
+                legend: {
+                    x: 1.2,
+                    y: 1 },
+                margin: {r: 200}
             };
 
-            thresholds.forEach(function(threshold) {
+            thresholds.forEach(function(threshold, index) {
                 var lines = {
                     type: 'line',
                     xref: 'paper',
@@ -96,7 +100,7 @@ $(function () {
                     x1: 1,
                     y1: threshold.thresholdValue,
                     line: {
-                        color: 'rgb(0, 0, 255)',
+                        color: 'rgb('+ (index + 1) * 50 +', '+ (index+1) * 50 +', '+ 0 +')',
                         width: 1
                     }
                 };
@@ -119,9 +123,9 @@ $(function () {
                 layout.annotations.push(annotations);
             });
 
-            var indexTemp = [0, 31, 35, 44, 56];
-            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
-            var indexName = ['Freezing','Caution','Ex. Caution','Danger','Ex. Danger'];
+            var indexTemp = [0, 42];
+            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 0, 0)'];
+            var indexName = ['Freezing','Ex Caution'];
             for(var j = 0; j < indexTemp.length; j++){
 
                 var lines = {
