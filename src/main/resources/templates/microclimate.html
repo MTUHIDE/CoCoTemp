@@ -27,6 +27,17 @@
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
+    <!-- Filter sidebar -->
+    <div class="glyphicon glyphicon-menu-left side-menu-flat" id="sidemenu-popup">
+        <p onclick="expandFilterSideMenu()">Filters</p>
+
+        <div id="filter-menu" class="search-form-container">
+
+        </div>
+
+    </div>
+
+
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
@@ -35,18 +46,11 @@
                     <h1>Micro Climate Comparison Page</h1>
                 </div>
             </div>
-
-            <button onclick="myFunction.call(this)">Click me</button>
-
-
-
-            <!--<div class="row">-->
-                <!--<div id="temperature-chart"></div>-->
-            <!--</div>-->
+            
             <div class="row">
                 <div class="container">
                     <div class="row" id="row-main">
-                        <div class="col-md-9" id="content">
+                        <div id="content" class="content-flat">
                             <div class="map-container">
                                 <div id="map"></div>
                                 <div id="basemaps-wrapper" class="leaflet-bar">
@@ -60,78 +64,8 @@
                             <div class="row">
                                 <div id="temperature-chart"></div>
                             </div>
-
-
                         </div>
-                        <div class="col-md-3" id="sidebar">
 
-                            <div class="search-form-container">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <form id="search-form">
-                                                <div class="form-group">
-                                                    <label for="search-query">Keyword</label>
-                                                    <input type="text" class="form-control" id="search-query"
-                                                           placeholder="eg. Houghton Station">
-                                                    <p class="help-block">You can search for identifiers in a site's name, description, or by
-                                                        username.</p>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="location-query">Location Search</label>
-                                                    <input type="text" class="form-control" id="location-query"
-                                                           placeholder=""/>
-                                                    <p class="help-block">Enter latitude and longitude in decimal degrees below, or
-                                                        start typing an address and we'll convert it for you.</p>
-                                                </div>
-
-                                                <div class="form-group location-group">
-                                                    <div class="row location-container">
-                                                        <div id="latitude-container" class="col-sm-4">
-                                                            <label for="location-query">Latitude</label>
-                                                            <input type="text" class="form-control" id="latitude-query"
-                                                                   placeholder=""/>
-                                                        </div>
-                                                        <div id="longitude-container" class="col-sm-4">
-                                                            <label for="location-query">Longitude</label>
-                                                            <input type="text" class="form-control" id="longitude-query"
-                                                                   placeholder=""/>
-                                                        </div>
-                                                        <div id="range-container" class="col-sm-4">
-                                                            <label for="range-selector">Range</label>
-                                                            <select class="form-control" id="range-selector">
-                                                                <option>50km</option>
-                                                                <option>100km</option>
-                                                                <option>500km</option>
-                                                                <option>1000km</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <button type="button" id="searchButton" class="btn btn-default">Search</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="row sub-seperator-header">
-                                    <h5>Search Results</h5>
-                                </div>
-                            </div>
-                            <div class="row search-results-container">
-                                <table id="search-results" class="table table-hover">
-                                    <tr>
-                                        <th>Location</th>
-                                        <th>Site Name</th>
-                                    </tr>
-
-                                </table>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
