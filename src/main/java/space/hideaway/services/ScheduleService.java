@@ -7,19 +7,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.News;
 import space.hideaway.model.Role;
-import space.hideaway.model.Threshold;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.repositories.NewsRepository;
 import space.hideaway.repositories.RoleRepository;
-import space.hideaway.repositories.ThresholdRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Justin
@@ -37,20 +34,17 @@ public class ScheduleService {
     private final SiteRepository siteRepository;
     private final NewsRepository newsRepository;
     private final RoleRepository roleRepository;
-    private final ThresholdRepository thresholdRepository;
 
     @Autowired
     public ScheduleService(UserRepository userRepository,
                            SiteRepository siteRepository,
                            NewsRepository newsRepository,
-                           RoleRepository roleRepository,
-                           ThresholdRepository thresholdRepository)
+                           RoleRepository roleRepository)
     {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.newsRepository = newsRepository;
         this.roleRepository = roleRepository;
-        this.thresholdRepository = thresholdRepository;
     }
 
     /**
@@ -96,19 +90,6 @@ public class ScheduleService {
             newsRepository.save(news);
         }
 
-        Threshold threshold = new Threshold();
-        threshold.setSiteId(site.getId());
-        threshold.setUserId(user.getId());
-        threshold.setThresholdName("Tomato Temperature");
-        threshold.setThresholdValue(50);
-        thresholdRepository.save(threshold);
-
-        Threshold threshold1 = new Threshold();
-        threshold1.setSiteId(site.getId());
-        threshold1.setUserId(user.getId());
-        threshold1.setThresholdName("Another temp");
-        threshold1.setThresholdValue(40);
-        thresholdRepository.save(threshold1);
     }
 
     /**

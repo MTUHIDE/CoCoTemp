@@ -10,7 +10,6 @@ import org.hibernate.search.bridge.builtin.DoubleBridge;
 import org.hibernate.search.spatial.Coordinates;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
-import space.hideaway.model.Threshold;
 import space.hideaway.model.User;
 import space.hideaway.model.globe.Globe;
 import space.hideaway.model.upload.UploadHistory;
@@ -47,7 +46,6 @@ public class Site
     private Set<Data> dataSet;
 
     private Set<UploadHistory> uploadHistories;
-    private Set<Threshold> thresholdSet;
 
     private List<SiteStatistics> siteStatisticsList;
 
@@ -397,26 +395,6 @@ public class Site
                 getSiteName(),
                 getSiteLatitude(),
                 getSiteLongitude());
-    }
-
-    /**
-     * Gets the threshold set
-     *
-     * @return the threshold lines
-     */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "site_id")
-    public Set<Threshold> getThresholdSet() {
-        return thresholdSet;
-    }
-
-    /**
-     * Sets threshold set
-     *
-     * @param thresholds a set of user defined threshold lines
-     */
-    public void setThresholdSet(Set<Threshold> thresholds) {
-        this.thresholdSet = thresholds;
     }
 
 }

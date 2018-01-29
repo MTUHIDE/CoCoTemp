@@ -247,7 +247,7 @@ public class RESTController
      * Authenticated: NO
      * Method: GET
      * <p>
-         * Sample URL: /site/c9e3ba13-c0b1-46ac-b96a-432ef5a9425c/temperature.json
+     * Sample URL: /site/c9e3ba13-c0b1-46ac-b96a-432ef5a9425c/temperature.json
      * <p>
      * Sample Response
      *    {
