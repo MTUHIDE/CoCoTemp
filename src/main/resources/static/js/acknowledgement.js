@@ -22,7 +22,7 @@ $(function () {
         if (i % 3 == 0) {
             text += '</div><div class="row">';
         }
-        text += '<div class="col-lg-4"> <div class="panel-panel-default"> <div class="panel-body"> <div class="about"> <h2>' + people[i][0] + '<small> ' + people[i][1] + '</small></h2> <hr> </div> </div> </div> </div>';
+        text += '<div class="col-lg-4"> <div class="panel-panel-default"> <div class="panel-body"> <div class="about"> <h2>' + people[i][0] + '<small> ' + people[i][1] + '</small></h2> <hr /> </div> </div> </div> </div>';
     }
     document.getElementById('acknowledgeStart').innerHTML = text;
 });

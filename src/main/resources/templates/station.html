@@ -95,9 +95,7 @@
                                 <ul class="list-group">
                                     <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
                                     <li class="list-group-item">Site managed by
-                                        <a th:tex−1012345601020304050
-Time (24hrs)C°FreezingCautionEx. CautionDangerEx. Danger
-t="${user.getUsername()}"></a>
+                                        <a th:text="${user.getUsername()}"></a>
                                     </li>
                                     <li class="list-group-item" th:inline="text">Site ID:
                                         [[${site.getId().toString()}]]

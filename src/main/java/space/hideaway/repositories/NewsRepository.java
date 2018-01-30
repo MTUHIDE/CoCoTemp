@@ -20,4 +20,6 @@ public interface NewsRepository extends JpaRepository<News, Long>
      */
     @Query("SELECT n from News n WHERE (n.id + 2) > (SELECT MAX(n.id) from n) order by n.id desc")
     List<News> topNews();
+
+    List<News> findAllByOrderByIdAsc();
 }
