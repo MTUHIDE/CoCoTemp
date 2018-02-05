@@ -90,39 +90,6 @@ $(function () {
                 margin: {r: 200}
             };
 
-            thresholds.forEach(function(threshold, index) {
-                var lines = {
-                    type: 'line',
-                    xref: 'paper',
-                    yref: 'y',
-                    x0: 0,
-                    y0: threshold.thresholdValue,
-                    x1: 1,
-                    y1: threshold.thresholdValue,
-                    line: {
-                        color: 'rgb('+ (index + 1) * 50 +', '+ (index+1) * 50 +', '+ 0 +')',
-                        width: 1
-                    }
-                };
-                layout.shapes.push(lines);
-
-                var annotations = {
-                    xref: 'paper',
-                    x: 1,
-                    y: threshold.thresholdValue,
-                    xanchor: 'left',
-                    yanchor: 'middle',
-                    text: threshold.thresholdName,
-                    showarrow: false,
-                    font: {
-                        family: 'Segoe UI',
-                        size: 14,
-                        color: '#7f7f7f'
-                    }
-                };
-                layout.annotations.push(annotations);
-            });
-
             var indexTemp = [0, 42];
             var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 0, 0)'];
             var indexName = ['Freezing','Ex Caution'];

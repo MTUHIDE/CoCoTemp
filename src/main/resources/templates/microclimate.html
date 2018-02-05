@@ -10,6 +10,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/microclimate.css}"/>
 
@@ -17,26 +18,24 @@
 <body>
 <div class="row">
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var thresholds = [];
-        /*]]>*/
-        //var thresholds = [[${thresholds}]];
-    </script>
-
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
     <!-- Filter sidebar -->
-    <div class="glyphicon glyphicon-menu-left side-menu-flat" id="sidemenu-popup">
-        <p onclick="expandFilterSideMenu()">Filters</p>
-
-        <div id="filter-menu" class="search-form-container">
-
+    <div class="side-menu-flat" id="sidemenu-popup">
+        <div class="text-center glyphicon glyphicon-menu-left" id="sidemenu-popup-bar" onclick="expandFilterSideMenu()">
+            <p>Filters</p>
+        </div>
+        <div id="filter-menu" class="filter-form-container">
+            <form class="threshold-form">
+                <label for="thresholdInput">Comparision Line: </label>
+                <input type="number" id="thresholdInput" name="thresholdInput" />
+                <button type="button" onclick="addThreshold()">Add</button>
+                <input type="text" id="thresholdTags" value="0,35,56" data-role="tagsinput" />
+            </form>
         </div>
 
     </div>
-
 
     <!-- Main Content -->
     <div class="container-fluid">
@@ -86,6 +85,7 @@
 <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
         integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
         crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
 <script th:src="@{/js/map.js}"></script>
 <script th:src="@{/js/microclimate.js}"></script>
 

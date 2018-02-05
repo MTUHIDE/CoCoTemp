@@ -9,15 +9,78 @@ $(document).ready(function() {
 
     // Create site temperature line chart
     createChart();
+
+    $("#thresholdTags").on('itemAdded', function(event) {
+        thresholds.push({thresholdValue:event.item, thresholdName:"Custom"});
+        addThresholdsToGraph();
+        var chart = document.getElementById('temperature-chart');
+        Plotly.newPlot(chart, data, layout);
+    });
+
+    $("#thresholdTags").on('itemRemoved', function(event) {
+        thresholds = removeFromArray(thresholds, event.item);
+        addThresholdsToGraph();
+        var chart = document.getElementById('temperature-chart');
+        Plotly.newPlot(chart, data, layout);
+    });
 });
 
 function expandFilterSideMenu () {
     $("#filter-menu").toggleClass("collapsed");
-    $("#sidemenu-popup").toggleClass("glyphicon-menu-right glyphicon-menu-left").toggleClass("side-menu-flat side-menu-expand");
-    $("#content").toggleClass("content-flat content-expand");
+    $("#sidemenu-popup").toggleClass("side-menu-flat side-menu-expand");
+    $("#sidemenu-popup-bar").toggleClass("glyphicon-menu-right glyphicon-menu-left");
+    //$("#content").toggleClass("content-flat content-expand");
 };
 
+function removeFromArray(array, element) {
+    return array.filter(function (t) { return t.thresholdValue !== element; });
+}
+
+function addThreshold () {
+    var thresholdValue = $("#thresholdInput").val();
+    $("#thresholdTags").tagsinput('add', thresholdValue);
+}
+
+function addThresholdsToGraph () {
+    layout.shapes = [];
+    layout.annotations = [];
+    thresholds.forEach(function(threshold) {
+        var lines = {
+            type: 'line',
+            xref: 'paper',
+            yref: 'y',
+            x0: 0,
+            y0: threshold.thresholdValue,
+            x1: 1,
+            y1: threshold.thresholdValue,
+            line: {
+                color: 'rgb(0, 0, 255)',
+                width: 1
+            }
+        };
+        layout.shapes.push(lines);
+
+        var annotations = {
+            xref: 'paper',
+            x: 1,
+            y: threshold.thresholdValue,
+            xanchor: 'left',
+            yanchor: 'middle',
+            text: threshold.thresholdName,
+            showarrow: false,
+            font: {
+                family: 'Segoe UI',
+                size: 14,
+                color: '#7f7f7f'
+            }
+        };
+        layout.annotations.push(annotations);
+    });
+
+}
+
 var data = [];
+var thresholds = [{thresholdValue:"0", thresholdName:"Freezing"}, {thresholdValue:"35", thresholdName:"Caution"}, {thresholdValue:"56", thresholdName:"Danger"}];
 var layout;
 function createChart() {
     var d3 = Plotly.d3;
@@ -56,75 +119,7 @@ function createChart() {
         margin: {r: 100}
     };
 
-    // thresholds.forEach(function(threshold) {
-    //     var lines = {
-    //         type: 'line',
-    //         xref: 'paper',
-    //         yref: 'y',
-    //         x0: 0,
-    //         y0: threshold.thresholdValue,
-    //         x1: 1,
-    //         y1: threshold.thresholdValue,
-    //         line: {
-    //             color: 'rgb(0, 0, 255)',
-    //             width: 1
-    //         }
-    //     };
-    //     layout.shapes.push(lines);
-    //
-    //     var annotations = {
-    //         xref: 'paper',
-    //         x: 1,
-    //         y: threshold.thresholdValue,
-    //         xanchor: 'left',
-    //         yanchor: 'middle',
-    //         text: threshold.thresholdName,
-    //         showarrow: false,
-    //         font: {
-    //             family: 'Segoe UI',
-    //             size: 14,
-    //             color: '#7f7f7f'
-    //         }
-    //     };
-    //     layout.annotations.push(annotations);
-    // });
-
-    var indexTemp = [0, 31, 35, 56];
-    var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 0, 0)'];
-    var indexName = ['Freezing','Caution','Ex. Caution','Danger'];
-    for(var j = 0; j < indexTemp.length; j++){
-
-        var lines = {
-            type: 'line',
-            xref: 'paper',
-            yref: 'y',
-            x0: 0,
-            y0: indexTemp[j],
-            x1: 1,
-            y1: indexTemp[j],
-            line: {
-                color: indexColors[j],
-                width: 1
-            }
-        };
-        layout.shapes.push(lines);
-
-        var annotations = {
-            xref: 'paper',
-            x: 1,
-            y: indexTemp[j],
-            xanchor: 'left',
-            yanchor: 'middle',
-            text: indexName[j],
-            showarrow: false,
-            font: {
-                family: 'Segoe UI',
-                size: 14,
-                color: '#7f7f7f'
-            }
-        };
-        layout.annotations.push(annotations);
-    }
+    addThresholdsToGraph();
 
     var dates = [], temperature = [];
     var collectedTemps = {
@@ -213,7 +208,7 @@ function markerClick(e) {
             Plotly.newPlot(chart, data, layout);
 
             var greenIcon = new L.Icon({
-                iconUrl: "/cocotemp/images/marker-icon-2x-" + colors[data.length - 1] + ".png",
+                iconUrl: "/cocotemp/images/marker-icon-2x-" + colors[(data.length - 1) % 5] + ".png",
                 shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],

@@ -30,18 +30,8 @@
 #row-main {
   overflow-x: hidden; }
 
-#content {
-  transition: width 0.3s ease; }
-
 #sidebar {
   transition: margin 0.3s ease; }
-
-.search-form-container {
-  margin-bottom: 10px;
-  padding-left: 25px; }
-
-.container {
-  width: auto; }
 
 .location-container .col-sm-4 {
   padding-right: 5px;
@@ -90,7 +80,21 @@
   width: 300px; }
 
 #filter-menu {
-  width: 250px; }
+  width: 250px;
+  float: left;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  padding: 10px; }
+  #filter-menu label {
+    color: white; }
+
+.bootstrap-tagsinput {
+  border: none;
+  box-shadow: none;
+  background-color: #0A5175; }
+
+.bootstrap-tagsinput input {
+  display: none; }
 
 .content-flat {
   margin-right: 50px; }
