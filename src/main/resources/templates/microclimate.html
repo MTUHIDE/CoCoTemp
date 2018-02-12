@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Site</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
+    <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/microclimate.css}"/>
+
+</head>
+<body>
+<div class="row">
+
+    <!--Sidebar Partial-->
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
+
+    <!-- Filter sidebar -->
+    <div class="side-menu-flat" id="sidemenu-popup">
+        <div class="text-center glyphicon glyphicon-menu-left" id="sidemenu-popup-bar" onclick="expandFilterSideMenu()">
+            <p>Filters</p>
+        </div>
+        <div id="filter-menu" class="filter-form-container">
+            <form class="threshold-form">
+                <label for="thresholdInput">Comparision Line: </label>
+                <input type="number" id="thresholdInput" name="thresholdInput" />
+                <button type="button" onclick="addThreshold()">Add</button>
+                <input type="text" id="thresholdTags" value="0,35,56" data-role="tagsinput" />
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-lg-12 solid-bar">
+                    <h1>Micro Climate Comparison Page</h1>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="container">
+                    <div class="row" id="row-main">
+                        <div id="content" class="content-flat">
+                            <div class="map-container">
+                                <div id="map"></div>
+                                <div id="basemaps-wrapper" class="leaflet-bar">
+                                    <select name="basemaps" id="basemaps">
+                                        <option value="Streets">Streets</option>
+                                        <option value="Imagery">Satellite</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div id="temperature-chart"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="//code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
+        integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
+        crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+<script th:src="@{/js/map.js}"></script>
+<script th:src="@{/js/microclimate.js}"></script>
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-89087341-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

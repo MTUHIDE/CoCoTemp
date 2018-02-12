@@ -12,6 +12,7 @@ import space.hideaway.services.site.SiteService;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -336,5 +337,15 @@ public class RESTController
     List<Site> getSitePoints()
     {
         return siteService.getAllSites();
+    }
+
+
+    @RequestMapping(value = "/search.json", params = {"type=site"})
+    @Transactional
+    public List<Site> renderSearchWithKeywordAndSpatial(
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "range", required = false) String range) {
+        return restService.populateSitesByQuery(query, location, range);
     }
 }

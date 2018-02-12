@@ -109,9 +109,6 @@ function populateSites(myMap) {
                 siteMarkers.push(myMarker);
             }
         },
-        error: function (results) {
-
-        }
     });
 }
 

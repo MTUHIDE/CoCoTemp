@@ -17,7 +17,6 @@ import space.hideaway.repositories.UserRepository;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Justin
@@ -78,12 +77,19 @@ public class ScheduleService {
                 37,-95,"Test Site");
         siteRepository.save(site);
 
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 5; i++) {
+            site = createSite(
+                    user, "A site for local testing.",
+                    37 + i,-95 + i,"Test Site" + i);
+            siteRepository.save(site);
+        }
+
+        for (int i = 0; i < 3; i++) {
             News news = createNewsPost("Local test post. Created at: " + System.currentTimeMillis() + "ms",
                     "Test Post " + i);
             newsRepository.save(news);
         }
+
     }
 
     /**

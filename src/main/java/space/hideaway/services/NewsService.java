@@ -1,7 +1,6 @@
 package space.hideaway.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.News;
 import space.hideaway.repositories.NewsRepository;
@@ -44,6 +43,7 @@ public class NewsService {
      */
     public List<News> getAll()
     {
-        return newsRepository.findAll(Sort.by("id").descending());
+
+        return newsRepository.findAllByOrderByIdAsc();
     }
 }

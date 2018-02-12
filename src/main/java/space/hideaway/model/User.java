@@ -295,4 +295,5 @@ public class User
     public void setDeviceSet(Set<Device> deviceSet) {
         this.deviceSet = deviceSet;
     }
+
 }

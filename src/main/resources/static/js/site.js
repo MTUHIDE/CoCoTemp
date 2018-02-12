@@ -62,10 +62,6 @@ $(function () {
                 type: 'scatter'
             };
 
-            var indexTemp = [0, 31, 35, 44, 56];
-            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 255, 51)', 'rgb(255, 215, 0)', 'rgb(255, 140, 0)', 'rgb(255, 0, 0)'];
-            var indexName = ['Freezing','Caution','Ex. Caution','Danger','Ex. Danger'];
-
             var data = [collectedTemps];
 
             var layout = {
@@ -86,27 +82,34 @@ $(function () {
                     }
                 },
                 shapes: [],
-                annotations: []
+                annotations: [],
+                showlegend: true,
+                legend: {
+                    x: 1.2,
+                    y: 1 },
+                margin: {r: 200}
             };
 
-            for(var i = 0; i < indexTemp.length; i++){
+            var indexTemp = [0, 42];
+            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 0, 0)'];
+            var indexName = ['Freezing','Ex Caution'];
+            for(var j = 0; j < indexTemp.length; j++){
+
                 var lines = {
                     type: 'line',
-                        xref: 'paper',
+                    xref: 'paper',
                     yref: 'y',
                     x0: 0,
-                    y0: indexTemp[i],
+                    y0: indexTemp[j],
                     x1: 1,
-                    y1: indexTemp[i],
+                    y1: indexTemp[j],
                     line: {
-                    color: indexColors[i],
+                        color: indexColors[j],
                         width: 1
                     }
                 };
                 layout.shapes.push(lines);
-            }
 
-            for(var j = 0; j < indexTemp.length; j++){
                 var annotations = {
                     xref: 'paper',
                     x: 1,

@@ -9,6 +9,7 @@ import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteStatistics;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.services.site.SiteStatisticsService;
+import space.hideaway.services.user.UserService;
 import space.hideaway.util.FormatUtils;
 
 import java.util.UUID;
@@ -25,14 +26,17 @@ public class SiteController
 
     private final SiteService siteService;
     private final SiteStatisticsService siteStatisticsService;
+    private final UserService userService;
 
     @Autowired
     public SiteController(
             SiteService siteService,
-            SiteStatisticsService siteStatisticsService)
+            SiteStatisticsService siteStatisticsService,
+            UserService userService)
     {
         this.siteService = siteService;
         this.siteStatisticsService = siteStatisticsService;
+        this.userService = userService;
     }
 
     /**
@@ -51,6 +55,7 @@ public class SiteController
             Model model,
             @PathVariable(value = "siteID") UUID siteID)
     {
+
         Site site = siteService.findByKey(siteID.toString());
         model.addAttribute("site", site);
         model.addAttribute("siteID", site.getId());

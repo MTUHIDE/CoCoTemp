@@ -17,4 +17,7 @@ public interface SiteRepository extends JpaRepository<Site, UUID>
      */
     @Query("SELECT count(d) from Site d where d.userID=:id")
     Long countByUserID(@Param("id") Long id);
+
+    Site findById(UUID id);
+
 }

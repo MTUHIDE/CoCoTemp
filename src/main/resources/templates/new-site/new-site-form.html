@@ -38,7 +38,7 @@
                         <div class="map-container">
                             <div id="map"></div>
                             <div id="search">
-                                <input type="text" name="search" id="address">
+                                <input type="text" name="search" id="address" />
                             </div>
 
                         </div>
@@ -47,10 +47,10 @@
                         <label for="siteLatitude">Latitude and Longitude</label>
                         <input class="form-control"
                                id="siteLatitude" placeholder="Enter the latitude" type="number" step="any"
-                               required="required" th:field="*{siteLatitude}" readonly/>
+                               required="required" th:field="*{siteLatitude}" readonly="readonly" />
                         <input class="form-control"
                                id="siteLongitude" placeholder="Enter the longitude" type="number" step="any"
-                               required="required" th:field="*{siteLongitude}" readonly/>
+                               required="required" th:field="*{siteLongitude}" readonly="readonly" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Continue</button>

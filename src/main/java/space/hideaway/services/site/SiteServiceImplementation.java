@@ -51,7 +51,7 @@ public class SiteServiceImplementation implements SiteService
     @Override
     public Site findByKey(String siteID)
     {
-        return siteRepository.findById(UUID.fromString(siteID)).get();
+        return siteRepository.findById(UUID.fromString(siteID));
     }
 
     /**
