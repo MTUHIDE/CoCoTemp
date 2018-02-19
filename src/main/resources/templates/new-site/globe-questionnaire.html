@@ -29,45 +29,136 @@
                 <form th:action="@{/settings/new?_finish_globe}" method="post">
 
                     <div class="form-group">
-                        <label for="q1">1. Question 1 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q1" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q5">5. Is the sensor located in a depression or riparian area where water can collect?</label> <br/>
+                        <form action="" id="q5" name="answers">
+                            <input type="radio" name="sensor" value="Yes" /> Yes <br/>
+                            <input type="radio" name="sensor" value="No" /> No <br/>
+                        </form>
                     </div>
 
                     <div class="form-group">
-                        <label for="q2">2. Question 2 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q2" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q6">6. On the longest day of the year (late June in N. Hemisphere), during what hours is the
+                            sensor shaded?</label>
+                        <form action="" id="q6" name="answers">
+                            <input type ="checkbox" name="hours" value="12:00 midnight" /> 12:00 midnight <br/>
+                            <input type ="checkbox" name="hours" value="1:00 am" /> 1:00 am <br/>
+                            <input type ="checkbox" name="hours" value="2:00 am" /> 2:00 am <br/>
+                            <input type ="checkbox" name="hours" value="3:00 am" /> 3:00 am <br/>
+                            <input type ="checkbox" name="hours" value="4:00 am" /> 4:00 am <br/>
+                            <input type ="checkbox" name="hours" value="5:00 am" /> 5:00 am <br/>
+                            <input type ="checkbox" name="hours" value="6:00 am" /> 6:00 am <br/>
+                            <input type ="checkbox" name="hours" value="7:00 am" /> 7:00 am <br/>
+                            <input type ="checkbox" name="hours" value="8:00 am" /> 8:00 am <br/>
+                            <input type ="checkbox" name="hours" value="9:00 am" /> 9:00 am <br/>
+                            <input type ="checkbox" name="hours" value="10:00 am" /> 10:00 am <br/>
+                            <input type ="checkbox" name="hours" value="11:00 am" /> 11:00 am <br/>
+                            <input type ="checkbox" name="hours" value="12:00 pm" /> 12:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="1:00 pm" /> 1:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="2:00 pm" /> 2:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="3:00 pm" /> 3:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="4:00 pm" /> 4:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="5:00 pm" /> 5:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="6:00 pm" /> 6:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="7:00 pm" /> 7:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="8:00 pm" /> 8:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="9:00 pm" /> 9:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="10:00 pm" /> 10:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="11:00 pm" /> 11:00 pm <br/>
+                        </form>
                     </div>
 
                     <div class="form-group">
-                        <label for="q3">3. Question 3 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q3" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q7">7. On the shortest day of the year (late December in N. Hemisphere), during what hours is
+                            the sensor shaded?</label>
+                        <form action="" id="q7" name="answers">
+                            <input type ="checkbox" name="hours" value="12:00 midnight" /> 12:00 midnight <br/>
+                            <input type ="checkbox" name="hours" value="1:00 am" /> 1:00 am <br/>
+                            <input type ="checkbox" name="hours" value="2:00 am" /> 2:00 am <br/>
+                            <input type ="checkbox" name="hours" value="3:00 am" /> 3:00 am <br/>
+                            <input type ="checkbox" name="hours" value="4:00 am" /> 4:00 am <br/>
+                            <input type ="checkbox" name="hours" value="5:00 am" /> 5:00 am <br/>
+                            <input type ="checkbox" name="hours" value="6:00 am" /> 6:00 am <br/>
+                            <input type ="checkbox" name="hours" value="7:00 am" /> 7:00 am <br/>
+                            <input type ="checkbox" name="hours" value="8:00 am" /> 8:00 am <br/>
+                            <input type ="checkbox" name="hours" value="9:00 am" /> 9:00 am <br/>
+                            <input type ="checkbox" name="hours" value="10:00 am" /> 10:00 am <br/>
+                            <input type ="checkbox" name="hours" value="11:00 am" /> 11:00 am <br/>
+                            <input type ="checkbox" name="hours" value="12:00 pm" /> 12:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="1:00 pm" /> 1:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="2:00 pm" /> 2:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="3:00 pm" /> 3:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="4:00 pm" /> 4:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="5:00 pm" /> 5:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="6:00 pm" /> 6:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="7:00 pm" /> 7:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="8:00 pm" /> 8:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="9:00 pm" /> 9:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="10:00 pm" /> 10:00 pm <br/>
+                            <input type ="checkbox" name="hours" value="11:00 pm" /> 11:00 pm <br/>
+                        </form>
                     </div>
 
                     <div class="form-group">
-                        <label for="q4">4. Question 4 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q4" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q8">8. Canopy type above the sensor (near enough to be captured in an upward photo)</label>
+                        <form action="" id="q8" name="answers">
+                            <input type="radio" name="canopy" value="No canopy" /> No canopy <br/>
+                            <input type="radio" name="canopy" value="Tree/vegetation" /> Tree/vegetation <br/>
+                            <input type="radio" name="canopy" value="Shade sail" /> Shade sail <br/>
+                            <input type="radio" name="canopy" value="Metal roof" /> Metal roof <br/>
+                            <input type="radio" name="canopy" value="Pergola/Ramada" /> Pergola/Ramada <br/>
+                            <input type="radio" name="canopy" value="Other solid roof" /> Other solid roof <br/>
+                        </form>
                     </div>
 
                     <div class="form-group">
-                        <label for="q5">5. Question 5 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q5" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q9">9. If you stand in the location of the sensor and look straight up, roughly what percentage
+                            of the sky is visible (i.e. the Sky View Factor, for example 75%):</label>
+                        <form action="" id="q9" name="answers">
+                            <input tpye="number" name="percent" min="0" max="100" />
+                        </form>
                     </div>
 
                     <div class="form-group">
-                        <label for="q6">6. Question 6 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q6" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q10">10. What is the slope on this site, measured as the ratio of rise over run (for example one
+                            meter of rise in fifteen meters of run is 1/15 or 6.7%.</label>
+                        <form action="" id="q10" name="answers">
+                            <input tpye="number" name="percent" min="0" max="100" />
+                        </form>
                     </div>
 
                     <div class="form-group">
-                        <label for="q7">7. Question 7 here. The real question will be added here later.</label>
-                        <textarea class="form-control" id="q7" name="answers"
-                                  required="required" maxlength="255"></textarea>
+                        <label for="q11">11. What is the compass direction of the slope, uphill? (degrees east of
+                            north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
+                        <form action="" id="q11" name="answers">
+                            <input tpye="number" name="degrees" min="0" max="360" />
+                        </form>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="q13">13. What is the nearest body of open water?</label>
+                        <form action="" id="q13" name="answers">
+                            <input type="radio" name="water" value="Swimming pool" /> Swimming pool <br/>
+                            <input type="radio" name="water" value="Lake/pond" /> Lake/pond <br/>
+                            <input type="radio" name="water" value="Large river" /> Large river <br/>
+                            <input type="radio" name="water" value="Small stream" /> Small stream <br/>
+                            <input type="radio" name="water" value="Other" /> Other (describe) <br/>
+                            <input type="text"  name="water" value="" />
+                        </form>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="q14">14. How far away is this water from the sensor? (meters)</label>
+                        <form action="" id="q14" name="answers">
+                            <input tpye="number" name="distance" min="0" max="160935" />
+                        </form>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="q15">15. What is the compass direction of the water from this sensor? (degrees
+                            east of north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
+                        <form action="" id="q15" name="answers">
+                            <input tpye="number" name="degrees" min="0" max="360" />
+                        </form>
                     </div>
 
                     <div class="form-group">
