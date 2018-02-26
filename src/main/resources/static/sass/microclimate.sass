@@ -72,15 +72,30 @@
 .side-menu-flat
   width: 50px
 .side-menu-expand
-  width: 300px
+  width: 350px
 #filter-menu
   width: 250px
   float: left
   border-bottom: 1px solid white
   border-top: 1px solid white
   padding: 10px
+  form
+    margin-top: 10px
+    margin-bottom: 10px
+    color: white
   label
     color: white
+    clear: both
+    display: block
+  input
+    width: 150px
+    color: black
+    &[type=number]
+      width: 50px
+    &[type=checkbox]
+      width: 25px
+  button
+    color: black
 .bootstrap-tagsinput
   border: none
   box-shadow: none
@@ -88,11 +103,23 @@
 .bootstrap-tagsinput
   input
     display: none
+.ui-slider-handle.custom-handle.slider
+  width: 3.2em
+  height: 1.6em
+  top: 50%
+  margin-top: -.8em
+  text-align: center
+  line-height: 1.6em
+.ui-slider-range
+  background: #729fcf
+.ui-slider-handle
+  border-color: #729fcf
 
 .content-flat
   margin-right: 50px
 
 .content-expand
   margin-right: 300px
+
 
 

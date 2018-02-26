@@ -77,7 +77,7 @@
   width: 50px; }
 
 .side-menu-expand {
-  width: 300px; }
+  width: 350px; }
 
 #filter-menu {
   width: 250px;
@@ -85,8 +85,23 @@
   border-bottom: 1px solid white;
   border-top: 1px solid white;
   padding: 10px; }
-  #filter-menu label {
+  #filter-menu form {
+    margin-top: 10px;
+    margin-bottom: 10px;
     color: white; }
+  #filter-menu label {
+    color: white;
+    clear: both;
+    display: block; }
+  #filter-menu input {
+    width: 150px;
+    color: black; }
+    #filter-menu input[type=number] {
+      width: 50px; }
+    #filter-menu input[type=checkbox] {
+      width: 25px; }
+  #filter-menu button {
+    color: black; }
 
 .bootstrap-tagsinput {
   border: none;
@@ -95,6 +110,20 @@
 
 .bootstrap-tagsinput input {
   display: none; }
+
+.ui-slider-handle.custom-handle.slider {
+  width: 3.2em;
+  height: 1.6em;
+  top: 50%;
+  margin-top: -.8em;
+  text-align: center;
+  line-height: 1.6em; }
+
+.ui-slider-range {
+  background: #729fcf; }
+
+.ui-slider-handle {
+  border-color: #729fcf; }
 
 .content-flat {
   margin-right: 50px; }

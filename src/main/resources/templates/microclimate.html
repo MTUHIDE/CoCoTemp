@@ -10,10 +10,12 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <link type="text/css" rel="stylesheet" th:href="@{/css/microclimate.css}"/>
-
+    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="row">
@@ -23,16 +25,67 @@
 
     <!-- Filter sidebar -->
     <div class="side-menu-flat" id="sidemenu-popup">
-        <div class="text-center glyphicon glyphicon-menu-left" id="sidemenu-popup-bar" onclick="expandFilterSideMenu()">
+        <div class="text-center glyphicon glyphicon-menu-left" id="sidemenu-popup-bar">
             <p>Filters</p>
         </div>
         <div id="filter-menu" class="filter-form-container">
-            <form class="threshold-form">
-                <label for="thresholdInput">Comparision Line: </label>
-                <input type="number" id="thresholdInput" name="thresholdInput" />
-                <button type="button" onclick="addThreshold()">Add</button>
-                <input type="text" id="thresholdTags" value="0,35,56" data-role="tagsinput" />
-            </form>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#map-filters"><span class="glyphicon glyphicon-globe"></span></a></li>
+                <li><a data-toggle="tab" href="#graph-filters"><span class="glyphicon glyphicon-pencil"></span></a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="map-filters" class="tab-pane fade in active">
+                    <form class="environment-form">
+                        <label for="environmentInput">Environment Type: </label>
+                        <input type="text" id="environmentInput" name="environmentInput" />
+                        <button type="button" id="environmentFilterBtn">Add</button>
+                        <input type="text" id="environmentTags" data-role="tagsinput" />
+                    </form>
+
+                    <label>Percent Enclosed:</label>
+                    <form>
+                        <div id="percent-enclosed-range">
+
+                            <div id="percent-enclosed-handle-min" class="ui-slider-handle custom-handle slider"></div>
+                            <div id="percent-enclosed-handle-max" class="ui-slider-handle custom-handle slider"></div>
+                        </div>
+                    </form>
+
+                    <form>
+                        <label>Site Ground Location:</label>
+                        <input type="checkbox" id="sunken-checkbox" />In riparian area<br/>
+                        <input type="checkbox" id="not-sunken-checkbox" />Not in riparian area<br/>
+                    </form>
+
+                    <label>Area around sensor:</label>
+                    <form>
+                        <div id="area-around-sensor-range">
+
+                            <div id="area-around-handle-min" class="ui-slider-handle custom-handle slider"></div>
+                            <div id="area-around-handle-max" class="ui-slider-handle custom-handle slider"></div>
+                        </div>
+                    </form>
+
+                    <div id="canopy-type">
+                        <label>Canopy type above the sensor:</label>
+                        <input type="checkbox" id="canopy-none" />No canopy<br/>
+                        <input type="checkbox" id="canopy-tree" />Tree/vegetation<br/>
+                        <input type="checkbox" id="canopy-shade" />Shade sail<br/>
+                        <input type="checkbox" id="canopy-metal" />Metal roof<br/>
+                        <input type="checkbox" id="canopy-pergola" />Pergola/Ramada<br/>
+                        <input type="checkbox" id="canopy-other" />Other solid roof<br/>
+                    </div>
+
+                </div>
+                <div id="graph-filters" class="tab-pane fade in active">
+                    <form class="threshold-form">
+                        <label for="thresholdInput">Comparision Line: </label>
+                        <input type="number" id="thresholdInput" name="thresholdInput" />
+                        <button type="button" id="addThresholdButton">Add</button>
+                        <input type="text" id="thresholdTags" value="0,35,56" data-role="tagsinput" />
+                    </form>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -82,12 +135,14 @@
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
         integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
         crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
 <script th:src="@{/js/map.js}"></script>
 <script th:src="@{/js/microclimate.js}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
     (function (i, s, o, g, r, a, m) {

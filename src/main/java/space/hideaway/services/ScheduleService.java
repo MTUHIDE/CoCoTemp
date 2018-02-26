@@ -9,8 +9,10 @@ import space.hideaway.model.News;
 import space.hideaway.model.Role;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
+import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.repositories.NewsRepository;
 import space.hideaway.repositories.RoleRepository;
+import space.hideaway.repositories.site.SiteMetadataRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.repositories.UserRepository;
 
@@ -34,17 +36,20 @@ public class ScheduleService {
     private final SiteRepository siteRepository;
     private final NewsRepository newsRepository;
     private final RoleRepository roleRepository;
+    private final SiteMetadataRepository siteMetadataRepository;
 
     @Autowired
     public ScheduleService(UserRepository userRepository,
                            SiteRepository siteRepository,
                            NewsRepository newsRepository,
-                           RoleRepository roleRepository)
+                           RoleRepository roleRepository,
+                           SiteMetadataRepository siteMetadataRepository)
     {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.newsRepository = newsRepository;
         this.roleRepository = roleRepository;
+        this.siteMetadataRepository = siteMetadataRepository;
     }
 
     /**
@@ -72,16 +77,18 @@ public class ScheduleService {
         admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
         userRepository.save(admin);
 
-        Site site = createSite(
-                user, "A site for local testing.",
-                37,-95,"Test Site");
-        siteRepository.save(site);
 
         for (int i = 0; i < 5; i++) {
-            site = createSite(
+            double rand = (Math.random()-.5)*13;
+            double rand2 = (Math.random()-.5)*13;
+            Site site = createSite(
                     user, "A site for local testing.",
-                    37 + i,-95 + i,"Test Site" + i);
+                    37 + rand2,-95 + rand,"Test Site" + i);
             siteRepository.save(site);
+            String enviroment = (i%2 == 1) ? "urban" : "natural";
+            String canopyType = (i%2 == 1) ? "No canopy" : "Metal roof";
+            SiteMetadata metadata = createSiteMetadata(site, enviroment,canopyType, i%2+5);
+            siteMetadataRepository.save(metadata);
         }
 
         for (int i = 0; i < 3; i++) {
@@ -154,6 +161,15 @@ public class ScheduleService {
         site.setSiteLongitude(longitude);
         site.setSiteName(name);
         return site;
+    }
+
+    private SiteMetadata createSiteMetadata(Site site, String environment, String canopyType, double groundElevation){
+        SiteMetadata siteMetadata = new SiteMetadata();
+        siteMetadata.setEnvironment(environment);
+        siteMetadata.setSiteID(site.getId());
+        siteMetadata.setCanopyType(canopyType);
+        siteMetadata.setGroundElevation(groundElevation);
+        return siteMetadata;
     }
 
 }

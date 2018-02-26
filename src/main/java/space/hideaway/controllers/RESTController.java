@@ -5,13 +5,16 @@ import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.site.Site;
+import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.model.upload.UploadHistory;
 import space.hideaway.model.json.InfoCardSerializer;
 import space.hideaway.services.RESTService;
+import space.hideaway.services.site.SiteMetadataService;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -27,14 +30,18 @@ public class RESTController
 
     private final RESTService restService;
     private final SiteService siteService;
+    private final SiteMetadataService siteMetadataService;
 
     @Autowired
     public RESTController(
             SiteService siteService,
-            RESTService restService)
+            RESTService restService,
+            SiteMetadataService siteMetadataService
+            )
     {
         this.siteService = siteService;
         this.restService = restService;
+        this.siteMetadataService = siteMetadataService;
     }
 
     /**
@@ -347,5 +354,14 @@ public class RESTController
             @RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "range", required = false) String range) {
         return restService.populateSitesByQuery(query, location, range);
+    }
+
+    @RequestMapping(value = "/sitemetadata.json", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<SiteMetadata> getSiteMetadataPoints()
+    {
+        List<SiteMetadata> t = siteMetadataService.getAllSiteMetadata();
+        return t;
     }
 }

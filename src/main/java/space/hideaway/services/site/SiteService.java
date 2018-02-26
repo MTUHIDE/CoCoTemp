@@ -1,5 +1,6 @@
 package space.hideaway.services.site;
 
+import org.springframework.stereotype.Service;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 
