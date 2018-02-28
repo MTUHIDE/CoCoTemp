@@ -1,6 +1,7 @@
 package space.hideaway.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
@@ -14,7 +15,6 @@ import space.hideaway.services.site.SiteService;
 import space.hideaway.util.HistoryUnit;
 import space.hideaway.util.SortingUtils;
 
-import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -364,4 +364,6 @@ public class RESTController
         List<SiteMetadata> t = siteMetadataService.getAllSiteMetadata();
         return t;
     }
+
+
 }
