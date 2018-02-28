@@ -17,14 +17,18 @@ public class SiteMetadata {
     private Site site;
 
     private String environment;
+    private String purpose;
+    private int heightAboveGround;
+    private int heightAboveFloor;
+    private int enclosurePercentage;
+    private int nearestAirflowObstacle;
+    private int nearestObstacleDegrees;
+    private int areaAroundSensor;
+    private boolean riparianArea;
     private String canopyType;
-    private double groundElevation;
-    private double floorElevation;
-    private double percentEnclosed;
-    private double areaBeforeObstacle;
-    private boolean isSunken;
-    private Time maximumNightTime;
-    private Time minimumNightTime;
+    private int distanceToWater;
+    private int slope;
+    private int skyViewFactor;
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -52,7 +56,7 @@ public class SiteMetadata {
     }
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "site_id", insertable = false, updatable = false)
     public Site getSite()
     {
@@ -65,36 +69,120 @@ public class SiteMetadata {
     }
 
     @Column(name = "environment")
-    public String getEnvironment()
-    {
+    public String getEnvironment() {
         return environment;
     }
 
-    public void setEnvironment(String environment)
-    {
+    public void setEnvironment(String environment) {
         this.environment = environment;
     }
 
-    @Column(name = "ground_elevation")
-    public double getGroundElevation()
-    {
-        return groundElevation;
+    @Column(name = "purpose")
+    public String getPurpose() {
+        return purpose;
     }
 
-    public void setGroundElevation(double groundElevation)
-    {
-        this.groundElevation = groundElevation;
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    @Column(name = "height_above_ground")
+    public int getHeightAboveGround() {
+        return heightAboveGround;
+    }
+
+    public void setHeightAboveGround(int heightAboveGround) {
+        this.heightAboveGround = heightAboveGround;
+    }
+
+    @Column(name = "height_above_floor")
+    public int getHeightAboveFloor() {
+        return heightAboveFloor;
+    }
+
+    public void setHeightAboveFloor(int heightAboveFloor) {
+        this.heightAboveFloor = heightAboveFloor;
+    }
+
+    @Column(name = "enclosure_percentage")
+    public int getEnclosurePercentage() {
+        return enclosurePercentage;
+    }
+
+    public void setEnclosurePercentage(int enclosurePercentage) {
+        this.enclosurePercentage = enclosurePercentage;
+    }
+
+    @Column(name = "nearest_airflow_obstacle")
+    public int getNearestAirflowObstacle() {
+        return nearestAirflowObstacle;
+    }
+
+    public void setNearestAirflowObstacle(int nearestAirflowObstacle) {
+        this.nearestAirflowObstacle = nearestAirflowObstacle;
+    }
+
+    @Column(name = "nearest_obstacle_degrees")
+    public int getNearestObstacleDegrees() {
+        return nearestObstacleDegrees;
+    }
+
+    public void setNearestObstacleDegrees(int nearestObstacleDegrees) {
+        this.nearestObstacleDegrees = nearestObstacleDegrees;
+    }
+
+    @Column(name = "area_around_sensor")
+    public int getAreaAroundSensor() {
+        return areaAroundSensor;
+    }
+
+    public void setAreaAroundSensor(int areaAroundSensor) {
+        this.areaAroundSensor = areaAroundSensor;
+    }
+
+    @Column(name = "riparian_area")
+    public boolean isRiparianArea() {
+        return riparianArea;
+    }
+
+    public void setRiparianArea(boolean riparianArea) {
+        this.riparianArea = riparianArea;
     }
 
     @Column(name = "canopy_type")
-    public String getCanopyType()
-    {
+    public String getCanopyType() {
         return canopyType;
     }
 
-    public void setCanopyType(String canopyType)
-    {
+    public void setCanopyType(String canopyType) {
         this.canopyType = canopyType;
+    }
+
+    @Column(name = "distance_to_water")
+    public int getDistanceToWater() {
+        return distanceToWater;
+    }
+
+    public void setDistanceToWater(int distanceToWater) {
+        this.distanceToWater = distanceToWater;
+    }
+
+    @Column(name = "slope")
+    public int getSlope() {
+        return slope;
+    }
+
+    public void setSlope(int slope) {
+        this.slope = slope;
+    }
+
+    @Column(name = "sky_view_factor")
+    public int getSkyViewFactor() {
+        return skyViewFactor;
+    }
+
+    public void setSkyViewFactor(int skyViewFactor) {
+        this.skyViewFactor = skyViewFactor;
     }
 }
 
