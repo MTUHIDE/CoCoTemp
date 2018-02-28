@@ -55,7 +55,7 @@
 #sidemenu-popup {
   position: absolute;
   right: 0px;
-  z-index: 3000;
+  z-index: 1001;
   height: 100%;
   background-color: #0A5175; }
 
@@ -77,10 +77,10 @@
   width: 50px; }
 
 .side-menu-expand {
-  width: 350px; }
+  width: 450px; }
 
 #filter-menu {
-  width: 250px;
+  width: 400px;
   float: left;
   border-bottom: 1px solid white;
   border-top: 1px solid white;
@@ -89,17 +89,15 @@
     margin-top: 10px;
     margin-bottom: 10px;
     color: white; }
-  #filter-menu label {
-    color: white;
-    clear: both;
-    display: block; }
   #filter-menu input {
     width: 150px;
     color: black; }
     #filter-menu input[type=number] {
-      width: 50px; }
+      width: 65px; }
     #filter-menu input[type=checkbox] {
       width: 25px; }
+    #filter-menu input[type=radio] {
+      width: auto; }
   #filter-menu button {
     color: black; }
 
@@ -130,5 +128,8 @@
 
 .content-expand {
   margin-right: 300px; }
+
+button[data-add="group"] {
+  display: none; }
 
 /*# sourceMappingURL=microclimate.css.map */

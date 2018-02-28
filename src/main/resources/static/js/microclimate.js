@@ -18,7 +18,7 @@ microclimateMapNameSpace = function(){
         $('#basemaps').on('change', function() {
             changeBasemap(myMap, this.value);
         });
-        populateMapWithSites(myMap);
+        populateMapWithAllSites(myMap);
     }
 
     function getAvailableMarker() {
@@ -42,7 +42,7 @@ microclimateMapNameSpace = function(){
      * Add all site pins to map
      * @param {Leaflet Map} myMap
      */
-    function populateMapWithSites() {
+    function populateMapWithAllSites() {
 
         markersGroup = L.markerClusterGroup();
 
@@ -97,65 +97,94 @@ microclimateMapNameSpace = function(){
         });
     }
 
+    /*
+     * Add given site pins to map
+     * @param {Leaflet Map} myMap
+     */
+    function populateMapWithSites(sites) {
+
+        clearMapOfMarkers();
+
+        siteMarker = L.Marker.extend({
+            options: {
+                siteID: 'Site ID',
+                siteName: 'Site Name',
+                onChart: false,
+                color: null,
+                metadata: null
+            }
+        });
+
+        for(var i = 0; i < sites.length; i++) {
+            var site = sites[i][0];
+            var point = L.latLng([site.siteLatitude, site.siteLongitude]);
+            var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false} });
+            markersGroup.addLayer(myMarker).on('click',markerClick);
+            siteMarkers.push(myMarker);
+        }
+        markersGroup.addTo(myMap);
+    }
+
     function clearMapOfMarkers() {
         markersGroup.clearLayers();
+        siteMarkers = [];
     }
 
-    function applyMapFilter() {
-        var filters = {};
-        // Filter by environment
-        var environment = $("#environmentTags").tagsinput('items');
-        if (environment.length !== 0) {
-            filters["environment"] = environment;
-        }
-
-        var canopyType = $("#canopy-type :checked").map(function(){
-            return $(this).val();
-        }).get();
-        if (canopyType.length !== 0) {
-            filters["canopyType"] = canopyType;
-        }
-
-        var keys = Object.keys(filters);
-
-        // If no filters applied, add all markers
-        if(keys.length === 0) {
-            for(var i = 0; i < siteMarkers.length; i++) {
-                    markersGroup.addLayer(siteMarkers[i]);
-            }
-        }
-        // Else filter by added filters
-        else {
-            siteMarkersLoop: for(var i = 0; i < siteMarkers.length; i++) {
-                for(var j = 0; j < keys.length; j++) {
-                    if (!filters[keys[j]].includes(siteMarkers[i].options.options.metadata[keys[j]])) {
-                          continue siteMarkersLoop;
-                    }
-                }
-                markersGroup.addLayer(siteMarkers[i]);
-            }
-        }
-
-        // filters.push(filter);
-        // for(var i = 0; i < siteMarkers.length; i++) {
-        //     for(var j = 0; j < filters.length; j++) {
-        //         if (siteMarkers[i].options.options.metadata[filters[j][0]] === filters[j][1]) {
-        //
-        //         }
-        //     }
-        // }
-        //
-        // for(var i = 0; i < array.length; i++) {
-        //     markersGroup.addLayer(array[i]);
-        // }
-    }
+    // function applyMapFilter() {
+    //     var filters = {};
+    //     // Filter by environment
+    //     var environment = $("#environmentTags").tagsinput('items');
+    //     if (environment.length !== 0) {
+    //         filters["environment"] = environment;
+    //     }
+    //
+    //     var canopyType = $("#canopy-type :checked").map(function(){
+    //         return $(this).val();
+    //     }).get();
+    //     if (canopyType.length !== 0) {
+    //         filters["canopyType"] = canopyType;
+    //     }
+    //
+    //     var keys = Object.keys(filters);
+    //
+    //     // If no filters applied, add all markers
+    //     if(keys.length === 0) {
+    //         for(var i = 0; i < siteMarkers.length; i++) {
+    //                 markersGroup.addLayer(siteMarkers[i]);
+    //         }
+    //     }
+    //     // Else filter by added filters
+    //     else {
+    //         siteMarkersLoop: for(var i = 0; i < siteMarkers.length; i++) {
+    //             for(var j = 0; j < keys.length; j++) {
+    //                 if (!filters[keys[j]].includes(siteMarkers[i].options.options.metadata[keys[j]])) {
+    //                       continue siteMarkersLoop;
+    //                 }
+    //             }
+    //             markersGroup.addLayer(siteMarkers[i]);
+    //         }
+    //     }
+    //
+    //     // filters.push(filter);
+    //     // for(var i = 0; i < siteMarkers.length; i++) {
+    //     //     for(var j = 0; j < filters.length; j++) {
+    //     //         if (siteMarkers[i].options.options.metadata[filters[j][0]] === filters[j][1]) {
+    //     //
+    //     //         }
+    //     //     }
+    //     // }
+    //     //
+    //     // for(var i = 0; i < array.length; i++) {
+    //     //     markersGroup.addLayer(array[i]);
+    //     // }
+    // }
 
     return{
         init:init,
         getAvailableMarker:getAvailableMarker,
         makeMarkerAvailable:makeMarkerAvailable,
-        clearMapOfMarkers:clearMapOfMarkers,
-        applyMapFilter:applyMapFilter
+        populateMapWithSites:populateMapWithSites,
+        clearMapOfMarkers:clearMapOfMarkers
     }
 }();
 
@@ -319,17 +348,223 @@ $(document).ready(function() {
         //$("#content").toggleClass("content-flat content-expand");
     });
 
-    // Filter when environment type added
-    $("#environmentFilterBtn").on('click', function(event) {
-        var environmentType = $("#environmentInput").val();
-        $("#environmentTags").tagsinput('add', environmentType);
-        microclimateMapNameSpace.clearMapOfMarkers();
-        microclimateMapNameSpace.applyMapFilter();
+
+    // Query builder
+    var rules_basic = {
+        condition: 'AND',
+        rules: [{
+            id: 'environment',
+            operator: 'less',
+            value: "Natural"
+        }]
+    };
+
+    $('#builder-basic').queryBuilder({
+        plugins: [
+            'filter-description'
+        ],
+        filters: [{
+            id: 'environment',
+            label: 'Environment',
+            type: 'string',
+            input: 'select',
+            values: {
+                Natural: 'Natural',
+                Urban: 'Urban'
+            },
+            color: 'primary',
+            description: 'Natural or Urban Context?',
+            operators: ['equal', 'not_equal']
+        }, {
+            id: 'purpose',
+            label: 'Site Purpose',
+            type: 'string',
+            input: 'select',
+            values: {
+                'Commercial Offices': 'Commercial Offices',
+                Retail: 'Retail',
+                Restaurant: 'Restaurant',
+                Industrial: 'Industrial',
+                Construction_Site: 'Construction Site',
+                School: 'School',
+                Single_Family_Residential: 'Single Family Residential',
+                Multi_Family_Residential: 'Multi Family Residential',
+                Park_or_Greenbelt: 'Park or Greenbelt',
+                Sports_Facility: 'Sports Facility',
+                Recreational_Pool: 'Recreational Pool',
+                Promenade_or_Plaza: 'Promenade or Plaza',
+                Bike_or_Walking_Path: 'Bike or Walking Path',
+                Roadway_or_Parking_Lot: 'Roadway or Parking Lot'
+            },
+            description: 'What is the primary purpose of this site (urban sites)?',
+            operators: ['equal', 'not_equal']
+        }, {
+            id: 'heightAboveGround',
+            label: 'Height Above Ground Surface',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 10000,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'What is the height of the sensor above the ground surface (NOT the floor)?'
+        }, {
+            id: 'heightAboveFloor',
+            label: 'Height Above Floor Surface',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 10000,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'If the sensor is on a porch or in a building, what is the height of the sensor above the floor surface?'
+        }, {
+            id: 'enclosurePercentage',
+            label: 'Percent Enclosed',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 10000,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'What is the percentage this sites is enclosed? (ie Indoors/full-enclosed=100%)'
+        }, {
+            id: 'nearestAirflowObstacle',
+            label: 'Nearest Airflow Obstacle',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 10000,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'If the sensor is outdoors, how far is the sensor from the nearest major airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor’s height)?'
+        }, {
+            id: 'nearestObstacleDegrees',
+            label: 'Nearest Obstacle In Degrees',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 360,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'In what direction is the nearest obstacle located, from the sensor? (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)'
+        }, {
+            id: 'areaAroundSensor',
+            label: 'Flat Area Around Sensor',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 360,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'Roughly how large/wide is the area in which the sensor is located, before walls or\n' +
+            'obstacles are encountered? (meters)'
+        }, {
+            id: 'riparianArea',
+            label: 'Located in Riparian Area',
+            type: 'integer',
+            input: 'radio',
+            values: {
+                1: 'Yes',
+                0: 'No'
+            },
+            description: 'Is the sensor located in a depression or riparian area where water can collect?',
+            operators: ['equal']
+        }, {
+            id: 'canopyType',
+            label: 'Canopy Type Above Sensor',
+            type: 'string',
+            input: 'select',
+            values: {
+                No_Canopy: 'No Canopy',
+                Tree_Vegetation: 'Tree/Vegetation',
+                Shade_Sail: 'Shade Sail',
+                Metal_Roof: 'Metal Roof',
+                'Pergola/Ramada': 'Pergola/Ramada',
+                Other_Solid_Roof: 'Other Solid Roof'
+            },
+            description: 'Canopy type above the sensor (near enough to be captured in an upward photo)',
+            operators: ['equal', 'not_equal']
+        }, {
+            id: 'distanceToWater',
+            label: 'Distance To Water',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 10000,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'How far away is this water from the sensor?'
+        }, {
+            id: 'slope',
+            label: 'Slope Of Site',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 100,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'What is the slope % on this site, measured as the ratio of rise over run (for example one meter of rise in fifteen meters of run is 6.7%)'
+        }, {
+            id: 'skyViewFactor',
+            label: 'Sky View Factor',
+            type: 'integer',
+            validation: {
+                min: 0,
+                max: 100,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, for example 75%)'
+        }
+
+
+        ],
+
+        rules: rules_basic
     });
-    $("#environmentTags").on('itemRemoved', function(event) {
+
+    $('#btn-reset').on('click', function() {
+        $('#builder-basic').queryBuilder('reset');
         microclimateMapNameSpace.clearMapOfMarkers();
-        microclimateMapNameSpace.applyMapFilter();
     });
+
+    $('#btn-get').on('click', function() {
+        var result = $('#builder-basic').queryBuilder('getRules');
+
+        if (!$.isEmptyObject(result)) {
+            $.ajax({
+                method: 'post',
+                url: "/cocotemp/sitefilter.json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(result),
+                success: function (z) {
+                    microclimateMapNameSpace.populateMapWithSites(z);
+                }
+            });
+        }
+    });
+
+
+    // // Filter when environment type added
+    // $("#environmentFilterBtn").on('click', function(event) {
+    //     var environmentType = $("#environmentInput").val();
+    //     $("#environmentTags").tagsinput('add', environmentType);
+    //     microclimateMapNameSpace.clearMapOfMarkers();
+    //     microclimateMapNameSpace.applyMapFilter();
+    // });
+    // $("#environmentTags").on('itemRemoved', function(event) {
+    //     microclimateMapNameSpace.clearMapOfMarkers();
+    //     microclimateMapNameSpace.applyMapFilter();
+    // });
 
     /*** Threshold actions start ***/
     var chart = document.getElementById('temperature-chart');
@@ -352,40 +587,40 @@ $(document).ready(function() {
 
 
     // Enclosure percentage slider
-    var percentEnclosedHandle1 = $( "#percent-enclosed-handle-min" );
-    var percentEnclosedHandle2 = $( "#percent-enclosed-handle-max" );
-    $( "#percent-enclosed-range" ).slider({
-        range: true,
-        min: 0,
-        max: 100,
-        values: [ 0, 100 ],
-        create: function() {
-            percentEnclosedHandle1.text( $( this ).slider( "values", 0 ) + "%" );
-            percentEnclosedHandle2.text( $( this ).slider( "values", 1 ) + "%" );
-        },
-        slide: function( event, ui ) {
-            percentEnclosedHandle1.text( ui.values[0] + "%" );
-            percentEnclosedHandle2.text( ui.values[1] + "%" );
-        }
-    });
-
-    // Area Around Sensor Slider
-    var areaAroundHandle1 = $( "#area-around-handle-min" );
-    var areaAroundHandle2 = $( "#area-around-handle-max" );
-    $( "#area-around-sensor-range" ).slider({
-        range: true,
-        min: 0,
-        max: 1000,
-        values: [ 0, 1000 ],
-        create: function() {
-            areaAroundHandle1.text( $( this ).slider( "values", 0 ) + "m" );
-            areaAroundHandle2.text( $( this ).slider( "values", 1 ) + "m" );
-        },
-        slide: function( event, ui ) {
-            areaAroundHandle1.text( ui.values[0] + "m" );
-            areaAroundHandle2.text( ui.values[1] + "m" );
-        }
-    });
+    // var percentEnclosedHandle1 = $( "#percent-enclosed-handle-min" );
+    // var percentEnclosedHandle2 = $( "#percent-enclosed-handle-max" );
+    // $( "#percent-enclosed-range" ).slider({
+    //     range: true,
+    //     min: 0,
+    //     max: 100,
+    //     values: [ 0, 100 ],
+    //     create: function() {
+    //         percentEnclosedHandle1.text( $( this ).slider( "values", 0 ) + "%" );
+    //         percentEnclosedHandle2.text( $( this ).slider( "values", 1 ) + "%" );
+    //     },
+    //     slide: function( event, ui ) {
+    //         percentEnclosedHandle1.text( ui.values[0] + "%" );
+    //         percentEnclosedHandle2.text( ui.values[1] + "%" );
+    //     }
+    // });
+    //
+    // // Area Around Sensor Slider
+    // var areaAroundHandle1 = $( "#area-around-handle-min" );
+    // var areaAroundHandle2 = $( "#area-around-handle-max" );
+    // $( "#area-around-sensor-range" ).slider({
+    //     range: true,
+    //     min: 0,
+    //     max: 1000,
+    //     values: [ 0, 1000 ],
+    //     create: function() {
+    //         areaAroundHandle1.text( $( this ).slider( "values", 0 ) + "m" );
+    //         areaAroundHandle2.text( $( this ).slider( "values", 1 ) + "m" );
+    //     },
+    //     slide: function( event, ui ) {
+    //         areaAroundHandle1.text( ui.values[0] + "m" );
+    //         areaAroundHandle2.text( ui.values[1] + "m" );
+    //     }
+    // });
 
 
 });

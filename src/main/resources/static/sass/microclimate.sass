@@ -55,7 +55,7 @@
 #sidemenu-popup
   position: absolute
   right: 0px
-  z-index: 3000
+  z-index: 1001
   height: 100%
   background-color: #0A5175
 #sidemenu-popup-bar
@@ -72,9 +72,9 @@
 .side-menu-flat
   width: 50px
 .side-menu-expand
-  width: 350px
+  width: 450px
 #filter-menu
-  width: 250px
+  width: 400px
   float: left
   border-bottom: 1px solid white
   border-top: 1px solid white
@@ -83,17 +83,19 @@
     margin-top: 10px
     margin-bottom: 10px
     color: white
-  label
-    color: white
-    clear: both
-    display: block
+  //label
+  //  color: white
+  //  clear: both
+  //  display: block
   input
     width: 150px
     color: black
     &[type=number]
-      width: 50px
+      width: 65px
     &[type=checkbox]
       width: 25px
+    &[type=radio]
+      width: auto
   button
     color: black
 .bootstrap-tagsinput
@@ -121,5 +123,5 @@
 .content-expand
   margin-right: 300px
 
-
-
+button[data-add="group"]
+  display: none
