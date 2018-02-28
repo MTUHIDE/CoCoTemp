@@ -78,16 +78,14 @@ public class ScheduleService {
         userRepository.save(admin);
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 100; i++) {
             double rand = (Math.random()-.5)*13;
             double rand2 = (Math.random()-.5)*13;
             Site site = createSite(
                     user, "A site for local testing.",
                     37 + rand2,-95 + rand,"Test Site" + i);
             siteRepository.save(site);
-            String enviroment = (i%2 == 1) ? "urban" : "natural";
-            String canopyType = (i%2 == 1) ? "No canopy" : "Metal roof";
-            SiteMetadata metadata = createSiteMetadata(site, enviroment,canopyType, i%2+5);
+            SiteMetadata metadata = createSiteMetadata(site, i);
             siteMetadataRepository.save(metadata);
         }
 
@@ -103,7 +101,7 @@ public class ScheduleService {
      * Creates a news post
      *
      * @param content The text body of the news post
-     * @param title The title of the news post
+    School     * @param title The title of the news post
      * @return A news post
      */
     private News createNewsPost(String content, String title)
@@ -163,12 +161,27 @@ public class ScheduleService {
         return site;
     }
 
-    private SiteMetadata createSiteMetadata(Site site, String environment, String canopyType, double groundElevation){
+    private SiteMetadata createSiteMetadata(Site site, int index){
         SiteMetadata siteMetadata = new SiteMetadata();
+        String environment = (index%2 == 1) ? "urban" : "natural";
         siteMetadata.setEnvironment(environment);
+        String[] purposes = {"Commercial Offices","Retail","Restaurant", "Industrial", "Construction Site", "School", "Single Family Residential", "Multi Family Residential", "Park or Greenbelt", "Sports Facility", "Recreational Pool", "Promenade or Plaza", "Bike or Walking Path", "Roadway or Parking Lot"};
+        siteMetadata.setPurpose(purposes[index%purposes.length]);
+        siteMetadata.setHeightAboveGround(index%13*5);
+        siteMetadata.setHeightAboveFloor(index%17*4);
+        siteMetadata.setEnclosurePercentage(index % 100);
+        siteMetadata.setNearestAirflowObstacle(index%19*9);
+        siteMetadata.setNearestObstacleDegrees(index%360);
+        siteMetadata.setAreaAroundSensor(index*50);
+        Boolean riparian = (index%2 == 0) ? true : false;
+        siteMetadata.setRiparianArea(riparian);
+        String[] canopy = {"No canopy", "Tree/Vegetation", "Shade Sail", "Metal Roof", "Pergola/Ramada", "Other Solid Roof"};
+        siteMetadata.setCanopyType(canopy[index%canopy.length]);
+        siteMetadata.setDistanceToWater(100);
+        siteMetadata.setSlope(index % 23);
+        siteMetadata.setSkyViewFactor(index % 71);
         siteMetadata.setSiteID(site.getId());
-        siteMetadata.setCanopyType(canopyType);
-        siteMetadata.setGroundElevation(groundElevation);
+
         return siteMetadata;
     }
 
