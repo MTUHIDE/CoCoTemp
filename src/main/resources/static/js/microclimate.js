@@ -130,61 +130,17 @@ microclimateMapNameSpace = function(){
         siteMarkers = [];
     }
 
-    // function applyMapFilter() {
-    //     var filters = {};
-    //     // Filter by environment
-    //     var environment = $("#environmentTags").tagsinput('items');
-    //     if (environment.length !== 0) {
-    //         filters["environment"] = environment;
-    //     }
-    //
-    //     var canopyType = $("#canopy-type :checked").map(function(){
-    //         return $(this).val();
-    //     }).get();
-    //     if (canopyType.length !== 0) {
-    //         filters["canopyType"] = canopyType;
-    //     }
-    //
-    //     var keys = Object.keys(filters);
-    //
-    //     // If no filters applied, add all markers
-    //     if(keys.length === 0) {
-    //         for(var i = 0; i < siteMarkers.length; i++) {
-    //                 markersGroup.addLayer(siteMarkers[i]);
-    //         }
-    //     }
-    //     // Else filter by added filters
-    //     else {
-    //         siteMarkersLoop: for(var i = 0; i < siteMarkers.length; i++) {
-    //             for(var j = 0; j < keys.length; j++) {
-    //                 if (!filters[keys[j]].includes(siteMarkers[i].options.options.metadata[keys[j]])) {
-    //                       continue siteMarkersLoop;
-    //                 }
-    //             }
-    //             markersGroup.addLayer(siteMarkers[i]);
-    //         }
-    //     }
-    //
-    //     // filters.push(filter);
-    //     // for(var i = 0; i < siteMarkers.length; i++) {
-    //     //     for(var j = 0; j < filters.length; j++) {
-    //     //         if (siteMarkers[i].options.options.metadata[filters[j][0]] === filters[j][1]) {
-    //     //
-    //     //         }
-    //     //     }
-    //     // }
-    //     //
-    //     // for(var i = 0; i < array.length; i++) {
-    //     //     markersGroup.addLayer(array[i]);
-    //     // }
-    // }
+    function resizeMap() {
+        myMap.invalidateSize();
+    }
 
     return{
         init:init,
         getAvailableMarker:getAvailableMarker,
         makeMarkerAvailable:makeMarkerAvailable,
         populateMapWithSites:populateMapWithSites,
-        clearMapOfMarkers:clearMapOfMarkers
+        clearMapOfMarkers:clearMapOfMarkers,
+        resizeMap:resizeMap
     }
 }();
 
@@ -331,7 +287,7 @@ microclimateGraphNameSpace = function(){
         getLayout:getLayout,
         getTemperatureData:getTemperatureData,
         addTemperatureData:addTemperatureData,
-        removeTemperatureData:removeTemperatureData
+        removeTemperatureData:removeTemperatureData,
     }
 }();
 
@@ -340,12 +296,17 @@ $(document).ready(function() {
     microclimateMapNameSpace.init();
     microclimateGraphNameSpace.init();
 
+    $("#filter-menu").hide();
+
     // Expand/close side menu
     $("#sidemenu-popup-bar").on('click', function(event) {
         $("#filter-menu").toggleClass("collapsed");
         $("#sidemenu-popup").toggleClass("side-menu-flat side-menu-expand");
         $("#sidemenu-popup-bar").toggleClass("glyphicon-menu-right glyphicon-menu-left");
-        //$("#content").toggleClass("content-flat content-expand");
+        $("#filter-menu").toggle();
+        $("#content").toggleClass("content-flat content-expand");
+        microclimateMapNameSpace.resizeMap();
+        $( window ).resize();
     });
 
 
@@ -583,45 +544,6 @@ $(document).ready(function() {
         $("#thresholdTags").tagsinput('add', thresholdValue);
     });
     /*** Threshold actions end ***/
-
-
-
-    // Enclosure percentage slider
-    // var percentEnclosedHandle1 = $( "#percent-enclosed-handle-min" );
-    // var percentEnclosedHandle2 = $( "#percent-enclosed-handle-max" );
-    // $( "#percent-enclosed-range" ).slider({
-    //     range: true,
-    //     min: 0,
-    //     max: 100,
-    //     values: [ 0, 100 ],
-    //     create: function() {
-    //         percentEnclosedHandle1.text( $( this ).slider( "values", 0 ) + "%" );
-    //         percentEnclosedHandle2.text( $( this ).slider( "values", 1 ) + "%" );
-    //     },
-    //     slide: function( event, ui ) {
-    //         percentEnclosedHandle1.text( ui.values[0] + "%" );
-    //         percentEnclosedHandle2.text( ui.values[1] + "%" );
-    //     }
-    // });
-    //
-    // // Area Around Sensor Slider
-    // var areaAroundHandle1 = $( "#area-around-handle-min" );
-    // var areaAroundHandle2 = $( "#area-around-handle-max" );
-    // $( "#area-around-sensor-range" ).slider({
-    //     range: true,
-    //     min: 0,
-    //     max: 1000,
-    //     values: [ 0, 1000 ],
-    //     create: function() {
-    //         areaAroundHandle1.text( $( this ).slider( "values", 0 ) + "m" );
-    //         areaAroundHandle2.text( $( this ).slider( "values", 1 ) + "m" );
-    //     },
-    //     slide: function( event, ui ) {
-    //         areaAroundHandle1.text( ui.values[0] + "m" );
-    //         areaAroundHandle2.text( ui.values[1] + "m" );
-    //     }
-    // });
-
 
 });
 

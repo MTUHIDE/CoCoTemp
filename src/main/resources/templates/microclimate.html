@@ -37,47 +37,6 @@
                         <button id="btn-get" class="btn btn-success" data-target="basic">Get Sites</button>
                     </div>
 
-                    <!--<form class="environment-form">-->
-                        <!--<label for="environmentInput">Environment Type: </label>-->
-                        <!--<input type="text" id="environmentInput" name="environmentInput" />-->
-                        <!--<button type="button" id="environmentFilterBtn">Add</button>-->
-                        <!--<input type="text" id="environmentTags" data-role="tagsinput" />-->
-                    <!--</form>-->
-
-                    <!--<label>Percent Enclosed:</label>-->
-                    <!--<form>-->
-                        <!--<div id="percent-enclosed-range">-->
-
-                            <!--<div id="percent-enclosed-handle-min" class="ui-slider-handle custom-handle slider"></div>-->
-                            <!--<div id="percent-enclosed-handle-max" class="ui-slider-handle custom-handle slider"></div>-->
-                        <!--</div>-->
-                    <!--</form>-->
-
-                    <!--<form>-->
-                        <!--<label>Site Ground Location:</label>-->
-                        <!--<input type="checkbox" id="sunken-checkbox" />In riparian area<br/>-->
-                        <!--<input type="checkbox" id="not-sunken-checkbox" />Not in riparian area<br/>-->
-                    <!--</form>-->
-
-                    <!--<label>Area around sensor:</label>-->
-                    <!--<form>-->
-                        <!--<div id="area-around-sensor-range">-->
-
-                            <!--<div id="area-around-handle-min" class="ui-slider-handle custom-handle slider"></div>-->
-                            <!--<div id="area-around-handle-max" class="ui-slider-handle custom-handle slider"></div>-->
-                        <!--</div>-->
-                    <!--</form>-->
-
-                    <!--<div id="canopy-type">-->
-                        <!--<label>Canopy type above the sensor:</label>-->
-                        <!--<input type="checkbox" id="canopy-none" />No canopy<br/>-->
-                        <!--<input type="checkbox" id="canopy-tree" />Tree/vegetation<br/>-->
-                        <!--<input type="checkbox" id="canopy-shade" />Shade sail<br/>-->
-                        <!--<input type="checkbox" id="canopy-metal" />Metal roof<br/>-->
-                        <!--<input type="checkbox" id="canopy-pergola" />Pergola/Ramada<br/>-->
-                        <!--<input type="checkbox" id="canopy-other" />Other solid roof<br/>-->
-                    <!--</div>-->
-
                 </div>
                 <div id="graph-filters" class="tab-pane fade">
                     <form class="threshold-form">
@@ -102,26 +61,17 @@
             </div>
             
             <div class="row">
-                <div class="container">
-                    <div class="row" id="row-main">
-                        <div id="content" class="content-flat">
-                            <div class="map-container">
-                                <div id="map"></div>
-                                <div id="basemaps-wrapper" class="leaflet-bar">
-                                    <select name="basemaps" id="basemaps">
-                                        <option value="Streets">Streets</option>
-                                        <option value="Imagery">Satellite</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div id="temperature-chart"></div>
-                            </div>
-
+                <div id="content" class="content-flat">
+                    <div class="map-container">
+                        <div id="map"></div>
+                        <div id="basemaps-wrapper" class="leaflet-bar">
+                            <select name="basemaps" id="basemaps">
+                                <option value="Streets">Streets</option>
+                                <option value="Imagery">Satellite</option>
+                            </select>
                         </div>
-
                     </div>
+                    <div id="temperature-chart"></div>
                 </div>
             </div>
         </div>
