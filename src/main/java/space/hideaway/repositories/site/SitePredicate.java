@@ -7,10 +7,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.core.types.dsl.StringPath;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
-import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
-
-import java.util.ArrayList;
 
 public class SitePredicate {
 
