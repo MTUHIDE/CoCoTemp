@@ -3,6 +3,7 @@ package space.hideaway.controllers.site;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
@@ -12,6 +13,7 @@ import space.hideaway.repositories.site.SitePredicatesBuilder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -58,6 +60,14 @@ public class SiteMetadataController {
             list.add(pair);
         }
         return list;
+    }
+
+    @RequestMapping(value = "/sitemetadata/{siteID}")
+    public SiteMetadata showSite(
+            Model model,
+            @PathVariable(value = "siteID") UUID siteID)
+    {
+        return siteMetadataRepository.findBySiteID(siteID);
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.stereotype.Repository;
 import space.hideaway.model.site.QSiteMetadata;
+import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
 
 import java.util.UUID;
@@ -23,4 +24,6 @@ public interface SiteMetadataRepository extends JpaRepository<SiteMetadata, UUID
                 .first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
 
     }
+
+    SiteMetadata findBySiteID(UUID siteID);
 }
