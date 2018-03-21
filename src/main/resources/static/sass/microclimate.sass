@@ -64,22 +64,21 @@
 .side-menu-flat
   width: 50px
 .side-menu-expand
-  width: 450px
+  width: 455px
 #filter-menu
   width: 400px
   float: left
-  border-bottom: 1px solid white
-  border-top: 1px solid white
-  padding: 10px
+  padding-right: 10px
+  color: white
   form
     margin-top: 10px
     margin-bottom: 10px
-    color: white
   input
-    width: 150px
     color: black
+    &[type=text]
+      width: 150px
     &[type=number]
-      width: 65px
+      width: 150px
     &[type=checkbox]
       width: 25px
     &[type=radio]
@@ -109,7 +108,42 @@
   margin-right: 50px
 
 .content-expand
-  margin-right: 450px
+  margin-right: 455px
 
 button[data-add="group"]
   display: none
+
+#microClimateInstructions
+  padding-top: 10px
+  padding-bottom: 10px
+
+#graph-filters
+  table
+    font-size: 14px
+    width: 100%
+    color: white
+    word-wrap: break-word
+    td
+      padding: 4px
+  .comparisonTable
+    tr
+      &:nth-child(1)
+        font-weight: bold
+        border-bottom: thin solid #95a5a6
+      &:nth-child(2n+1)
+        background: #0A5175
+      &:nth-child(2n)
+        background: #00416A
+    td
+      text-align: center
+      text-transform: capitalize
+      &:nth-child(1)
+        text-align: left
+        font-weight: bold
+        color: white
+        width: 40%
+      &:nth-child(2n)
+        border-left: thin solid #95a5a6
+        border-right: thin solid #95a5a6
+  label
+    font-size: 16px

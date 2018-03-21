@@ -18,7 +18,10 @@ microclimateMapNameSpace = function(){
         $('#basemaps').on('change', function() {
             changeBasemap(myMap, this.value);
         });
-        populateMapWithAllSites(myMap);
+        markersGroup = new L.MarkerClusterGroup({
+            maxClusterRadius: function(zoom) { return 50; }
+        });
+        markersGroup.addTo(myMap);
     }
 
     function getAvailableMarker() {
@@ -36,65 +39,6 @@ microclimateMapNameSpace = function(){
                 mapMarkerUrls[i][2] = 0;
             }
         }
-    }
-
-    /*
-     * Add all site pins to map
-     * @param {Leaflet Map} myMap
-     */
-    function populateMapWithAllSites() {
-
-        markersGroup = L.markerClusterGroup();
-
-        siteMarker = L.Marker.extend({
-            options: {
-                siteID: 'Site ID',
-                siteName: 'Site Name',
-                onChart: false,
-                color: null,
-                metadata: null
-            }
-        });
-
-        $.ajax({
-            method: 'post',
-            url: '/cocotemp/sites.json',
-            success: function (ajaxData) {
-                if (ajaxData.length === 0) {
-                    return;
-                }
-
-                for (var i = 0; i < ajaxData.length; i++) {
-                    //Add the station locations to the map.
-                    var point = L.latLng([ajaxData[i].siteLatitude, ajaxData[i].siteLongitude]);
-                    var myMarker = new siteMarker(point,{options: {siteID: ajaxData[i].id, siteName: ajaxData[i].siteName, onChart: false} });
-                    markersGroup.addLayer(myMarker).on('click',markerClick);
-                    siteMarkers.push(myMarker);
-                }
-                markersGroup.addTo(myMap);
-
-                $.ajax({
-                    method: 'get',
-                    url: '/cocotemp/sitemetadata.json',
-                    success: function (data) {
-                        if (data.length === 0) {
-                            return;
-                        }
-
-                        for (var j = 0; j < data.length; j++) {
-
-                            for (var i = 0; i < siteMarkers.length; i++) {
-                                if (siteMarkers[i].options.options.siteID === data[j].siteID) {
-                                    var dict = {canopyType: data[j].canopyType, environment: data[j].environment};
-                                    siteMarkers[i].options.options.metadata = dict;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        });
     }
 
     /*
@@ -117,9 +61,20 @@ microclimateMapNameSpace = function(){
 
         for(var i = 0; i < sites.length; i++) {
             var site = sites[i][0];
+            var metadata = sites[i][1];
             var point = L.latLng([site.siteLatitude, site.siteLongitude]);
-            var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false} });
-            markersGroup.addLayer(myMarker).on('click',markerClick);
+            var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false, metadata: metadata} });
+            // Create container with site details and ability to add site data to graph
+            var container = $('<div />');
+            container.html('<a href="site/' + site.id + '" target="_blank">View Site: ' + site.siteName + '</a><br/>');
+            var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function(event) {
+                markerClick(event.data.marker, event.target);
+                $('.nav-tabs a[href="#graph-filters"]').tab("show");
+            })[0];
+            container.append(link);
+            // Insert the container into the popup
+            myMarker.bindPopup(container[0]);
+            markersGroup.addLayer(myMarker);
             siteMarkers.push(myMarker);
         }
         markersGroup.addTo(myMap);
@@ -266,13 +221,18 @@ microclimateGraphNameSpace = function(){
         return layout;
     }
 
+    function getSitesOnGraph() {
+        var keys = Object.keys(data);
+        return keys;
+    }
+
     function getTemperatureData() {
         var keys = Object.keys(data);
         var temperatureData = keys.map(function(v) { return data[v]; });
         return temperatureData;
     }
 
-    function addTemperatureData(siteId ,collectedTemps) {
+    function addTemperatureData(siteId, collectedTemps) {
         data[siteId] = collectedTemps;
     }
 
@@ -288,6 +248,7 @@ microclimateGraphNameSpace = function(){
         getTemperatureData:getTemperatureData,
         addTemperatureData:addTemperatureData,
         removeTemperatureData:removeTemperatureData,
+        getSitesOnGraph:getSitesOnGraph
     }
 }();
 
@@ -295,8 +256,6 @@ $(document).ready(function() {
 
     microclimateMapNameSpace.init();
     microclimateGraphNameSpace.init();
-
-    $("#filter-menu").hide();
 
     // Expand/close side menu
     $("#sidemenu-popup-bar").on('click', function(event) {
@@ -309,18 +268,19 @@ $(document).ready(function() {
         $( window ).resize();
     });
 
-
     // Query builder
     var rules_basic = {
         condition: 'AND',
         rules: [{
-            id: 'environment',
-            operator: 'less',
-            value: "Natural"
+            id: '-1'
         }]
     };
 
     $('#builder-basic').queryBuilder({
+        allow_empty: true,
+        lang: {
+            add_rule: 'Add filter'
+        },
         plugins: [
             'filter-description'
         ],
@@ -515,64 +475,134 @@ $(document).ready(function() {
     });
 
 
-    // // Filter when environment type added
-    // $("#environmentFilterBtn").on('click', function(event) {
-    //     var environmentType = $("#environmentInput").val();
-    //     $("#environmentTags").tagsinput('add', environmentType);
-    //     microclimateMapNameSpace.clearMapOfMarkers();
-    //     microclimateMapNameSpace.applyMapFilter();
-    // });
-    // $("#environmentTags").on('itemRemoved', function(event) {
-    //     microclimateMapNameSpace.clearMapOfMarkers();
-    //     microclimateMapNameSpace.applyMapFilter();
-    // });
-
     /*** Threshold actions start ***/
     var chart = document.getElementById('temperature-chart');
+
+    var elt = $('#thresholdTags');
+    elt.tagsinput({
+        itemValue: 'value',
+        itemText: 'text'
+    });
+    elt.tagsinput('add', { "value": "0" , "text": "Freezing"   , "color": "#7f7f7f"    });
+    elt.tagsinput('add', { "value": "35" , "text": "Caution"  , "color": "#7f7f7f"   });
+    elt.tagsinput('add', { "value": "56" , "text": "Danger"      , "color": "#7f7f7f" });
+
     // When new threshold value added, replot graph with new threshold
     $("#thresholdTags").on('itemAdded', function(event) {
-        microclimateGraphNameSpace.addThresholdsToGraph({thresholdValue:event.item, thresholdName:"Custom"});
+        microclimateGraphNameSpace.addThresholdsToGraph({thresholdValue:event.item.value, thresholdName:event.item.text});
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
     });
     // When threshold value removed, replot graph without threshold
     $("#thresholdTags").on('itemRemoved', function(event) {
-        microclimateGraphNameSpace.removeThresholdFromGraph(event.item);
+        microclimateGraphNameSpace.removeThresholdFromGraph(event.item.value);
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
     });
     $("#addThresholdButton").on('click', function (event) {
-        var thresholdValue = $("#thresholdInput").val();
-        $("#thresholdTags").tagsinput('add', thresholdValue);
+        var thresholdTemp = $("#thresholdInput").val();
+        // var thresholdColor = $("#thresholdColor").val();
+        var thresholdLabel = $("#thresholdLabel").val();
+        if (thresholdTemp === '' || thresholdLabel === '') {
+            return;
+        }
+        $("#thresholdTags").tagsinput('add', {value: thresholdTemp, text : thresholdLabel});
+        $("#thresholdInput").val('');
+        $("#thresholdLabel").val('');
     });
     /*** Threshold actions end ***/
 
+
 });
+
+function addToSiteTable(label, id, table, sites) {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    var text = document.createTextNode(label);
+    td.appendChild(text);
+    tr.appendChild(td);
+    for(var i = 0; i < sites.length; i++) {
+        var td = document.createElement('td');
+        var text = document.createTextNode(sites[i][2][id]);
+        td.appendChild(text);
+        tr.appendChild(td);
+    }
+    table.appendChild(tr);
+}
+
+var sitesOnPlot = [];
+
+function addSiteToSideBar() {
+    var sites = sitesOnPlot;
+    var test = $("#sitesOnPlot");
+    if (sites.length === 0) {
+        test.html("<div><b>No sites added!</b> Add a site by selecting one through the map.</div>");
+    } else {
+        var table = document.createElement('table');
+        table.setAttribute('class', 'comparisonTable');
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        var text = document.createTextNode("Sites On Plot");
+        td.appendChild(text);
+        td.style.fontSize = "16px";
+        tr.appendChild(td);
+        for(var i = 0; i < sites.length; i++) {
+            var td = document.createElement('td');
+            var text = document.createTextNode(sites[i][1]);
+            td.appendChild(text);
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+
+        addToSiteTable("Area Around Sensor", "areaAroundSensor", table, sites);
+        // addToSiteTable("Canopy Type", "canopyType", table, sites);
+        addToSiteTable("Distance To Water", "distanceToWater", table, sites);
+        addToSiteTable("Environment", "environment", table, sites);
+        addToSiteTable("Height Above Floor", "heightAboveFloor", table, sites);
+        addToSiteTable("Height Above Ground", "heightAboveGround", table, sites);
+        addToSiteTable("Percent Enclosed", "enclosurePercentage", table, sites);
+        addToSiteTable("Nearest Airflow Obstacle", "nearestAirflowObstacle", table, sites);
+        addToSiteTable("Nearest Obstacle In Degrees", "nearestObstacleDegrees", table, sites);
+        addToSiteTable("Riparian Area", "riparianArea", table, sites);
+        // addToSiteTable("Site Purpose", "purpose", table, sites);
+        addToSiteTable("Sky View Factor", "skyViewFactor", table, sites);
+        addToSiteTable("Slope Of Site", "slope", table, sites);
+
+        test.html(table);
+    }
+}
+
 
 
 /*
  * Action upon click of map marker. Adds and removes data/line to line chart.
  */
-function markerClick(e) {
+function markerClick(marker, popupText) {
 
     // Marker is already on map. Remove it from chart and map.
-    if (e.layer.options.options.onChart === true) {
+    if (marker.options.options.onChart === true) {
 
         // Set to default icon and mark as not on map
-        microclimateMapNameSpace.makeMarkerAvailable(e.layer.options.options.color);
-        e.layer.setIcon(new L.Icon.Default() );
-        e.layer.options.options.onChart = false;
+        microclimateMapNameSpace.makeMarkerAvailable(marker.options.options.color);
+        marker.setIcon(new L.Icon.Default() );
+        marker.options.options.onChart = false;
 
         // Remove data from hash
-        microclimateGraphNameSpace.removeTemperatureData(e.layer.options.options.siteID);
+        microclimateGraphNameSpace.removeTemperatureData(marker.options.options.siteID);
+        sitesOnPlot = sitesOnPlot.filter(function (t) { return t[0] !== marker.options.options.siteID; });
 
         // Replot graph
         var chart = document.getElementById('temperature-chart');
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
 
+        // Change text on popup
+        popupText.text = "Add to Graph";
+
+        addSiteToSideBar();
+
         return;
     }
     $.ajax({
         method: 'get',
-        url: "/cocotemp/site/" + e.layer.options.options.siteID + "/temperature.json",
+        url: "/cocotemp/site/" + marker.options.options.siteID + "/temperature.json",
         success: function (z) {
             var dates = [], temperature = [];
             z.forEach(function (datum) {
@@ -583,14 +613,20 @@ function markerClick(e) {
             // Get available icon color/url. Return if none available
             var iconMarker = microclimateMapNameSpace.getAvailableMarker();
             if (iconMarker === null) {
+                // Warn user that you can't add more sites to graph
+                toastr.options = {
+                    "closeButton": true,
+                    "positionClass": "toast-top-center"
+                };
+                toastr.warning("Sorry, you cannot add more than 5 sites");
                 return;
             }
-            e.layer.options.options.color = iconMarker[0];
+            marker.options.options.color = iconMarker[0];
 
             var collectedTemps = {
                 x: dates,
                 y: temperature,
-                name: e.layer.options.options.siteName,
+                name: marker.options.options.siteName,
                 type: 'scatter',
                 marker: {
                     color: iconMarker[0]
@@ -598,7 +634,8 @@ function markerClick(e) {
             };
 
             // Add temperature for site to saved hash
-            microclimateGraphNameSpace.addTemperatureData(e.layer.options.options.siteID, collectedTemps);
+            microclimateGraphNameSpace.addTemperatureData(marker.options.options.siteID, collectedTemps);
+            sitesOnPlot.push([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
 
             var chart = document.getElementById('temperature-chart');
             Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
@@ -612,9 +649,21 @@ function markerClick(e) {
                 popupAnchor: [1, -34],
                 shadowSize: [41, 41]
             });
-            e.layer.options.options.onChart = true;
+            marker.options.options.onChart = true;
             iconMarker[2] = 1;
-            e.layer.setIcon(customIcon);
+            marker.setIcon(customIcon);
+
+            // Change text on popup
+            popupText.text = "Remove from Graph";
+
+            addSiteToSideBar();
+        }
+    });
+    $.ajax({
+        method: 'get',
+        url: "/cocotemp/site/" + marker.options.options.siteID + "/temperature.json",
+        success: function (z) {
+
         }
     });
 }
