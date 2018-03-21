@@ -1,10 +1,12 @@
 package space.hideaway.services;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import space.hideaway.model.Data;
 import space.hideaway.model.News;
 import space.hideaway.model.Role;
 import space.hideaway.model.site.Site;
@@ -15,10 +17,9 @@ import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.site.SiteMetadataRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.repositories.UserRepository;
+import space.hideaway.services.data.DataService;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Justin
@@ -37,19 +38,22 @@ public class ScheduleService {
     private final NewsRepository newsRepository;
     private final RoleRepository roleRepository;
     private final SiteMetadataRepository siteMetadataRepository;
+    private final DataService dataService;
 
     @Autowired
     public ScheduleService(UserRepository userRepository,
                            SiteRepository siteRepository,
                            NewsRepository newsRepository,
                            RoleRepository roleRepository,
-                           SiteMetadataRepository siteMetadataRepository)
+                           SiteMetadataRepository siteMetadataRepository,
+                           DataService dataService)
     {
         this.userRepository = userRepository;
         this.siteRepository = siteRepository;
         this.newsRepository = newsRepository;
         this.roleRepository = roleRepository;
         this.siteMetadataRepository = siteMetadataRepository;
+        this.dataService = dataService;
     }
 
     /**
@@ -77,16 +81,17 @@ public class ScheduleService {
         admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
         userRepository.save(admin);
 
-
         for (int i = 0; i < 100; i++) {
             double rand = (Math.random()-.5)*13;
             double rand2 = (Math.random()-.5)*13;
             Site site = createSite(
                     user, "A site for local testing.",
-                    37 + rand2,-95 + rand,"Test Site" + i);
+                    37 + rand2,-95 + rand,"Test Site " + i);
             siteRepository.save(site);
             SiteMetadata metadata = createSiteMetadata(site, i);
             siteMetadataRepository.save(metadata);
+
+            dataService.batchSave(site, createRandomData(site, user));
         }
 
         for (int i = 0; i < 3; i++) {
@@ -183,6 +188,22 @@ public class ScheduleService {
         siteMetadata.setSiteID(site.getId());
 
         return siteMetadata;
+    }
+
+    private List<Data> createRandomData(Site site, User user) {
+        List<Data> dataList = new ArrayList<Data>();
+        for(int i = 0; i < 20; i++) {
+            double random = Math.random() * 49 + 1;
+            Data data = new Data();
+            data.setUserID(user.getId().intValue());
+            data.setSiteID(site.getId());
+            data.setTemperature(random);
+            DateTime dateTime = new DateTime().minusHours(i);
+            Date date = dateTime.toDate();
+            data.setDateTime(date);
+            dataList.add(data);
+        }
+        return dataList;
     }
 
 }
