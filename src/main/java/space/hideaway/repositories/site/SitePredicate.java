@@ -42,7 +42,7 @@ public class SitePredicate {
                 double value2 = Double.parseDouble(list.get(1).toString());
                 switch (criteria.getOperation()) {
                     case "between":
-                        return path.between(value2, value1);
+                        return path.between(value1, value2);
                 }
             }
         }
