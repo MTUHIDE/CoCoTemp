@@ -1,6 +1,19 @@
 body {
   background-color: #00416A; }
 
+ul.time-checkboxes {
+  list-style: none;
+  column-count: 2;
+  -webkit-column-count: 2;
+  table-layout: fixed;
+}
+
+ul.time-checkboxes li{
+  display: inline-block;
+  width: 12em;
+  margin-left: 35px;
+}
+
 .container-fluid {
   margin-top: 100px; }
 
