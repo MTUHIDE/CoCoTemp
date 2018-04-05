@@ -14,6 +14,7 @@ import space.hideaway.repositories.GlobeRepository;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 /**
@@ -127,6 +128,29 @@ public class NewSiteController
         purposes.add("Retail");
         purposes.add("Restaurant");
         model.addAttribute("purposes", purposes);
+
+        ArrayList<String> times = new ArrayList<String>();
+        for(int i = 0; i < 24; i++) {
+            times.add(i+":00");
+        }
+        model.addAttribute("times", times);
+
+        ArrayList<String> canopyTypes = new ArrayList<String>();
+        canopyTypes.add("No Canopy");
+        canopyTypes.add("Tree/Vegetation");
+        canopyTypes.add("Shade Sail");
+        canopyTypes.add("Pergola/Ramada");
+        canopyTypes.add("Other Solid Roof");
+        model.addAttribute("canopyTypes", canopyTypes);
+
+        ArrayList<String> nearestWaterTypes = new ArrayList<String>();
+        nearestWaterTypes.add("Swimming Pool");
+        nearestWaterTypes.add("Large river");
+        nearestWaterTypes.add("Small stream");
+        nearestWaterTypes.add("Lake/Pond");
+        nearestWaterTypes.add("Other (describe)");
+        model.addAttribute("nearestWaterTypes", nearestWaterTypes);
+
         return "new-site/globe-questionnaire";
     }
 
@@ -166,7 +190,6 @@ public class NewSiteController
             final BindingResult bindingResult,
             SessionStatus sessionStatus)
     {
-
 
 
         // Set the session complete, as the site has been safely persisted.
