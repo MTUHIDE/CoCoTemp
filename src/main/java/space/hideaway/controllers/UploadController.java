@@ -1,6 +1,6 @@
 package space.hideaway.controllers;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +32,7 @@ public class UploadController
     private final UploadService uploadService;
     private final UserService userService;
 
-    private Logger logger = Logger.getLogger(getClass());
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
     public UploadController(

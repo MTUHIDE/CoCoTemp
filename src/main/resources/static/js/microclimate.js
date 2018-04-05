@@ -240,6 +240,10 @@ microclimateGraphNameSpace = function(){
         delete data[siteId];
     }
 
+    function removeAllTempData() {
+        data = [];
+    }
+
     return{
         init:init,
         addThresholdsToGraph:addThresholdsToGraph,
@@ -248,7 +252,7 @@ microclimateGraphNameSpace = function(){
         getTemperatureData:getTemperatureData,
         addTemperatureData:addTemperatureData,
         removeTemperatureData:removeTemperatureData,
-        getSitesOnGraph:getSitesOnGraph
+        removeAllTempData:removeAllTempData
     }
 }();
 
@@ -456,6 +460,9 @@ $(document).ready(function() {
     $('#btn-reset').on('click', function() {
         $('#builder-basic').queryBuilder('reset');
         microclimateMapNameSpace.clearMapOfMarkers();
+        microclimateGraphNameSpace.removeAllTempData();
+        var chart = document.getElementById('temperature-chart');
+        Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
     });
 
     $('#btn-get').on('click', function() {

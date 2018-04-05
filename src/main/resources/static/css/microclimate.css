@@ -118,9 +118,10 @@ button[data-add="group"] {
   padding-bottom: 10px; }
 
 #graph-filters table {
-  font-size: 13px;
+  font-size: 14px;
   width: 100%;
-  color: white; }
+  color: white;
+  word-wrap: break-word; }
   #graph-filters table td {
     padding: 4px; }
 
@@ -148,5 +149,8 @@ button[data-add="group"] {
 
 #graph-filters label {
   font-size: 16px; }
+
+#builder-basic label {
+  color: black; }
 
 /*# sourceMappingURL=microclimate.css.map */
