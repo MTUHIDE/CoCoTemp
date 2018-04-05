@@ -67,10 +67,14 @@
 
                     <div class="form-group">
                         <label>1. Natural or Urban Context? (check one).</label><br/>
-                        <input th:field="*{environment}"  type="radio" value="natural" id="environment" name="environment"/>
-                        <label for="environment">Natural</label><br/>
-                        <input type="radio" value="urban" id="contextChoice2" name="q1"/>
-                        <label for="contextChoice2">Urban</label>
+                        <!--<input th:field="*{environment}"  type="radio" value="natural" id="environment" name="environment"/>-->
+                        <!--<label for="environment">Natural</label><br/>-->
+                        <!--<input type="radio" value="urban" id="contextChoice2" name="q1"/>-->
+                        <!--<label for="contextChoice2">Urban</label>-->
+                        <div th:each="item : ${environments}">
+                            <input type="radio" th:field="*{environment}" th:value="${item}" />
+                            <label th:text="${item}"></label><br/>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -78,7 +82,7 @@
 
                         <div th:each="item : ${purposes}">
                             <input type="checkbox" th:field="*{purpose}" th:value="${item}" />
-                            <label th:text="${item}">example</label>
+                            <label th:text="${item}"></label>
                         </div>
                         <!--<input type="checkbox" value="commercialOffices"-->
                                <!--id="purposeChoice1" name="q2"/>-->
@@ -124,11 +128,10 @@
                         <!--<label for="purposeChoice14">Roadway or Parking Lot</label><br/>-->
                     </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="q3">3. What is the height of the sensor above the ground surface in meters (NOT the floor)?</label>-->
-                        <!--<input type="number" id="q3" name="sensorHeight"-->
-                               <!--required="required" width="100"/>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label>3. What is the height of the sensor above the ground surface in meters (NOT the floor)?</label>
+                        <input th:field="*{groundElevation}" type="number" required="required" width="100"/>
+                    </div>
 
                     <!--<div class="form-group">-->
                         <!--<label for="q4">4. How enclosed is this site?</label>-->

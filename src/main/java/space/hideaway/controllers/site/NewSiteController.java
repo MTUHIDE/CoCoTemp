@@ -117,6 +117,11 @@ public class NewSiteController
 
         model.addAttribute("metadata", new SiteMetadata());
 
+        ArrayList<String> environments = new ArrayList<String>();
+        environments.add("Natural");
+        environments.add("Urban");
+        model.addAttribute("environments", environments);
+
         ArrayList<String> purposes = new ArrayList<String>();
         purposes.add("Commercial Offices");
         purposes.add("Retail");
