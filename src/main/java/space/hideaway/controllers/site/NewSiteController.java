@@ -2,15 +2,19 @@ package space.hideaway.controllers.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import space.hideaway.model.globe.Globe;
 import space.hideaway.model.site.Site;
+import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.repositories.GlobeRepository;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
+
+import java.util.ArrayList;
 
 /**
  * Edited by Justin Havely
@@ -100,7 +104,8 @@ public class NewSiteController
     @RequestMapping(params = "_globe", method = RequestMethod.POST)
     public String globePage(
             final @ModelAttribute("site") Site site,
-            final BindingResult bindingResult)
+            final BindingResult bindingResult,
+            Model model)
     {
         // Perform validation on the site's description field.
         siteValidator.validateDescription(site, bindingResult);
@@ -110,6 +115,13 @@ public class NewSiteController
             return "new-site/site-questionnaire";
         }
 
+        model.addAttribute("metadata", new SiteMetadata());
+
+        ArrayList<String> purposes = new ArrayList<String>();
+        purposes.add("Commercial Offices");
+        purposes.add("Retail");
+        purposes.add("Restaurant");
+        model.addAttribute("purposes", purposes);
         return "new-site/globe-questionnaire";
     }
 
@@ -140,27 +152,17 @@ public class NewSiteController
      * @param site The site that exists in the model with fields populated by what the user
      *             entered into the form on the second page.
      * @param sessionStatus The session module for the new site registration route.
-     * @param answers An array of GLOBE survey answers.
      * @return A redirect command to the dashboard.
      */
     @RequestMapping(params = "_finish_globe", method = RequestMethod.POST)
     public String createGlobeSite(
             @ModelAttribute("site") Site site,
-            SessionStatus sessionStatus,
-            @RequestParam("answers") String[] answers)
+            @ModelAttribute("metadata") SiteMetadata metadata,
+            final BindingResult bindingResult,
+            SessionStatus sessionStatus)
     {
-        // Persist the site.
-        siteService.save(site);
 
-        // I'm sure there is a better way of persisting GLOBE answers.
-        for (byte i = 0; i < answers.length; i++) {
-            Globe globe = new Globe();
-            globe.setSite(site);
-            globe.setSiteID(site.getId());
-            globe.setAnswer(answers[i]);
-            globe.setQuestion_number((byte)(i + 1));
-            globeRepository.save(globe);
-        }
+
 
         // Set the session complete, as the site has been safely persisted.
         sessionStatus.setComplete();

@@ -62,412 +62,400 @@
             </script>
 
             <div class="form-body">
-                <form th:action="@{/settings/new?_finish_globe}" method="post">
+                <!--/*@thymesVar id="metadata" type="space.hideaway.model.site.SiteMetadata"*/-->
+                <form th:action="@{/settings/new?_finish_globe}" method="post" th:object="${metadata}">
 
                     <div class="form-group">
-                        <label for="q1">1. Natural or Urban Context? (check one).</label><br/>
-                        <form>
-                            <form action="" id="q1" name="natural/UrbanAnswer">
-                                <input type="radio" value="natural" id="contextChoice1" name="q1"/>
-                                <label for="contextChoice1">Natural</label><br/>
-                                <input type="radio" value="urban" id="contextChoice2" name="q1"/>
-                                <label for="contextChoice2">Urban</label>
-                            </form>
-                        </form>
+                        <label>1. Natural or Urban Context? (check one).</label><br/>
+                        <input th:field="*{environment}"  type="radio" value="natural" id="environment" name="environment"/>
+                        <label for="environment">Natural</label><br/>
+                        <input type="radio" value="urban" id="contextChoice2" name="q1"/>
+                        <label for="contextChoice2">Urban</label>
                     </div>
 
                     <div class="form-group">
-                        <label for="q2">2. If urban, what is the primary purpose of this site? (check all that apply).</label>
-                        <form>
-                            <form action="" id="q2" name="purposeAnswer">
-                                <input type="checkbox" value="commercialOffices"
-                                       id="purposeChoice1" name="q2"/>
-                                <label for="purposeChoice1">Commercial Offices</label><br/>
-                                <input type="checkbox" value="retail"
-                                       id="purposeChoice2" name="q2"/>
-                                <label for="purposeChoice2">Retail</label><br/>
-                                <input type="checkbox" value="restaurant"
-                                       id="purposeChoice3" name="q2"/>
-                                <label for="purposeChoice3">Restaurant</label><br/>
-                                <input type="checkbox" value="industrial"
-                                       id="purposeChoice4" name="q2"/>
-                                <label for="purposeChoice4">Industrial</label><br/>
-                                <input type="checkbox" value="constructionSite"
-                                       id="purposeChoice5" name="q2"/>
-                                <label for="purposeChoice5">Construction Site</label><br/>
-                                <input type="checkbox" value="school"
-                                       id="purposeChoice6" name="q2"/>
-                                <label for="purposeChoice6">School</label><br/>
-                                <input type="checkbox" value="singleFamilyRes"
-                                       id="purposeChoice7" name="q2"/>
-                                <label for="purposeChoice7">Single Family Residential</label><br/>
-                                <input type="checkbox" value="multiFamilyRes"
-                                       id="purposeChoice8" name="q2"/>
-                                <label for="purposeChoice8">Multi Family Residential</label><br/>
-                                <input type="checkbox" value="parkOrGreenbelt"
-                                       id="purposeChoice9" name="q2"/>
-                                <label for="purposeChoice9">Park or Greenbelt</label><br/>
-                                <input type="checkbox" value="sportsFacility"
-                                       id="purposeChoice10" name="q2"/>
-                                <label for="purposeChoice10">Sports Facility</label><br/>
-                                <input type="checkbox" value="recPool"
-                                       id="purposeChoice11" name="q2"/>
-                                <label for="purposeChoice11">Recreational Pool</label><br/>
-                                <input type="checkbox" value="promenadeOrPlaza"
-                                       id="purposeChoice12" name="q2"/>
-                                <label for="purposeChoice12">Promenade or Plaza</label><br/>
-                                <input type="checkbox" value="bikeOrWalkingPath"
-                                       id="purposeChoice13" name="q2"/>
-                                <label for="purposeChoice13">Bike or Walking Path</label><br/>
-                                <input type="checkbox" value="roadOrParkingLot"
-                                       id="purposeChoice14" name="q2"/>
-                                <label for="purposeChoice14">Roadway or Parking Lot</label><br/>
-                            </form>
-                        </form>
+                        <label>2. If urban, what is the primary purpose of this site? (check all that apply).</label>
+
+                        <div th:each="item : ${purposes}">
+                            <input type="checkbox" th:field="*{purpose}" th:value="${item}" />
+                            <label th:text="${item}">example</label>
+                        </div>
+                        <!--<input type="checkbox" value="commercialOffices"-->
+                               <!--id="purposeChoice1" name="q2"/>-->
+                        <!--<label for="purposeChoice1">Commercial Offices</label><br/>-->
+                        <!--<input type="checkbox" value="retail"-->
+                               <!--id="purposeChoice2" name="q2"/>-->
+                        <!--<label for="purposeChoice2">Retail</label><br/>-->
+                        <!--<input type="checkbox" value="restaurant"-->
+                               <!--id="purposeChoice3" name="q2"/>-->
+                        <!--<label for="purposeChoice3">Restaurant</label><br/>-->
+                        <!--<input type="checkbox" value="industrial"-->
+                               <!--id="purposeChoice4" name="q2"/>-->
+                        <!--<label for="purposeChoice4">Industrial</label><br/>-->
+                        <!--<input type="checkbox" value="constructionSite"-->
+                               <!--id="purposeChoice5" name="q2"/>-->
+                        <!--<label for="purposeChoice5">Construction Site</label><br/>-->
+                        <!--<input type="checkbox" value="school"-->
+                               <!--id="purposeChoice6" name="q2"/>-->
+                        <!--<label for="purposeChoice6">School</label><br/>-->
+                        <!--<input type="checkbox" value="singleFamilyRes"-->
+                               <!--id="purposeChoice7" name="q2"/>-->
+                        <!--<label for="purposeChoice7">Single Family Residential</label><br/>-->
+                        <!--<input type="checkbox" value="multiFamilyRes"-->
+                               <!--id="purposeChoice8" name="q2"/>-->
+                        <!--<label for="purposeChoice8">Multi Family Residential</label><br/>-->
+                        <!--<input type="checkbox" value="parkOrGreenbelt"-->
+                               <!--id="purposeChoice9" name="q2"/>-->
+                        <!--<label for="purposeChoice9">Park or Greenbelt</label><br/>-->
+                        <!--<input type="checkbox" value="sportsFacility"-->
+                               <!--id="purposeChoice10" name="q2"/>-->
+                        <!--<label for="purposeChoice10">Sports Facility</label><br/>-->
+                        <!--<input type="checkbox" value="recPool"-->
+                               <!--id="purposeChoice11" name="q2"/>-->
+                        <!--<label for="purposeChoice11">Recreational Pool</label><br/>-->
+                        <!--<input type="checkbox" value="promenadeOrPlaza"-->
+                               <!--id="purposeChoice12" name="q2"/>-->
+                        <!--<label for="purposeChoice12">Promenade or Plaza</label><br/>-->
+                        <!--<input type="checkbox" value="bikeOrWalkingPath"-->
+                               <!--id="purposeChoice13" name="q2"/>-->
+                        <!--<label for="purposeChoice13">Bike or Walking Path</label><br/>-->
+                        <!--<input type="checkbox" value="roadOrParkingLot"-->
+                               <!--id="purposeChoice14" name="q2"/>-->
+                        <!--<label for="purposeChoice14">Roadway or Parking Lot</label><br/>-->
                     </div>
 
-                    <div class="form-group">
-                        <label for="q3">3. What is the height of the sensor above the ground surface in meters (NOT the floor)?</label>
-                        <input type="number" id="q3" name="sensorHeight"
-                               required="required" width="100"/>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q3">3. What is the height of the sensor above the ground surface in meters (NOT the floor)?</label>-->
+                        <!--<input type="number" id="q3" name="sensorHeight"-->
+                               <!--required="required" width="100"/>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q4">4. How enclosed is this site?</label>
-                        <form>
-                            <form action="" id="q4" name="enclosedAnswer">
-                                <input type="checkbox" value="outdoors/Unenclosed"
-                                       id="enclosedChoice1" name="q4"/>
-                                <label for="enclosedChoice1">Outdoors/Unenclosed</label><br/>
-                                <input type="checkbox" value="indoors/enclosed"
-                                       id="enclosedChoice2" name="q4"/>
-                                <label for="enclosedChoice2">Indoors/Fully Enclosed</label><br/>
-                                <input type="checkbox" value="percent"
-                                       id="enclosedChoice3" name="q4"/>
-                                <label for="enclosedChoice3">Partly enclosed under a roof, percentage of wall space:</label>
-                                <input type="number" id="percentage" name="sensorHeight"
-                                       width="100" min="0" max="100"/>
-                            </form>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q4">4. How enclosed is this site?</label>-->
+                            <!--<form action="" id="q4" name="enclosedAnswer">-->
+                                <!--<input type="checkbox" value="outdoors/Unenclosed"-->
+                                       <!--id="enclosedChoice1" name="q4"/>-->
+                                <!--<label for="enclosedChoice1">Outdoors/Unenclosed</label><br/>-->
+                                <!--<input type="checkbox" value="indoors/enclosed"-->
+                                       <!--id="enclosedChoice2" name="q4"/>-->
+                                <!--<label for="enclosedChoice2">Indoors/Fully Enclosed</label><br/>-->
+                                <!--<input type="checkbox" value="percent"-->
+                                       <!--id="enclosedChoice3" name="q4"/>-->
+                                <!--<label for="enclosedChoice3">Partly enclosed under a roof, percentage of wall space:</label>-->
+                                <!--<input type="number" id="percentage" name="sensorHeight"-->
+                                       <!--width="100" min="0" max="100"/>-->
+                            <!--</form>-->
+                    <!--</div>-->
 
-                    <form id="repeatQuestions" action="">
+                    <!--<form id="repeatQuestions" action="">-->
 
-                        <form id="question5">
-                            <div class="form-group">
-                                <label for="q5">5. If the sensor is outdoors, how far is the sensor from the nearest major
-                                airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor's height)?</label>
-                                <input type="number" id="q5" name="airObstacle"
-                                   required="required" width="100"/>
-                            </div>
-                        </form>
+                        <!--<form id="question5">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="q5">5. If the sensor is outdoors, how far is the sensor from the nearest major-->
+                                <!--airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor's height)?</label>-->
+                                <!--<input type="number" id="q5" name="airObstacle"-->
+                                   <!--required="required" width="100"/>-->
+                            <!--</div>-->
+                        <!--</form>-->
 
-                    <div class="form-group">
-                        <label for="q6">6. In what direction is the nearest obstacle located from the sensor
-                            (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)?</label>
-                        <input type="number" id="q6" name="directionObstacle"
-                               required="required" width="100" min="0" max="359"/>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q6">6. In what direction is the nearest obstacle located from the sensor-->
+                            <!--(degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)?</label>-->
+                        <!--<input type="number" id="q6" name="directionObstacle"-->
+                               <!--required="required" width="100" min="0" max="359"/>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q7">7. What is the obstacle?.</label>
-                        <form>
-                            <form action="" id="q7" name="obstacleIdentificationAnswer">
-                                <input type="radio" value="building"
-                                       id="obstacleChoice1" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>
-                                <label for="obstacleChoice1">Building</label><br/>
-                                <input type="radio" value="wall"
-                                       id="obstacleChoice2" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>
-                                <label for="obstacleChoice2">Wall</label><br/>
-                                <input type="radio" value="hedgerow"
-                                       id="obstacleChoice3" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>
-                                <label for="obstacleChoice3">Hedgerow</label><br/>
-                                <input type="radio" value="otherObstacle"
-                                       id="obstacleChoice4" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>
-                                <label for="obstacleChoice4">Other (describe)</label>
-                                <input type="text" id="otherObstacle" name="otherObstacleID"
-                                       width="100" readonly="readonly"/>
-                            </form>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q7">7. What is the obstacle?.</label>-->
+                            <!--<form action="" id="q7" name="obstacleIdentificationAnswer">-->
+                                <!--<input type="radio" value="building"-->
+                                       <!--id="obstacleChoice1" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>-->
+                                <!--<label for="obstacleChoice1">Building</label><br/>-->
+                                <!--<input type="radio" value="wall"-->
+                                       <!--id="obstacleChoice2" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>-->
+                                <!--<label for="obstacleChoice2">Wall</label><br/>-->
+                                <!--<input type="radio" value="hedgerow"-->
+                                       <!--id="obstacleChoice3" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>-->
+                                <!--<label for="obstacleChoice3">Hedgerow</label><br/>-->
+                                <!--<input type="radio" value="otherObstacle"-->
+                                       <!--id="obstacleChoice4" name="q7" onclick="enableTextBox('obstacleChoice4','otherObstacle')"/>-->
+                                <!--<label for="obstacleChoice4">Other (describe)</label>-->
+                                <!--<input type="text" id="otherObstacle" name="otherObstacleID"-->
+                                       <!--width="100" readonly="readonly"/>-->
+                            <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q8">8. Are there any other obstacles in other directions? (Click if yes, ignore if no).</label>
-                        <form>
-                                <input type="button" value="Yes" id="q8" name="q8" onclick="clickThing()"/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q8">8. Are there any other obstacles in other directions? (Click if yes, ignore if no).</label>-->
+                        <!--<input type="button" value="Yes" id="q8" name="q8" onclick="clickThing()"/>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <form>
-                        <label for="q9">9. Roughly how large/wide is the area (in meters) in which the sensor is located,
-                            before walls or obstacles are encountered?</label>
-                        <input type="number" id="q9" name="areaSize"
-                               required="required" width="100"/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q9">9. Roughly how large/wide is the area (in meters) in which the sensor is located,-->
+                            <!--before walls or obstacles are encountered?</label>-->
+                        <!--<input type="number" id="q9" name="areaSize"-->
+                               <!--required="required" width="100"/>-->
+                    <!--</div>-->
 
-                    </form>
+                    <!--</form>-->
 
-                    <div class="form-group">
-                        <form>
-                            <label for="q10">10. Percentage of surface cover types (estimate the percentage in the area covered by each type,
-                                in the area surrounding the sensor, before encountering obstacles)</label>
-                            <form action="" id="q10" name="surfaceCoverAnswers">
-                                    <input type="checkbox" value="short/mowed grass"
-                                    id="surfaceCoverOption1" name="q10" onclick="enableTextBox('surfaceCoverOption1','short/mowedPercentage')"/>
-                                    <label for="surfaceCoverOption1">Short/mowed grass</label>
-                                    <input type="number" id="short/mowedPercentage"
-                                           name="short/mowedPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           onkeyup="addPercent('short/mowedPercentage')" style="margin-left: 200px"/>
-                                    <label for="short/mowedPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="artificialGrass"
-                                           id="surfaceCoverOption2" name="q10" onclick="enableTextBox('surfaceCoverOption2','artificialGrassPercentage')"/>
-                                    <label for="surfaceCoverOption2">Artificial grass</label>
-                                    <input type="number" id="artificialGrassPercentage"
-                                           name="artificialGrassPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           onkeyup="addPercent('artificialGrassPercentage')" style="margin-left: 237px"/>
-                                    <label for="short/mowedPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="tallGrass"
-                                           id="surfaceCoverOption3" name="q10" onclick="enableTextBox('surfaceCoverOption3','tallGrassPercentage')"/>
-                                    <label for="surfaceCoverOption3">Tall grass (> 0.5m)</label>
-                                    <input type="number" id="tallGrassPercentage"
-                                           name="tallGrassPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 210px"/>
-                                    <label for="tallGrassPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="barren/dirt"
-                                           id="surfaceCoverOption4" name="q10" onclick="enableTextBox('surfaceCoverOption4','barren/dirtPercentage')"/>
-                                    <label for="surfaceCoverOption4">Barren/dirt</label>
-                                    <input type="number" id="barren/dirtPercentage"
-                                           name="barren/dirtPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 257px"/>
-                                    <label for="barren/dirtPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="shrubs"
-                                           id="surfaceCoverOption5" name="q10" onclick="enableTextBox('surfaceCoverOption5','shrubsPercentage')"/>
-                                    <label for="surfaceCoverOption5">Shrubs</label>
-                                    <input type="number" id="shrubsPercentage"
-                                           name="shrubsPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 282px"/>
-                                    <label for="shrubsPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="concrete"
-                                           id="surfaceCoverOption6" name="q10" onclick="enableTextBox('surfaceCoverOption6','concretePercentage')"/>
-                                    <label for="surfaceCoverOption6">Concrete</label>
-                                    <input type="number" id="concretePercentage"
-                                           name="concretePercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 268px"/>
-                                    <label for="concretePercentage">(%)</label><br/>
-                                    <input type="checkbox" value="Asphalt"
-                                           id="surfaceCoverOption7" name="q10" onclick="enableTextBox('surfaceCoverOption7','asphaltPercentage')"/>
-                                    <label for="surfaceCoverOption7">Asphalt</label>
-                                    <input type="number" id="asphaltPercentage"
-                                           name="asphaltPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 278px"/>
-                                    <label for="asphaltPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="coolCoating"
-                                           id="surfaceCoverOption8" name="q10" onclick="enableTextBox('surfaceCoverOption8','coolCoatingPercentage')"/>
-                                    <label for="surfaceCoverOption8">White/beige cool coating</label>
-                                    <input type="number" id="coolCoatingPercentage"
-                                           name="coolCoatingPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 164px"/>
-                                    <label for="coolCoatingPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="metal"
-                                           id="surfaceCoverOption9" name="q10" onclick="enableTextBox('surfaceCoverOption9','metalPercentage')"/>
-                                    <label for="surfaceCoverOption9">Metal</label>
-                                    <input type="number" id="metalPercentage"
-                                           name="metalPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 290px"/>
-                                    <label for="metalPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="wood/decking"
-                                           id="surfaceCoverOption10" name="q10" onclick="enableTextBox('surfaceCoverOption10','wood/deckingPercentage')"/>
-                                    <label for="surfaceCoverOption10">Wood/decking</label>
-                                    <input type="number" id="wood/deckingPercentage"
-                                           name="wood/deckingPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 231px"/>
-                                    <label for="wood/deckingPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="carpet"
-                                           id="surfaceCoverOption11" name="q10" onclick="enableTextBox('surfaceCoverOption11','carpetPercentage')"/>
-                                    <label for="surfaceCoverOption11">Carpet</label>
-                                    <input type="number" id="carpetPercentage"
-                                           name="carpetPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 283px"/>
-                                    <label for="carpetPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="water/wetland"
-                                           id="surfaceCoverOption12" name="q10" onclick="enableTextBox('surfaceCoverOption12','water/wetlandPercentage')"/>
-                                    <label for="surfaceCoverOption12">Water/wetland</label>
-                                    <input type="number" id="water/wetlandPercentage"
-                                           name="water/wetlandPercentage" width="100" readonly="readonly" min="0" max="100"
-                                           style="margin-left: 232px"/>
-                                    <label for="water/wetlandPercentage">(%)</label><br/>
-                                    <input type="checkbox" value="other"
-                                           id="surfaceCoverOption13" name="q10" onclick="enableTextBox('surfaceCoverOption13','otherInput')"/>
-                                    <label for="surfaceCoverOption13">Other:</label>
-                                    <input type="text" id="otherInput"
-                                           name="otherInput" width="100" readonly="readonly"/>
-                                    <input type="number" id="otherPercentage"
-                                           name="otherPercentage" width="100" min="0" max="100"
-                                           style="margin-left: 107px"/>
-                                    <label for="otherPercentage">(%)</label><br/>
-                                    <input type="number" id="totalPercentage"
-                                           name="totalPercentage" width="100" placeholder="0%" readonly="readonly"/>
-                                    <label for="totalPercentage">Total:</label><br/>
-                            </form>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q10">10. Percentage of surface cover types (estimate the percentage in the area covered by each type,-->
+                            <!--in the area surrounding the sensor, before encountering obstacles)</label>-->
+                        <!--<form action="" id="q10" name="surfaceCoverAnswers">-->
+                                <!--<input type="checkbox" value="short/mowed grass"-->
+                                <!--id="surfaceCoverOption1" name="q10" onclick="enableTextBox('surfaceCoverOption1','short/mowedPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption1">Short/mowed grass</label>-->
+                                <!--<input type="number" id="short/mowedPercentage"-->
+                                       <!--name="short/mowedPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--onkeyup="addPercent('short/mowedPercentage')" style="margin-left: 200px"/>-->
+                                <!--<label for="short/mowedPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="artificialGrass"-->
+                                       <!--id="surfaceCoverOption2" name="q10" onclick="enableTextBox('surfaceCoverOption2','artificialGrassPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption2">Artificial grass</label>-->
+                                <!--<input type="number" id="artificialGrassPercentage"-->
+                                       <!--name="artificialGrassPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--onkeyup="addPercent('artificialGrassPercentage')" style="margin-left: 237px"/>-->
+                                <!--<label for="short/mowedPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="tallGrass"-->
+                                       <!--id="surfaceCoverOption3" name="q10" onclick="enableTextBox('surfaceCoverOption3','tallGrassPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption3">Tall grass (> 0.5m)</label>-->
+                                <!--<input type="number" id="tallGrassPercentage"-->
+                                       <!--name="tallGrassPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 210px"/>-->
+                                <!--<label for="tallGrassPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="barren/dirt"-->
+                                       <!--id="surfaceCoverOption4" name="q10" onclick="enableTextBox('surfaceCoverOption4','barren/dirtPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption4">Barren/dirt</label>-->
+                                <!--<input type="number" id="barren/dirtPercentage"-->
+                                       <!--name="barren/dirtPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 257px"/>-->
+                                <!--<label for="barren/dirtPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="shrubs"-->
+                                       <!--id="surfaceCoverOption5" name="q10" onclick="enableTextBox('surfaceCoverOption5','shrubsPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption5">Shrubs</label>-->
+                                <!--<input type="number" id="shrubsPercentage"-->
+                                       <!--name="shrubsPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 282px"/>-->
+                                <!--<label for="shrubsPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="concrete"-->
+                                       <!--id="surfaceCoverOption6" name="q10" onclick="enableTextBox('surfaceCoverOption6','concretePercentage')"/>-->
+                                <!--<label for="surfaceCoverOption6">Concrete</label>-->
+                                <!--<input type="number" id="concretePercentage"-->
+                                       <!--name="concretePercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 268px"/>-->
+                                <!--<label for="concretePercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="Asphalt"-->
+                                       <!--id="surfaceCoverOption7" name="q10" onclick="enableTextBox('surfaceCoverOption7','asphaltPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption7">Asphalt</label>-->
+                                <!--<input type="number" id="asphaltPercentage"-->
+                                       <!--name="asphaltPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 278px"/>-->
+                                <!--<label for="asphaltPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="coolCoating"-->
+                                       <!--id="surfaceCoverOption8" name="q10" onclick="enableTextBox('surfaceCoverOption8','coolCoatingPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption8">White/beige cool coating</label>-->
+                                <!--<input type="number" id="coolCoatingPercentage"-->
+                                       <!--name="coolCoatingPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 164px"/>-->
+                                <!--<label for="coolCoatingPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="metal"-->
+                                       <!--id="surfaceCoverOption9" name="q10" onclick="enableTextBox('surfaceCoverOption9','metalPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption9">Metal</label>-->
+                                <!--<input type="number" id="metalPercentage"-->
+                                       <!--name="metalPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 290px"/>-->
+                                <!--<label for="metalPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="wood/decking"-->
+                                       <!--id="surfaceCoverOption10" name="q10" onclick="enableTextBox('surfaceCoverOption10','wood/deckingPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption10">Wood/decking</label>-->
+                                <!--<input type="number" id="wood/deckingPercentage"-->
+                                       <!--name="wood/deckingPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 231px"/>-->
+                                <!--<label for="wood/deckingPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="carpet"-->
+                                       <!--id="surfaceCoverOption11" name="q10" onclick="enableTextBox('surfaceCoverOption11','carpetPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption11">Carpet</label>-->
+                                <!--<input type="number" id="carpetPercentage"-->
+                                       <!--name="carpetPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 283px"/>-->
+                                <!--<label for="carpetPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="water/wetland"-->
+                                       <!--id="surfaceCoverOption12" name="q10" onclick="enableTextBox('surfaceCoverOption12','water/wetlandPercentage')"/>-->
+                                <!--<label for="surfaceCoverOption12">Water/wetland</label>-->
+                                <!--<input type="number" id="water/wetlandPercentage"-->
+                                       <!--name="water/wetlandPercentage" width="100" readonly="readonly" min="0" max="100"-->
+                                       <!--style="margin-left: 232px"/>-->
+                                <!--<label for="water/wetlandPercentage">(%)</label><br/>-->
+                                <!--<input type="checkbox" value="other"-->
+                                       <!--id="surfaceCoverOption13" name="q10" onclick="enableTextBox('surfaceCoverOption13','otherInput')"/>-->
+                                <!--<label for="surfaceCoverOption13">Other:</label>-->
+                                <!--<input type="text" id="otherInput"-->
+                                       <!--name="otherInput" width="100" readonly="readonly"/>-->
+                                <!--<input type="number" id="otherPercentage"-->
+                                       <!--name="otherPercentage" width="100" min="0" max="100"-->
+                                       <!--style="margin-left: 107px"/>-->
+                                <!--<label for="otherPercentage">(%)</label><br/>-->
+                                <!--<input type="number" id="totalPercentage"-->
+                                       <!--name="totalPercentage" width="100" placeholder="0%" readonly="readonly"/>-->
+                                <!--<label for="totalPercentage">Total:</label><br/>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q11">11. Is the sensor located in a depression or riparian area where water can collect?</label> <br/>
-                        <form action="" id="q11" name="waterCollectionAnswers">
-                            <input type="radio" id="yesWaterCollection" name="q11" value="Yes"/>
-                            <label for="yesWaterCollection">Yes</label><br/>
-                            <input type="radio" id="noWaterCollection" name="q11" value="No"/>
-                            <label for="noWaterCollection">No</label><br/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q11">11. Is the sensor located in a depression or riparian area where water can collect?</label> <br/>-->
+                        <!--<form action="" id="q11" name="waterCollectionAnswers">-->
+                            <!--<input type="radio" id="yesWaterCollection" name="q11" value="Yes"/>-->
+                            <!--<label for="yesWaterCollection">Yes</label><br/>-->
+                            <!--<input type="radio" id="noWaterCollection" name="q11" value="No"/>-->
+                            <!--<label for="noWaterCollection">No</label><br/>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
 
 
-                    <div class="form-group">
-                        <label for="q12">12. On the longest day of the year (late June in N. Hemisphere), during what hours is the
-                            sensor shaded?</label>
-                        <form action="" id="q12" name="longestDayAnswers">
-                            <ul class="time-checkboxes">
-                                <li><input type ="checkbox" name="hours" value="12:00 am"/> 12:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="1:00 am"/> 1:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="3:00 am"/> 3:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="4:00 am"/> 4:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="5:00 am"/> 5:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="6:00 am"/> 6:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="7:00 am"/> 7:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="8:00 am"/> 8:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="9:00 am"/> 9:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="10:00 am"/> 10:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="11:00 am"/> 11:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="12:00 pm"/> 12:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="1:00 pm"/> 1:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="3:00 pm"/> 3:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="4:00 pm"/> 4:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="5:00 pm"/> 5:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="6:00 pm"/> 6:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="7:00 pm"/> 7:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="8:00 pm"/> 8:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="9:00 pm"/> 9:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="10:00 pm"/> 10:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="11:00 pm"/> 11:00 pm</li>
-                            </ul>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q12">12. On the longest day of the year (late June in N. Hemisphere), during what hours is the-->
+                            <!--sensor shaded?</label>-->
+                        <!--<form action="" id="q12" name="longestDayAnswers">-->
+                            <!--<ul class="time-checkboxes">-->
+                                <!--<li><input type ="checkbox" name="hours" value="12:00 am"/> 12:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="1:00 am"/> 1:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="3:00 am"/> 3:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="4:00 am"/> 4:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="5:00 am"/> 5:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="6:00 am"/> 6:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="7:00 am"/> 7:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="8:00 am"/> 8:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="9:00 am"/> 9:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="10:00 am"/> 10:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="11:00 am"/> 11:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="12:00 pm"/> 12:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="1:00 pm"/> 1:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="3:00 pm"/> 3:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="4:00 pm"/> 4:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="5:00 pm"/> 5:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="6:00 pm"/> 6:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="7:00 pm"/> 7:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="8:00 pm"/> 8:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="9:00 pm"/> 9:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="10:00 pm"/> 10:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="11:00 pm"/> 11:00 pm</li>-->
+                            <!--</ul>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q13">13. On the shortest day of the year (late December in N. Hemisphere), during what hours is
-                            the sensor shaded?</label>
-                        <form action="" id="q13" name="shortestDayAnswers">
-                            <ul class="time-checkboxes">
-                                <li><input type ="checkbox" name="hours" value="12:00 am"/> 12:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="1:00 am"/> 1:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="3:00 am"/> 3:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="4:00 am"/> 4:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="5:00 am"/> 5:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="6:00 am"/> 6:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="7:00 am"/> 7:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="8:00 am"/> 8:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="9:00 am"/> 9:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="10:00 am"/> 10:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="11:00 am"/> 11:00 am</li>
-                                <li><input type ="checkbox" name="hours" value="12:00 pm"/> 12:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="1:00 pm"/> 1:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="3:00 pm"/> 3:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="4:00 pm"/> 4:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="5:00 pm"/> 5:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="6:00 pm"/> 6:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="7:00 pm"/> 7:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="8:00 pm"/> 8:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="9:00 pm"/> 9:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="10:00 pm"/> 10:00 pm</li>
-                                <li><input type ="checkbox" name="hours" value="11:00 pm"/> 11:00 pm</li>
-                            </ul>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q13">13. On the shortest day of the year (late December in N. Hemisphere), during what hours is-->
+                            <!--the sensor shaded?</label>-->
+                        <!--<form action="" id="q13" name="shortestDayAnswers">-->
+                            <!--<ul class="time-checkboxes">-->
+                                <!--<li><input type ="checkbox" name="hours" value="12:00 am"/> 12:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="1:00 am"/> 1:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="3:00 am"/> 3:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="4:00 am"/> 4:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="5:00 am"/> 5:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="6:00 am"/> 6:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="7:00 am"/> 7:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="8:00 am"/> 8:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="9:00 am"/> 9:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="10:00 am"/> 10:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="11:00 am"/> 11:00 am</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="12:00 pm"/> 12:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="1:00 pm"/> 1:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="2:00 am"/> 2:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="3:00 pm"/> 3:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="4:00 pm"/> 4:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="5:00 pm"/> 5:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="6:00 pm"/> 6:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="7:00 pm"/> 7:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="8:00 pm"/> 8:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="9:00 pm"/> 9:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="10:00 pm"/> 10:00 pm</li>-->
+                                <!--<li><input type ="checkbox" name="hours" value="11:00 pm"/> 11:00 pm</li>-->
+                            <!--</ul>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q14">14. Canopy type above the sensor (near enough to be captured in an upward photo)</label>
-                        <form action="" id="q14" name="answers">
-                            <input type="radio" name="q14" id="canopyOption1" value="noCanopy" />
-                            <label for="canopyOption1">No canopy</label><br/>
-                            <input type="radio" name="q14" id="canopyOption2" value="tree/Vegetation"/>
-                            <label for="canopyOption2">Tree/vegetation</label><br/>
-                            <input type="radio" name="q14" id="canopyOption3" value="shadeSail"/>
-                            <label for="canopyOption3">Shade sail</label><br/>
-                            <input type="radio" name="q14" id="canopyOption4" value="metalRoof"/>
-                            <label for="canopyOption4">Metal roof</label><br/>
-                            <input type="radio" name="q14" id="canopyOption5" value="pergola/Ramada"/>
-                            <label for="canopyOption5">Pergola/ramada</label><br/>
-                            <input type="radio" name="q14" id="canopyOption6" value="OtherSolidRoof"/>
-                            <label for="canopyOption6">Other solid roof</label><br/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q14">14. Canopy type above the sensor (near enough to be captured in an upward photo)</label>-->
+                        <!--<form action="" id="q14" name="answers">-->
+                            <!--<input type="radio" name="q14" id="canopyOption1" value="noCanopy" />-->
+                            <!--<label for="canopyOption1">No canopy</label><br/>-->
+                            <!--<input type="radio" name="q14" id="canopyOption2" value="tree/Vegetation"/>-->
+                            <!--<label for="canopyOption2">Tree/vegetation</label><br/>-->
+                            <!--<input type="radio" name="q14" id="canopyOption3" value="shadeSail"/>-->
+                            <!--<label for="canopyOption3">Shade sail</label><br/>-->
+                            <!--<input type="radio" name="q14" id="canopyOption4" value="metalRoof"/>-->
+                            <!--<label for="canopyOption4">Metal roof</label><br/>-->
+                            <!--<input type="radio" name="q14" id="canopyOption5" value="pergola/Ramada"/>-->
+                            <!--<label for="canopyOption5">Pergola/ramada</label><br/>-->
+                            <!--<input type="radio" name="q14" id="canopyOption6" value="OtherSolidRoof"/>-->
+                            <!--<label for="canopyOption6">Other solid roof</label><br/>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q15">15. If you stand in the location of the sensor and look straight up, roughly what percentage
-                            of the sky is visible (i.e. the Sky View Factor, for example 75%):</label>
-                        <form action="" id="q15" name="skyVisibilityAnswer">
-                            <input type="number" id="skyVisibility" name="q15" min="0" max="100" />
-                            <label for="skyVisibility">%</label><br/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q15">15. If you stand in the location of the sensor and look straight up, roughly what percentage-->
+                            <!--of the sky is visible (i.e. the Sky View Factor, for example 75%):</label>-->
+                        <!--<form action="" id="q15" name="skyVisibilityAnswer">-->
+                            <!--<input type="number" id="skyVisibility" name="q15" min="0" max="100" />-->
+                            <!--<label for="skyVisibility">%</label><br/>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q16">16. What is the slope on this site, measured as the ratio of rise over run (for example one
-                            meter of rise in fifteen meters of run is 1/15 or 6.7%.</label>
-                        <form action="" id="q16" name="slopeAnswer">
-                            <input type="number" id="slopeNumber" name="q16" min="0" max="100"/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q16">16. What is the slope on this site, measured as the ratio of rise over run (for example one-->
+                            <!--meter of rise in fifteen meters of run is 1/15 or 6.7%.</label>-->
+                        <!--<form action="" id="q16" name="slopeAnswer">-->
+                            <!--<input type="number" id="slopeNumber" name="q16" min="0" max="100"/>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q17">17. What is the compass direction of the slope, uphill? (degrees east of
-                            north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
-                        <form action="" id="q17" name="slopeDirectionAnswer">
-                            <input type="number" id="slopeDirection" name="q17" min="0" max="360"/>
-                            <label for="slopeDirection">Degrees</label>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q17">17. What is the compass direction of the slope, uphill? (degrees east of-->
+                            <!--north, 0 = north, 90 = east, 180 = south, 270 = west)</label>-->
+                        <!--<form action="" id="q17" name="slopeDirectionAnswer">-->
+                            <!--<input type="number" id="slopeDirection" name="q17" min="0" max="360"/>-->
+                            <!--<label for="slopeDirection">Degrees</label>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q18">18. What is the nearest body of open water?</label>
-                        <form action="" id="q18" name="answers">
-                            <input type="radio" name="q18" id="waterAnswer1"
-                                   value="Swimming pool" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Swimming pool <br/>
-                            <input type="radio" name="q18" id="waterAnswer2"
-                                   value="Lake/pond" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Lake/pond <br/>
-                            <input type="radio" name="q18" id="waterAnswer3"
-                                   value="Large river" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Large river <br/>
-                            <input type="radio" name="q18" id="waterAnswer4"
-                                   value="Small stream" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Small stream <br/>
-                            <input type="radio" name="q18" id="waterAnswer5"
-                                   value="Other" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Other (describe) <br/>
-                            <input type="text"  name="q18" id="otherWaterInput"
-                                   value="" readonly="readonly"/>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q18">18. What is the nearest body of open water?</label>-->
+                        <!--<form action="" id="q18" name="answers">-->
+                            <!--<input type="radio" name="q18" id="waterAnswer1"-->
+                                   <!--value="Swimming pool" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Swimming pool <br/>-->
+                            <!--<input type="radio" name="q18" id="waterAnswer2"-->
+                                   <!--value="Lake/pond" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Lake/pond <br/>-->
+                            <!--<input type="radio" name="q18" id="waterAnswer3"-->
+                                   <!--value="Large river" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Large river <br/>-->
+                            <!--<input type="radio" name="q18" id="waterAnswer4"-->
+                                   <!--value="Small stream" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Small stream <br/>-->
+                            <!--<input type="radio" name="q18" id="waterAnswer5"-->
+                                   <!--value="Other" onclick="enableTextBox('waterAnswer5', 'otherWaterInput')"/> Other (describe) <br/>-->
+                            <!--<input type="text"  name="q18" id="otherWaterInput"-->
+                                   <!--value="" readonly="readonly"/>-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q19">19. How far away is this water from the sensor? (meters)</label>
-                        <form action="" id="q19" name="answers">
-                            <input type="number" id="waterDistance" name="q19" min="0" max="160935" />
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q19">19. How far away is this water from the sensor? (meters)</label>-->
+                        <!--<form action="" id="q19" name="answers">-->
+                            <!--<input type="number" id="waterDistance" name="q19" min="0" max="160935" />-->
+                        <!--</form>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <label for="q20">20. What is the compass direction of the water from this sensor? (degrees
-                            east of north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
-                        <form action="" id="q20" name="answers">
-                            <input type="number" id="waterDegrees" name="q20" min="0" max="360" />
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="q20">20. What is the compass direction of the water from this sensor? (degrees-->
+                            <!--east of north, 0 = north, 90 = east, 180 = south, 270 = west)</label>-->
+                        <!--<form action="" id="q20" name="answers">-->
+                            <!--<input type="number" id="waterDegrees" name="q20" min="0" max="360" />-->
+                        <!--</form>-->
+                    <!--</div>-->
 
                     <div class="form-group">
                         <button class="btn btn-success">Save</button>

@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +26,8 @@ public class SiteMetadata {
     private Time maximumNightTime;
     private Time minimumNightTime;
     private double slope;
+
+    private ArrayList<String> purpose;
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -126,6 +129,14 @@ public class SiteMetadata {
     public double getAreaBeforeObstacle() {return areaBeforeObstacle;}
 
     public void setAreaBeforeObstacle(double areaBeforeObstacle) {this.areaBeforeObstacle = areaBeforeObstacle;}
+
+    public ArrayList<String> getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(ArrayList<String> purpose) {
+        this.purpose = purpose;
+    }
 }
 
 
