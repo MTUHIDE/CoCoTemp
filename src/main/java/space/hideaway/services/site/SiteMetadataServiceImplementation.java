@@ -23,4 +23,11 @@ public class SiteMetadataServiceImplementation implements SiteMetadataService {
     public List<SiteMetadata> getAllSiteMetadata() {
         return siteMetadataRepository.findAll();
     }
+
+    @Override
+    public SiteMetadata save(SiteMetadata newSiteMetadata)
+    {
+        siteMetadataRepository.save(newSiteMetadata);
+        return newSiteMetadata;
+    }
 }

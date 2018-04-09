@@ -11,9 +11,11 @@ import space.hideaway.model.globe.Globe;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.repositories.GlobeRepository;
+import space.hideaway.services.site.SiteMetadataService;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,16 +38,19 @@ public class NewSiteController
     private final SiteValidator siteValidator;
     private final GlobeRepository globeRepository;
     private final SiteService siteService;
+    private final SiteMetadataService siteMetadataService;
 
     @Autowired
     public NewSiteController(
             SiteValidator siteValidator,
             SiteService siteService,
-            GlobeRepository globeRepository)
+            GlobeRepository globeRepository,
+            SiteMetadataService siteMetadataService)
     {
         this.globeRepository = globeRepository;
         this.siteValidator = siteValidator;
         this.siteService = siteService;
+        this.siteMetadataService = siteMetadataService;
     }
 
     /**
@@ -140,13 +145,35 @@ public class NewSiteController
         purposes.add("Bike or Walking Path");
         purposes.add("Roadway or Parking Lot");
         model.addAttribute("purposes", purposes);
-
+        
         ArrayList<String> obstacles = new ArrayList<String>();
         obstacles.add("Building");
         obstacles.add("Wall");
         obstacles.add("Hedgerow");
         obstacles.add("Other");
         model.addAttribute("obstacles", obstacles);
+
+        ArrayList<String> times = new ArrayList<String>();
+        for(int i = 0; i < 24; i++) {
+            times.add(i+":00");
+        }
+        model.addAttribute("times", times);
+
+        ArrayList<String> canopyTypes = new ArrayList<String>();
+        canopyTypes.add("No Canopy");
+        canopyTypes.add("Tree/Vegetation");
+        canopyTypes.add("Shade Sail");
+        canopyTypes.add("Pergola/Ramada");
+        canopyTypes.add("Other Solid Roof");
+        model.addAttribute("canopyTypes", canopyTypes);
+
+        ArrayList<String> nearestWaterTypes = new ArrayList<String>();
+        nearestWaterTypes.add("Swimming Pool");
+        nearestWaterTypes.add("Large river");
+        nearestWaterTypes.add("Small stream");
+        nearestWaterTypes.add("Lake/Pond");
+        nearestWaterTypes.add("Other (describe)");
+        model.addAttribute("nearestWaterTypes", nearestWaterTypes);
 
         return "new-site/globe-questionnaire";
     }
@@ -189,9 +216,13 @@ public class NewSiteController
     {
 
 
-
         // Set the session complete, as the site has been safely persisted.
         sessionStatus.setComplete();
+
+        // Persist the site and metadata
+        siteService.save(site);
+        metadata.setSiteID(site.getId());
+        siteMetadataService.save(metadata);
 
         // Redirect to the dashboard.
         return "redirect:/dashboard";

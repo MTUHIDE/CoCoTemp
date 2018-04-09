@@ -6,8 +6,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -30,8 +28,16 @@ public class SiteMetadata {
     private Time maximumNightTime;
     private Time minimumNightTime;
     private double slope;
+    private String canopyType;
+    private int slopeDirection;
+    private String nearestWater;
+    private int waterDistance;
+    private int waterDirection;
 
     private ArrayList<String> purpose;
+    private ArrayList<String> maxNightTime;
+    private ArrayList<String> minNightTime;
+
 
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -165,7 +171,61 @@ public class SiteMetadata {
         this.purpose = purpose;
     }
 
+    public ArrayList<String> getMaxNightTime() {
+        return maxNightTime;
+    }
 
+    public void setMaxNightTime(ArrayList<String> maxNightTime) {
+        this.maxNightTime = maxNightTime;
+    }
+
+    public ArrayList<String> getMinNightTime() {
+        return minNightTime;
+    }
+
+    public void setMinNightTime(ArrayList<String> minNightTime) {
+        this.minNightTime = minNightTime;
+    }
+
+    public String getCanopyType() {
+        return canopyType;
+    }
+
+    public void setCanopyType(String canopyType) {
+        this.canopyType = canopyType;
+    }
+
+    public int getSlopeDirection() {
+        return slopeDirection;
+    }
+
+    public void setSlopeDirection(int slopeDirection) {
+        this.slopeDirection = slopeDirection;
+    }
+
+    public String getNearestWater() {
+        return nearestWater;
+    }
+
+    public void setNearestWater(String nearestWater) {
+        this.nearestWater = nearestWater;
+    }
+
+    public int getWaterDistance() {
+        return waterDistance;
+    }
+
+    public void setWaterDistance(int waterDistance) {
+        this.waterDistance= waterDistance;
+    }
+
+    public int getWaterDirection() {
+        return waterDirection;
+    }
+
+    public void setWaterDirection(int waterDirection) {
+        this.waterDirection = waterDirection;
+    }
 }
 
 
