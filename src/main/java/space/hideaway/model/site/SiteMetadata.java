@@ -138,6 +138,7 @@ public class SiteMetadata {
 
     public void setAreaBeforeObstacle(double areaBeforeObstacle) {this.areaBeforeObstacle = areaBeforeObstacle;}
 
+    @Column(name = "purpose")
     public ArrayList<String> getPurpose() {
         return purpose;
     }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface SiteMetadataService
 {
     List<SiteMetadata> getAllSiteMetadata();
+
+    SiteMetadata save(SiteMetadata siteMetadata);
 }

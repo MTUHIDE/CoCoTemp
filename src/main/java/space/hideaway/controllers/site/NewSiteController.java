@@ -11,6 +11,7 @@ import space.hideaway.model.globe.Globe;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.repositories.GlobeRepository;
+import space.hideaway.services.site.SiteMetadataService;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
 
@@ -35,16 +36,19 @@ public class NewSiteController
     private final SiteValidator siteValidator;
     private final GlobeRepository globeRepository;
     private final SiteService siteService;
+    private final SiteMetadataService siteMetadataService;
 
     @Autowired
     public NewSiteController(
             SiteValidator siteValidator,
             SiteService siteService,
-            GlobeRepository globeRepository)
+            GlobeRepository globeRepository,
+            SiteMetadataService siteMetadataService)
     {
         this.globeRepository = globeRepository;
         this.siteValidator = siteValidator;
         this.siteService = siteService;
+        this.siteMetadataService = siteMetadataService;
     }
 
     /**
@@ -194,6 +198,11 @@ public class NewSiteController
 
         // Set the session complete, as the site has been safely persisted.
         sessionStatus.setComplete();
+
+        // Persist the site and metadata
+        siteService.save(site);
+        metadata.setSiteID(site.getId());
+        siteMetadataService.save(metadata);
 
         // Redirect to the dashboard.
         return "redirect:/dashboard";
