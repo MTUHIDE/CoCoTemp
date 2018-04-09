@@ -145,7 +145,7 @@ public class NewSiteController
         purposes.add("Bike or Walking Path");
         purposes.add("Roadway or Parking Lot");
         model.addAttribute("purposes", purposes);
-        
+
         ArrayList<String> obstacles = new ArrayList<String>();
         obstacles.add("Building");
         obstacles.add("Wall");
