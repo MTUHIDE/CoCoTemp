@@ -133,8 +133,9 @@
                         <input th:field="*{groundElevation}" type="number" required="required" width="100"/>
                     </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="q4">4. How enclosed is this site?</label>-->
+                    <div class="form-group">
+                        <label>4. If the sensor is on a porch or in a building what is the height of the sensor above the floor surface in meters?</label>
+                        <input th:field="*{floorElevation}" type="number" required="required" width="100"/>
                             <!--<form action="" id="q4" name="enclosedAnswer">-->
                                 <!--<input type="checkbox" value="outdoors/Unenclosed"-->
                                        <!--id="enclosedChoice1" name="q4"/>-->
@@ -148,18 +149,24 @@
                                 <!--<input type="number" id="percentage" name="sensorHeight"-->
                                        <!--width="100" min="0" max="100"/>-->
                             <!--</form>-->
-                    <!--</div>-->
+                    </div>
 
-                    <!--<form id="repeatQuestions" action="">-->
+                    <div class="form-group">
+                        <label>5. What is the percent enclosure of the site?</label><br/>
+                        <input th:field="*{percentEnclosed}" type="number" required="required" width="100" min="0" max="100"/>
+                    </div>
 
-                        <!--<form id="question5">-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="q5">5. If the sensor is outdoors, how far is the sensor from the nearest major-->
-                                <!--airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor's height)?</label>-->
-                                <!--<input type="number" id="q5" name="airObstacle"-->
-                                   <!--required="required" width="100"/>-->
-                            <!--</div>-->
-                        <!--</form>-->
+                    <div class="form-group">
+                        <label>6. If the sensor is outdoors, how far is the sensor from the nearest airflow obstacle
+                            (for example a wall, hedgerow,or building that is taller than the sensor's height)?</label>
+                        <input th:field="*{areaBeforeObstacle}" type="number" required="required" width="100"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>7. In what direction is the nearest obstacle located from the sensor
+                            (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)?</label><br/>
+                        <input th:field="*{obstacleDirection}" type="number" required="required" width="100" min="0" max="360"/>
+                    </div>
 
                     <!--<div class="form-group">-->
                         <!--<label for="q6">6. In what direction is the nearest obstacle located from the sensor-->
@@ -167,6 +174,22 @@
                         <!--<input type="number" id="q6" name="directionObstacle"-->
                                <!--required="required" width="100" min="0" max="359"/>-->
                     <!--</div>-->
+
+                    <div class="form-group">
+                        <label>8. What is the obstacle?</label>
+                        <div th:each="item : ${obstacles}">
+                            <input type="checkbox" th:field="*{obstacleType}" th:value="${item}" />
+                            <label th:text="${item}"></label>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label>9. Percentage of surface cover types (estimate the percentage in the area covered by each type,
+                            in area surrounding the sensor, before encountering obstacles)</label>
+                        <div th:each="item : ${}">
+                            <input type="checkbox" th:field="*{}" th:value="${item}"\>
+                        </div>
+                    </div>-->
 
                     <!--<div class="form-group">-->
                         <!--<label for="q7">7. What is the obstacle?.</label>-->

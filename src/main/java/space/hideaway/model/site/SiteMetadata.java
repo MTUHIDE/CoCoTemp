@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +24,8 @@ public class SiteMetadata {
     private double floorElevation;
     private double percentEnclosed;
     private double areaBeforeObstacle;
+    private double obstacleDirection;
+    private String obstacleType;
     private boolean isSunken;
     private Time maximumNightTime;
     private Time minimumNightTime;
@@ -100,6 +104,28 @@ public class SiteMetadata {
         this.floorElevation = floorElevation;
     }
 
+    @Column(name = "obstacle_direction")
+    public double getObstacleDirection()
+    {
+        return obstacleDirection;
+    }
+
+    public void setObstacleDirection(double obstacleDirection)
+    {
+        this.obstacleDirection = obstacleDirection;
+    }
+
+    @Column(name = "obstacle_type")
+    public String getObstacleType()
+    {
+        return obstacleType;
+    }
+
+    public void setObstacleType(String obstacleType)
+    {
+        this.obstacleType = obstacleType;
+    }
+
     @Column(name = "is_sunken")
     public boolean getIsSunken() {return  isSunken;}
 
@@ -130,6 +156,7 @@ public class SiteMetadata {
 
     public void setAreaBeforeObstacle(double areaBeforeObstacle) {this.areaBeforeObstacle = areaBeforeObstacle;}
 
+    @Column(name = "purpose")
     public ArrayList<String> getPurpose() {
         return purpose;
     }
@@ -137,6 +164,8 @@ public class SiteMetadata {
     public void setPurpose(ArrayList<String> purpose) {
         this.purpose = purpose;
     }
+
+
 }
 
 

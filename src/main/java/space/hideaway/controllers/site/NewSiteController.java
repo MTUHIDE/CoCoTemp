@@ -15,6 +15,8 @@ import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Edited by Justin Havely
@@ -126,7 +128,26 @@ public class NewSiteController
         purposes.add("Commercial Offices");
         purposes.add("Retail");
         purposes.add("Restaurant");
+        purposes.add("Industrial");
+        purposes.add("Construction Site");
+        purposes.add("School");
+        purposes.add("Single Family Residential");
+        purposes.add("Multi Family Residential");
+        purposes.add("Park or Greenbelt");
+        purposes.add("Sports Facility");
+        purposes.add("Recreational Pool");
+        purposes.add("Promenade or Plaza");
+        purposes.add("Bike or Walking Path");
+        purposes.add("Roadway or Parking Lot");
         model.addAttribute("purposes", purposes);
+
+        ArrayList<String> obstacles = new ArrayList<String>();
+        obstacles.add("Building");
+        obstacles.add("Wall");
+        obstacles.add("Hedgerow");
+        obstacles.add("Other");
+        model.addAttribute("obstacles", obstacles);
+
         return "new-site/globe-questionnaire";
     }
 
