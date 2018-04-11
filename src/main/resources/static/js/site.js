@@ -1,6 +1,6 @@
 $(function () {
 
-    var myMap;
+    /*var myMap;
 
     //Creates map object
     function createMap() {
@@ -11,7 +11,13 @@ $(function () {
             id: 'your.mapbox.project.id',
             accessToken: 'your.mapbox.public.access.token'
         }).addTo(myMap);
-    }
+    }*/
+
+    var myMap = createMap();
+    $('#basemaps').on('change', function() {
+        changeBasemap(myMap, this.value);
+    });
+    populateSites(myMap);
 
     function populateSite() {
         $.ajax({
