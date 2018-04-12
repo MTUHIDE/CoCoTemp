@@ -287,11 +287,13 @@ microclimateComparisonNameSpace = function () {
         table.appendChild(tr);
     }
 
-    function addSiteToSideBar() {
+    function createComparisonToolTable() {
         var sites = sitesOnPlot;
-        var test = $("#sitesOnPlot");
+        var comparisonToolDiv = $("#sitesOnPlot");
+
+        // No sites in comparison tool. Add relevant message
         if (sites.length === 0) {
-            test.html("<div><b>No sites added!</b> Add a site by selecting one through the map.</div>");
+            comparisonToolDiv.html("<div><b>No sites added!</b> Add a site by selecting one through the map.</div>");
         } else {
             var table = document.createElement('table');
             table.setAttribute('class', 'comparisonTable');
@@ -323,14 +325,25 @@ microclimateComparisonNameSpace = function () {
             addToSiteTable("Sky View Factor", "skyViewFactor", table, sites);
             addToSiteTable("Slope Of Site", "slope", table, sites);
 
-            test.html(table);
+            comparisonToolDiv.html(table);
         }
     }
 
-    return{
-        addSiteToSideBar:addSiteToSideBar
+    function addSiteToComparisonTool(newSite) {
+        sitesOnPlot.push(newSite);
+        createComparisonToolTable();
     }
-};
+
+    function removeSiteFromComparisonTool(siteId) {
+        sitesOnPlot = sitesOnPlot.filter(function (t) { return t[0] !== siteId; });
+        createComparisonToolTable();
+    }
+
+    return{
+        addSiteToComparisonTool:addSiteToComparisonTool,
+        removeSiteFromComparisonTool:removeSiteFromComparisonTool
+    }
+}();
 
 $(document).ready(function() {
 
@@ -533,13 +546,13 @@ $(document).ready(function() {
         rules: rules_basic
     });
 
-    $('#btn-reset').on('click', function() {
-        $('#builder-basic').queryBuilder('reset');
-        microclimateMapNameSpace.clearMapOfMarkers();
-        microclimateGraphNameSpace.removeAllTempData();
-        var chart = document.getElementById('temperature-chart');
-        Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
-    });
+    // $('#btn-reset').on('click', function() {
+    //     $('#builder-basic').queryBuilder('reset');
+    //     microclimateMapNameSpace.clearMapOfMarkers();
+    //     microclimateGraphNameSpace.removeAllTempData();
+    //     var chart = document.getElementById('temperature-chart');
+    //     Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+    // });
 
     $('#btn-get').on('click', function() {
         var result = $('#builder-basic').queryBuilder('getRules');
@@ -613,7 +626,8 @@ function markerClick(marker, popupText) {
 
         // Remove data from hash
         microclimateGraphNameSpace.removeTemperatureData(marker.options.options.siteID);
-        sitesOnPlot = sitesOnPlot.filter(function (t) { return t[0] !== marker.options.options.siteID; });
+
+        microclimateComparisonNameSpace.removeSiteFromComparisonTool(marker.options.options.siteID);
 
         // Replot graph
         var chart = document.getElementById('temperature-chart');
@@ -621,8 +635,6 @@ function markerClick(marker, popupText) {
 
         // Change text on popup
         popupText.text = "Add to Graph";
-
-        microclimateComparisonNameSpace.addSiteToSideBar();
 
         return;
     }
@@ -661,7 +673,8 @@ function markerClick(marker, popupText) {
 
             // Add temperature for site to saved hash
             microclimateGraphNameSpace.addTemperatureData(marker.options.options.siteID, collectedTemps);
-            sitesOnPlot.push([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
+
+            microclimateComparisonNameSpace.addSiteToComparisonTool([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
 
             var chart = document.getElementById('temperature-chart');
             Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
@@ -683,8 +696,6 @@ function markerClick(marker, popupText) {
 
             // Change text on popup
             popupText.text = "Remove from Graph";
-
-            microclimateComparisonNameSpace.addSiteToSideBar();
         }
     });
     $.ajax({

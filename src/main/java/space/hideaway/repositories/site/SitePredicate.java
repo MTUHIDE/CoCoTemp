@@ -2,7 +2,6 @@ package space.hideaway.repositories.site;
 
 
 import com.querydsl.core.types.dsl.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
 import space.hideaway.model.site.SiteMetadata;
