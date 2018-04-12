@@ -1,10 +1,8 @@
 package space.hideaway.repositories.site;
 
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.core.types.dsl.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
 import space.hideaway.model.site.SiteMetadata;
@@ -44,6 +42,15 @@ public class SitePredicate {
                     case "between":
                         return path.between(value1, value2);
                 }
+            }
+        }
+        else if (Boolean.parseBoolean(criteria.getValue().toString())) {
+            BooleanPath path = entityPath.getBoolean(criteria.getKey());
+            boolean value = Boolean.parseBoolean(criteria.getValue().toString());
+            if (criteria.getOperation().equals("equal")) {
+                return path.eq(value);
+            } else if (criteria.getOperation().equals("not_equal")) {
+                return path.ne(value);
             }
         }
         else {

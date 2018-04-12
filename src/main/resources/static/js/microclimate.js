@@ -85,6 +85,16 @@ microclimateMapNameSpace = function(){
         siteMarkers = [];
     }
 
+    function addMarkerToMainMap(marker) {
+        markersGroup.removeLayer(marker);
+        myMap.addLayer(marker);
+    }
+
+    function removeMarkerFromMainMap(marker) {
+        myMap.removeLayer(marker);
+        markersGroup.addLayer(marker);
+    }
+
     function resizeMap() {
         myMap.invalidateSize();
     }
@@ -95,7 +105,9 @@ microclimateMapNameSpace = function(){
         makeMarkerAvailable:makeMarkerAvailable,
         populateMapWithSites:populateMapWithSites,
         clearMapOfMarkers:clearMapOfMarkers,
-        resizeMap:resizeMap
+        resizeMap:resizeMap,
+        addMarkerToMainMap:addMarkerToMainMap,
+        removeMarkerFromMainMap:removeMarkerFromMainMap
     }
 }();
 
@@ -256,6 +268,70 @@ microclimateGraphNameSpace = function(){
     }
 }();
 
+microclimateComparisonNameSpace = function () {
+
+    var sitesOnPlot = [];
+
+    function addToSiteTable(label, id, table, sites) {
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        var text = document.createTextNode(label);
+        td.appendChild(text);
+        tr.appendChild(td);
+        for(var i = 0; i < sites.length; i++) {
+            var td = document.createElement('td');
+            var text = document.createTextNode(sites[i][2][id]);
+            td.appendChild(text);
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+    }
+
+    function addSiteToSideBar() {
+        var sites = sitesOnPlot;
+        var test = $("#sitesOnPlot");
+        if (sites.length === 0) {
+            test.html("<div><b>No sites added!</b> Add a site by selecting one through the map.</div>");
+        } else {
+            var table = document.createElement('table');
+            table.setAttribute('class', 'comparisonTable');
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            var text = document.createTextNode("Sites On Plot");
+            td.appendChild(text);
+            td.style.fontSize = "16px";
+            tr.appendChild(td);
+            for(var i = 0; i < sites.length; i++) {
+                var td = document.createElement('td');
+                var text = document.createTextNode(sites[i][1]);
+                td.appendChild(text);
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+
+            addToSiteTable("Area Around Sensor", "areaAroundSensor", table, sites);
+            // addToSiteTable("Canopy Type", "canopyType", table, sites);
+            addToSiteTable("Distance To Water", "distanceToWater", table, sites);
+            addToSiteTable("Environment", "environment", table, sites);
+            addToSiteTable("Height Above Floor", "heightAboveFloor", table, sites);
+            addToSiteTable("Height Above Ground", "heightAboveGround", table, sites);
+            addToSiteTable("Percent Enclosed", "enclosurePercentage", table, sites);
+            addToSiteTable("Nearest Airflow Obstacle", "nearestAirflowObstacle", table, sites);
+            addToSiteTable("Nearest Obstacle In Degrees", "nearestObstacleDegrees", table, sites);
+            addToSiteTable("Riparian Area", "riparianArea", table, sites);
+            // addToSiteTable("Site Purpose", "purpose", table, sites);
+            addToSiteTable("Sky View Factor", "skyViewFactor", table, sites);
+            addToSiteTable("Slope Of Site", "slope", table, sites);
+
+            test.html(table);
+        }
+    }
+
+    return{
+        addSiteToSideBar:addSiteToSideBar
+    }
+};
+
 $(document).ready(function() {
 
     microclimateMapNameSpace.init();
@@ -396,8 +472,8 @@ $(document).ready(function() {
             type: 'integer',
             input: 'radio',
             values: {
-                1: 'Yes',
-                0: 'No'
+                true: 'Yes',
+                false: 'No'
             },
             description: 'Is the sensor located in a depression or riparian area where water can collect?',
             operators: ['equal']
@@ -520,64 +596,6 @@ $(document).ready(function() {
 
 });
 
-function addToSiteTable(label, id, table, sites) {
-    var tr = document.createElement('tr');
-    var td = document.createElement('td');
-    var text = document.createTextNode(label);
-    td.appendChild(text);
-    tr.appendChild(td);
-    for(var i = 0; i < sites.length; i++) {
-        var td = document.createElement('td');
-        var text = document.createTextNode(sites[i][2][id]);
-        td.appendChild(text);
-        tr.appendChild(td);
-    }
-    table.appendChild(tr);
-}
-
-var sitesOnPlot = [];
-
-function addSiteToSideBar() {
-    var sites = sitesOnPlot;
-    var test = $("#sitesOnPlot");
-    if (sites.length === 0) {
-        test.html("<div><b>No sites added!</b> Add a site by selecting one through the map.</div>");
-    } else {
-        var table = document.createElement('table');
-        table.setAttribute('class', 'comparisonTable');
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        var text = document.createTextNode("Sites On Plot");
-        td.appendChild(text);
-        td.style.fontSize = "16px";
-        tr.appendChild(td);
-        for(var i = 0; i < sites.length; i++) {
-            var td = document.createElement('td');
-            var text = document.createTextNode(sites[i][1]);
-            td.appendChild(text);
-            tr.appendChild(td);
-        }
-        table.appendChild(tr);
-
-        addToSiteTable("Area Around Sensor", "areaAroundSensor", table, sites);
-        // addToSiteTable("Canopy Type", "canopyType", table, sites);
-        addToSiteTable("Distance To Water", "distanceToWater", table, sites);
-        addToSiteTable("Environment", "environment", table, sites);
-        addToSiteTable("Height Above Floor", "heightAboveFloor", table, sites);
-        addToSiteTable("Height Above Ground", "heightAboveGround", table, sites);
-        addToSiteTable("Percent Enclosed", "enclosurePercentage", table, sites);
-        addToSiteTable("Nearest Airflow Obstacle", "nearestAirflowObstacle", table, sites);
-        addToSiteTable("Nearest Obstacle In Degrees", "nearestObstacleDegrees", table, sites);
-        addToSiteTable("Riparian Area", "riparianArea", table, sites);
-        // addToSiteTable("Site Purpose", "purpose", table, sites);
-        addToSiteTable("Sky View Factor", "skyViewFactor", table, sites);
-        addToSiteTable("Slope Of Site", "slope", table, sites);
-
-        test.html(table);
-    }
-}
-
-
 
 /*
  * Action upon click of map marker. Adds and removes data/line to line chart.
@@ -591,6 +609,7 @@ function markerClick(marker, popupText) {
         microclimateMapNameSpace.makeMarkerAvailable(marker.options.options.color);
         marker.setIcon(new L.Icon.Default() );
         marker.options.options.onChart = false;
+        microclimateMapNameSpace.removeMarkerFromMainMap(marker);
 
         // Remove data from hash
         microclimateGraphNameSpace.removeTemperatureData(marker.options.options.siteID);
@@ -603,7 +622,7 @@ function markerClick(marker, popupText) {
         // Change text on popup
         popupText.text = "Add to Graph";
 
-        addSiteToSideBar();
+        microclimateComparisonNameSpace.addSiteToSideBar();
 
         return;
     }
@@ -659,11 +678,13 @@ function markerClick(marker, popupText) {
             marker.options.options.onChart = true;
             iconMarker[2] = 1;
             marker.setIcon(customIcon);
+            microclimateMapNameSpace.addMarkerToMainMap(marker);
+
 
             // Change text on popup
             popupText.text = "Remove from Graph";
 
-            addSiteToSideBar();
+            microclimateComparisonNameSpace.addSiteToSideBar();
         }
     });
     $.ajax({
