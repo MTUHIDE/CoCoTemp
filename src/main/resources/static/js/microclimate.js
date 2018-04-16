@@ -350,6 +350,16 @@ $(document).ready(function() {
     microclimateMapNameSpace.init();
     microclimateGraphNameSpace.init();
 
+    // Remove map popup when sites added
+    var removeMapPopup = function() {
+        var result = $('#builder-basic').queryBuilder('getRules');
+        if (!$.isEmptyObject(result)) {
+            $("#map-popup").remove();
+            $("#map-mask").remove();
+        }
+    };
+    $("#btn-get").on( "click", removeMapPopup);
+
     // Expand/close side menu
     $("#sidemenu-popup-bar").on('click', function(event) {
         $("#filter-menu").toggleClass("collapsed");
@@ -359,6 +369,8 @@ $(document).ready(function() {
         $("#content").toggleClass("content-flat content-expand");
         microclimateMapNameSpace.resizeMap();
         $( window ).resize();
+        var chart = document.getElementById('temperature-chart');
+        Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
     });
 
     // Query builder
@@ -558,6 +570,7 @@ $(document).ready(function() {
         var result = $('#builder-basic').queryBuilder('getRules');
 
         if (!$.isEmptyObject(result)) {
+            $('#btn-get').off("click", removeMapPopup);
             $.ajax({
                 method: 'post',
                 url: "/cocotemp/sitefilter.json",

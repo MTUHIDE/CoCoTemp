@@ -153,4 +153,21 @@ button[data-add="group"] {
 #builder-basic label {
   color: black; }
 
+#map-mask {
+  background: rgba(0, 0, 0, 0.55);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 401; }
+
+#map-popup {
+  color: dimgray;
+  text-align: center;
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  top: 35%;
+  background-color: #f7f7f7;
+  z-index: 402; }
+
 /*# sourceMappingURL=microclimate.css.map */
