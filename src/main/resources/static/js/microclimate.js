@@ -368,8 +368,8 @@ $(document).ready(function() {
         $("#filter-menu").toggle();
         $("#content").toggleClass("content-flat content-expand");
         microclimateMapNameSpace.resizeMap();
-        $( window ).resize();
         var chart = document.getElementById('temperature-chart');
+        var test = microclimateGraphNameSpace.getLayout();
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
     });
 
@@ -380,7 +380,6 @@ $(document).ready(function() {
             id: '-1'
         }]
     };
-
     $('#builder-basic').queryBuilder({
         allow_empty: true,
         lang: {
@@ -434,7 +433,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'What is the height of the sensor above the ground surface (NOT the floor)?'
+            description: 'What is the height of the sensor above the ground surface (NOT the floor)?',
+            data: "meters"
         }, {
             id: 'heightAboveFloor',
             label: 'Height Above Floor Surface',
@@ -445,7 +445,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'If the sensor is on a porch or in a building, what is the height of the sensor above the floor surface?'
+            description: 'If the sensor is on a porch or in a building, what is the height of the sensor above the floor surface?',
+            data: "meters"
         }, {
             id: 'enclosurePercentage',
             label: 'Percent Enclosed',
@@ -456,7 +457,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'What is the percentage this sites is enclosed? (ie Indoors/full-enclosed=100%)'
+            description: 'What is the percentage this sites is enclosed? (ie Indoors/full-enclosed=100%)',
+            data: "%"
         }, {
             id: 'nearestAirflowObstacle',
             label: 'Nearest Airflow Obstacle',
@@ -467,7 +469,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'If the sensor is outdoors, how far is the sensor from the nearest major airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor’s height)?'
+            description: 'If the sensor is outdoors, how far is the sensor from the nearest major airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor’s height)?',
+            data: "meters"
         }, {
             id: 'nearestObstacleDegrees',
             label: 'Nearest Obstacle In Degrees',
@@ -478,7 +481,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'In what direction is the nearest obstacle located, from the sensor? (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)'
+            description: 'In what direction is the nearest obstacle located, from the sensor? (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)',
+            data: "°"
         }, {
             id: 'areaAroundSensor',
             label: 'Flat Area Around Sensor',
@@ -490,7 +494,8 @@ $(document).ready(function() {
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'Roughly how large/wide is the area in which the sensor is located, before walls or\n' +
-            'obstacles are encountered? (meters)'
+            'obstacles are encountered? (meters)',
+            data: "°"
         }, {
             id: 'riparianArea',
             label: 'Located in Riparian Area',
@@ -538,7 +543,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'What is the slope % on this site, measured as the ratio of rise over run (for example one meter of rise in fifteen meters of run is 6.7%)'
+            description: 'What is the slope % on this site, measured as the ratio of rise over run (for example one meter of rise in fifteen meters of run is 6.7%)',
+            data: "%"
         }, {
             id: 'skyViewFactor',
             label: 'Sky View Factor',
@@ -549,7 +555,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, for example 75%)'
+            description: 'If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, for example 75%)',
+            data: "%"
         }
 
 
@@ -557,14 +564,22 @@ $(document).ready(function() {
 
         rules: rules_basic
     });
+    $('#builder-basic').on('afterUpdateRuleFilter.queryBuilder', function(e, rule) {
+        rule.$el.children("label").remove();
+        if (rule.filter.data != null) {
+            var label = $("<label>").text(rule.filter.data);
+            label.addClass("unit-label");
+            rule.$el.append(label);
+        }
+    });
 
-    // $('#btn-reset').on('click', function() {
-    //     $('#builder-basic').queryBuilder('reset');
-    //     microclimateMapNameSpace.clearMapOfMarkers();
-    //     microclimateGraphNameSpace.removeAllTempData();
-    //     var chart = document.getElementById('temperature-chart');
-    //     Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
-    // });
+    $('#btn-reset').on('click', function() {
+        $('#builder-basic').queryBuilder('reset');
+        // microclimateMapNameSpace.clearMapOfMarkers();
+        // microclimateGraphNameSpace.removeAllTempData();
+        // var chart = document.getElementById('temperature-chart');
+        // Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+    });
 
     $('#btn-get').on('click', function() {
         var result = $('#builder-basic').queryBuilder('getRules');

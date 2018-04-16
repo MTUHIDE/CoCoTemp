@@ -78,16 +78,13 @@
 #filter-menu {
   width: 400px;
   float: left;
-  padding-right: 10px;
-  color: white; }
+  padding-right: 10px; }
   #filter-menu form {
     margin-top: 10px;
     margin-bottom: 10px; }
   #filter-menu input {
     color: black; }
     #filter-menu input[type=text] {
-      width: 150px; }
-    #filter-menu input[type=number] {
       width: 150px; }
     #filter-menu input[type=checkbox] {
       width: 25px; }
@@ -117,41 +114,37 @@ button[data-add="group"] {
   padding-top: 10px;
   padding-bottom: 10px; }
 
-#graph-filters table {
-  font-size: 14px;
-  width: 100%;
-  color: white;
-  word-wrap: break-word; }
-  #graph-filters table td {
-    padding: 4px; }
-
-#graph-filters .comparisonTable tr:nth-child(1) {
-  font-weight: bold;
-  border-bottom: thin solid #95a5a6; }
-
-#graph-filters .comparisonTable tr:nth-child(2n+1) {
-  background: #0A5175; }
-
-#graph-filters .comparisonTable tr:nth-child(2n) {
-  background: #00416A; }
-
-#graph-filters .comparisonTable td {
-  text-align: center;
-  text-transform: capitalize; }
-  #graph-filters .comparisonTable td:nth-child(1) {
-    text-align: left;
-    font-weight: bold;
+#graph-filters {
+  color: white; }
+  #graph-filters input {
+    width: 150px; }
+  #graph-filters table {
+    font-size: 14px;
+    width: 100%;
     color: white;
-    width: 40%; }
-  #graph-filters .comparisonTable td:nth-child(2n) {
-    border-left: thin solid #95a5a6;
-    border-right: thin solid #95a5a6; }
-
-#graph-filters label {
-  font-size: 16px; }
-
-#builder-basic label {
-  color: black; }
+    word-wrap: break-word; }
+    #graph-filters table td {
+      padding: 4px; }
+  #graph-filters .comparisonTable tr:nth-child(1) {
+    font-weight: bold;
+    border-bottom: thin solid #95a5a6; }
+  #graph-filters .comparisonTable tr:nth-child(2n+1) {
+    background: #0A5175; }
+  #graph-filters .comparisonTable tr:nth-child(2n) {
+    background: #00416A; }
+  #graph-filters .comparisonTable td {
+    text-align: center;
+    text-transform: capitalize; }
+    #graph-filters .comparisonTable td:nth-child(1) {
+      text-align: left;
+      font-weight: bold;
+      color: white;
+      width: 40%; }
+    #graph-filters .comparisonTable td:nth-child(2n) {
+      border-left: thin solid #95a5a6;
+      border-right: thin solid #95a5a6; }
+  #graph-filters label {
+    font-size: 16px; }
 
 #map-mask {
   background: rgba(0, 0, 0, 0.55);
@@ -169,5 +162,12 @@ button[data-add="group"] {
   top: 35%;
   background-color: #f7f7f7;
   z-index: 402; }
+
+.unit-label {
+  font-weight: normal;
+  color: black; }
+
+#map-filters input[type=number] {
+  width: 75px; }
 
 /*# sourceMappingURL=microclimate.css.map */

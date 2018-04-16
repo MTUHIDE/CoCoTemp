@@ -69,7 +69,7 @@
   width: 400px
   float: left
   padding-right: 10px
-  color: white
+  //color: white
   form
     margin-top: 10px
     margin-bottom: 10px
@@ -77,8 +77,8 @@
     color: black
     &[type=text]
       width: 150px
-    &[type=number]
-      width: 150px
+    //&[type=number]
+    //  width: 75px
     &[type=checkbox]
       width: 25px
     &[type=radio]
@@ -118,6 +118,9 @@ button[data-add="group"]
   padding-bottom: 10px
 
 #graph-filters
+  color: white
+  input
+    width: 150px
   table
     font-size: 14px
     width: 100%
@@ -148,9 +151,9 @@ button[data-add="group"]
   label
     font-size: 16px
 
-#builder-basic
-  label
-    color: black
+//#builder-basic
+//  label
+//    color: black
 
 #map-mask
   background: rgba(0, 0, 0, 0.55)
@@ -177,3 +180,12 @@ button[data-add="group"]
   //border-radius: 10px
   //-khtml-border-radius: 10px
   z-index: 402
+
+.unit-label
+  font-weight: normal
+  color: black
+
+#map-filters
+  input
+    &[type=number]
+      width: 75px
