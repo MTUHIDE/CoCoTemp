@@ -606,6 +606,14 @@ $(document).ready(function() {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(result),
                 success: function (z) {
+                    // Notify user if there are no sites with given filters
+                    if(z.length <= 0) {
+                        toastr.options = {
+                            "closeButton": true,
+                            "positionClass": "toast-top-center"
+                        };
+                        toastr.info("No sites found with the given filter(s)");
+                    }
                     microclimateMapNameSpace.populateMapWithSites(z);
                 }
             });
