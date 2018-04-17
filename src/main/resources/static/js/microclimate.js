@@ -368,9 +368,13 @@ $(document).ready(function() {
         $("#filter-menu").toggle();
         $("#content").toggleClass("content-flat content-expand");
         microclimateMapNameSpace.resizeMap();
+
+        // Replot graph
         var chart = document.getElementById('temperature-chart');
-        var test = microclimateGraphNameSpace.getLayout();
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+        window.onresize = function() {
+            Plotly.Plots.resize(gd);
+        };
     });
 
     // Query builder
@@ -615,11 +619,17 @@ $(document).ready(function() {
     $("#thresholdTags").on('itemAdded', function(event) {
         microclimateGraphNameSpace.addThresholdsToGraph({thresholdValue:event.item.value, thresholdName:event.item.text});
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+        window.onresize = function() {
+            Plotly.Plots.resize(gd);
+        };
     });
     // When threshold value removed, replot graph without threshold
     $("#thresholdTags").on('itemRemoved', function(event) {
         microclimateGraphNameSpace.removeThresholdFromGraph(event.item.value);
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+        window.onresize = function() {
+            Plotly.Plots.resize(gd);
+        };
     });
     $("#addThresholdButton").on('click', function (event) {
         var thresholdTemp = $("#thresholdInput").val();
@@ -660,6 +670,9 @@ function markerClick(marker, popupText) {
         // Replot graph
         var chart = document.getElementById('temperature-chart');
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+        window.onresize = function() {
+            Plotly.Plots.resize(chart);
+        };
 
         // Change text on popup
         popupText.text = "Add to Graph";
@@ -704,8 +717,12 @@ function markerClick(marker, popupText) {
 
             microclimateComparisonNameSpace.addSiteToComparisonTool([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
 
+            // Replot graph
             var chart = document.getElementById('temperature-chart');
             Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+            window.onresize = function() {
+                Plotly.Plots.resize(chart);
+            };
 
             // Create custom icon with its own color
             var customIcon = new L.Icon({
