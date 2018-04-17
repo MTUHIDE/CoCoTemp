@@ -17,6 +17,7 @@ microclimateMapNameSpace = function(){
         myMap = createMap();
         $('#basemaps').on('change', function() {
             changeBasemap(myMap, this.value);
+            markersGroup.addTo(myMap);
         });
         markersGroup = new L.MarkerClusterGroup({
             maxClusterRadius: function(zoom) { return 50; }
@@ -60,10 +61,18 @@ microclimateMapNameSpace = function(){
         });
 
         for(var i = 0; i < sites.length; i++) {
+
             var site = sites[i][0];
+
+            //Don't readd sites already on graph and map
+            var sitesOnGraph = microclimateGraphNameSpace.getSitesOnGraph();
+            if(sitesOnGraph.indexOf(site.id) >= 0) {
+                continue;
+            }
             var metadata = sites[i][1];
             var point = L.latLng([site.siteLatitude, site.siteLongitude]);
             var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false, metadata: metadata} });
+
             // Create container with site details and ability to add site data to graph
             var container = $('<div />');
             container.html('<a href="site/' + site.id + '" target="_blank">View Site: ' + site.siteName + '</a><br/>');
@@ -72,6 +81,7 @@ microclimateMapNameSpace = function(){
                 $('.nav-tabs a[href="#graph-filters"]').tab("show");
             })[0];
             container.append(link);
+
             // Insert the container into the popup
             myMarker.bindPopup(container[0]);
             markersGroup.addLayer(myMarker);
@@ -264,7 +274,7 @@ microclimateGraphNameSpace = function(){
         getTemperatureData:getTemperatureData,
         addTemperatureData:addTemperatureData,
         removeTemperatureData:removeTemperatureData,
-        removeAllTempData:removeAllTempData
+        getSitesOnGraph:getSitesOnGraph
     }
 }();
 
@@ -741,13 +751,6 @@ function markerClick(marker, popupText) {
 
             // Change text on popup
             popupText.text = "Remove from Graph";
-        }
-    });
-    $.ajax({
-        method: 'get',
-        url: "/cocotemp/site/" + marker.options.options.siteID + "/temperature.json",
-        success: function (z) {
-
         }
     });
 }
