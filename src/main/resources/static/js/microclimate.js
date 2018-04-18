@@ -383,7 +383,7 @@ $(document).ready(function() {
         var chart = document.getElementById('temperature-chart');
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
         window.onresize = function() {
-            Plotly.Plots.resize(gd);
+            Plotly.Plots.resize(chart);
         };
     });
 
@@ -647,7 +647,7 @@ $(document).ready(function() {
         microclimateGraphNameSpace.addThresholdsToGraph({thresholdValue:event.item.value, thresholdName:event.item.text});
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
         window.onresize = function() {
-            Plotly.Plots.resize(gd);
+            Plotly.Plots.resize(chart);
         };
     });
     // When threshold value removed, replot graph without threshold
@@ -655,7 +655,7 @@ $(document).ready(function() {
         microclimateGraphNameSpace.removeThresholdFromGraph(event.item.value);
         Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
         window.onresize = function() {
-            Plotly.Plots.resize(gd);
+            Plotly.Plots.resize(chart);
         };
     });
     $("#addThresholdButton").on('click', function (event) {
