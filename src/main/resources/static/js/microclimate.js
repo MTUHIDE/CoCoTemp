@@ -387,6 +387,15 @@ $(document).ready(function() {
         };
     });
 
+    // Show tutorial on click
+    $("#tutorial-link").on('click', function (event) {
+        if ($("#filter-menu").hasClass("collapsed")) {
+            $("#sidemenu-popup-bar").trigger("click");
+        }
+        // var test = $('#help-tab-link a[href="#help-tab"]');
+        $('#help-tab-link').tab('show');
+    });
+
     // Query builder
     var rules_basic = {
         condition: 'AND',

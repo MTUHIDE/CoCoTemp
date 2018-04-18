@@ -170,4 +170,14 @@ button[data-add="group"] {
 #map-filters input[type=number] {
   width: 75px; }
 
+#help-tab {
+  color: white; }
+  #help-tab .icon {
+    width: 35px;
+    padding: 5px; }
+  #help-tab .instruction-step {
+    font-size: 12px; }
+  #help-tab a {
+    color: #05ccff; }
+
 /*# sourceMappingURL=microclimate.css.map */
