@@ -30,13 +30,6 @@
 #row-main {
   overflow-x: hidden; }
 
-#sidebar {
-  transition: margin 0.3s ease; }
-
-.location-container .col-sm-4 {
-  padding-right: 5px;
-  padding-left: 0px; }
-
 .map-container {
   height: 400px;
   position: relative; }
@@ -52,10 +45,13 @@
   padding: 10px; }
 
 /* Right side menu */
+#sidebar {
+  transition: margin 0.3s ease; }
+
 #sidemenu-popup {
   position: absolute;
   right: 0px;
-  z-index: 3000;
+  z-index: 1001;
   height: 100%;
   background-color: #0A5175; }
 
@@ -77,16 +73,25 @@
   width: 50px; }
 
 .side-menu-expand {
-  width: 300px; }
+  width: 455px; }
 
 #filter-menu {
-  width: 250px;
+  width: 400px;
   float: left;
-  border-bottom: 1px solid white;
-  border-top: 1px solid white;
-  padding: 10px; }
-  #filter-menu label {
-    color: white; }
+  padding-right: 10px; }
+  #filter-menu form {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  #filter-menu input {
+    color: black; }
+    #filter-menu input[type=text] {
+      width: 150px; }
+    #filter-menu input[type=checkbox] {
+      width: 25px; }
+    #filter-menu input[type=radio] {
+      width: auto; }
+  #filter-menu button {
+    color: black; }
 
 .bootstrap-tagsinput {
   border: none;
@@ -100,6 +105,79 @@
   margin-right: 50px; }
 
 .content-expand {
-  margin-right: 300px; }
+  margin-right: 455px; }
+
+button[data-add="group"] {
+  display: none; }
+
+#microClimateInstructions {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+#graph-filters {
+  color: white; }
+  #graph-filters input {
+    width: 150px; }
+  #graph-filters table {
+    font-size: 14px;
+    width: 100%;
+    color: white;
+    word-wrap: break-word; }
+    #graph-filters table td {
+      padding: 4px; }
+  #graph-filters .comparisonTable tr:nth-child(1) {
+    font-weight: bold;
+    border-bottom: thin solid #95a5a6; }
+  #graph-filters .comparisonTable tr:nth-child(2n+1) {
+    background: #0A5175; }
+  #graph-filters .comparisonTable tr:nth-child(2n) {
+    background: #00416A; }
+  #graph-filters .comparisonTable td {
+    text-align: center;
+    text-transform: capitalize; }
+    #graph-filters .comparisonTable td:nth-child(1) {
+      text-align: left;
+      font-weight: bold;
+      color: white;
+      width: 40%; }
+    #graph-filters .comparisonTable td:nth-child(2n) {
+      border-left: thin solid #95a5a6;
+      border-right: thin solid #95a5a6; }
+  #graph-filters label {
+    font-size: 16px; }
+
+#map-mask {
+  background: rgba(0, 0, 0, 0.55);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 401; }
+
+#map-popup {
+  color: dimgray;
+  text-align: center;
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  top: 35%;
+  background-color: #f7f7f7;
+  z-index: 402; }
+
+.unit-label {
+  font-weight: normal;
+  color: black; }
+
+#map-filters input[type=number] {
+  width: 75px; }
+
+#help-tab {
+  color: white; }
+  #help-tab .icon {
+    width: 35px;
+    padding: 5px; }
+  #help-tab .instruction-step {
+    font-size: 12px; }
+  #help-tab a {
+    color: #05ccff; }
 
 /*# sourceMappingURL=microclimate.css.map */

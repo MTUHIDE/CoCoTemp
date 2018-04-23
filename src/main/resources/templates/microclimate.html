@@ -2,37 +2,86 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Site</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
-    <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="icon" type="image/png" href="/cocotemp/images/CoCoIcon.png"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.4.5/dist/css/query-builder.default.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/microclimate.css}"/>
-
+    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="row">
 
     <!--Sidebar Partial-->
-    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='microclimate')"></div>
 
     <!-- Filter sidebar -->
-    <div class="side-menu-flat" id="sidemenu-popup">
-        <div class="text-center glyphicon glyphicon-menu-left" id="sidemenu-popup-bar" onclick="expandFilterSideMenu()">
+    <div class="side-menu-expand" id="sidemenu-popup">
+        <div class="text-center glyphicon glyphicon-menu-right" id="sidemenu-popup-bar">
             <p>Filters</p>
         </div>
         <div id="filter-menu" class="filter-form-container">
-            <form class="threshold-form">
-                <label for="thresholdInput">Comparision Line: </label>
-                <input type="number" id="thresholdInput" name="thresholdInput" />
-                <button type="button" onclick="addThreshold()">Add</button>
-                <input type="text" id="thresholdTags" value="0,35,56" data-role="tagsinput" />
-            </form>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#map-filters"><span class="glyphicon glyphicon-globe"></span></a></li>
+                <li><a data-toggle="tab" href="#graph-filters"><span class="glyphicon glyphicon-stats"></span></a></li>
+                <li><a data-toggle="tab" href="#help-tab" id="help-tab-link"><span class="glyphicon glyphicon-question-sign"></span></a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="map-filters" class="tab-pane fade in active">
+                    <div>
+                        <img th:src="@{/images/MCI.png}" id="microClimateInstructions" />
+                    </div>
+                    <div id="builder-basic" class="query-builder form-inline"></div>
+                    <div class="btn-group">
+                        <button id="btn-reset" class="btn btn-warning reset" data-target="basic">Reset</button>
+                        <button id="btn-get" class="btn btn-success" data-target="basic">Get Sites</button>
+                    </div>
+
+                </div>
+                <div id="graph-filters" class="tab-pane fade">
+                    <form class="threshold-form">
+
+                        <label>Add Comparison Line to Graph:</label> <br/>
+
+                        <table>
+                            <tr>
+                                <td>Label:</td>
+                                <td><input type="text" id="thresholdLabel" name="thresholdLabel" /></td>
+                            </tr>
+                            <tr>
+                                <td>Temperature &#8451;:</td>
+                                <td><input type="number" id="thresholdInput" name="thresholdInput" /></td>
+                            </tr>
+                            <!--<tr>-->
+                                <!--<td>Line Color:</td>-->
+                                <!--<td><input type="color" id="thresholdColor" name="thresholdColor" /></td>-->
+                            <!--</tr>-->
+                        </table>
+                        <button type="button" id="addThresholdButton">Add</button>
+                        <input type="text" id="thresholdTags" />
+                    </form>
+
+                    <div id="sitesOnPlot">
+                        <div><b>No sites added!</b> Add a site by selecting one through the map.</div>
+                    </div>
+                </div>
+                <div id="help-tab" class="tab-pane fade">
+                    <h3>Getting Started:</h3>
+                    <p>This tool can be used to compare air temperatures of different sites throughout the world.
+                        Each site has some metadata associated with it describing the local environment and conditions of that site.
+                        This metadata is searchable and this tool allows you to find and compare sites based on
+                        associated metadata. To begin follow the steps below:
+                    </p>
+                    <p class="instruction-step"><span><img th:src="@{/images/icons8-filter-50.png}" class="icon"/></span>1. Add filters based on the sites and metadata you are looking for</p>
+                    <p class="instruction-step"><span><img th:src="@{/images/icons8-map-marker-48.png}" class="icon"/></span>2. Click on the "Get Sites" button to add these sites to the map</p>
+                    <p class="instruction-step"><span><img th:src="@{/images/icons8-combo-chart-filled-50.png}" class="icon"/></span>3. Select sites on map to view site details or add to graph and view information about site</p>
+                    <a th:href="@{/images/tutorial.gif}" target="_blank">Watch quick demonstration</a>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -47,25 +96,24 @@
             </div>
             
             <div class="row">
-                <div class="container">
-                    <div class="row" id="row-main">
-                        <div id="content" class="content-flat">
-                            <div class="map-container">
-                                <div id="map"></div>
-                                <div id="basemaps-wrapper" class="leaflet-bar">
-                                    <select name="basemaps" id="basemaps">
-                                        <option value="Streets">Streets</option>
-                                        <option value="Imagery">Satellite</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div id="temperature-chart"></div>
+                <div id="content" class="content-expand">
+                    <div class="map-container">
+                        <div id="map-popup">
+                            <div>
+                                <h3>There are no sites added to map</h3>
+                                <p>You can use the tool to the right to add sites or look at the <a href="#" id="tutorial-link">tutorial</a> to learn more</p>
                             </div>
                         </div>
-
+                        <div id="map-mask" />
+                        <div id="map"></div>
+                        <div id="basemaps-wrapper" class="leaflet-bar">
+                            <select name="basemaps" id="basemaps">
+                                <option value="Streets">Streets</option>
+                                <option value="Imagery">Satellite</option>
+                            </select>
+                        </div>
                     </div>
+                    <div id="temperature-chart"></div>
                 </div>
             </div>
         </div>
@@ -73,19 +121,17 @@
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="//code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS9L2mnxDj3_mnkl8nnU_-Gd3kMBmRyYM&amp;libraries=places"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
         integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
         crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.4.5/dist/js/query-builder.standalone.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!--<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
 <script th:src="@{/js/map.js}"></script>
 <script th:src="@{/js/microclimate.js}"></script>
 

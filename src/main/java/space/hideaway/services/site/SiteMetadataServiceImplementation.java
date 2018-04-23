@@ -30,4 +30,5 @@ public class SiteMetadataServiceImplementation implements SiteMetadataService {
         siteMetadataRepository.save(newSiteMetadata);
         return newSiteMetadata;
     }
+
 }
