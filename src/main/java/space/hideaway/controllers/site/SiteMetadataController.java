@@ -50,10 +50,9 @@ public class SiteMetadataController {
             }
         }
 
-
         List list = new ArrayList();
-        Iterable<SiteMetadata> t = siteMetadataRepository.findAll(builder.build());
-        for (SiteMetadata item : t) {
+        Iterable<SiteMetadata> metadata = siteMetadataRepository.findAll(builder.build(jsonObj.get("condition").toString()));
+        for (SiteMetadata item : metadata) {
             Object[] pair = new Object[2];
             pair[0] = item.getSite();
             pair[1] = item;

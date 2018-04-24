@@ -55,9 +55,9 @@ public class SitePredicate {
         else {
             StringPath path = entityPath.getString(criteria.getKey());
             if (criteria.getOperation().equalsIgnoreCase("equal")) {
-                return path.equalsIgnoreCase(criteria.getValue().toString());
+                return path.containsIgnoreCase(criteria.getValue().toString());
             } else if (criteria.getOperation().equalsIgnoreCase("not_equal")) {
-                return path.notEqualsIgnoreCase(criteria.getValue().toString());
+                return path.containsIgnoreCase(criteria.getValue().toString()).not();
             }
         }
         return null;

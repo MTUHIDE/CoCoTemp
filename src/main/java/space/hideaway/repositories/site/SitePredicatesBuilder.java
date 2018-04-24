@@ -19,7 +19,7 @@ public class SitePredicatesBuilder {
         return this;
     }
 
-    public BooleanExpression build() {
+    public BooleanExpression build(String type) {
         if (params.size() == 0) {
             return null;
         }
@@ -36,7 +36,12 @@ public class SitePredicatesBuilder {
 
         BooleanExpression result = predicates.get(0);
         for (int i = 1; i < predicates.size(); i++) {
-            result = result.and(predicates.get(i));
+            if (type.equals("OR")) {
+                result = result.or(predicates.get(i));
+            } else {
+                result = result.and(predicates.get(i));
+            }
+
         }
         return result;
     }
