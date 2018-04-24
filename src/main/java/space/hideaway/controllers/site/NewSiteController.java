@@ -7,18 +7,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import space.hideaway.model.globe.Globe;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
-import space.hideaway.repositories.GlobeRepository;
 import space.hideaway.services.site.SiteMetadataService;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
-
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Edited by Justin Havely
@@ -36,7 +30,6 @@ public class NewSiteController
 {
 
     private final SiteValidator siteValidator;
-    private final GlobeRepository globeRepository;
     private final SiteService siteService;
     private final SiteMetadataService siteMetadataService;
 
@@ -44,10 +37,8 @@ public class NewSiteController
     public NewSiteController(
             SiteValidator siteValidator,
             SiteService siteService,
-            GlobeRepository globeRepository,
             SiteMetadataService siteMetadataService)
     {
-        this.globeRepository = globeRepository;
         this.siteValidator = siteValidator;
         this.siteService = siteService;
         this.siteMetadataService = siteMetadataService;
@@ -124,56 +115,12 @@ public class NewSiteController
 
         model.addAttribute("metadata", new SiteMetadata());
 
-        ArrayList<String> environments = new ArrayList<String>();
-        environments.add("Natural");
-        environments.add("Urban");
-        model.addAttribute("environments", environments);
-
-        ArrayList<String> purposes = new ArrayList<String>();
-        purposes.add("Commercial Offices");
-        purposes.add("Retail");
-        purposes.add("Restaurant");
-        purposes.add("Industrial");
-        purposes.add("Construction Site");
-        purposes.add("School");
-        purposes.add("Single Family Residential");
-        purposes.add("Multi Family Residential");
-        purposes.add("Park or Greenbelt");
-        purposes.add("Sports Facility");
-        purposes.add("Recreational Pool");
-        purposes.add("Promenade or Plaza");
-        purposes.add("Bike or Walking Path");
-        purposes.add("Roadway or Parking Lot");
-        model.addAttribute("purposes", purposes);
-
-        ArrayList<String> obstacles = new ArrayList<String>();
-        obstacles.add("Building");
-        obstacles.add("Wall");
-        obstacles.add("Hedgerow");
-        obstacles.add("Other");
-        model.addAttribute("obstacles", obstacles);
-
-        ArrayList<String> times = new ArrayList<String>();
-        for(int i = 0; i < 24; i++) {
-            times.add(i+":00");
-        }
-        model.addAttribute("times", times);
-
-        ArrayList<String> canopyTypes = new ArrayList<String>();
-        canopyTypes.add("No Canopy");
-        canopyTypes.add("Tree/Vegetation");
-        canopyTypes.add("Shade Sail");
-        canopyTypes.add("Pergola/Ramada");
-        canopyTypes.add("Other Solid Roof");
-        model.addAttribute("canopyTypes", canopyTypes);
-
-        ArrayList<String> nearestWaterTypes = new ArrayList<String>();
-        nearestWaterTypes.add("Swimming Pool");
-        nearestWaterTypes.add("Large river");
-        nearestWaterTypes.add("Small stream");
-        nearestWaterTypes.add("Lake/Pond");
-        nearestWaterTypes.add("Other (describe)");
-        model.addAttribute("nearestWaterTypes", nearestWaterTypes);
+        model.addAttribute("environments", getAllEnvironments());
+        model.addAttribute("purposes", getAllPurposes());
+        model.addAttribute("obstacles", getAllObstacles());
+        model.addAttribute("times", getAllTimes());
+        model.addAttribute("canopyTypes", getAllCanopyTypes());
+        model.addAttribute("nearestWaterTypes", getAllWaterTypes());
 
         return "new-site/globe-questionnaire";
     }
@@ -211,20 +158,67 @@ public class NewSiteController
     public String createGlobeSite(
             @ModelAttribute("site") Site site,
             @ModelAttribute("metadata") SiteMetadata metadata,
-            final BindingResult bindingResult,
-            SessionStatus sessionStatus)
+            SessionStatus sessionStatus,
+            RedirectAttributes ra)
     {
-
-
-        // Set the session complete, as the site has been safely persisted.
-        sessionStatus.setComplete();
 
         // Persist the site and metadata
         siteService.save(site);
         metadata.setSiteID(site.getId());
         siteMetadataService.save(metadata);
 
+        // Set the session complete, as the site has been safely persisted.
+        sessionStatus.setComplete();
+
         // Redirect to the dashboard.
         return "redirect:/dashboard";
+    }
+
+    @ModelAttribute("allPurposes")
+    public String[] getAllPurposes() {
+        return new String[] {
+                "Commercial Offices", "Retail", "Restaurant", "Industrial",
+                "Construction Site", "Single Family Residential", "Multi Family Residential",
+                "Park or Greenbelt", "Sports Facility", "Recreational Pool", "Promenade or Plaza",
+                "Bike or Walking Path", "Roadway or Parking Lot"
+        };
+    }
+
+    @ModelAttribute("allTimes")
+    public String[] getAllTimes() {
+        return new String[] {
+                "00:00", "01:00", "02:00", "03:00", "04:00", "05:00",
+                "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
+                "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
+                "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+        };
+    }
+
+    @ModelAttribute("allCanopyTypes")
+    public String[] getAllCanopyTypes() {
+        return new String[] {
+                "No Canopy", "Tree/Vegetation", "Shade Sail", "Pergola/Ramada", "Other Solid Roof"
+        };
+    }
+
+    @ModelAttribute("allWaterTypes")
+    public String[] getAllWaterTypes() {
+        return new String[] {
+                "Swimming Pool", "Large river", "Small stream", "Lake/Pond", "Other (describe)"
+        };
+    }
+
+    @ModelAttribute("allObstacles")
+    public String[] getAllObstacles() {
+        return new String[] {
+                "Building", "Wall", "Hedgerow", "Other"
+        };
+    }
+
+    @ModelAttribute("allEnvironments")
+    public String[] getAllEnvironments() {
+        return new String[] {
+                "Natural", "Urban"
+        };
     }
 }

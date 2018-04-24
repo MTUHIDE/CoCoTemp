@@ -322,16 +322,16 @@ microclimateComparisonNameSpace = function () {
             table.appendChild(tr);
 
             addToSiteTable("Area Around Sensor", "areaAroundSensor", table, sites);
-            // addToSiteTable("Canopy Type", "canopyType", table, sites);
-            addToSiteTable("Distance To Water", "distanceToWater", table, sites);
+            addToSiteTable("Canopy Type", "canopyType", table, sites);
+            addToSiteTable("Distance To Water", "waterDistance", table, sites);
             addToSiteTable("Environment", "environment", table, sites);
             addToSiteTable("Height Above Floor", "heightAboveFloor", table, sites);
             addToSiteTable("Height Above Ground", "heightAboveGround", table, sites);
             addToSiteTable("Percent Enclosed", "enclosurePercentage", table, sites);
             addToSiteTable("Nearest Airflow Obstacle", "nearestAirflowObstacle", table, sites);
-            addToSiteTable("Nearest Obstacle In Degrees", "nearestObstacleDegrees", table, sites);
+            addToSiteTable("Nearest Obstacle Direction", "nearestObstacleDegrees", table, sites);
             addToSiteTable("Riparian Area", "riparianArea", table, sites);
-            // addToSiteTable("Site Purpose", "purpose", table, sites);
+            addToSiteTable("Site Purpose", "purpose", table, sites);
             addToSiteTable("Sky View Factor", "skyViewFactor", table, sites);
             addToSiteTable("Slope Of Site", "slope", table, sites);
 
@@ -496,7 +496,7 @@ $(document).ready(function() {
             data: "meters"
         }, {
             id: 'nearestObstacleDegrees',
-            label: 'Nearest Obstacle In Degrees',
+            label: 'Nearest Obstacle Direction',
             type: 'integer',
             validation: {
                 min: 0,

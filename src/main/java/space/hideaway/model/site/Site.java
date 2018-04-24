@@ -11,7 +11,6 @@ import org.hibernate.search.spatial.Coordinates;
 import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
-import space.hideaway.model.globe.Globe;
 import space.hideaway.model.upload.UploadHistory;
 
 import javax.persistence.*;
@@ -41,7 +40,6 @@ public class Site
     private String siteDescription;
     private double siteElevation;
 
-    private List<Globe> globeSet;
     private Set<Device> deviceSet;
     private Set<Data> dataSet;
 
@@ -150,29 +148,6 @@ public class Site
     public void setDataSet(Set<Data> dataSet)
     {
         this.dataSet = dataSet;
-    }
-
-    /**
-     * Gets globe set.
-     *
-     * @return the globe set
-     */
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "site_id", updatable = false)
-    public List<Globe> getGlobeSet()
-    {
-        return globeSet;
-    }
-
-    /**
-     * Sets globe set.
-     *
-     * @param globeSet the data set
-     */
-    public void setGlobeSet(List<Globe> globeSet)
-    {
-        this.globeSet = globeSet;
     }
 
     /**

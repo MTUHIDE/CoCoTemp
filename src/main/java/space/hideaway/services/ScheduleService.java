@@ -168,7 +168,7 @@ public class ScheduleService {
 
     private SiteMetadata createSiteMetadata(Site site, int index){
         SiteMetadata siteMetadata = new SiteMetadata();
-        String environment = (index%2 == 1) ? "urban" : "natural";
+        String environment = (index%2 == 1) ? "Urban" : "Natural";
         siteMetadata.setEnvironment(environment);
         String[] purposes = {"Commercial Offices","Retail","Restaurant", "Industrial", "Construction Site", "School", "Single Family Residential", "Multi Family Residential", "Park or Greenbelt", "Sports Facility", "Recreational Pool", "Promenade or Plaza", "Bike or Walking Path", "Roadway or Parking Lot"};
         siteMetadata.setPurpose(purposes[index%purposes.length]);
@@ -182,7 +182,7 @@ public class ScheduleService {
         siteMetadata.setRiparianArea(riparian);
         String[] canopy = {"No canopy", "Tree/Vegetation", "Shade Sail", "Metal Roof", "Pergola/Ramada", "Other Solid Roof"};
         siteMetadata.setCanopyType(canopy[index%canopy.length]);
-        siteMetadata.setDistanceToWater(100);
+        siteMetadata.setWaterDistance(100);
         siteMetadata.setSlope(index % 23);
         siteMetadata.setSkyViewFactor(index % 71);
         siteMetadata.setSiteID(site.getId());
