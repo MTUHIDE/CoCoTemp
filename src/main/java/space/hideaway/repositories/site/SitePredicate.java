@@ -43,7 +43,8 @@ public class SitePredicate {
                 }
             }
         }
-        else if (Boolean.parseBoolean(criteria.getValue().toString())) {
+        else if (String.valueOf(true).equals(criteria.getValue().toString())
+                || String.valueOf(false).equals(criteria.getValue().toString())) {
             BooleanPath path = entityPath.getBoolean(criteria.getKey());
             boolean value = Boolean.parseBoolean(criteria.getValue().toString());
             if (criteria.getOperation().equals("equal")) {
