@@ -284,7 +284,7 @@ microclimateComparisonNameSpace = function () {
 
     var sitesOnPlot = [];
 
-    function addToSiteTable(label, id, table, sites) {
+    function addToSiteTable(label, id, table, sites, unitLabel) {
         var tr = document.createElement('tr');
         var td = document.createElement('td');
         var text = document.createTextNode(label);
@@ -292,7 +292,7 @@ microclimateComparisonNameSpace = function () {
         tr.appendChild(td);
         for(var i = 0; i < sites.length; i++) {
             var td = document.createElement('td');
-            var text = document.createTextNode(sites[i][2][id]);
+            var text = document.createTextNode(sites[i][2][id] + unitLabel);
             td.appendChild(text);
             tr.appendChild(td);
         }
@@ -323,19 +323,19 @@ microclimateComparisonNameSpace = function () {
             }
             table.appendChild(tr);
 
-            addToSiteTable("Area Around Sensor", "areaAroundSensor", table, sites);
-            addToSiteTable("Canopy Type", "canopyType", table, sites);
-            addToSiteTable("Distance To Water", "waterDistance", table, sites);
-            addToSiteTable("Environment", "environment", table, sites);
-            addToSiteTable("Height Above Floor", "heightAboveFloor", table, sites);
-            addToSiteTable("Height Above Ground", "heightAboveGround", table, sites);
-            addToSiteTable("Percent Enclosed", "enclosurePercentage", table, sites);
-            addToSiteTable("Nearest Airflow Obstacle", "nearestAirflowObstacle", table, sites);
-            addToSiteTable("Nearest Obstacle Direction", "nearestObstacleDegrees", table, sites);
-            addToSiteTable("Riparian Area", "riparianArea", table, sites);
-            addToSiteTable("Site Purpose", "purpose", table, sites);
-            addToSiteTable("Sky View Factor", "skyViewFactor", table, sites);
-            addToSiteTable("Slope Of Site", "slope", table, sites);
+            addToSiteTable("Area Around Sensor", "areaAroundSensor", table, sites, 'm');
+            addToSiteTable("Canopy Type", "canopyType", table, sites, '');
+            addToSiteTable("Distance To Water", "waterDistance", table, sites, 'm');
+            addToSiteTable("Environment", "environment", table, sites, '');
+            addToSiteTable("Height Above Floor", "heightAboveFloor", table, sites, 'm');
+            addToSiteTable("Height Above Ground", "heightAboveGround", table, sites, 'm');
+            addToSiteTable("Percent Enclosed", "enclosurePercentage", table, sites, '%');
+            addToSiteTable("Nearest Airflow Obstacle", "nearestAirflowObstacle", table, sites, 'm');
+            addToSiteTable("Nearest Obstacle Direction", "nearestObstacleDegrees", table, sites, '°');
+            addToSiteTable("Riparian Area", "riparianArea", table, sites, '');
+            addToSiteTable("Site Purpose", "purpose", table, sites, '');
+            addToSiteTable("Sky View Factor", "skyViewFactor", table, sites, '%');
+            addToSiteTable("Slope Of Site", "slope", table, sites, '%');
 
             comparisonToolDiv.html(table);
         }
