@@ -170,7 +170,8 @@ microclimateGraphNameSpace = function(){
             legend: {
                 x: 1.1,
                 y: 1 },
-            margin: {r: 100}
+            margin: {r: 100},
+            hovermode : "closest"
         };
 
         updateThresholds();
@@ -180,7 +181,8 @@ microclimateGraphNameSpace = function(){
             x: dates,
             y: temperature,
             name: 'site\'s temperature',
-            type: 'scatter'
+            type: 'scatter',
+            hoverinfo:"y"
         };
         var data = [collectedTemps];
 
@@ -430,19 +432,19 @@ $(document).ready(function() {
             input: 'select',
             values: {
                 'Commercial Offices': 'Commercial Offices',
-                Retail: 'Retail',
-                Restaurant: 'Restaurant',
-                Industrial: 'Industrial',
-                Construction_Site: 'Construction Site',
-                School: 'School',
-                Single_Family_Residential: 'Single Family Residential',
-                Multi_Family_Residential: 'Multi Family Residential',
-                Park_or_Greenbelt: 'Park or Greenbelt',
-                Sports_Facility: 'Sports Facility',
-                Recreational_Pool: 'Recreational Pool',
-                Promenade_or_Plaza: 'Promenade or Plaza',
-                Bike_or_Walking_Path: 'Bike or Walking Path',
-                Roadway_or_Parking_Lot: 'Roadway or Parking Lot'
+                'Retail': 'Retail',
+                'Restaurant': 'Restaurant',
+                'Industrial': 'Industrial',
+                'Construction Site': 'Construction Site',
+                'School': 'School',
+                'Single Family Residential': 'Single Family Residential',
+                'Multi Family Residential': 'Multi Family Residential',
+                'Park or Greenbelt': 'Park or Greenbelt',
+                'Sports Facility': 'Sports Facility',
+                'Recreational Pool': 'Recreational Pool',
+                'Promenade or Plaza': 'Promenade or Plaza',
+                'Bike or Walking Path': 'Bike or Walking Path',
+                'Roadway or Parking Lot': 'Roadway or Parking Lot'
             },
             description: 'What is the primary purpose of this site (urban sites)?',
             operators: ['equal', 'not_equal']
@@ -536,12 +538,12 @@ $(document).ready(function() {
             type: 'string',
             input: 'select',
             values: {
-                No_Canopy: 'No Canopy',
-                Tree_Vegetation: 'Tree/Vegetation',
-                Shade_Sail: 'Shade Sail',
-                Metal_Roof: 'Metal Roof',
+                'No Canopy': 'No Canopy',
+                'Tree/Vegetation': 'Tree/Vegetation',
+                'Shade Sail': 'Shade Sail',
+                'Metal Roof': 'Metal Roof',
                 'Pergola/Ramada': 'Pergola/Ramada',
-                Other_Solid_Roof: 'Other Solid Roof'
+                'Other Solid Roof': 'Other Solid Roof'
             },
             description: 'Canopy type above the sensor (near enough to be captured in an upward photo)',
             operators: ['equal', 'not_equal']
@@ -555,7 +557,8 @@ $(document).ready(function() {
                 step: 1
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
-            description: 'How far away is this water from the sensor?'
+            description: 'How far away is this water from the sensor?',
+            data: "meters"
         }, {
             id: 'slope',
             label: 'Slope Of Site',
@@ -736,7 +739,8 @@ function markerClick(marker, popupText) {
                 type: 'scatter',
                 marker: {
                     color: iconMarker[0]
-                }
+                },
+                hoverinfo: "y"
             };
 
             // Add temperature for site to saved hash
