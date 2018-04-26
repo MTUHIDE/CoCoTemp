@@ -126,8 +126,8 @@ microclimateGraphNameSpace = function(){
     var data = [];
     var thresholds = [
         {thresholdValue:"0", thresholdName:"Freezing"},
-        {thresholdValue:"35", thresholdName:"Caution"},
-        {thresholdValue:"56", thresholdName:"Danger"}
+        {thresholdValue:"35", thresholdName:"<a href='https://www.weather.gov/ama/heatindex'>NWS Heat Caution</a>"},
+        {thresholdValue:"56", thresholdName:"<a href='https://www.weather.gov/ama/heatindex'>NWS Heat Danger</a>"}
     ];
 
     // Create site temperature line graph
@@ -168,9 +168,9 @@ microclimateGraphNameSpace = function(){
             annotations: [],
             showlegend: true,
             legend: {
-                x: 1.1,
+                x: 1.15,
                 y: 1 },
-            margin: {r: 100},
+            margin: {r: 140},
             hovermode : "closest"
         };
 
@@ -642,8 +642,8 @@ $(document).ready(function() {
         itemText: 'text'
     });
     elt.tagsinput('add', { "value": "0" , "text": "Freezing"   , "color": "#7f7f7f"    });
-    elt.tagsinput('add', { "value": "35" , "text": "Caution"  , "color": "#7f7f7f"   });
-    elt.tagsinput('add', { "value": "56" , "text": "Danger"      , "color": "#7f7f7f" });
+    elt.tagsinput('add', { "value": "35" , "text": "NWS Heat Caution"  , "color": "#7f7f7f"   });
+    elt.tagsinput('add', { "value": "56" , "text": "NWS Heat Danger"      , "color": "#7f7f7f" });
 
     // When new threshold value added, replot graph with new threshold
     $("#thresholdTags").on('itemAdded', function(event) {
