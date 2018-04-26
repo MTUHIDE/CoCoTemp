@@ -168,7 +168,7 @@ microclimateGraphNameSpace = function(){
             annotations: [],
             showlegend: true,
             legend: {
-                x: 1.15,
+                x: 1.17,
                 y: 1 },
             margin: {r: 140},
             hovermode : "closest"
