@@ -131,11 +131,7 @@
                             </div>
                             <div id="globeMeta" class="panel-collapse collapse">
                                 <ul class="list-group">
-                                    <li class="list-group-item" th:text="${site.getGlobeSet().isEmpty()} ? 'No data'">
-                                    </li>
-                                    <li class="list-group-item" th:each="answer : ${site.getGlobeSet()}">
-                                        <p th:text="*{answer.getAnswer()}"></p>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
