@@ -6,17 +6,14 @@
 
 .contact-text {
   padding-left: 20px;
-    text-align: center;}
+  text-align: center; }
 
 h3, h3 {
-    font-family: "Segoe UI", serif;
-    color: #00537d;
-}
-
-p {
+  font-family: "Segoe UI", serif;
+  color: #00537d; }
+  h3 p, h3 p {
     font-family: "Segoe UI Light", serif;
     font-size: 160%;
-    color: #449144;
-}
+    color: #449144; }
 
 /*# sourceMappingURL=contact.css.map */

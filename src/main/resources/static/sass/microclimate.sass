@@ -24,19 +24,6 @@
 #row-main
   overflow-x: hidden
 
-
-#sidebar
-  -webkit-transition: margin 0.3s ease
-  -moz-transition: margin 0.3s ease
-  -o-transition: margin 0.3s ease
-  transition: margin 0.3s ease
-
-
-.location-container
-  .col-sm-4
-    padding-right: 5px
-    padding-left: 0px
-
 .map-container
   height: 400px
   position: relative
@@ -52,10 +39,15 @@
   padding: 10px
 
 /* Right side menu */
+#sidebar
+  -webkit-transition: margin 0.3s ease
+  -moz-transition: margin 0.3s ease
+  -o-transition: margin 0.3s ease
+  transition: margin 0.3s ease
 #sidemenu-popup
-  position: absolute
+  position: fixed
   right: 0px
-  z-index: 3000
+  z-index: 1001
   height: 100%
   background-color: #0A5175
 #sidemenu-popup-bar
@@ -72,15 +64,27 @@
 .side-menu-flat
   width: 50px
 .side-menu-expand
-  width: 300px
+  width: 455px
 #filter-menu
-  width: 250px
+  width: 400px
   float: left
-  border-bottom: 1px solid white
-  border-top: 1px solid white
-  padding: 10px
-  label
-    color: white
+  padding-right: 10px
+  //color: white
+  form
+    margin-top: 10px
+    margin-bottom: 10px
+  input
+    color: black
+    &[type=text]
+      width: 150px
+    //&[type=number]
+    //  width: 75px
+    &[type=checkbox]
+      width: 25px
+    &[type=radio]
+      width: auto
+  button
+    color: black
 .bootstrap-tagsinput
   border: none
   box-shadow: none
@@ -88,11 +92,110 @@
 .bootstrap-tagsinput
   input
     display: none
+//.ui-slider-handle.custom-handle.slider
+//  width: 3.2em
+//  height: 1.6em
+//  top: 50%
+//  margin-top: -.8em
+//  text-align: center
+//  line-height: 1.6em
+//.ui-slider-range
+//  background: #729fcf
+//.ui-slider-handle
+//  border-color: #729fcf
 
 .content-flat
   margin-right: 50px
 
 .content-expand
-  margin-right: 300px
+  margin-right: 455px
 
+button[data-add="group"]
+  display: none
 
+#microClimateInstructions
+  padding-top: 10px
+  padding-bottom: 10px
+
+#graph-filters
+  color: white
+  input
+    width: 150px
+  table
+    font-size: 14px
+    width: 100%
+    color: white
+    word-wrap: break-word
+    td
+      padding: 4px
+  .comparisonTable
+    tr
+      &:nth-child(1)
+        font-weight: bold
+        border-bottom: thin solid #95a5a6
+      &:nth-child(2n+1)
+        background: #0A5175
+      &:nth-child(2n)
+        background: #00416A
+    td
+      text-align: center
+      text-transform: capitalize
+      &:nth-child(1)
+        text-align: left
+        font-weight: bold
+        color: white
+        width: 40%
+      &:nth-child(2n)
+        border-left: thin solid #95a5a6
+        border-right: thin solid #95a5a6
+  label
+    font-size: 16px
+
+//#builder-basic
+//  label
+//    color: black
+
+#map-mask
+  background: rgba(0, 0, 0, 0.55)
+  position: absolute
+  width: 100%
+  height: 100%
+  z-index: 401
+
+#map-popup
+  color: dimgray
+  text-align: center
+  //font-size: large
+  position: absolute
+  left: 22%
+  right: 22%
+  //bottom: 45%
+  top: 35%
+  //height: 100px
+  //line-height: 100px
+  background-color: #f7f7f7
+  //border: solid 2px dimgray
+  //-moz-border-radius: 10px
+  //-webkit-border-radius: 10px
+  //border-radius: 10px
+  //-khtml-border-radius: 10px
+  z-index: 402
+
+.unit-label
+  font-weight: normal
+  color: black
+
+#map-filters
+  input
+    &[type=number]
+      width: 75px
+
+#help-tab
+  color: white
+  .icon
+    width: 35px
+    padding: 5px
+  .instruction-step
+    font-size: 12px
+  a
+    color: #05ccff

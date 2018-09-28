@@ -3,13 +3,14 @@ package space.hideaway.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import space.hideaway.model.Data;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-
+@Repository
 public interface DataRepository extends CrudRepository<Data, UUID>
 {
     /**

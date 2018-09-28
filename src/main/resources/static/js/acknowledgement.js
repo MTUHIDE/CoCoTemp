@@ -5,7 +5,7 @@ $(function () {
     var people = [
         ['Dr. Ben Ruddell', 'Project Director'],
         ['Dr. Robert Pastel', 'Development Lead'],
-        ['Payton Dunning', 'Team Lead / Web Developer'],
+        ['Payton Dunning', 'Web Developer'],
         ['Trevor Murphy', 'Web Developer'],
         ['Piper Dougherty', 'Web Developer'],
         ['Justin Havely', 'Web Developer'],

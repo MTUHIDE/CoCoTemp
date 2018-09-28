@@ -2,13 +2,15 @@ package space.hideaway.controllers.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import space.hideaway.model.globe.Globe;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import space.hideaway.model.site.Site;
-import space.hideaway.repositories.GlobeRepository;
+import space.hideaway.model.site.SiteMetadata;
+import space.hideaway.services.site.SiteMetadataService;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.validation.SiteValidator;
 
@@ -28,18 +30,18 @@ public class NewSiteController
 {
 
     private final SiteValidator siteValidator;
-    private final GlobeRepository globeRepository;
     private final SiteService siteService;
+    private final SiteMetadataService siteMetadataService;
 
     @Autowired
     public NewSiteController(
             SiteValidator siteValidator,
             SiteService siteService,
-            GlobeRepository globeRepository)
+            SiteMetadataService siteMetadataService)
     {
-        this.globeRepository = globeRepository;
         this.siteValidator = siteValidator;
         this.siteService = siteService;
+        this.siteMetadataService = siteMetadataService;
     }
 
     /**
@@ -100,7 +102,8 @@ public class NewSiteController
     @RequestMapping(params = "_globe", method = RequestMethod.POST)
     public String globePage(
             final @ModelAttribute("site") Site site,
-            final BindingResult bindingResult)
+            final BindingResult bindingResult,
+            Model model)
     {
         // Perform validation on the site's description field.
         siteValidator.validateDescription(site, bindingResult);
@@ -109,6 +112,15 @@ public class NewSiteController
         {
             return "new-site/site-questionnaire";
         }
+
+        model.addAttribute("metadata", new SiteMetadata());
+
+        model.addAttribute("environments", getAllEnvironments());
+        model.addAttribute("purposes", getAllPurposes());
+        model.addAttribute("obstacles", getAllObstacles());
+        model.addAttribute("times", getAllTimes());
+        model.addAttribute("canopyTypes", getAllCanopyTypes());
+        model.addAttribute("nearestWaterTypes", getAllWaterTypes());
 
         return "new-site/globe-questionnaire";
     }
@@ -140,32 +152,73 @@ public class NewSiteController
      * @param site The site that exists in the model with fields populated by what the user
      *             entered into the form on the second page.
      * @param sessionStatus The session module for the new site registration route.
-     * @param answers An array of GLOBE survey answers.
      * @return A redirect command to the dashboard.
      */
     @RequestMapping(params = "_finish_globe", method = RequestMethod.POST)
     public String createGlobeSite(
             @ModelAttribute("site") Site site,
+            @ModelAttribute("metadata") SiteMetadata metadata,
             SessionStatus sessionStatus,
-            @RequestParam("answers") String[] answers)
+            RedirectAttributes ra)
     {
-        // Persist the site.
-        siteService.save(site);
 
-        // I'm sure there is a better way of persisting GLOBE answers.
-        for (byte i = 0; i < answers.length; i++) {
-            Globe globe = new Globe();
-            globe.setSite(site);
-            globe.setSiteID(site.getId());
-            globe.setAnswer(answers[i]);
-            globe.setQuestion_number((byte)(i + 1));
-            globeRepository.save(globe);
-        }
+        // Persist the site and metadata
+        siteService.save(site);
+        metadata.setSiteID(site.getId());
+        siteMetadataService.save(metadata);
 
         // Set the session complete, as the site has been safely persisted.
         sessionStatus.setComplete();
 
         // Redirect to the dashboard.
         return "redirect:/dashboard";
+    }
+
+    @ModelAttribute("allPurposes")
+    public String[] getAllPurposes() {
+        return new String[] {
+                "Commercial Offices", "Retail", "Restaurant", "Industrial",
+                "Construction Site", "Single Family Residential", "Multi Family Residential",
+                "Park or Greenbelt", "Sports Facility", "Recreational Pool", "Promenade or Plaza",
+                "Bike or Walking Path", "Roadway or Parking Lot"
+        };
+    }
+
+    @ModelAttribute("allTimes")
+    public String[] getAllTimes() {
+        return new String[] {
+                "00:00", "01:00", "02:00", "03:00", "04:00", "05:00",
+                "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
+                "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
+                "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+        };
+    }
+
+    @ModelAttribute("allCanopyTypes")
+    public String[] getAllCanopyTypes() {
+        return new String[] {
+                "No Canopy", "Tree/Vegetation", "Shade Sail", "Pergola/Ramada", "Other Solid Roof"
+        };
+    }
+
+    @ModelAttribute("allWaterTypes")
+    public String[] getAllWaterTypes() {
+        return new String[] {
+                "Swimming Pool", "Large river", "Small stream", "Lake/Pond", "Other (describe)"
+        };
+    }
+
+    @ModelAttribute("allObstacles")
+    public String[] getAllObstacles() {
+        return new String[] {
+                "Building", "Wall", "Hedgerow", "Other"
+        };
+    }
+
+    @ModelAttribute("allEnvironments")
+    public String[] getAllEnvironments() {
+        return new String[] {
+                "Natural", "Urban"
+        };
     }
 }

@@ -1,6 +1,6 @@
 package space.hideaway.services.data;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
@@ -37,7 +37,7 @@ public class DataServiceImplementation implements DataService
     @Autowired
     SiteStatisticsService siteStatisticsService;
 
-    private Logger logger = Logger.getLogger(getClass());
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     @PersistenceContext
     private EntityManager entityManager;
