@@ -1,16 +1,26 @@
 ul {
-  padding-left: px; }
+    padding-left: px; }
 
 li {
-  list-style: none;
-  padding-right: 40%;
-  display: inline; }
+    list-style: none;
+    padding-right: 40%;
+    display: inline; }
 
 li.odd:after {
-  content: "\a";
-  white-space: pre; }
+    content: "\a";
+    white-space: pre; }
 
 input[type=number] {
-  width: 200px; }
-
+    width: 200px; }
+.column{
+    padding-right: 15%;
+    display: inline;
+}
+.row:after{
+    display: table;
+    clear:both;
+}
+.columnLabels{
+    margin-left: 3%;
+}
 /*# sourceMappingURL=globe-questionnaire.css.map */
