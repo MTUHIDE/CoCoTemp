@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Error</title>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="col-lg-4 col-lg-offset-4">
+        <div class="form-container">
+
+            <div class="form-header">
+                <h1>Error</h1>
+            </div>
+
+            <div class="form-body">
+                <form th:action="@{/error}" method="post">
+
+                    <div class="form-group">
+                        <p>There has been an error!</p>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Want to head back to the home page? <a th:href="@{/}">Click here!</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
