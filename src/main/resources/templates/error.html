@@ -1,38 +1,34 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" type="text/css" th:href="@{/css/error.css}"/>
 <head>
     <meta charset="UTF-8"/>
     <title>Error</title>
 </head>
 <body>
+<video  autoplay="autoplay" muted="muted" loop="loop" id="Video">
+    <source src="/cocotemp/images/Rain.mp4" type="video/mp4"/>
+    Your browser does not support HTML5 video.>
+</video>
 
-<div class="container-fluid">
-    <div class="col-lg-4 col-lg-offset-4">
-        <div class="form-container">
-
-            <div class="form-header">
-                <h1>Error</h1>
-            </div>
-
-            <div class="form-body">
-                <form th:action="@{/error}" method="post">
-
-                    <div class="form-group">
-                        <p>There has been an error!</p>
-                    </div>
-
-                    <div class="form-group">
-                        <p>Please report this to issue to us so we can fix it!</p>
-                    </div>
-
-                    <div class="form-group">
-                        <p>Want to head back to the home page? <a th:href="@{/}">Click here!</a></p>
-                    </div>
-                </form>
-            </div>
-        </div>
+<div class="content">
+    <h2>You have encountered an issue.</h2>
+    <p>Please report this to issue to us so we can fix it!</p>
+    <p>Would you like to head back to the home page?</p>
+    <button  onclick="location.href= '/cocotemp/';" class="button">Go Back Home</button>
+    <p>You can also stay around to look at the beautiful nature landscapes.</p>
+    <div id ="outer">
+        <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Sunny.mp4')">Warm</button>
+        <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Cold.mp4')">Cold</button>
+        <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Rain.mp4')">Rainy</button>
     </div>
 </div>
+<script>
+    function changeVid(buttonLink){
+        document.getElementById('Video').src=buttonLink;
+    }
+</script>
 
 </body>
 </html>

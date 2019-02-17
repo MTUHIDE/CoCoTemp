@@ -1,0 +1,52 @@
+h2{
+    color:white;
+    text-align: center;
+}
+p{
+    text-align: center;
+}
+
+button{
+    color:#fff;
+    background: rgba(0,0,0,0.5);
+    margin:0 auto;
+    display: flex;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial;
+    font-size: 17px;
+}
+
+#Video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+.changeButtons{
+    color:#fff;
+    background: rgba(0,0,0,0.5);
+    display: inline-block;
+    margin:0 auto;
+}
+#outer{
+    width:100%;
+    text-align: center;
+
+}
+.content {
+    position: fixed;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+    justify-content: center;
+}
