@@ -716,7 +716,7 @@ function markerClick(marker, popupText) {
             var dates = [], temperature = [];
             z.forEach(function (datum) {
                 dates.push(new Date(datum['dateTime']));
-                temperature.push(datum['temperature']);
+                temperature.push(datum['temperature'].toFixed(1));
             });
 
             // Get available icon color/url. Return if none available

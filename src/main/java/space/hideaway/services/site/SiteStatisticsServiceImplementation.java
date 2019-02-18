@@ -1,6 +1,7 @@
 package space.hideaway.services.site;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Data;
@@ -155,7 +156,7 @@ public class SiteStatisticsServiceImplementation implements SiteStatisticsServic
             summaryStatistics.clear();
             for (Data someDatum : someData)
             {
-                summaryStatistics.addValue(someDatum.getTemperature());
+                summaryStatistics.addValue(Precision.round(someDatum.getTemperature(),1));
             }
             return summaryStatistics;
         }

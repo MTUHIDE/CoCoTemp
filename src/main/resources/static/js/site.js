@@ -25,6 +25,7 @@ $(function () {
 
     function populateChart() {
         var dates = [], temperature = [];
+
         $.ajax({
             method: 'get',
             url: "/cocotemp/site/" + siteID + "/temperature.json",
@@ -32,7 +33,7 @@ $(function () {
 
                 data.forEach(function (datum) {
                     dates.push(new Date(datum['dateTime']));
-                    temperature.push(datum['temperature']);
+                    temperature.push(datum['temperature'].toFixed(1));
                 });
                 buildChart(dates, temperature);
             }

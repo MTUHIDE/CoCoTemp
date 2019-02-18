@@ -2,6 +2,7 @@ package space.hideaway.model.site;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.util.Precision;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -292,9 +293,9 @@ public class SiteStatistics
      */
     public void setWeek(SummaryStatistics week)
     {
-        this.weekMin = week.getMin();
-        this.weekMax = week.getMax();
-        this.weekAvg = week.getMean();
+        this.weekMin = Precision.round(week.getMin(),1);
+        this.weekMax = Precision.round(week.getMax(),1);
+        this.weekAvg = Precision.round(week.getMean(),1);
         this.weekDeviation = week.getStandardDeviation();
     }
 
@@ -305,9 +306,9 @@ public class SiteStatistics
      */
     public void setMonth(SummaryStatistics month)
     {
-        this.monthMin = month.getMin();
-        this.monthMax = month.getMax();
-        this.monthAvg = month.getMean();
+        this.monthMin = Precision.round(month.getMin(),1);
+        this.monthMax = Precision.round(month.getMax(),1);
+        this.monthAvg = Precision.round(month.getMean(),1);
         this.monthDeviation = month.getStandardDeviation();
     }
 
@@ -318,9 +319,9 @@ public class SiteStatistics
      */
     public void setYear(SummaryStatistics year)
     {
-        this.yearMin = year.getMin();
-        this.yearMax = year.getMax();
-        this.yearAvg = year.getMean();
+        this.yearMin = Precision.round(year.getMin(),1);
+        this.yearMax = Precision.round(year.getMax(),1);
+        this.yearAvg = Precision.round(year.getMean(),1);
         this.yearDeviation = year.getStandardDeviation();
     }
 
@@ -331,9 +332,9 @@ public class SiteStatistics
      */
     public void setAll(SummaryStatistics all)
     {
-        this.allMin = all.getMin();
-        this.allMax = all.getMax();
-        this.allAvg = all.getMean();
+        this.allMin = Precision.round(all.getMin(),1);
+        this.allMax = Precision.round(all.getMax(),1);
+        this.allAvg = Precision.round(all.getMean(),1);
         this.allDeviation = all.getStandardDeviation();
     }
 }
