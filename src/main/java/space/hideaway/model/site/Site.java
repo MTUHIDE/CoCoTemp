@@ -54,11 +54,12 @@ public class Site
      * @param siteLatitude  the site latitude
      * @param siteLongitude the site longitude
      */
-    public Site(String siteName, double siteLatitude, double siteLongitude)
+    public Site(String siteName, double siteLatitude, double siteLongitude,double siteElevation)
     {
         this.siteName = siteName;
         this.siteLatitude = siteLatitude;
         this.siteLongitude = siteLongitude;
+        this.siteElevation = siteElevation;
     }
 
     /**

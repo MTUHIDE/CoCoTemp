@@ -45,22 +45,27 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="siteLatitude">Latitude and Longitude</label>
+                        <label for="siteLatitude">Latitude, Longitude, and Elevation</label>
                         <input class="form-control"
                                id="siteLatitude" placeholder="Enter the latitude" type="number" step="any"
                                required="required" th:field="*{siteLatitude}" readonly="readonly" />
                         <input class="form-control"
                                id="siteLongitude" placeholder="Enter the longitude" type="number" step="any"
                                required="required" th:field="*{siteLongitude}" readonly="readonly" />
+                        <input class="form-control"
+                               id="siteElevation" placeholder="Enter the elevation" type="number" step="any"
+                               required="required" th:field="*{siteElevation}" readonly="readonly" />
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success" type="submit">Continue</button>
+                        <button  class="btn btn-success" type="submit">Continue</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -94,6 +99,7 @@
     ga('send', 'pageview');
 
 </script>
+
 
 </body>
 </html>
