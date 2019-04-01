@@ -20,8 +20,10 @@ public class TemperatureConverterImpl implements TemperatureConverter
     public String celsiusToFahrenheit(String celsius)
     {
         String finishedString = "";
+        float tempCelcius = Float.valueOf(celsius);
+        float tempFahrenheit = tempCelcius * (9/5) + 32;
 
-        //TODO implement function here.
+        finishedString += String.valueOf(tempFahrenheit);
 
         return appendSymbol(TemperatureUnit.FAHRENHEIT, finishedString);
     }
@@ -41,8 +43,10 @@ public class TemperatureConverterImpl implements TemperatureConverter
     public String fahrenheitToCelsius(String fahrenheit)
     {
         String finishedString = "";
+        float tempFahrenheit = Float.valueOf(fahrenheit);
+        float tempCelcius = (tempFahrenheit - 32) * (5/9);
 
-        //TODO implement function here.
+        finishedString += String.valueOf(tempCelcius);
 
         return appendSymbol(TemperatureUnit.CELSIUS, finishedString);
     }

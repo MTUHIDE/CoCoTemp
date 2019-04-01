@@ -81,6 +81,13 @@ public class ScheduleService {
         admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
         userRepository.save(admin);
 
+        User hiddenAcc = createUser(
+                "HIDDENACC", "password",
+                "hidden@TEST.com", "John",
+                      "Doe", "P", 3);
+        hiddenAcc.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
+        userRepository.save(hiddenAcc);
+
         for (int i = 0; i < 100; i++) {
             double rand = (Math.random()-.5)*13;
             double rand2 = (Math.random()-.5)*13;
