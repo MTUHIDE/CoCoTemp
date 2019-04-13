@@ -24,7 +24,7 @@
 
             <div class="form-body">
                 <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
-                <form th:action="@{/settings/new?_questions}" method="post" th:object="${site}">
+                    <form th:action="@{/settings/new?_questions}" method="post" th:object="${site}">
 
                     <div class="form-group">
                         <label for="siteName">Site Name</label>
@@ -56,17 +56,68 @@
                                id="siteElevation" placeholder="Enter the elevation" type="number" step="any"
                                required="required" th:field="*{siteElevation}" readonly="readonly" />
                     </div>
-                    <div class="form-group">
-                        <button  class="btn btn-success" type="submit">Continue</button>
-                    </div>
+                        <form action="?" method="POST">
+                            <div class="g-recaptcha" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                            <div class="form-group">
+                                <button id="submit" class="btn btn-success" type="submit" disabled="true" >Continue</button>
+                            </div>
+                        </form>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+    function expiredRecaptcha()
+    {
+        return new Promise(function(resolve,reject){
+
+            document.getElementById("submit").setAttribute("disabled","true");
 
 
+        });
+
+    }
+
+
+
+
+</script>
+<script>
+    function enableBtn()
+    {
+        return new Promise(function(resolve,reject){
+            var response = grecaptcha.getResponse();
+            var secret ="6LdNM50UAAAAAMcy2EKwK5w94AjTK5YEise38Z_N";
+            if(!response=="")
+            {
+                $.ajax({
+                    url: "https://www.google.com/recaptcha/api/siteverify" ,
+                    method:"POST",
+                    dataType: "json",
+                    data:{
+                        "secret":secret,
+                        "response":response
+                    },
+                    success:function () {
+                        document.getElementById("submit").removeAttribute("disabled");
+                    },
+                    error: function () {
+                        console.log("Error");
+                        grecaptcha.reset();
+                    }
+
+                });
+                resolve();
+            }
+        });
+
+
+    }
+
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
