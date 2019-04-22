@@ -34,22 +34,24 @@ SdFat SD;
 #include "Wire.h"
 #include <avr/sleep.h>  //sleep library
 #include <DS3231.h> //clock
-#include "TrueRandom.h" //https://github.com/sirleech/TrueRandom
+//#include "TrueRandom.h" //https://github.com/sirleech/TrueRandom
 
 //debug settings
-#define DEBUG 0 //0 debug off, 1 debug on. turn off when unnecessary to preserve power
+#define DEBUG 1 //0 debug off, 1 debug on. turn off when unnecessary to preserve power
 #define DEBUG_TO_SD 0 //0 debug off, 1 debug on
 
 //sd card variables
 #define POWA 4    // pin 4 supplies power to microSD card breakout and temp sensor
 const String filename = "data.txt"; //name of file we log data to
-const int chipSelect = 8;  //set chip select to whichever pin the sd reader's chip select goes to on the arduino. default is 10
+const int chipSelect = 10;  //set chip select to whichever pin the sd reader's chip select goes to on the arduino. default is 10
 
 //clock variables
 #define DS3231_I2C_ADDRESS 0x68 //default address for DS3231 clock
 #define wakePin 3 //pin that comes from clock and wakes the arduino from sleep
+#define dayCounter 2 // this will be the amount of reads that happens in the day so the arduino can send to the satillite 
 const unsigned int timeToSleep = 1; //use this to control the value going to the clock register. Set it to the # minutes desired to log
 unsigned int timeCount = 0; //don't modify this, used internally to keep track of when to wake from sleep
+volatile byte intervalCount = 0; // Have time to sleep set to 20. Once it reaches 72 one day will have passed. 
 SPISettings mySettings;
 DS3231 clock;
 
@@ -252,7 +254,21 @@ void append_Temp_To_Disk(float temp) {
 #if DEBUG
   Serial.println("Printing Data:");
 #endif
-
+  int printTemp = (int)(temp*100);
+  
+  // Check to see if the temperature that was sent is the startup 185 degrees
+  if (temp < 175){
+  dataFile.print((printTemp));
+  //dataFile.print("\n");
+  }
+  // if a day has elapsed, print out the date along with commas to parse around
+  // The satellite can only send 144 bytes per day so after a day the last 72 integers( of which are two bytes)
+  // get sent up to the satellite. 
+  if( intervalCount >= dayCounter){
+    intervalCount = 0;
+    dataFile.print(",");
+   
+  
   //print comma seperated values in form:
   //yyyy-mm-dd hh:mm:ss,temperature
   //Pad with 20 to make year XXXX
@@ -294,10 +310,13 @@ void append_Temp_To_Disk(float temp) {
     }
   dataFile.print(second);
   dataFile.print(",");
-  dataFile.print(temp);
-  dataFile.print("\n");
-  dataFile.close();
+  
+  }else {
+    intervalCount++;
+  }
 
+  dataFile.close();
+  
 #if DEBUG
   printTime();
 #endif
@@ -456,4 +475,3 @@ void loop(void) {
     
   }
 }
-
