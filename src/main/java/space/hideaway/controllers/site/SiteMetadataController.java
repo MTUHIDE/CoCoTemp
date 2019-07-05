@@ -1,5 +1,6 @@
 package space.hideaway.controllers.site;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,18 @@ public class SiteMetadataController {
             }
         }
 
+
+        List list = CreateSiteMetaDataList(builder,jsonObj);
+        return list;
+
+    }
+
+    public List<SiteMetadata> CreateSiteMetaDataList(SitePredicatesBuilder builder, JSONObject jsonObj){
+
         List list = new ArrayList();
-        Iterable<SiteMetadata> metadata = siteMetadataRepository.findAll(builder.build(jsonObj.get("condition").toString()));
+        String jsonString = jsonObj.get("condition").toString();
+        BooleanExpression bool = builder.build(jsonString);
+        Iterable<SiteMetadata> metadata = siteMetadataRepository.findAll(bool);
         for (SiteMetadata item : metadata) {
             Object[] pair = new Object[2];
             pair[0] = item.getSite();
