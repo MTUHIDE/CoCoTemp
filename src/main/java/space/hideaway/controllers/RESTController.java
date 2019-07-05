@@ -17,6 +17,7 @@ import space.hideaway.util.SortingUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Edited by Justin Havely
@@ -299,7 +300,10 @@ public class RESTController
     @ResponseBody
     List<Data> getTemperaturePoints(@PathVariable("siteID") String siteID)
     {
-        return SortingUtils.sortMostRecentFirst(siteService.findByKey(siteID).getDataSet());
+
+        Site site = siteService.findByKey(siteID);
+        Set<Data> dataSet = site.getDataSet();
+        return SortingUtils.sortMostRecentFirst(dataSet);
     }
 
     /**
