@@ -1,5 +1,7 @@
 package space.hideaway.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -37,8 +39,12 @@ import java.util.logging.Logger;
 @Transactional
 public class SearchController
 {
+
+    double latitude = 0;
+    double longitude = 0;
+    double desiredRange = 0;
+
     //Logs the search process, also used for debugging.
-    private Logger logger = Logger.getLogger(getClass().getName());
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
@@ -60,16 +66,49 @@ public class SearchController
             @RequestParam(value = "range", required = false) String range,
             Model model)
     {
+        boolean locationPresent;
+        Logger logger = Logger.getLogger(getClass().getName());
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
-        double latitude = 0;
-        double longitude = 0;
-        double desiredRange = 0;
+        try
+        {
+            locationPresent = checkLocations(location,range);
+    } catch (Exception e)
+    {
+        return "redirect:/search?error";
+    }
+        // Adds site statistics to the model
+        model.addAttribute("statisticsUtils", new StatisticsUtils());
+
+        QueryBuilder queryBuilder = queryBuilder(logger,fullTextEntityManager);
+
+        BooleanJunction<BooleanJunction> booleanQuery = QueryByKeyword(query,logger, queryBuilder);
+
+        QueryByLocation(locationPresent,logger,booleanQuery, queryBuilder);
+
+        QueryByEmpty(locationPresent,query,booleanQuery, queryBuilder);
+
+        Query builtQuery = QueryCompiler(logger,booleanQuery);
+
+        FullTextQuery fullTextQuery = ExecuteQuery(logger,fullTextEntityManager,builtQuery);
+
+        List resultList= SortSites(locationPresent,queryBuilder,fullTextQuery);
+
+        List<Site> siteList = FilterSites(resultList);
+
+        // Finally, adds sites to model
+        model.addAttribute("nosites", siteList.isEmpty());
+        model.addAttribute("siteList", siteList);
+
+        return "search/search-page";
+    }
+
+    public boolean checkLocations(String location, String range){
 
         // Checks if the search contains a location
         boolean locationPresent = location != null && !location.isEmpty();
 
-        try
-        {
+
             if (locationPresent)
             {
                 // Parses the location and range strings into doubles
@@ -78,23 +117,24 @@ public class SearchController
                 longitude = Double.parseDouble(locationComponents[1]);
                 desiredRange = Double.parseDouble(range.replace("km", "").trim());
             }
-        } catch (Exception e)
-        {
-            return "redirect:/search?error";
-        }
+            return locationPresent;
+    }
 
-        // Adds site statistics to the model
-        model.addAttribute("statisticsUtils", new StatisticsUtils());
+
+    public QueryBuilder queryBuilder(Logger logger, FullTextEntityManager fullTextEntityManager){
 
         // Creates the Query
         logger.info("Started location search.");
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Site.class).get();
+        return queryBuilder;
+    }
 
-        // Query into a boolean query. Meaning you can query by location OR keywords OR empty.
+    public BooleanJunction<BooleanJunction> QueryByKeyword(String query,Logger logger, QueryBuilder queryBuilder){
         BooleanJunction<BooleanJunction> booleanQuery = queryBuilder.bool();
+        // Query into a boolean query. Meaning you can query by location OR keywords OR empty.
 
         // Query by keywords
+
         if (query != null && !query.isEmpty())
         {
             logger.info("Keyword detected: " + query);
@@ -102,6 +142,11 @@ public class SearchController
                     ".username").matching(query).createQuery());
             logger.info("Keyword query built.");
         }
+        return booleanQuery;
+
+    }
+
+    public void QueryByLocation(boolean locationPresent, Logger logger, BooleanJunction<BooleanJunction> booleanQuery, QueryBuilder queryBuilder){
 
         // Query by location
         if (locationPresent)
@@ -113,30 +158,50 @@ public class SearchController
                     (latitude).andLongitude(longitude).createQuery());
             logger.info("Location query built.");
         }
+    }
 
+    public void QueryByEmpty(Boolean locationPresent, String query, BooleanJunction<BooleanJunction> booleanQuery, QueryBuilder queryBuilder) {
         // Query by empty. Returns all sites if search fields are empty.
-        if(!locationPresent && (query == null || query.isEmpty())){
+        if (!locationPresent && (query == null || query.isEmpty())) {
             booleanQuery.must(queryBuilder.all().createQuery());
         }
+    }
+
+    public Query QueryCompiler(Logger logger, BooleanJunction<BooleanJunction> booleanQuery){
 
         // Compiling queries into one query.
         logger.info("Compiling queries into super query.");
         Query builtQuery = booleanQuery.createQuery();
 
+        return builtQuery;
+    }
+
+    public FullTextQuery ExecuteQuery(Logger logger, FullTextEntityManager fullTextEntityManager, Query builtQuery){
+
         // Executing full query.
         logger.info("Executing full query.");
         FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(builtQuery, Site.class);
+
+        return fullTextQuery;
+    }
+
+    public List SortSites(Boolean locationPresent, QueryBuilder queryBuilder, FullTextQuery fullTextQuery){
 
         // Sorts sites by distance.
         if (locationPresent)
         {
             Sort distanceSort = queryBuilder.sort().byDistance().onField("location").fromLatitude(latitude)
-                                            .andLongitude(longitude).createSort();
+                    .andLongitude(longitude).createSort();
             fullTextQuery.setSort(distanceSort);
         }
 
         // Ordered query results.
         List resultList = fullTextQuery.getResultList();
+
+        return resultList;
+    }
+
+    public List<Site> FilterSites(List resultList){
 
         // Filters the results to Site objects.
         List<Site> siteList = new ArrayList<>();
@@ -148,13 +213,9 @@ public class SearchController
             }
         }
 
-        // Finally, adds sites to model
-        model.addAttribute("nosites", siteList.isEmpty());
-        model.addAttribute("siteList", siteList);
+        return siteList;
 
-        return "search/search-page";
     }
-
     /**
      * The mapping for the search page.
      *
