@@ -6,20 +6,15 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.*;
 import org.hibernate.search.query.dsl.sort.*;
-import org.hibernate.search.spatial.impl.SpatialNumericDocValueField;
 import org.junit.*;
-import org.mockito.Mock;
 import org.springframework.ui.Model;
 import space.hideaway.controllers.SearchController;
 import space.hideaway.model.site.Site;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.*;
 
 public class SearchControllerTest {
