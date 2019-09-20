@@ -20,11 +20,9 @@ import java.util.UUID;
 public interface SiteMetadataRepository extends JpaRepository<SiteMetadata, UUID>,
         QueryDslPredicateExecutor<SiteMetadata>, QuerydslBinderCustomizer<QSiteMetadata> {
 
-    default public void customize(
-            QuerydslBindings bindings, QSiteMetadata root) {
-        bindings.bind(String.class)
-                .first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
-
+    default public void customize(QuerydslBindings bindings, QSiteMetadata root)
+    {
+        bindings.bind(String.class).first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
     }
 
     SiteMetadata findBySiteID(UUID siteID);

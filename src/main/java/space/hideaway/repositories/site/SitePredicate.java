@@ -15,6 +15,7 @@ public class SitePredicate {
     }
 
     public BooleanExpression getPredicate() {
+
         PathBuilder<SiteMetadata> entityPath = new PathBuilder<SiteMetadata>(SiteMetadata.class, "siteMetadata");
 
         if (NumberUtils.isNumber(criteria.getValue().toString())) {

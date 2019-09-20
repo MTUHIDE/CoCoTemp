@@ -18,7 +18,6 @@ import space.hideaway.services.user.UserService;
 import space.hideaway.services.user.UserServiceImplementation;
 
 import space.hideaway.services.user.UserToolsService;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;

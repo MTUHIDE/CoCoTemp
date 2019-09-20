@@ -104,7 +104,7 @@ public class UploadHistoryTest {
 
     @Test
     public void TestGetAndSetRecords(){
-        Integer expectedRecord = 654;
+        int expectedRecord = 654;
 
         uploadHistory.setRecords(expectedRecord);
 

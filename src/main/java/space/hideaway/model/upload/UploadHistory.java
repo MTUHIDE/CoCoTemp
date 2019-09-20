@@ -227,7 +227,7 @@ public class UploadHistory
      */
     @JsonProperty("records")
     @Column(name = "records")
-    public Integer getRecords()
+    public int getRecords()
     {
         return records;
     }
