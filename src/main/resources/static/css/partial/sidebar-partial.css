@@ -90,14 +90,15 @@
 
 .logo {
   display: block;
-  height: 125px;
-  width: 150px;
+  height: 140px;
+  width: 160px;
   margin: 0 auto;
   text-align: center; }
   .logo img {
     margin: 0 auto 0 50%;
     text-align: center;
-    height: 100px; }
+    height: 125px;
+    width: auto; }
 
 .nav > li {
   padding-top: 5px;
