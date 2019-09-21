@@ -19,9 +19,9 @@ import static org.mockito.Mockito.*;
 public class UploadHistoryServiceTest {
 
 
-    UploadHistoryService uploadHistoryService ;
-    UploadHistoryRepository mockUploadHistoryRepository;
-    UploadHistoryService spyUploadHistoryService;
+    private UploadHistoryService uploadHistoryService ;
+    private UploadHistoryRepository mockUploadHistoryRepository;
+    private UploadHistoryService spyUploadHistoryService;
 
 
     @Before
@@ -105,28 +105,6 @@ public class UploadHistoryServiceTest {
         when(mockUploadHistoryRepository.countByUserID(expectedInt)).thenReturn(expectedId);
 
         Assert.assertEquals((long)expectedId,uploadHistoryService.countByUserID(mockUser));
-    }
-
-    @Test
-    public void testGetLastWeek(){
-        UploadHistory mockUploadHistory = mock(UploadHistory.class);
-        List<UploadHistory> historyList = new ArrayList<UploadHistory>();
-        historyList.add(mockUploadHistory);
-
-        User mockUser = mock(User.class);
-        Long expectedId = new Long(345);
-        when(mockUser.getId()).thenReturn(expectedId);
-        int expectedInt  = Math.toIntExact(expectedId);
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -7);
-        Date date = calendar.getTime();
-
-        when(mockUploadHistoryRepository.getHistoric(date,expectedInt)).thenReturn(historyList);
-
-        Assert.assertEquals(historyList,uploadHistoryService.getLastWeek(mockUser));
-
-
-
     }
 
 
