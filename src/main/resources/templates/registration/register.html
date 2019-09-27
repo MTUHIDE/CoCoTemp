@@ -51,12 +51,12 @@
                                placeholder="Enter your password again." required="required"/>
                         <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>
                     </div>
-                    <form action="?" method="POST">
-                       <div class="g-recaptcha" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
-                        <div class="form-group">
-                            <button id="submit" class="btn btn-success" type="submit" disabled="true" >Next</button>
-                        </div>
-                     </form>
+                      <form action="?" method="POST">
+                            <div class="g-recaptcha" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                            <div class="form-group">
+                                <button id="submit" class="btn btn-success" type="submit" disabled="true">Next</button>
+                            </div>
+                        </form>
                 </form>
 
             </div>
@@ -69,7 +69,7 @@
     {
         return new Promise(function(resolve,reject){
 
-           document.getElementById("submit").setAttribute("disabled","true");
+            document.getElementById("submit").setAttribute("disabled","true");
 
 
         });
@@ -86,7 +86,7 @@
         return new Promise(function(resolve,reject){
             var response = grecaptcha.getResponse();
             var secret ="6LdNM50UAAAAAMcy2EKwK5w94AjTK5YEise38Z_N";
-             if(!response=="")
+            if(!response=="")
             {
                 $.ajax({
                     url: "https://www.google.com/recaptcha/api/siteverify" ,
@@ -111,7 +111,9 @@
 
 
     }
+
 </script>
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
