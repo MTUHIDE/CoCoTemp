@@ -34,7 +34,7 @@
                         <!--/*@thymesVar id="device" type="space.hideaway.model.Device"*/-->
                         <div class="col-lg-12">
                             <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
-                            <form class="form-horizontal" th:action="@{/settings/device/deviceID=} + *{id}"
+                            <form class="form-horizontal" th:action="@{/settings/device?deviceID=} + *{id}"
                                   method="post" th:object="${device}">
 
                                 <input type="hidden" th:field="*{id}"/>

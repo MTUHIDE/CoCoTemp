@@ -6,6 +6,7 @@ import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.repositories.site.SiteMetadataRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SiteMetadataServiceImplementation implements SiteMetadataService {
@@ -30,5 +31,6 @@ public class SiteMetadataServiceImplementation implements SiteMetadataService {
         siteMetadataRepository.save(newSiteMetadata);
         return newSiteMetadata;
     }
+
 
 }

@@ -59,33 +59,33 @@
 
                     <div class="form-group">
                         <label>3. What is the height of the sensor above the ground surface in meters (NOT the floor)?</label><br/>
-                        <input th:field="*{heightAboveGround}" type="number" required="required" width="100" min="0" max="100"/>
+                        <input th:field="*{heightAboveGround}" type="number" required="required"   width="100" min="0" max="100"/>
                         <label>meters</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>4. If the sensor is on a porch or in a building what is the height of the sensor above the floor surface in meters?</label>
-                        <input th:field="*{heightAboveFloor}" type="number" required="required" width="100" min="0" max="100"/>
+                        <input th:field="*{heightAboveFloor}" type="number" required="required"  width="100" min="0" max="100"/>
                         <label>meters</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>5. What percent of the site is enclosed?</label><br/>
-                        <input th:field="*{enclosurePercentage}" type="number" required="required" width="100" min="0" max="100"/>
+                        <input th:field="*{enclosurePercentage}" type="number" required="required"  width="100" min="0" max="100"/>
                         <label>%</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>6. If the sensor is outdoors, how far is the sensor from the nearest airflow obstacle
                             (for example a wall, hedgerow,or building that is taller than the sensor's height)?</label>
-                        <input th:field="*{nearestAirflowObstacle}" type="number" required="required" width="100" min="0" max="100"/>
+                        <input th:field="*{nearestAirflowObstacle}" type="number" required="required"  width="100" min="0" max="100"/>
                         <label>meters</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>7. In what direction is the nearest obstacle located from the sensor
                             (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)?</label><br/>
-                        <input th:field="*{nearestObstacleDegrees}" type="number" required="required" width="100" min="0" max="360"/>
+                        <input th:field="*{nearestObstacleDegrees}" type="number"  required="required"  width="100" min="0" max="360"/>
                         <label>meters</label><br/>
                     </div>
 
@@ -100,7 +100,7 @@
                     <div class="form-group">
                         <label>9. Roughly how large/wide is the area (in meters) in which the sensor is located,
                             before walls or obstacles are encountered?</label>
-                        <input th:field="*{areaAroundSensor}" type="number" name="areaSize" required="required" min="0" max="100"/>
+                        <input th:field="*{areaAroundSensor}" type="number" name="areaSize"  required="required" min="0" max="100"/>
                         <label>meters</label><br/>
                     </div>
                     <div class="form-group">
@@ -173,6 +173,7 @@
                                     <option value="23">23:00</option>
                                 </select>
                             </div>
+                            <input id="MaxNightTime" th:field ="*{maxNightTime}" hidden="true"/>
                         </div>
                     </div>
 
@@ -238,6 +239,7 @@
                                     <option value="23">23:00</option>
                                 </select>
                             </div>
+                            <input id="MinNightTime" th:field="*{minNightTime}" hidden="true"/>
                         </div>
                     </div>
 
@@ -252,21 +254,21 @@
                     <div class="form-group">
                         <label>14. If you stand in the location of the sensor and look straight up, roughly what percentage
                             of the sky is visible (i.e. the Sky View Factor, for example 75%):</label>
-                        <input th:field="*{skyViewFactor}" type="number" min="0" max="100" />
+                        <input th:field="*{skyViewFactor}" type="number"  min="0" max="100.0" />
                         <label>%</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>15. What is the slope on this site, measured as the ratio of rise over run (for example one
                             meter of rise in fifteen meters of run is 1/15 or 6.7%.</label>
-                        <input th:field="*{slope}" type="number" id="slopeNumber" name="q16" min="0" max="100"/>
+                        <input th:field="*{slope}" type="number" id="slopeNumber"   step = ".1" name="q16" min="0" max="100.0"/>
                         <label>%</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>16. What is the compass direction of the slope, uphill? (degrees east of
                             north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
-                        <input th:field="*{slopeDirection}" type="number" min="0" max="360"/>
+                        <input th:field="*{slopeDirection}" type="number" min="0" max="360.0"/>
                         <label>Degrees</label>
                     </div>
 
@@ -283,14 +285,14 @@
 
                     <div class="form-group">
                         <label>18. How far away is this water from the sensor? (meters)</label><br/>
-                        <input th:field="*{waterDistance}" type="number" min="0" max="160935" />
+                        <input th:field="*{waterDistance}" type="number"   min="0" max="160935" />
                         <label>meters</label><br/>
                     </div>
 
                     <div class="form-group">
                         <label>19. What is the compass direction of the water from this sensor? (degrees
                             east of north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
-                        <input th:field="*{waterDirection}" type="number" min="0" max="360" />
+                        <input th:field="*{waterDirection}" type="number" min="0"   max="360" />
                         <label>Degrees</label><br/>
                     </div>
 
@@ -338,13 +340,16 @@
             var columnone = document.getElementById(longestDayHoursColumnone);
             document.getElementById("save-btn").disabled=true;
         }
-    };</script>
+        else {
+            document.getElementById("MaxNightTime").value = (longestDayHoursColumnTwoValue - longestDayHoursColumnOneValue);
+        }
+        };</script>
 <script type="text/javascript" language="JavaScript">
     function enableSaveButton(){
         document.getElementById("save-btn").disabled=false;
     }
 </script>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript" language="JavaScript" >
     function checkShortestDayHours(){
         var e= document.getElementById('shortestDayHoursColumnone');
         var shortestDayHoursColumnOneValue=e.options[e.selectedIndex].value;
@@ -352,7 +357,10 @@
         var shortestDayHoursColumnTwoValue=e.options[e.selectedIndex].value;
         if(parseInt(shortestDayHoursColumnOneValue,10)>parseInt(shortestDayHoursColumnTwoValue,10)) {
             alert("Your TO time for shortest day hour must be greater than your From time for shortest day hour");
-            document.getElementById("save-btn").disabled=true;
+            document.getElementById("save-btn").disabled = true;
+        }
+        else {
+            document.getElementById("MinNightTime").value = (shortestDayHoursColumnTwoValue - shortestDayHoursColumnOneValue);
         }
     };</script>
 </body>
