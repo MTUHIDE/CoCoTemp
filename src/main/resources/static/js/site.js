@@ -24,7 +24,7 @@ $(function () {
     }
 
     function populateChart() {
-        var dates = [], temperature = [];
+        var dates = [], temperature = [], tempF = [];
 
         $.ajax({
             method: 'get',
@@ -34,13 +34,29 @@ $(function () {
                 data.forEach(function (datum) {
                     dates.push(new Date(datum['dateTime']));
                     temperature.push(datum['temperature'].toFixed(1));
+                    tempF.push((datum['temperature']*(9/5)+32).toFixed(1));
                 });
-                buildChart(dates, temperature);
+                buildChart(dates, temperature, tempF);
             }
         });
 
-        function buildChart(dates, temperature) {
+        function buildChart(dates, temperature, tempF) {
             var d3 = Plotly.d3;
+
+
+            var updatemenus = [{
+                    y: 1,
+                    yanchor: 'top',
+                    buttons: [{
+                        method: 'restyle',
+                        args: ['visible', [true, false]],
+                        label: 'Celsius'
+                    }, {
+                        method: 'restyle',
+                        args: ['visible', [false, true]],
+                        label: 'Fahrenheit'
+                    }],
+                }];
 
             var gd3 = d3.select('div[id=\'temperature-chart\']').append('div')
                 .style({
@@ -50,16 +66,27 @@ $(function () {
 
             var gd = gd3.node();
 
-            var collectedTemps = {
+            var collectedTempF = {
+                type: 'temp',
+                x: dates,
+                y: tempF,
+                name: 'site\'s temperature F',
+                type: 'scatter'
+            }
+
+            var collectedTempsC = {
+                type: 'temp',
                 x: dates,
                 y: temperature,
-                name: 'site\'s temperature',
+                name: 'site\'s temperature C',
                 type: 'scatter'
             };
 
-            var data = [collectedTemps];
+            var data = [collectedTempsC, collectedTempF ];
 
             var layout = {
+                updatemenus: updatemenus,
+                annotations: annotations,
                 xaxis: {
                     title: 'Time (24hrs)',
                     titlefont: {
@@ -123,7 +150,7 @@ $(function () {
             }
 
 
-            Plotly.plot(gd, data, layout);
+            Plotly.plot(gd, data, layout)
 
             window.onresize = function() {
                 Plotly.Plots.resize(gd);
