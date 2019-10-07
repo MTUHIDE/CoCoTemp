@@ -91,7 +91,7 @@ function changeBasemap(myMap, basemap) {
  * Add all site pins to map
  * @param {Leaflet Map} myMap
  */
-function populateSites(myMap) {
+function populateSites(myMap,markerCluster) {
     var siteMarkers = [];
 
     $.ajax({
@@ -104,11 +104,14 @@ function populateSites(myMap) {
 
             for (var i = 0; i < data.length; i++) {
                 //Add the station locations to the map.
-                var myMarker = L.marker([data[i].siteLatitude, data[i].siteLongitude]).addTo(myMap);
+                var myMarker = L.marker([data[i].siteLatitude, data[i].siteLongitude])
                 myMarker.bindPopup('<a href="site/' + data[i].id + '">' + data[i].siteName + '</a>');
                 siteMarkers.push(myMarker);
+                markerCluster.addLayer(myMarker);
             }
+            markerCluster.addTo(myMap)
         },
     });
 }
+
 
