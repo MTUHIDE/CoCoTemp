@@ -35,7 +35,7 @@ $(function () {
     }
 
     var locationParameterValue = getUrlParameter("location");
-    if (locationParameterValue !== null) {
+    if (locationParameterValue != null) {
         var splitQuery = locationParameterValue.split(",");
         $("#latitude-query").val(splitQuery[0]);
         $("#longitude-query").val(splitQuery[1]);
