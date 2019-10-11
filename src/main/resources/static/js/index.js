@@ -1,5 +1,5 @@
 $(function () {
-
+    var markersGroup =null;
     //Search form
     var $searchForm = $('#search-form');
     $searchForm.submit(function (event) {
@@ -11,8 +11,14 @@ $(function () {
     var myMap = createMap();
     $('#basemaps').on('change', function() {
         changeBasemap(myMap, this.value);
+        markersGroup.addTo(myMap);
     });
-    populateSites(myMap);
+    markersGroup = new L.MarkerClusterGroup({
+        maxClusterRadius: function(zoom) { return 50; }
+    });
+    markersGroup.addTo(myMap);
+
+    populateSites(myMap,markersGroup);
 });
 
 

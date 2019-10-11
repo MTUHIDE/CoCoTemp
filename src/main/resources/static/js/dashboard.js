@@ -1,5 +1,5 @@
 $(function () {
-
+var markersGroups = null;
     //The infocards.
     function populateInfocards() {
         $.ajax({
@@ -19,8 +19,13 @@ $(function () {
     var myMap = createMap();
     $('#basemaps').on('change', function() {
         changeBasemap(myMap, this.value);
+        markersGroups.addTo(myMap);
     });
-    populateSites(myMap);
+    markersGroups = new L.MarkerClusterGroup({
+        maxClusterRadius: function(zoom) { return 50; }
+    });
+    markersGroups.addTo(myMap);
+    populateSites();
 
     function populateSites() {
         var siteMarkers = [];
@@ -38,8 +43,9 @@ $(function () {
                     var myMarker = L.marker([data[i].siteLatitude, data[i].siteLongitude]).addTo(myMap);
                     myMarker.bindPopup('<a href="site/' + data[i].id + '">' + data[i].siteName + '</a>');
                     siteMarkers.push(myMarker);
+                    markersGroups.addLayer(myMarker);
                 }
-
+                markersGroups.addTo(myMap)
                 //Fit to show all markers on the map.
                 var myGroup = new L.featureGroup(siteMarkers);
                 myMap.fitBounds(myGroup.getBounds())
@@ -51,5 +57,4 @@ $(function () {
 
     _.defer(populateInfocards);
     _.defer(createMap);
-    _.defer(populateSites);
 });

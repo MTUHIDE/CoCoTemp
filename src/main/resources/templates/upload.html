@@ -45,6 +45,9 @@
                         <button th:if="${not #lists.isEmpty(sites)}" id= "uploadData" class="btn btn-success" type="submit">Save</button>
                         <p th:if="${#lists.isEmpty(sites)}">You can not upload any data until you create at least one site</p>
                     </div>
+                    <div class="form-group">
+                        <p>Want to head back to the home page? <a th:href="@{/}">Click here!</a></p>
+                    </div>
                 </form>
             </div>
         </div>

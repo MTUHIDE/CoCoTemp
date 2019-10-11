@@ -52,11 +52,14 @@
                         <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>
                     </div>
                       <form action="?" method="POST">
-                            <div class="g-recaptcha" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                            <div class="g-recaptcha" data-size="compact" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
                             <div class="form-group">
                                 <button id="submit" class="btn btn-success" type="submit" disabled="true">Next</button>
                             </div>
                         </form>
+                    <div class="form-group">
+                        <p>Want to head back to the home page? <a th:href="@{/}">Click here!</a></p>
+                    </div>
                 </form>
 
             </div>
