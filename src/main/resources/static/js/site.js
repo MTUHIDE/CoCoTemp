@@ -42,21 +42,95 @@ $(function () {
 
         function buildChart(dates, temperature, tempF) {
             var d3 = Plotly.d3;
+            //Adds buttons to change from C to F and vice versa
+            var annotationsC = [{
+                visible: true,
+                xref: 'paper',
+                x: 1,
+                y: 42,
+                xanchor: 'left',
+                yanchor: 'middle',
+                text: "Ex Caution",
+                showarrow: false,
+                font: {
+                    family: 'Segoe UI',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            },{
+                visible: true,
+                xref: 'paper',
+                x: 1,
+                y: 0,
+                xanchor: 'left',
+                yanchor: 'middle',
+                text: "Freezing",
+                showarrow: false,
+                font: {
+                    family: 'Segoe UI',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }];
 
+            var annotationsF = [{
+                visible: true,
+                xref: 'paper',
+                x: 1,
+                y: 107,
+                xanchor: 'left',
+                yanchor: 'middle',
+                text: "Ex Caution",
+                showarrow: false,
+                font: {
+                    family: 'Segoe UI',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }, {
+                visible: true,
+                xref: 'paper',
+                x: 1,
+                y: 32,
+                xanchor: 'left',
+                yanchor: 'middle',
+                text: "Freezing",
+                showarrow: false,
+                font: {
+                    family: 'Segoe UI',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }];
 
             var updatemenus = [{
                     y: 1,
                     yanchor: 'top',
-                    buttons: [{
-                        method: 'restyle',
-                        args: ['visible', [true, false]],
-                        label: 'Celsius'
-                    }, {
-                        method: 'restyle',
-                        args: ['visible', [false, true]],
+                    buttons: [
+                        {
+                        method: 'update',
+                        args: [{'visible': [false, true, true, true, false, false]},{ 'yaxis' : {
+                        title : 'F°',
+                            titlefont: {
+                            family: 'Segoe UI',
+                            size: 16,
+                            color: '#7f7f7f'
+                        }
+                    }, 'annotations': annotationsF }],
                         label: 'Fahrenheit'
-                    }],
-                }];
+                    }, {
+                        method: 'update',
+                        args: [{'visible': [true, false,false,false, true, true]} ,{'yaxis' : {
+                            title : 'C°',
+                                titlefont: {
+                                    family: 'Segoe UI',
+                                    size: 16,
+                                    color: '#7f7f7f'
+                                }
+                            },'annotations': annotationsC}],
+                            label: 'Celsius'
+                        }]
+                    }];
 
             var gd3 = d3.select('div[id=\'temperature-chart\']').append('div')
                 .style({
@@ -65,8 +139,28 @@ $(function () {
                 });
 
             var gd = gd3.node();
+            var yFreezeF = [] ;
+            var yCautionF = [];
+            var yFreezeC = [];
+            var yCautionC = [];
+            var i;
+            var l = dates.length;
+            for(i = 0; i < l; i++ ){
+                yFreezeF.push(32);
+            }
+            for(i = 0; i < l; i++){
+                yCautionF.push(107);
+            }
+            for(i = 0; i < l; i++){
+                yFreezeC.push(0);
+            }
+            for(i = 0; i < l; i++ ){
+                yCautionC.push(42);
+            }
 
             var collectedTempF = {
+                hoverinfo: "y",
+                visible: true,
                 type: 'temp',
                 x: dates,
                 y: tempF,
@@ -75,6 +169,8 @@ $(function () {
             }
 
             var collectedTempsC = {
+                hoverinfo: "y",
+                visible: false,
                 type: 'temp',
                 x: dates,
                 y: temperature,
@@ -82,11 +178,53 @@ $(function () {
                 type: 'scatter'
             };
 
-            var data = [collectedTempsC, collectedTempF ];
+            var freezeF = {
+                showlegend: false,
+                hoverinfo: "none",
+                visible: true,
+                dx: 0,
+                x: dates,
+                y: yFreezeF,
+                dy: 0,
+                mode : 'lines',
+                marker: {color: '#0000FF'}
+            }
+
+            var cautionF ={
+                showlegend: false,
+                hoverinfo: "none",
+                dx: 0,
+                visible: true,
+                x: dates,
+                y: yCautionF,
+                mode : 'lines',
+                marker: {color: '#FF0000'}
+            }
+
+            var freezeC = {
+                showlegend: false,
+                hoverinfo: "none",
+                visible: false,
+                x: dates,
+                y: yFreezeC,
+                mode : 'lines',
+                marker: {color: '#0000FF'}
+            }
+            var cautionC ={
+                showlegend: false,
+                hoverinfo: "none",
+                visible: false,
+                x: dates,
+                y: yCautionC,
+                mode : 'lines',
+                marker: {color: '#FF0000'}
+            }
+
+
+            var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC ];
 
             var layout = {
                 updatemenus: updatemenus,
-                annotations: annotations,
                 xaxis: {
                     title: 'Time (24hrs)',
                     titlefont: {
@@ -96,7 +234,7 @@ $(function () {
                     }
                 },
                 yaxis: {
-                    title: 'C°',
+                    title: 'F°',
                     titlefont: {
                         family: 'Segoe UI',
                         size: 16,
@@ -104,52 +242,41 @@ $(function () {
                     }
                 },
                 shapes: [],
-                annotations: [],
-                showlegend: true,
-                legend: {
-                    x: 1.2,
-                    y: 1 },
-                margin: {r: 200}
-            };
-
-            var indexTemp = [0, 42];
-            var indexColors = ['rgb(0, 0, 255)', 'rgb(255, 0, 0)'];
-            var indexName = ['Freezing','Ex Caution'];
-            for(var j = 0; j < indexTemp.length; j++){
-
-                var lines = {
-                    type: 'line',
-                    xref: 'paper',
-                    yref: 'y',
-                    x0: 0,
-                    y0: indexTemp[j],
-                    x1: 1,
-                    y1: indexTemp[j],
-                    line: {
-                        color: indexColors[j],
-                        width: 1
-                    }
-                };
-                layout.shapes.push(lines);
-
-                var annotations = {
+                annotations: [{
+                    visible: true,
                     xref: 'paper',
                     x: 1,
-                    y: indexTemp[j],
+                    y: 107,
                     xanchor: 'left',
                     yanchor: 'middle',
-                    text: indexName[j],
+                    text: "Ex Caution",
                     showarrow: false,
                     font: {
                         family: 'Segoe UI',
                         size: 14,
                         color: '#7f7f7f'
                     }
-                };
-                layout.annotations.push(annotations);
-            }
-
-
+                }, {
+                    visible: true,
+                    xref: 'paper',
+                    x: 1,
+                    y: 32,
+                    xanchor: 'left',
+                    yanchor: 'middle',
+                    text: "Freezing",
+                    showarrow: false,
+                    font: {
+                        family: 'Segoe UI',
+                        size: 14,
+                        color: '#7f7f7f'
+                    }
+                }],
+                showlegend: true,
+                legend: {
+                    x: 1.2,
+                    y: 1 },
+                margin: {r: 200}
+            };
             Plotly.plot(gd, data, layout)
 
             window.onresize = function() {
