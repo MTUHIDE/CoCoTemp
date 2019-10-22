@@ -59,7 +59,7 @@ public class SiteMetadataController {
 
     public List<SiteMetadata> CreateSiteMetaDataList(SitePredicatesBuilder builder, JSONObject jsonObj){
 
-        List list = new ArrayList();
+        List list = new ArrayList<SiteMetadata>();
         String jsonString = jsonObj.get("condition").toString();
         BooleanExpression bool = builder.build(jsonString);
         Iterable<SiteMetadata> metadata = siteMetadataRepository.findAll(bool);
