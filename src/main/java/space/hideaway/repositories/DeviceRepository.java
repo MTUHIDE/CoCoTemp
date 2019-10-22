@@ -22,6 +22,4 @@ public interface DeviceRepository extends JpaRepository<Device, UUID>
      */
     @Query("SELECT count(d) from Device d where d.userID=:id")
     Long countByUserID(@Param("id") Long id);
-
-    void deleteById(UUID uuid);
 }

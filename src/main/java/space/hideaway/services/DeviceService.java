@@ -50,7 +50,7 @@ public class DeviceService {
      */
     public void delete(Device device)
     {
-        deviceRepository.deleteById(device.getId());
+        deviceRepository.delete(device.getId());
     }
 
     /**
