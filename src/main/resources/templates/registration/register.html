@@ -104,7 +104,8 @@
                     },
                     error: function () {
                         console.log("Error");
-                        grecaptcha.reset();
+                        //grecaptcha.reset();
+                        document.getElementById("submit").removeAttribute("disabled");
                     }
 
                 });

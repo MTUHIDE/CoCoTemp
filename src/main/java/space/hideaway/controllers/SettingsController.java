@@ -217,8 +217,8 @@ public class SettingsController
     @RequestMapping(value = "/settings/device", params = {"delete"}, method = RequestMethod.POST)
     public String deleteDevice(@ModelAttribute("device") Device device)
     {
-        deviceService.delete(device);
-        return "redirect:/settings/";
+        //deviceService.delete(device);
+        return "redirect:/dashboard/";
     }
 
 }
