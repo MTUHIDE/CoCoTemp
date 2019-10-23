@@ -18,7 +18,7 @@ $(function () {
 
              markLocation(myMap, latitudeInput.val(), longitudeInput.val());
 
-                var api_url = 'http://dev.virtualearth.net/REST/v1/Elevation/List?points';
+                var api_url = 'https://dev.virtualearth.net/REST/v1/Elevation/List?points';
                 var accessToken = "Al7kNYJcdyzu9MBbi84YDdobFbm1mBFvMEYcHaxldkziSxR1_7C-RUh07pWYukCv ";
                 $.ajax({
                     url: api_url+"="+latitudeInput.val()+","+longitudeInput.val() ,
