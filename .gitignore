@@ -27,9 +27,8 @@ nbdist/
 *.sassc
 *.log
 node_modules/
-
-### application password and config files that should not be committed
 *.properties
+### application password and config files that should not be committed
 
 -# Ignore built CSS sourcemaps
 -src/main/resources/static/css/*.css.map
