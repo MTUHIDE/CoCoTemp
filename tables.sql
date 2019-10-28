@@ -4,7 +4,8 @@ CREATE TABLE data
   user_id     INT(11)                             NOT NULL,
   site_id     BINARY(16)                          NOT NULL,
   date        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  temperature DOUBLE                              NOT NULL
+  temperature DOUBLE                              NOT NULL,
+  temp_standard CHAR(1)    DEFAULT 'C'               NOT NULL
 );
 CREATE TABLE site
 (

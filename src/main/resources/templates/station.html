@@ -39,32 +39,32 @@
                         <div class="inner primary">
                             <p class="infocard-body">
                                 <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.site.SiteStatistics"*/-->
-                                <span id="site-count" class="infocard-number" th:text="${max}">93&deg; F</span>
-                                max
+                                <span id="site-count" class="infocard-number" th:text="${max}+' &deg;C'">93&deg; F</span>
+                                Max
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
                             <p class="infocard-body">
-                                <span id="record-count" class="infocard-number" th:text="${min}">12&deg;F</span>
-                                min
+                                <span id="record-count" class="infocard-number" th:text="${min}+' &deg;C'">12&deg;F</span>
+                                Min
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
                             <p class="infocard-body">
-                                <span id="upload-count" class="infocard-number" th:text="${avg}">80&deg;F</span>
-                                avg
+                                <span id="upload-count" class="infocard-number" th:text="${avg}+' &deg;C'">80&deg;F</span>
+                                Avg
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
                             <p class="infocard-body">
-                                <span id="last-update" class="infocard-number" th:text="${deviation}">12&deg; F</span>
-                                standard deviation
+                                <span id="last-update" class="infocard-number" th:text="${deviation}+' &deg;C'">12&deg; F</span>
+                                Standard Deviation
                             </p>
                         </div>
                     </div>

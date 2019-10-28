@@ -18,6 +18,7 @@ public class DataModelTest {
     double expectedTemp;
     Data data;
     Data otherData;
+    char expectedTempStandard;
 
     @Before
         public void setUp(){
@@ -25,7 +26,8 @@ public class DataModelTest {
         expectedSiteId = new UUID((long)324,(long)324);
         expectedDate = new Date();
         expectedTemp = 435.65;
-        data = new Data(expectedId,expectedSiteId,expectedDate,expectedTemp);
+        expectedTempStandard='C';
+        data = new Data(expectedId,expectedSiteId,expectedDate,expectedTemp,expectedTempStandard);
         otherData = new Data();
     }
 

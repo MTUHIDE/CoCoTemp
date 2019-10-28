@@ -29,12 +29,9 @@ $(function () {
                     document.getElementById("WaterNear").textContent="Nearest Water: "+z.nearestWater;
                     document.getElementById("WaterDist").textContent="Distance water is from site: "+z.waterDistance+" m";
                     document.getElementById("WaterDir").textContent="Compass direction of water: "+z.waterDirection+String.fromCharCode(176);
-
-
                 }
             }
         });
-
     }
     _.defer(populateGlobeSiteData);
 });

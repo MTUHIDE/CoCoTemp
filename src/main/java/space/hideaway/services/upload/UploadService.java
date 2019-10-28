@@ -3,6 +3,7 @@ package space.hideaway.services.upload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.supercsv.cellprocessor.ParseChar;
 import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -52,9 +53,9 @@ public class UploadService
      * Sets the multipartFile. This file comes from the HTTP upload post. The file is csv
      * formatted and looks like the following:
      *
-     * dateTime, temperature
-     * 2014-07-24 09:15:54, 23.3
-     * 2014-07-24 10:15:54, 22.6
+     * dateTime,temperatureStandard,temperature
+     * 2014-07-24 09:15:54,C,23.3
+     * 2014-07-24 10:15:54,C,22.6
      *
      * @param multipartFile the multipartFile
      * @return <code>this</code> upload object
@@ -162,18 +163,25 @@ public class UploadService
                 // Format settings
                 final CellProcessor[] cellProcessors = new CellProcessor[]{
                         new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
+                        new ParseChar(),
                         new ParseDouble()
                 };
 
                 // Gets the header of the csv (i.e. dateTime, temperature)
                 final String[] header = iCsvBeanReader.getHeader(true);
-
+                System.out.println("Header: "+header[1]);
                 // A data object to contain the temperature and time.
                 Data dataBean;
 
                 // Parse each row in the csv file into a data object
                 while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null)
                 {
+                    if(dataBean.getTemp_Standard()=='F'){
+                        double fahrenTemp = dataBean.getTemperature();
+                        double celsiusTemp = (fahrenTemp-32)*5/9;
+                        dataBean.setTemperature(celsiusTemp);
+                        dataBean.setTemp_Standard('C');
+                    }
                     dataBean.setSiteID(siteId);
                     dataBean.setUserID(userId.intValue());
                     dataList.add(dataBean);

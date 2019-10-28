@@ -23,6 +23,7 @@ public class Data
 
     private UUID siteID;
     private Site site;
+    private char tempStandard;
 
     private UUID deviceID;
     private Device device;
@@ -46,9 +47,10 @@ public class Data
      * @param dateTime    the date time
      * @param temperature the temperature
      */
-    public Data(UUID id, UUID siteID, Date dateTime, double temperature)
+    public Data(UUID id, UUID siteID, Date dateTime, double temperature, char tempStandard)
     {
         this.id = id;
+        this.tempStandard = tempStandard;
         this.siteID = siteID;
         this.dateTime = dateTime;
         this.temperature = temperature;
@@ -89,6 +91,15 @@ public class Data
     public UUID getId()
     {
         return id;
+    }
+
+    public void setTemp_Standard(char tempStandard){
+        this.tempStandard= tempStandard;
+    }
+
+    @Column(name="temp_standard", length=1)
+    public char getTemp_Standard(){
+        return tempStandard;
     }
 
     /**

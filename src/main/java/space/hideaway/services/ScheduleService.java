@@ -204,6 +204,7 @@ public class ScheduleService {
             Data data = new Data();
             data.setUserID(user.getId().intValue());
             data.setSiteID(site.getId());
+            data.setTemp_Standard('C');
             data.setTemperature(random);
             DateTime dateTime = new DateTime().minusHours(i);
             Date date = dateTime.toDate();
