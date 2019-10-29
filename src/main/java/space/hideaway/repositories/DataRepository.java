@@ -31,4 +31,6 @@ public interface DataRepository extends CrudRepository<Data, UUID>
      */
     @Query("select d from Data d where d.dateTime > :previousDate and d.siteID=:id order by d.dateTime asc ")
     List<Data> getHistoric(@Param("previousDate") Date previousDate, @Param("id") UUID siteID);
+
+    Data findBySiteIDAndDateTimeAndUserIDAndTemperature(UUID siteID, Date dateTime, int userID,double temperature);
 }

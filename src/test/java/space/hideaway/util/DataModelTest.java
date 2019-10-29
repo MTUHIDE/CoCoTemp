@@ -52,6 +52,13 @@ public class DataModelTest {
     }
 
     @Test
+    public void TestGetAndSetTemperatureStandard(){
+        char expectedTemperatureStandard = 'C';
+        data.setTemp_Standard('C');
+        Assert.assertEquals(expectedTemperatureStandard,data.getTemp_Standard());
+    }
+
+    @Test
     public void TestGetAndSetSiteId(){
         UUID expectedUUIDId = new UUID((long)324, (long)324);
 

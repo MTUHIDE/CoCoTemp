@@ -1,5 +1,6 @@
 package space.hideaway.services.data;
 
+import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import org.hibernate.Session;
@@ -131,6 +132,11 @@ public class DataServiceImplementation implements DataService
                 return SortingUtils.sortMostRecentFirst(site.getDataSet());
         }
         return getDataDaysBack(site, 7);
+    }
+
+    @Override
+    public Data findIfDataExistsAlready(UUID siteID, Date dateTime, int userID, double temperature) {
+        return dataRepository.findBySiteIDAndDateTimeAndUserIDAndTemperature(siteID,dateTime,userID,temperature);
     }
 
     /**

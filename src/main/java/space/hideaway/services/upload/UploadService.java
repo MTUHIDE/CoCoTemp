@@ -66,6 +66,9 @@ public class UploadService
         return this;
     }
 
+    public MultipartFile getMultipartFile(){
+        return this.multipartFile;
+    }
     /**
      * Takes the multipart file and parses the data to be saved in the database.
      * Use <code>setMultipartFile</code> to set the multipart file for parsing.
@@ -143,15 +146,8 @@ public class UploadService
             UUID siteId = site.getId();
             Long userId = site.getUserID();
             ArrayList<Data> dataList = new ArrayList<>();
+            UploadHistory pendingHistory = new UploadHistory();
 
-            // Saves that a upload attempt was made by this user
-            UploadHistory pendingHistory = uploadHistoryService.savePending(
-                    siteId,
-                    Math.toIntExact(userId),
-                    false,
-                    0,
-                    "In Progress",
-                    0);
 
             // A class for converting csv objects into Java objects
             ICsvBeanReader iCsvBeanReader;
@@ -179,28 +175,40 @@ public class UploadService
                     if(dataBean.getTemp_Standard()=='F'){
                         double fahrenTemp = dataBean.getTemperature();
                         double celsiusTemp = (fahrenTemp-32)*5/9;
+
                         dataBean.setTemperature(celsiusTemp);
                         dataBean.setTemp_Standard('C');
                     }
                     dataBean.setSiteID(siteId);
                     dataBean.setUserID(userId.intValue());
-                    dataList.add(dataBean);
+                    if(dataServiceImplementation.findIfDataExistsAlready(siteId,dataBean.getDateTime(),userId.intValue(),dataBean.getTemperature())==null) {
+                        dataList.add(dataBean);
+                    }
                 }
+                if(!(dataList.isEmpty())) {
+                    // Saves that a upload attempt was made by this user
+                     pendingHistory = uploadHistoryService.savePending(
+                            siteId,
+                            Math.toIntExact(userId),
+                            false,
+                            0,
+                            "In Progress",
+                            0);
+                    // Writes each data object into the database in batches, so not to overload the server
+                    dataServiceImplementation.batchSave(site, dataList);
+                    iCsvBeanReader.close();
 
-                // Writes each data object into the database in batches, so not to overload the server
-                dataServiceImplementation.batchSave(site, dataList);
-                iCsvBeanReader.close();
+                    long end = System.currentTimeMillis();
 
-                long end = System.currentTimeMillis();
-
-                // Create a record that the file was parsed and saved correctly. Over writes pendingHistory.
-                uploadHistoryService.saveFinished(pendingHistory, false, end - start, dataList.size(), description);
-
+                    // Create a record that the file was parsed and saved correctly. Over writes pendingHistory.
+                    uploadHistoryService.saveFinished(pendingHistory, false, end - start, dataList.size(), description);
+                }
             } catch (Exception e) {
                 uploadHistoryService.saveFinished(pendingHistory, true, 0, 0,
                         "Upload failed: " + String.format("%s%n %s", e.getMessage(), description));
             }
         }
+
     }
 
 }

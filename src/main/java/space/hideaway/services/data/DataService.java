@@ -5,7 +5,9 @@ import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
 import space.hideaway.util.HistoryUnit;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 public interface DataService
@@ -41,4 +43,7 @@ public interface DataService
      * @return All of the records between now and <code>time</code>
      */
     List<Data> getHistoric(HistoryUnit time, Site site);
+
+
+    Data findIfDataExistsAlready(UUID SiteID, Date dateTime, int userID, double temperature);
 }

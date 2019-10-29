@@ -359,4 +359,16 @@ public class DataServiceTest {
 
         Assert.assertEquals(dataList,resultList);
     }
+
+    @Test
+    public void testfindIfDataExistsAlready(){
+        Data expectedData = new Data();
+        UUID siteId = new UUID(1234,233);
+        Date date = new Date();
+        int userId = 2133;
+        double temperature = 23.5;
+        dataServiceImplementation.findIfDataExistsAlready(siteId,date,userId,temperature);
+        when(mockDataRepository.findBySiteIDAndDateTimeAndUserIDAndTemperature(siteId,date,userId,temperature)).thenReturn(expectedData);
+        verify(mockDataRepository).findBySiteIDAndDateTimeAndUserIDAndTemperature(siteId,date,userId,temperature);
+    }
 }
