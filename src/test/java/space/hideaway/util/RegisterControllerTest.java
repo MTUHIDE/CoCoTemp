@@ -6,10 +6,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.WebRequest;
 import space.hideaway.controllers.registration.RegisterController;
 import space.hideaway.model.User;
+import space.hideaway.services.EmailVerificationService;
 import space.hideaway.services.security.SecurityService;
 import space.hideaway.services.user.UserService;
+import space.hideaway.services.user.UserToolsService;
 import space.hideaway.validation.PersonalDetailsValidator;
 import space.hideaway.validation.UserAccountValidator;
 
@@ -24,8 +27,8 @@ public class RegisterControllerTest {
     SecurityService MockSecurityService;
     UserAccountValidator MockUserAccountValidator;
     PersonalDetailsValidator MockPersonalDetailsValidator;
-
-
+    EmailVerificationService MockEmailVerificationService;
+    UserToolsService MockUserToolsService;
 
     @Before
 
@@ -35,8 +38,11 @@ public class RegisterControllerTest {
         MockSecurityService = mock(SecurityService.class);
         MockUserAccountValidator = mock(UserAccountValidator.class);
         MockPersonalDetailsValidator = mock(PersonalDetailsValidator.class);
+        MockEmailVerificationService = mock(EmailVerificationService.class);
+        MockUserToolsService = mock(UserToolsService.class);
 
-        registerController = new RegisterController(MockSecurityService,MockUserAccountValidator,MockUserService,MockPersonalDetailsValidator);
+
+        registerController = new RegisterController(MockSecurityService,MockUserAccountValidator,MockUserService,MockPersonalDetailsValidator,MockEmailVerificationService,MockUserToolsService);
 
     }
 
@@ -76,6 +82,7 @@ public class RegisterControllerTest {
     @Test
         public void TestProcessFinishNoErrors(){
         User MockUser = mock(User.class);
+        WebRequest mockRequest = mock(WebRequest.class);
         SessionStatus MockSessionStatus = mock(SessionStatus.class);
         String expectedUserName = "CoCoTemp";
         String expectedPassword = "password";
@@ -90,11 +97,10 @@ public class RegisterControllerTest {
 
 
 
-        Assert.assertEquals("redirect:dashboard",registerController.processFinish(MockUser,MockBindingResult,MockSessionStatus));
+        Assert.assertEquals("registration/emailVerification",registerController.processFinish(MockUser,MockBindingResult,MockSessionStatus,mockRequest));
         verify(MockUser,times(1)).getUsername();
         verify(MockUser,times(1)).getPassword();
         verify(MockUserService,times(1)).save(MockUser);
-        verify(MockSecurityService,times(1)).autoLogin(expectedUserName,expectedPassword);
         verify(MockSessionStatus,times(1)).setComplete();
 
         verify(MockPersonalDetailsValidator).validate(MockUser,MockBindingResult);
@@ -107,6 +113,7 @@ public class RegisterControllerTest {
         SessionStatus MockSessionStatus = mock(SessionStatus.class);
         String expectedUserName = "CoCoTemp";
         String expectedPassword = "password";
+        WebRequest mockRequest = mock(WebRequest.class);
         BindingResult MockBindingResult = mock(BindingResult.class);
         doNothing().when(MockPersonalDetailsValidator).validate(MockUser, MockBindingResult);
         when(MockBindingResult.hasErrors()).thenReturn(true);
@@ -117,7 +124,7 @@ public class RegisterControllerTest {
         doNothing().when(MockSessionStatus).setComplete();
 
 
-        Assert.assertEquals("registration/questionPage", registerController.processFinish(MockUser, MockBindingResult, MockSessionStatus));
+        Assert.assertEquals("registration/questionPage", registerController.processFinish(MockUser, MockBindingResult, MockSessionStatus,mockRequest));
         verify(MockUser, times(1)).getUsername();
         verify(MockUser, times(1)).getPassword();
         verifyZeroInteractions(MockUserService);

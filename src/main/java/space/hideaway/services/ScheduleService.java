@@ -69,6 +69,7 @@ public class ScheduleService {
                 "TESTACC","password",
                 "Test@TEST.com","John",
                 "Doe","P", 1);
+        user.setEnabled(true);
         Role userRole = roleRepository.findByName("ROLE_PUBLIC");
         user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
@@ -77,6 +78,7 @@ public class ScheduleService {
                 "ADMINACC","password",
                 "Admin@TEST.com","John",
                 "Doe","P", 2);
+        admin.setEnabled(true);
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
         userRepository.save(admin);
@@ -85,6 +87,7 @@ public class ScheduleService {
                 "HIDDENACC", "password",
                 "hidden@TEST.com", "John",
                       "Doe", "P", 3);
+        hiddenAcc.setEnabled(true);
         hiddenAcc.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
         userRepository.save(hiddenAcc);
 

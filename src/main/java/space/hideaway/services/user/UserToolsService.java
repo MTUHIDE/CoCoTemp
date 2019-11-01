@@ -12,14 +12,14 @@ import javax.transaction.Transactional;
 public class UserToolsService implements IUserToolsService {
 
     @Autowired
-    private UserRepository userRepositroy;
+    private UserRepository userRepository;
 
     public UserToolsService() {
         super();
     }
 
     public User findUserByEmail(String email) {
-        return userRepositroy.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     public void createPasswordResetTokenForUser(User user, String token) {

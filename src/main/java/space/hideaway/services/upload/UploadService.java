@@ -165,7 +165,6 @@ public class UploadService
 
                 // Gets the header of the csv (i.e. dateTime, temperature)
                 final String[] header = iCsvBeanReader.getHeader(true);
-                System.out.println("Header: "+header[1]);
                 // A data object to contain the temperature and time.
                 Data dataBean;
 

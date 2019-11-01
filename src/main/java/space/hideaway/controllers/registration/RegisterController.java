@@ -102,7 +102,8 @@ public class RegisterController
     public String processFinish(
             final @ModelAttribute("user") User user,
             final BindingResult bindingResult,
-            final SessionStatus sessionStatus)
+            final SessionStatus sessionStatus,
+            final WebRequest request)
     {
         String username = user.getUsername();
         String password = user.getPassword();
@@ -121,7 +122,7 @@ public class RegisterController
         securityService.autoLogin(username, password);
 
         sessionStatus.setComplete();
-        return "redirect:dashboard";
+        return "registration/emailVerification";
     }
 
     /**
@@ -136,5 +137,4 @@ public class RegisterController
         sessionStatus.setComplete();
         return "index";
     }
-
 }
