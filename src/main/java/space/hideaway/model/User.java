@@ -28,12 +28,14 @@ public class User
     private String username;
     private String password;
     private String confirmationPassword;
+    private boolean enabled;
 
     private String firstName;
     private String middleInitial;
     private String lastName;
 
     private Set<Role> roleSet;
+
     private Set<Site> siteSet;
     private Set<UploadHistory> uploadHistorySet;
     private Set<Device> deviceSet;
@@ -60,6 +62,11 @@ public class User
     {
         this.id = id;
     }
+
+    @Column(name="enabled")
+    public boolean getEnabled(){return enabled;}
+
+    public void setEnabled(boolean enabled){this.enabled=enabled;}
 
     /**
      * Gets email.
@@ -93,6 +100,11 @@ public class User
     {
         return username;
     }
+
+
+
+
+
 
     /**
      * Sets username.

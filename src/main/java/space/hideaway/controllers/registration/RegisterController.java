@@ -2,18 +2,22 @@ package space.hideaway.controllers.registration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.WebRequest;
 import space.hideaway.model.User;
+import space.hideaway.model.security.VerificationToken;
+import space.hideaway.services.EmailVerificationService;
 import space.hideaway.services.security.SecurityService;
 import space.hideaway.services.user.UserService;
+import space.hideaway.services.user.UserToolsService;
 import space.hideaway.validation.PersonalDetailsValidator;
 import space.hideaway.validation.UserAccountValidator;
+
+import java.util.Calendar;
 
 /**
  * Edited by Justin Havely
@@ -33,18 +37,23 @@ public class RegisterController
     private final SecurityService securityService;
     private final UserAccountValidator userAccountValidator;
     private final PersonalDetailsValidator personalDetailsValidator;
-
+    private final EmailVerificationService emailVerificationService;
+    private final UserToolsService userToolsService;
     @Autowired
     public RegisterController(
             SecurityService securityService,
             UserAccountValidator userAccountValidator,
             UserService userService,
-            PersonalDetailsValidator personalDetailsValidator)
+            PersonalDetailsValidator personalDetailsValidator,
+            EmailVerificationService emailVerificationService,
+            UserToolsService userToolsService)
     {
         this.securityService = securityService;
         this.userAccountValidator = userAccountValidator;
         this.userService = userService;
+        this.userToolsService = userToolsService;
         this.personalDetailsValidator = personalDetailsValidator;
+        this.emailVerificationService = emailVerificationService;
     }
 
     /**
@@ -118,8 +127,8 @@ public class RegisterController
 
         // At this point, all the validation has passed. Save the new account and login the user.
         userService.save(user);
-        // Auto login, so the user does not have to login after creating an account.
-        securityService.autoLogin(username, password);
+
+        emailVerificationService.sendVerificationEmail(user, request.getContextPath());
 
         sessionStatus.setComplete();
         return "registration/emailVerification";

@@ -63,7 +63,8 @@ CREATE TABLE user
   first_name     TEXT,
   middle_initial TEXT,
   last_name      TEXT,
-  email          TEXT                NOT NULL
+  email          TEXT                NOT NULL,
+  enabled        BIT DEFAULT FALSE
 );
 CREATE TABLE user_role
 (
