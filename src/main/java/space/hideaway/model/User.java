@@ -34,6 +34,8 @@ public class User
     private String middleInitial;
     private String lastName;
 
+    private int tempDefault;
+
     private Set<Role> roleSet;
 
     private Set<Site> siteSet;
@@ -216,10 +218,19 @@ public class User
      *
      * @param lastName the last name
      */
-    public void setLastName(String lastName)
-    {
-        this.lastName = lastName;
-    }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    @Column(name = "tempDefault")
+    public int getTempDefault(){ return tempDefault; }
+
+    /**
+     * Sets tempDefault
+     * 0 is Celsius
+     * 1 is Fahrenheit
+     * 
+     * @param tempDefault the Temp
+     */
+    public void setTempDefault(int tempDefault){ this.tempDefault = tempDefault;}
 
     /**
      * Gets role set.

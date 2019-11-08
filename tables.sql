@@ -64,7 +64,7 @@ CREATE TABLE user
   middle_initial TEXT,
   last_name      TEXT,
   email          TEXT                NOT NULL,
-  enabled        BIT DEFAULT FALSE
+  tempDefault        tinyint
 );
 CREATE TABLE user_role
 (

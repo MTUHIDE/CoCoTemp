@@ -3,6 +3,7 @@ package space.hideaway.controllers.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,20 +13,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.model.security.GenericResponse;
+import space.hideaway.model.security.PasswordResetToken;
 import space.hideaway.services.user.UserToolsService;
+import space.hideaway.repositories.PasswordTokenRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 import java.util.UUID;
 
+
 public class ResetPasswordController {
 
+    private final PasswordTokenRepository passwordTokenRepository;
     // Everything here was originally in PasswordResetTo
-
+    @Autowired
+    public ResetPasswordController(PasswordTokenRepository passwordTokenRepository){
+        this.passwordTokenRepository = passwordTokenRepository;
+    }
     @Autowired
     private MessageSource messages;
 
-    @RequestMapping(value = "/login/resetPassword", method = RequestMethod.POST)
+
+
+
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     @ResponseBody
     public GenericResponse resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
         UserToolsService userService = new UserToolsService();
@@ -55,7 +66,7 @@ public class ResetPasswordController {
         email.setText(body);
         email.setTo(user.getEmail());
         // Might not be ok since it isn't in email format.
-        email.setFrom("CoCoTempsupport");
+        email.setFrom("cocotemp@nau.edu");
         return email;
     }
 
@@ -79,7 +90,7 @@ public class ResetPasswordController {
 
     public String validatePasswordResetToken(long id, String token) {
         // Will have to create the token repository as passwordTokenRepository does not currently exist.
-        //PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
+        PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
         return null;
     }
 }

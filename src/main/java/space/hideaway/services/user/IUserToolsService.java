@@ -1,3 +1,4 @@
+
 package space.hideaway.services.user;
 
 import space.hideaway.model.User;

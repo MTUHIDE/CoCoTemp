@@ -146,8 +146,48 @@ microclimateGraphNameSpace = function(){
             });
         var gd = gd3.node();
 
+        var updatemenus = {
+            y: 1,
+            yanchor: 'top',
+            buttons : [{
+                y: 1,
+                yanchor: 'top',
+                buttons: [
+                    {
+                        method: 'update',
+                        args: [{'visible': [/*TBD*/]},{ 'yaxis' : {
+                                title : 'F°',
+                                titlefont: {
+                                    family: 'Segoe UI',
+                                    size: 16,
+                                    color: '#7f7f7f'
+                                }
+                            },
+                        }],
+                        label: 'Fahrenheit'
+                    }, {
+                        method: 'update',
+                        args: [{'visible': [/*TBD*/]} , {
+                            'yaxis': {
+                                title: 'C°',
+                                titlefont: {
+                                    family: 'Segoe UI',
+                                    size: 16,
+                                    color: '#7f7f7f'
+                                }
+                            },
+                        }],
+                        label: 'Celsius'
+                    }]
+            }]
+
+
+        }
+
+
         // Graph layout
         layout = {
+            updatesmenus: updatemenus,
             xaxis: {
                 title: 'Time (24hrs)',
                 titlefont: {
