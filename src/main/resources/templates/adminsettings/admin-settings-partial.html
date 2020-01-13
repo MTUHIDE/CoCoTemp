@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+</head>
+<body>
+<div class="settings-partial" th:fragment="admin-settings-partial">
+
+    <!--Partial CSS-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/partial/settings-partial.css}"/>
+    <div>
+        <ul class="settings-list">
+            <li class="settings-item">
+                <div class="settings-item-inner">
+                    <span><i class="fa fa-cog" aria-hidden="true"></i> <a th:href="@{/adminsettings}"> General</a></span>
+                </div>
+            </li>
+
+
+            <li>
+                <div class="settings-seperator">
+                    <h1 class="seperator-text">News</h1>
+                </div>
+            <li class="settings-item">
+                <div class="settings-item-inner">
+                    <span><i class="fa fa-plus" aria-hidden="true"></i> <a
+                            th:href="@{/news_post}"> Create a new news post</a></span>
+                </div>
+            </li>
+            </li>
+
+
+        </ul>
+    </div>
+</div>
+</body>
+</html>

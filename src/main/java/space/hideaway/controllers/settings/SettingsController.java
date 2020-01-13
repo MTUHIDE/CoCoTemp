@@ -1,4 +1,4 @@
-package space.hideaway.controllers;
+package space.hideaway.controllers.settings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

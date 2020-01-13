@@ -76,6 +76,17 @@
         Hello, <b><span sec:authentication="name"></span></b>
         <a th:href="@{/settings}"><span class="glyphicon glyphicon-cog"></span></a>
     </div>
+
+
+    <div class="welcome" sec:authorize="hasRole('ADMIN')">
+        Hello, <b><span sec:authentication="name"></span></b>
+        <a th:href="@{/settings}"><span class="glyphicon glyphicon-cog"></span></a>
+        <br/>
+        <b>ADMIN SETTINGS</b>
+        <a th:href="@{/adminsettings}"><span class="glyphicon glyphicon-wrench"></span> </a>
+    </div>
+
+
 </div>
 </body>
 </html>

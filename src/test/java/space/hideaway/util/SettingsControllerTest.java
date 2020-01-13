@@ -3,7 +3,7 @@ import org.junit.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import space.hideaway.controllers.SettingsController;
+import space.hideaway.controllers.settings.SettingsController;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
