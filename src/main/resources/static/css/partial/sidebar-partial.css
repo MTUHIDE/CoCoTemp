@@ -18,7 +18,11 @@
     background-color: #00416A;
     border-right: 1px solid #00416A; }
   .welcome {
-    position: absolute; } }
+    position: absolute; }
+  .admin {
+    position: absolute;}
+  }
+
 
 .side-menu .btn-default {
   color: white !important; }
@@ -87,6 +91,17 @@
   padding-bottom: 5px; }
   .welcome span {
     color: white; }
+
+.admin {
+  text-align: center;
+  bottom: 0px;
+  background-color: #00629a;
+  width: 100%;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px; }
+.admin span {
+  color: white; }
 
 .logo {
   display: block;
