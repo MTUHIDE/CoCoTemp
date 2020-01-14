@@ -8,35 +8,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import space.hideaway.model.Device;
+import space.hideaway.model.News;
 import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
-import space.hideaway.services.DeviceService;
-import space.hideaway.services.site.SiteService;
+import space.hideaway.services.NewsService;
 import space.hideaway.services.user.UserServiceImplementation;
 import space.hideaway.validation.PersonalDetailsValidator;
-import space.hideaway.validation.SiteValidator;
 import org.springframework.stereotype.Controller;
-
 
 import java.util.UUID;
 
 @Controller
 public class AdminSettingsController {
     private final UserServiceImplementation userManagement;
-
-
     private final PersonalDetailsValidator personalDetailsValidator;
-
+    private final NewsService  newsService;
 
     @Autowired
     public AdminSettingsController(
             UserServiceImplementation userManagement,
-            PersonalDetailsValidator personalDetailsValidator
-            )
+            PersonalDetailsValidator personalDetailsValidator,
+            NewsService newsService)
     {
         this.userManagement = userManagement;
         this.personalDetailsValidator = personalDetailsValidator;
+        this.newsService = newsService;
     }
 
 
@@ -50,8 +46,41 @@ public class AdminSettingsController {
     public String showSettings(Model model)
     {
         User currentLoggedInUser = userManagement.getCurrentLoggedInUser();
+        model.addAttribute("news",newsService.getAll());
         model.addAttribute("user", currentLoggedInUser);
+
         return "adminsettings/admin-general";
+    }
+
+    @RequestMapping(value = "/adminsettings/news", params = {"newsID"})
+    public String loadNews(Model model, @RequestParam("newsID") long newsID)
+    {
+
+        if (!model.containsAttribute("newspost"))
+        {
+            model.addAttribute("newspost", newsService.findByID(newsID));
+        }
+        model.addAttribute("news", newsService.getAll());
+
+        return "adminsettings/news";
+    }
+    @RequestMapping(value = "/adminsettings/news/update", method = RequestMethod.POST)
+    public String updateNews(
+            @ModelAttribute("newspost") News news,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes)
+    {
+        // Validates siteName and siteDescription
+
+        if (bindingResult.hasErrors())
+        {
+            redirectAttributes.addFlashAttribute("newpost", news);
+            return "redirect:/adminsettings/news?newsID=" + news.getId();
+        }
+
+        newsService.save(news);
+
+        return "redirect:/adminsettings/news?newsID=" + news.getId();
     }
 
     /**

@@ -46,4 +46,8 @@ public class NewsService {
 
         return newsRepository.findAllByOrderByIdAsc();
     }
+    public News findByID(long id)
+    {
+        return newsRepository.findOne(id);
+    }
 }
