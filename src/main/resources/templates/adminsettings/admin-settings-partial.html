@@ -21,15 +21,23 @@
                 <div class="settings-seperator">
                     <h1 class="seperator-text">News</h1>
                 </div>
+            </li>
+            <li th:each="newspost : ${news}" class="settings-item">
+                <div class="settings-item-inner">
+                    <span>
+                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                        <a th:text="*{newspost.getTitle()}"
+                           th:href="*{'/cocotemp/adminsettings/news?newsID=' + newspost.getId()}">
+                        </a>
+                    </span>
+                </div>
+            </li>
             <li class="settings-item">
                 <div class="settings-item-inner">
                     <span><i class="fa fa-plus" aria-hidden="true"></i> <a
                             th:href="@{/news_post}"> Create a new news post</a></span>
                 </div>
             </li>
-            </li>
-
-
         </ul>
     </div>
 </div>
