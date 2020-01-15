@@ -27,9 +27,6 @@ public class UserToolsService implements IUserToolsService {
         return userRepository.findByEmail(email);
     }
 
-    public void createPasswordResetTokenForUser(User user, String token) {
-        final PasswordResetToken userToken = new PasswordResetToken(user, token);
-    }
     public void createVerificationTokenForUser(User user,String token){
         final VerificationToken verificationToken = new VerificationToken(user,token);
         verificationTokenRepository.save(verificationToken);

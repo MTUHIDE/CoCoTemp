@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Entity
+@Table
 public class PasswordResetToken {
 
     private static final int EXPIRATION = 60 * 24;
@@ -52,6 +53,10 @@ public class PasswordResetToken {
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
+    public String getToken(){
+        return this.token;
+    }
+
     private Date calculateExpiryDate(final int expiryTimeInMinutes) {
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(new Date().getTime());
@@ -59,6 +64,13 @@ public class PasswordResetToken {
         return new Date(cal.getTime().getTime());
     }
 
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public User getUser(){
+        return user;
+    }
     // Practically everything below should probably be put into a Controller of some sort.
 
 
