@@ -37,4 +37,9 @@ public class UserToolsService implements IUserToolsService {
     public VerificationToken getVerificationToken(String verificationToken){
         return verificationTokenRepository.findByToken(verificationToken);
     }
+    public void deleteVerificationToken(VerificationToken verificationToken)
+    {
+
+        verificationTokenRepository.delete(verificationToken);
+    }
 }

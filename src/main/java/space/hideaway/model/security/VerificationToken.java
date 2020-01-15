@@ -51,5 +51,7 @@ public class VerificationToken {
     public Date getExpiryDate(){
         return this.expiryDate;
     }
+
+
     // standard constructors, getters and setters
 }

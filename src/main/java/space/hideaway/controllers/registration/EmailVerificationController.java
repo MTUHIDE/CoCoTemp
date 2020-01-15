@@ -41,6 +41,7 @@ public class EmailVerificationController {
             return "redirect:/error.html";
         }
         user.setEnabled(true);
+        userToolsService.deleteVerificationToken(verificationToken);
         userService.update(user);
         securityService.autoLogin(user.getUsername(), user.getPassword());
         return "redirect:/home";
