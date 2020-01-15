@@ -27,6 +27,10 @@
         /*]]>*/
     </script>
 
+    <script th:inline="javascript">
+        var tempStandard=[[${loggedInUser.getTempStandard()}]]
+        </script>
+
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
@@ -39,7 +43,7 @@
                         <div class="inner primary">
                             <p class="infocard-body">
                                 <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.site.SiteStatistics"*/-->
-                                <span id="site-count" class="infocard-number" th:text="${max}+' &deg;C'">93&deg; F</span>
+                                <span id="site-count" class="infocard-number" th:text="${max}+' &deg;'+${standard}">93&deg; F</span>
                                 Max
                             </p>
                         </div>
@@ -47,7 +51,7 @@
                     <div class="col-lg-3 infocard">
                         <div class="inner secondary">
                             <p class="infocard-body">
-                                <span id="record-count" class="infocard-number" th:text="${min}+' &deg;C'">12&deg;F</span>
+                                <span id="record-count" class="infocard-number" th:text="${min}+' &deg;'+${standard}">12&deg;F</span>
                                 Min
                             </p>
                         </div>
@@ -55,7 +59,7 @@
                     <div class="col-lg-3 infocard">
                         <div class="inner tertiary">
                             <p class="infocard-body">
-                                <span id="upload-count" class="infocard-number" th:text="${avg}+' &deg;C'">80&deg;F</span>
+                                <span id="upload-count" class="infocard-number" th:text="${avg}+' &deg;'+${standard}">80&deg;F</span>
                                 Avg
                             </p>
                         </div>
@@ -63,7 +67,7 @@
                     <div class="col-lg-3 infocard">
                         <div class="inner quaternary">
                             <p class="infocard-body">
-                                <span id="last-update" class="infocard-number" th:text="${deviation}+' &deg;C'">12&deg; F</span>
+                                <span id="last-update" class="infocard-number" th:text="${deviation}+' &deg;'+${standard}">12&deg; F</span>
                                 Standard Deviation
                             </p>
                         </div>

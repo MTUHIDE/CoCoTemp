@@ -34,5 +34,6 @@ public class PersonalDetailsValidator implements Validator
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "middleInitial", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"tempStandard","NotEmpty");
     }
 }

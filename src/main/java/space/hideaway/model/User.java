@@ -33,8 +33,7 @@ public class User
     private String firstName;
     private String middleInitial;
     private String lastName;
-
-    private int tempDefault;
+    private char tempStandard='F';
 
     private Set<Role> roleSet;
 
@@ -69,6 +68,11 @@ public class User
     public boolean getEnabled(){return enabled;}
 
     public void setEnabled(boolean enabled){this.enabled=enabled;}
+
+    @Column(name="temp_standard")
+    public char  getTempStandard(){return tempStandard;}
+
+    public void setTempStandard(char tempStandard){this.tempStandard=tempStandard;}
 
     /**
      * Gets email.
@@ -220,17 +224,6 @@ public class User
      */
     public void setLastName(String lastName) { this.lastName = lastName; }
 
-    @Column(name = "tempDefault")
-    public int getTempDefault(){ return tempDefault; }
-
-    /**
-     * Sets tempDefault
-     * 0 is Celsius
-     * 1 is Fahrenheit
-     * 
-     * @param tempDefault the Temp
-     */
-    public void setTempDefault(int tempDefault){ this.tempDefault = tempDefault;}
 
     /**
      * Gets role set.
