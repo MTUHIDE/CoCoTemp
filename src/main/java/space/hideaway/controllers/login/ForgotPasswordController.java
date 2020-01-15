@@ -52,7 +52,6 @@ public class ForgotPasswordController {
             final @ModelAttribute("user") User userCheck,
             final WebRequest request) {
              User user = userToolsService.findUserByEmail(email);
-
                  createToken(user, request);
                  return "password/passwordSent" ;
     }
