@@ -7,6 +7,7 @@ import space.hideaway.repositories.NewsRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Justin Havely
@@ -48,6 +49,12 @@ public class NewsService {
     }
     public News findByID(long id)
     {
-        return newsRepository.findOne(id);
+        Optional<News> news = newsRepository.findById(id);
+        if(news.isPresent())
+        {
+            News newnews= news.get();
+            return newnews;
+        }
+        return null;
     }
 }

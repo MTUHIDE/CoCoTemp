@@ -8,6 +8,7 @@ import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.services.user.UserService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -51,7 +52,14 @@ public class SiteServiceImplementation implements SiteService
     @Override
     public Site findByKey(String siteID)
     {
-        return siteRepository.findById(UUID.fromString(siteID));
+
+        Optional<Site> site = siteRepository.findById(UUID.fromString(siteID));
+        if(site.isPresent())
+        {
+            Site realSite= site.get();
+            return realSite;
+        }
+        return null;
     }
 
     /**

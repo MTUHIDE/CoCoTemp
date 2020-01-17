@@ -6,6 +6,7 @@ import space.hideaway.model.User;
 
 import java.util.List;
 
+@Service
 public interface SiteService
 {
 

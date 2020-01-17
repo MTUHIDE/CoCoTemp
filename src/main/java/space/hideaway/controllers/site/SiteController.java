@@ -59,10 +59,10 @@ public class SiteController
 
         Site site = siteService.findByKey(siteID.toString());
         User user = userService.getCurrentLoggedInUser();
+        char tempStandard = 'F';
         model.addAttribute("site", site);
         model.addAttribute("siteID", site.getId());
         model.addAttribute("user", site.getUser());
-        model.addAttribute("loggedInUser",user);
 
         // Values for the site page title card.
         SiteStatistics siteStatistics = siteStatisticsService.getMostRecent(site);
@@ -71,7 +71,15 @@ public class SiteController
         double CAvg = siteStatistics.getAllAvg();
         double CDev = siteStatistics.getAllDeviation();
 
-        if(user.getTempStandard()=='F')
+     if(user!=null)
+        {
+            tempStandard=user.getTempStandard();
+            model.addAttribute("tempstandard",tempStandard);
+        }
+     else{
+         model.addAttribute("tempstandard",tempStandard);
+     }
+        if(tempStandard=='F')
         {
             if(CMax==0&&CMin==0&&CAvg==0&&CDev==0)
             {

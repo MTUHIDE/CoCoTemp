@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label for="usernameField">Username</label>
-                        <input th:field="*{username}" type="text" name="usernameField" class="form-control"
+                        <input th:field="*{username}" type="text" autocomplete="username" name="usernameField" class="form-control"
                                id="usernameField" placeholder="Enter a username." required="required"/>
                         <ul>
                             <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
@@ -40,13 +40,13 @@
                     </div>
                     <div class="form-group">
                         <label for="passwordField">Password</label>
-                        <input th:field="*{password}" type="password" name="passwordField" class="form-control"
+                        <input th:field="*{password}" type="password" autocomplete="new-password" name="passwordField" class="form-control"
                                id="passwordField" placeholder="Enter your password." required="required"/>
                         <p th:each="err : ${#fields.errors('password')}" th:text="${err}"></p>
                     </div>
                     <div class="form-group">
                         <label for="confirmField">Confirm Password</label>
-                        <input th:field="*{confirmationPassword}" type="password" name="confirmField"
+                        <input th:field="*{confirmationPassword}" type="password" autocomplete="new-password" name="confirmField"
                                class="form-control" id="confirmField"
                                placeholder="Enter your password again." required="required"/>
                         <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>

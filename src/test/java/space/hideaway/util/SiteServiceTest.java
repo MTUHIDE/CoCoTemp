@@ -46,7 +46,7 @@ public class SiteServiceTest {
         String expectedSiteId = "0e927f83-8a1e-48f5-ac3d-fb86b00dacd4";
         Site mockSite = mock(Site.class);
         UUID expectedUUID = UUID.fromString(expectedSiteId);
-        when(mockSiteRepository.findById(expectedUUID)).thenReturn(mockSite);
+        when(mockSiteRepository.findById(expectedUUID)).thenReturn(Optional.ofNullable(mockSite));
 
         Site actualSite = siteService.findByKey(expectedSiteId);
         Assert.assertEquals(mockSite,actualSite);

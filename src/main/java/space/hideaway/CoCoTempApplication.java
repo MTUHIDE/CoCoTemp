@@ -15,6 +15,8 @@ import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.concurrent.Executor;
 
@@ -25,6 +27,7 @@ import java.util.concurrent.Executor;
         DataSourceTransactionManagerAutoConfiguration.class,
         SecurityAutoConfiguration.class})
 @ComponentScan(basePackages = {"space"})
+@EnableWebSecurity
 @EnableJpaRepositories(basePackages = {"space"})
 @EntityScan(basePackages = {"space"})
 @ImportResource("classpath:/spring/spring-config.xml")

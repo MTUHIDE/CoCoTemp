@@ -18,7 +18,6 @@
     <link type="text/css" rel="stylesheet" th:href="@{/css/station.css}"/>
 
 </head>
-<body>
 <div class="row">
 
     <script th:inline="javascript">
@@ -28,7 +27,7 @@
     </script>
 
     <script th:inline="javascript">
-        var tempStandard=[[${loggedInUser.getTempStandard()}]]
+        var tempStandard=[[${tempstandard}]]
         </script>
 
     <!--Sidebar Partial-->
@@ -135,7 +134,63 @@
                             </div>
                             <div id="globeMeta" class="panel-collapse collapse">
                                 <ul class="list-group">
-
+                                    <li class="list-group-item">
+                                        <p id ="Environment">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p id ="Purpose">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="HeightAboveGround">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="HeightAboveFloor">N/A</p>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <p  id ="Enclosure">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="AirObst">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="ObstDeg">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="ObstType">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                    <p  id ="SenArea">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="RipArea">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="maxNight">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="minNight">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="Canopy">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="skyView">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="Slope">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="direction">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="WaterNear">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p  id ="WaterDist">N/A</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <p id ="WaterDir">N/A</p>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -174,6 +229,7 @@
         crossorigin=""></script>
 <script th:src="@{/js/spring-friendly-datatables.js}"></script>
 <script th:src="@{/js/map.js}"></script>
+<script th:src="@{/js/station.js}"></script>
 <script th:src="@{/js/site.js}"></script>
 <script>
     (function (i, s, o, g, r, a, m) {

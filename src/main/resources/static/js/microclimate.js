@@ -641,10 +641,10 @@ $(document).ready(function() {
 
     $('#btn-reset').on('click', function() {
         $('#builder-basic').queryBuilder('reset');
-        // microclimateMapNameSpace.clearMapOfMarkers();
-        // microclimateGraphNameSpace.removeAllTempData();
-        // var chart = document.getElementById('temperature-chart');
-        // Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
+        microclimateMapNameSpace.clearMapOfMarkers();
+        microclimateGraphNameSpace.removeAllTempData();
+        var chart = document.getElementById('temperature-chart');
+        Plotly.newPlot(chart, microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout());
     });
 
     $('#btn-get').on('click', function() {

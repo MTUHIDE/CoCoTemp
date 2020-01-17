@@ -36,10 +36,14 @@ public class SiteControllerTest {
         double expectedAvg = 5;
         double expectedSTD = 3;
 
-        String expectedMaxString = FormatUtils.doubleToVisualString(expectedMax);
-        String expectedMinString = FormatUtils.doubleToVisualString(expectedMin);
-        String expectedAvgString = FormatUtils.doubleToVisualString(expectedAvg);
-        String expectedSTDString = FormatUtils.doubleToVisualString(expectedSTD);
+        double expectedMaxF=55.4;
+        double expectedMinF = 33.8;
+        double expectedAvgF = 41;
+        double expectedSTDF = 37.4;
+        String expectedMaxString = FormatUtils.doubleToVisualString(expectedMaxF);
+        String expectedMinString = FormatUtils.doubleToVisualString(expectedMinF);
+        String expectedAvgString = FormatUtils.doubleToVisualString(expectedAvgF);
+        String expectedSTDString = FormatUtils.doubleToVisualString(expectedSTDF);
 
         long expectedLong = (long) 456;
         UUID expectedUUID = new UUID(expectedLong,expectedLong);
@@ -65,6 +69,7 @@ public class SiteControllerTest {
         verify(MockModel).addAttribute("site",MockSite);
         verify(MockModel).addAttribute("siteID",expectedUUID);
         verify(MockModel).addAttribute("user",MockUser);
+        verify(MockModel).addAttribute("tempstandard",'F');
         verify(MockModel).addAttribute("max",expectedMaxString);
         verify(MockModel).addAttribute("min",expectedMinString);
         verify(MockModel).addAttribute("avg",expectedAvgString);

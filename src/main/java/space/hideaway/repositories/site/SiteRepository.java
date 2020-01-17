@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import space.hideaway.model.site.Site;
 
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface SiteRepository extends JpaRepository<Site, UUID>
@@ -21,6 +22,6 @@ public interface SiteRepository extends JpaRepository<Site, UUID>
     @Query("SELECT count(d) from Site d where d.userID=:id")
     Long countByUserID(@Param("id") Long id);
 
-    Site findById(UUID id);
+    Optional<Site> findById(UUID id);
 
 }

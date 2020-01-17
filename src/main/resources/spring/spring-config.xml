@@ -58,6 +58,8 @@
           class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+
+
     <!--END PERSISTENCE MANAGEMENT___________________________________________________________________________________-->
     <!-- Mail sender task executore bean -->
     <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" id="taskExecutor">
@@ -66,8 +68,9 @@
         <property name="queueCapacity" value="40"></property>
         <property name="waitForTasksToCompleteOnShutdown" value="true"></property>
     </bean>
+
     <!--CUSTOM BEANS_________________________________________________________________________________________________-->
-    <bean id="userDetailsServiceImplementation" class="space.hideaway.services.user.UserDetailsServiceImplementation"/>
+    <bean id="userDetailsServiceImplementation"  class="space.hideaway.services.user.UserDetailsServiceImplementation"/>
     <bean id="securityServiceImplementation" class="space.hideaway.services.security.SecurityServiceImplementation"/>
 
     <!--Bean that runs on startup.-->

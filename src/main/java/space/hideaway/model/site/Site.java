@@ -35,8 +35,12 @@ public class Site
     private User user;
 
     private String siteName;
+
+
     private double siteLatitude;
+
     private double siteLongitude;
+
     private String siteDescription;
     private double siteElevation;
 
@@ -339,6 +343,7 @@ public class Site
     @Transient
     @JsonIgnore
     @Spatial(spatialMode = SpatialMode.HASH)
+    @SortableField
     public Coordinates getLocation()
     {
         return new Coordinates()

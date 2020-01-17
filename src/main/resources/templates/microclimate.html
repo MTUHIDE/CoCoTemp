@@ -4,6 +4,9 @@
     <title>Site</title>
     <link rel="icon" type="image/png" href="/cocotemp/images/CoCoIcon.png"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css"/>
@@ -56,10 +59,10 @@
                                 <td>Temperature &#8451;:</td>
                                 <td><input type="number" id="thresholdInput" name="thresholdInput" /></td>
                             </tr>
-                            <!--<tr>-->
-                                <!--<td>Line Color:</td>-->
-                                <!--<td><input type="color" id="thresholdColor" name="thresholdColor" /></td>-->
-                            <!--</tr>-->
+<!--                            <tr>-->
+<!--                                <td>Line Color:</td>-->
+<!--                                <td><input type="color" id="thresholdColor" name="thresholdColor" /></td>-->
+<!--                            </tr>-->
                         </table>
                         <button type="button" id="addThresholdButton">Add</button>
                         <input type="text" id="thresholdTags" />
@@ -104,7 +107,7 @@
                                 <p>You can use the tool to the right to add sites or look at the <a href="#" id="tutorial-link">tutorial</a> to learn more</p>
                             </div>
                         </div>
-                        <div id="map-mask" />
+                        <div id="map-mask"></div>
                         <div id="map"></div>
                         <div id="basemaps-wrapper" class="leaflet-bar">
                             <select name="basemaps" id="basemaps">
@@ -121,7 +124,7 @@
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>

@@ -4,10 +4,13 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import space.hideaway.model.Role;
 import space.hideaway.repositories.RoleRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import java.util.logging.Logger;
 
 
@@ -17,13 +20,15 @@ public class StartupService
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
-    private final EntityManager entityManager;
+
+    private final EntityManagerFactory entityManagerFactory;
+
     private final RoleRepository roleRepository;
 
     @Autowired
-    public StartupService(EntityManager entityManager, RoleRepository roleRepository)
+    public StartupService(EntityManagerFactory entityManagerFactory, RoleRepository roleRepository)
     {
-        this.entityManager = entityManager;
+        this.entityManagerFactory = entityManagerFactory;
         this.roleRepository = roleRepository;
     }
 
@@ -33,8 +38,10 @@ public class StartupService
      *  - Enables Hibernate's FullTextEntityManager for Full-text searching.
      *  - Initializes roles in database
      */
-    public void initialize()
+    @Transactional
+     public void initialize()
     {
+        EntityManager entityManager= entityManagerFactory.createEntityManager();
         logger.info("Linking entityManager.");
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         logger.info(String.format("entityManager: %s linked.", entityManager));
