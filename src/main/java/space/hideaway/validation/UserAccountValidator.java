@@ -31,6 +31,28 @@ public class UserAccountValidator implements Validator
     }
 
     /**
+     *Checks to see if email does not exist.
+     *
+     * @param o the given user
+     * @param errors the bindingResult
+     * */
+    public void validateEmail(Object o, Errors errors){
+        User userTemp = (User) o;//This tempUser serves to hold the email given from the forgotPassword page.
+
+        User user = userService.findByEmail(userTemp.getEmail());//Finds user based on given email
+        //If the given user is null then the email does not exist
+        if(user == null){
+            errors.rejectValue("email", "userForm.user.email", "This email does not exist");
+        } else {
+            // Email does not exist
+            User byEmail = userService.findByEmail(user.getEmail());
+            if (byEmail == null) {
+                errors.rejectValue("email", "userForm.user.email", "This email does not exist");
+            }
+        }
+    }
+
+    /**
      * Validates a new account. Checks for a correct email, username, and password.
      *
      * @param o the new user
