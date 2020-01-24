@@ -484,7 +484,7 @@ function populateSites(myMap,markerCluster,init) {
            '<option value="16">Idaho</option>'+
            '<option value="17">Illinois</option>'+
            '<option value="18">Indiana</option>'+
-           '<option value="19"Iowa</option>'+
+           '<option value="19">Iowa</option>'+
            '<option value="20">Kansas</option>"'+
            '<option value="21">Kentucky</option>'+
            '<option value="22">Louisiana</option>'+

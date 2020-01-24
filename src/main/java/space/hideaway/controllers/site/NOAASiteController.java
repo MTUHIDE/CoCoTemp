@@ -9,8 +9,6 @@ import space.hideaway.model.User;
 import space.hideaway.services.site.SiteStatisticsService;
 import space.hideaway.services.user.UserService;
 
-import java.util.UUID;
-
 
 @Controller
 public class NOAASiteController {
@@ -41,14 +39,12 @@ public class NOAASiteController {
     @RequestMapping(value = "/NOAASite/{siteID}")
     public String showSite(
             Model model,
-            @PathVariable(value = "siteID") UUID siteID)
-    {
+            @PathVariable(value = "siteID") String siteID) throws Exception {
 
         User user = userService.getCurrentLoggedInUser();
         char tempStandard = 'F';
-//        model.addAttribute("site", site);
-//        model.addAttribute("siteID", site.getId());
-//        model.addAttribute("user", site.getUser());
+        model.addAttribute("id", siteID);
+
         if(user!=null)
         {
             tempStandard=user.getTempStandard();
@@ -57,7 +53,7 @@ public class NOAASiteController {
         else{
             model.addAttribute("tempstandard",tempStandard);
         }
-        return "station";
+        return "NOAAStation";
     }
 
 }
