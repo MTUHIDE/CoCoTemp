@@ -357,7 +357,6 @@ $(function () {
                 var layout = {
                     updatemenus: updatemenus,
                     xaxis: {
-                        fixedrange: true,
                         title: 'Time (24hrs)',
                         titlefont: {
                             family: 'Segoe UI',
@@ -540,7 +539,6 @@ $(function () {
                 var layout = {
                     updatemenus: updatemenus,
                     xaxis: {
-                        fixedrange: true,
                         title: 'Time (24hrs)',
                         titlefont: {
                             family: 'Segoe UI',

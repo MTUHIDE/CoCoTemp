@@ -90,14 +90,17 @@ function changeBasemap(myMap, basemap) {
 
 function populateNOAASites(myMap,markerCluster,offset,sitesLeft,firstTime,FIPS)
 {
-    var siteMarkers = [];
+
+    var siteMarkers=[];
     markerCluster.clearLayers();
 
     populateSites(myMap,markerCluster,0);
+
     var north =0;
     var east = 0;
     var south = 0;
     var west =0;
+
 
     switch(FIPS) {
         case "01":
@@ -409,12 +412,26 @@ function populateNOAASites(myMap,markerCluster,offset,sitesLeft,firstTime,FIPS)
         default:
             return;
     }
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    var year_ago = new Date();
+    year_ago.setFullYear(today.getFullYear()-1)
+    var olddd = String(year_ago.getDate()).padStart(2, '0');
+    var oldmm = String(year_ago.getMonth() + 1).padStart(2, '0');
+    var oldyyyy = year_ago.getFullYear();
+
+
+    today = yyyy+'-'+mm+'-'+dd;
+    year_ago = oldyyyy+'-'+oldmm+'-'+olddd;
+
 
         $.ajax({
             method: 'get',
             datatype: 'json',
             headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
-            url: 'https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate=2019-01-01T00:00:00&endDate=2020-12-31T23:59:59&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
+            url: 'https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
             success: function (data) {
                 if (data.count == 0) {
                     return;
@@ -469,6 +486,7 @@ function populateSites(myMap,markerCluster,init) {
     if(init) {
         L.control.slideMenu('<div style="color: white; background-color:#00395E"><h1><b>NOAA Sites By state</b></h1>' +
             '<select style="color:black" id="state-select">'+
+            '<option value="00"></option>'+
            '<option value="01">Alabama</option>'+
            '<option value="02">Alaska</option>'+
            '<option value="04">Arizona</option>'+
