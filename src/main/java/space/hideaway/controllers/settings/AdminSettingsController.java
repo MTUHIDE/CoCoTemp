@@ -1,6 +1,7 @@
 package space.hideaway.controllers.settings;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,13 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import space.hideaway.model.News;
 import space.hideaway.model.User;
-import space.hideaway.model.site.Site;
 import space.hideaway.services.NewsService;
 import space.hideaway.services.user.UserServiceImplementation;
 import space.hideaway.validation.PersonalDetailsValidator;
-import org.springframework.stereotype.Controller;
-
-import java.util.UUID;
 
 @Controller
 public class AdminSettingsController {
@@ -64,13 +61,13 @@ public class AdminSettingsController {
 
         return "adminsettings/news";
     }
-    @RequestMapping(value = "/adminsettings/news/update", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/adminsettings/news",params = {"update"},method = RequestMethod.POST)
     public String updateNews(
             @ModelAttribute("newspost") News news,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes)
     {
-        // Validates siteName and siteDescription
 
         if (bindingResult.hasErrors())
         {
@@ -81,6 +78,19 @@ public class AdminSettingsController {
         newsService.save(news);
 
         return "redirect:/adminsettings/news?newsID=" + news.getId();
+    }
+
+    @RequestMapping(value = "/adminsettings/news",params = {"delete"},method = RequestMethod.POST)
+    public String deleteNews(
+            @ModelAttribute("newspost") News news,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes)
+    {
+
+
+        newsService.delete(news);
+
+        return "redirect:/adminsettings/";
     }
 
     /**

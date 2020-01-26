@@ -47,6 +47,7 @@ public class NewsService {
 
         return newsRepository.findAllByOrderByIdAsc();
     }
+
     public News findByID(long id)
     {
         Optional<News> news = newsRepository.findById(id);
@@ -56,5 +57,10 @@ public class NewsService {
             return newnews;
         }
         return null;
+    }
+
+    public void delete(News news)
+    {
+         newsRepository.delete(news);
     }
 }
