@@ -21,6 +21,7 @@ $(function () {
         ['Gary Lord', 'Former Sensor Developer'],
         ['Caleb Melnychenko','Web Developer (2018-present)'],
         ['Trevor Murphy', 'Former Web Developer (2017-2018)'],
+        ['Abby Myers', 'Web Developer (2020-present)'],
         ['Collin Palmer','Web/Sensor Developer (2018-present)'],
         ['Cody Reightley', 'Web Developer (2019-present)'],
         ['Mason Sayles','Web Developer (2019-present)'],
