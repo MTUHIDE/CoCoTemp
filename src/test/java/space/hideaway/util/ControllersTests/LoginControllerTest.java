@@ -1,4 +1,4 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 import org.junit.Assert;
 import org.springframework.ui.Model;
 import space.hideaway.controllers.login.LoginController;

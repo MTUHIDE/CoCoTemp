@@ -1,10 +1,11 @@
-package space.hideaway.util;
+package space.hideaway.util.ModelTests;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteStatistics;
-import space.hideaway.services.security.SecurityService;
 
 import java.util.Date;
 import java.util.UUID;

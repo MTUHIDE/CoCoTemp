@@ -8,6 +8,8 @@ $(function () {
         })
     }
     var dates = [], temperature = [], tempF = [];
+    var maxC=0,minC=0,avgC=0,stdC=0;
+    var maxF=0,minF=0,avgF=0,stdF=0;
 
 
 
@@ -55,8 +57,9 @@ $(function () {
         $.ajax({
             method: 'get',
             datatype: 'json',
+            async:true,
             headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
-            url: 'https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
+            url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
             success: function (data) {
                 if (data.length === 0) {
                     return;
@@ -85,24 +88,103 @@ $(function () {
                     help=convertedTemp;
                     if(convertedTemp!=999.9) {
                         dates.push(new Date(data[i].DATE));
-                        temperature.push(convertedTemp.toFixed(1));
-                        tempF.push((convertedTemp * (9 / 5) + 32).toFixed(1));
+                        temperature.push(parseFloat(convertedTemp.toFixed(1)));
+                        tempF.push(parseFloat((convertedTemp * (9 / 5) + 32).toFixed(1)));
                     }
                 }
                 spinner.stop();
-                // updateChart(dates, temperature, tempF);
+                maxC=findMax(temperature);
+                maxF=findMax(tempF);
+                minC=findMin(temperature);
+                minF=findMin(tempF);
+                avgC=findAvg(temperature);
+                avgF=findAvg(tempF);
+                stdC=findStd(temperature);
+                stdF=findStd(tempF);
+
+                buildChart();
             }
         });
-        buildChart(tempStandard);
+        buildChart();
+    }
+    function findAvg(tempArr) {
+        var sum =0;
+        var avg;
+        for(var i=0;i<tempArr.length;i++)
+        {
+            sum = sum+tempArr[i];
+        }
+        avg=sum/tempArr.length;
+        return avg.toFixed(1);
+    }
+
+    function findStd(tempArr) {
+        var avg = findAvg(tempArr);
+        var newArr = [];
+        for(var i=0;i<tempArr.length;i++)
+        {
+            var value=Math.pow((tempArr[i]-avg),2);
+            newArr.push(value);
+        }
+        var newAvg = findAvg(newArr);
+        var sqrtVal= Math.sqrt(newAvg);
+        return sqrtVal.toFixed(1);
+
+    }
+
+    function findMax(tempArr) {
+        var newmax = (tempArr[0]);
+        for(var i=0;i<tempArr.length;i++)
+            {
+                if((tempArr[i])>newmax)
+                {
+                    newmax=(tempArr[i]);
+                }
+            }
+        return newmax;
+    }
+    function findMin(tempArr) {
+        var min = (tempArr[0]);
+        for(var index=0;index<tempArr.length;index++)
+        {
+            if((tempArr[index])<min)
+            {
+                min=(tempArr[index]);
+            }
+        }
+        return min;
     }
 
         function buildChart() {
+
+
             var innerContainer = document.querySelector('#plot-area');
             var tempeSelect = innerContainer.querySelector('#temperature-select');
             var tempPlot = innerContainer.querySelector('#temperature-chart');
 
             tempeSelect.addEventListener('change', changeTemperaturePreference, false);
-
+            var target= document.getElementById("temperature-chart");
+            var opts={
+                lines: 13, // The number of lines to draw
+                length: 38, // The length of each line
+                width: 17, // The line thickness
+                radius: 45, // The radius of the inner circle
+                scale: 1, // Scales overall size of the spinner
+                corners: 1, // Corner roundness (0..1)
+                color: '#000000', // CSS color or array of colors
+                fadeColor: 'transparent', // CSS color or array of colors
+                speed: 1, // Rounds per second
+                rotate: 0, // The rotation offset
+                animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+                direction: 1, // 1: clockwise, -1: counterclockwise
+                zIndex: 2e9, // The z-index (defaults to 2000000000)
+                className: 'spinner', // The CSS class to assign to the spinner
+                top: '50%', // Top position relative to parent
+                left: '50%', // Left position relative to parent
+                shadow: '0 0 1px transparent', // Box-shadow for the lines
+                position: 'absolute' // Element positioning
+            };
+            var spinner = new Spinner(opts).spin(target);
 
             var layout = {
                 xaxis: {
@@ -151,7 +233,7 @@ $(function () {
                         color: '#7f7f7f'
                     }
                 }],
-                showlegend: true,
+                showlegend: false,
                 legend: {
                     x: 1.2,
                     y: 1
@@ -180,318 +262,11 @@ $(function () {
             }
 
             if (tempStandard == 'F') {
-                var collectedTempF = {
-                    hoverinfo: "y+x",
-                    visible: true,
-                    type: 'temp',
-                    x: dates,
-                    y: tempF,
-                    name: 'site\'s temperature F',
-                    mode: 'lines+markers',
-                    type: 'scatter'
-                }
+                document.getElementById('Max').innerText=''+maxF+' °'+tempStandard;
+                document.getElementById('Min').innerText=''+minF+' °'+tempStandard;
+                document.getElementById('Avg').innerText=''+avgF+' °'+tempStandard;
+                document.getElementById('Std').innerText=''+stdF+' °'+tempStandard;
 
-                var collectedTempsC = {
-                    hoverinfo: "y+x",
-                    visible: false,
-                    type: 'temp',
-                    x: dates,
-                    y: temperature,
-                    name: 'site\'s temperature C',
-                    mode: 'lines+markers',
-                    type: 'scatter'
-                };
-
-                var freezeF;
-                //If no data sets freezeF default if data goes by data points
-                if (dates.length == 0) {
-                    freezeF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [32, 32, 32, 32, 32, 32],
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                } else {
-                    freezeF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: dates,
-                        y: yFreezeF,
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                }
-
-                var cautionF;
-                if (dates.length == 0) {
-                    cautionF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        dx: 0,
-                        visible: true,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [107, 107, 107, 107, 107, 107],
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                } else {
-                    cautionF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        dx: 0,
-                        visible: true,
-                        x: dates,
-                        y: yCautionF,
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                }
-
-                var freezeC;
-                if (dates.length == 0) {
-                    freezeC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [0, 0, 0, 0, 0, 0],
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                } else {
-                    freezeC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: dates,
-                        y: yFreezeC,
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                }
-            }
-            else if(tempStandard=='C'){
-                    var updatemenus = [{
-                        y: 1,
-                        yanchor: 'top',
-
-                    }];
-                }
-
-                var cautionC;
-                if (dates.length == 0) {
-                    cautionC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [42, 42, 42, 42, 42, 42],
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                } else {
-                    cautionC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: dates,
-                        y: yCautionC,
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                }
-
-                var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC];
-
-
-                Plotly.newPlot('temperature-chart', data, layout);
-                window.onresize = function () {
-                    Plotly.Plots.resize(gd);
-                };
-            }
-
-
-            function changeTemperaturePreference(preferences) {
-                if(tempStandard=='F')
-                {
-                    tempStandard='C';
-                    buildChart()
-                }
-                else
-                    {
-                        tempStandard='F';
-                    }
-        }
-
-
-
-
-
-
-
-
-        function updateChart(dates, temperature, tempF) {
-            var d3 = Plotly.d3;
-
-            var annotationsC = [{
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 42,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Ex Caution",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            },{
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 0,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Freezing",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            }];
-
-            var annotationsF = [{
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 107,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Ex Caution",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            }, {
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 32,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Freezing",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            }];
-            //Adds buttons to change from C to F and vice versa
-            if(tempStandard=='F') {
-                var updatemenus = [{
-                    y: 1,
-                    yanchor: 'top',
-                    buttons: [
-                        {
-                            method: 'update',
-                            args: [{'visible': [false, true, true, true, false, false]}, {
-                                'yaxis': {
-                                    title: 'F°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsF
-                            }],
-                            label: 'Fahrenheit'
-                        }, {
-                            method: 'update',
-                            args: [{'visible': [true, false, false, false, true, true]}, {
-                                'yaxis': {
-                                    title: 'C°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsC
-                            }],
-                            label: 'Celsius'
-                        }]
-                }];
-            }
-            else if(tempStandard=='C'){
-                var updatemenus = [{
-                    y: 1,
-                    yanchor: 'top',
-                    buttons: [
-                        {
-                            method: 'update',
-                            args: [{'visible': [true, false, false, false, true, true]}, {
-                                'yaxis': {
-                                    title: 'C°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsC
-                            }],
-                            label: 'Celsius'
-                        },
-                        {
-                            method: 'update',
-                            args: [{'visible': [false, true, true, true, false, false]}, {
-                                'yaxis': {
-                                    title: 'F°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsF
-                            }],
-                            label: 'Fahrenheit'
-                        }]
-                }];
-            }
-
-
-            var gd3 = d3.select('div[id=\'temperature-chart\']');
-
-            var gd = gd3.node();
-
-            //data arrays for freezing and ex caution lines
-            var yFreezeF = [] ;
-            var yCautionF = [];
-            var yFreezeC = [];
-            var yCautionC = [];
-            var i; //counter var for loops
-            for(i = 0; i < dates.length; i++) {
-                yFreezeF.push(32);
-            }
-            for (i = 0; i < dates.length; i++) {
-                yCautionF.push(107);
-            }
-            for (i = 0; i < dates.length; i++) {
-                yFreezeC.push(0);
-            }
-            for (i = 0; i < dates.length; i++) {
-                yCautionC.push(42);
-            }
-
-            if(tempStandard =='F') {
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: true,
@@ -609,10 +384,8 @@ $(function () {
                     }
                 }
 
-                var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC];
 
                 var layout = {
-                    updatemenus: updatemenus,
                     xaxis: {
                         title: 'Time (24hrs)',
                         titlefont: {
@@ -659,21 +432,19 @@ $(function () {
                             color: '#7f7f7f'
                         }
                     }],
-                    showlegend: true,
+                    showlegend: false,
                     legend: {
                         x: 1.2,
                         y: 1
                     },
                     margin: {r: 200}
                 };
-                Plotly.plot(gd, data, layout)
-
-                window.onresize = function() {
-                    Plotly.Plots.resize(gd);
-                };
             }
-            else if(tempStandard =='C')
-            {
+            else if(tempStandard=='C') {
+                document.getElementById('Max').innerText=''+maxC+' °'+tempStandard;
+                document.getElementById('Min').innerText=''+minC+' °'+tempStandard;
+                document.getElementById('Avg').innerText=''+avgC+' °'+tempStandard;
+                document.getElementById('Std').innerText=''+stdC+' °'+tempStandard;
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: false,
@@ -791,10 +562,8 @@ $(function () {
                     }
                 }
 
-                var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC];
 
                 var layout = {
-                    updatemenus: updatemenus,
                     xaxis: {
                         title: 'Time (24hrs)',
                         titlefont: {
@@ -841,22 +610,41 @@ $(function () {
                             color: '#7f7f7f'
                         }
                     }],
-                    showlegend: true,
+                    showlegend: false,
                     legend: {
                         x: 1.2,
                         y: 1
                     },
                     margin: {r: 200}
                 };
-                Plotly.plot(gd, data, layout)
-
-                window.onresize = function() {
-                    Plotly.Plots.resize(gd);
-                };
             }
 
+
+                var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC];
+
+
+
+
+            Plotly.newPlot('temperature-chart', data, layout,{responsive:true});
+
+            spinner.stop();
         }
 
+
+            function changeTemperaturePreference() {
+
+
+                if(tempStandard=='F')
+                {
+                    tempStandard='C';
+                    buildChart();
+                }
+                else
+                    {
+                        tempStandard='F';
+                        buildChart();
+                    }
+        }
 
     _.defer(buildMap);
     _.defer(populateSiteandPopulateChart);

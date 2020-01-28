@@ -1,8 +1,9 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 
 
-import org.junit.*;
-import org.mockito.Mockito.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.ui.Model;
 import space.hideaway.controllers.DashboardController;
 import space.hideaway.model.Device;
@@ -10,14 +11,10 @@ import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
 import space.hideaway.services.user.UserServiceImplementation;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class DashboardControllerTest {
     DashboardController dashboardController;

@@ -1,4 +1,4 @@
-package space.hideaway.util;
+package space.hideaway.util.ServicesTests;
 import org.junit.*;
 import space.hideaway.model.Device;
 import space.hideaway.model.Role;

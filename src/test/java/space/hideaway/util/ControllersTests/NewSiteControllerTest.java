@@ -1,7 +1,8 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 
-import org.junit.*;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;

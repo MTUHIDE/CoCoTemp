@@ -431,7 +431,7 @@ function populateNOAASites(myMap,markerCluster,offset,sitesLeft,firstTime,FIPS)
             method: 'get',
             datatype: 'json',
             headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
-            url: 'https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
+            url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
             success: function (data) {
                 if (data.count == 0) {
                     return;

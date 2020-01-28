@@ -1,4 +1,4 @@
-package space.hideaway.util;
+package space.hideaway.util.ModelTests;
 import org.junit.*;
 
 import space.hideaway.model.*;

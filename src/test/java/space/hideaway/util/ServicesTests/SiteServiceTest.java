@@ -1,6 +1,8 @@
-package space.hideaway.util;
+package space.hideaway.util.ServicesTests;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
 import space.hideaway.repositories.site.SiteRepository;
@@ -8,7 +10,6 @@ import space.hideaway.services.site.SiteService;
 import space.hideaway.services.site.SiteServiceImplementation;
 import space.hideaway.services.user.UserService;
 
-import javax.validation.constraints.AssertFalse;
 import java.util.*;
 
 import static org.mockito.Mockito.*;

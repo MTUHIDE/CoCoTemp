@@ -1,6 +1,7 @@
-package space.hideaway.util;
-import com.sun.org.apache.xpath.internal.operations.Mult;
-import org.junit.*;
+package space.hideaway.util.ServicesTests;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -9,14 +10,11 @@ import space.hideaway.model.User;
 import space.hideaway.services.data.DataServiceImplementation;
 import space.hideaway.services.site.SiteServiceImplementation;
 import space.hideaway.services.upload.UploadHistoryService;
-import space.hideaway.services.upload.UploadHistoryServiceImplementation;
 import space.hideaway.services.upload.UploadService;
 import space.hideaway.services.user.UserServiceImplementation;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import static org.mockito.Mockito.*;
 

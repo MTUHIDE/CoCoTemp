@@ -1,8 +1,8 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 
-import org.junit.*;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.support.SessionStatus;

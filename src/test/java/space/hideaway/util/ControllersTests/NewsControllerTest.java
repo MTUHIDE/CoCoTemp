@@ -1,6 +1,7 @@
-package space.hideaway.util;
-import org.junit.*;
-import org.mockito.Mock;
+package space.hideaway.util.ControllersTests;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.ui.Model;
 import space.hideaway.controllers.NewsController;
 import space.hideaway.model.News;
@@ -9,9 +10,7 @@ import space.hideaway.services.NewsService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class NewsControllerTest {

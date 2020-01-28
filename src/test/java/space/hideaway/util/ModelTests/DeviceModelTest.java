@@ -1,9 +1,10 @@
-package space.hideaway.util;
-import org.junit.*;
+package space.hideaway.util.ModelTests;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
-
-import space.hideaway.model.*;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.upload.UploadHistory;
 
@@ -11,7 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.mock;
 
 public class DeviceModelTest {

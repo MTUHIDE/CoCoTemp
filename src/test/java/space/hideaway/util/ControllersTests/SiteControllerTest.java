@@ -1,4 +1,4 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 import org.junit.*;
 import org.springframework.ui.Model;
 import space.hideaway.controllers.site.SiteController;
@@ -8,6 +8,7 @@ import space.hideaway.model.site.SiteStatistics;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.services.site.SiteStatisticsService;
 import space.hideaway.services.user.UserService;
+import space.hideaway.util.FormatUtils;
 
 import java.util.UUID;
 

@@ -1,19 +1,16 @@
-package space.hideaway.util;
+package space.hideaway.util.ModelTests;
 
-import com.fasterxml.jackson.databind.jsontype.impl.AsExistingPropertyTypeSerializer;
-import org.hibernate.search.spatial.Coordinates;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import space.hideaway.model.Data;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteStatistics;
-
-import space.hideaway.model.Data;
 import space.hideaway.model.upload.UploadHistory;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 import static org.mockito.Mockito.mock;
 

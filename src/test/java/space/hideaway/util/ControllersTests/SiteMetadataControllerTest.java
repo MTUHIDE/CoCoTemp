@@ -1,22 +1,21 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.json.JSONObject;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
-import org.omg.CORBA.Any;
 import org.springframework.ui.Model;
 import space.hideaway.controllers.site.SiteMetadataController;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteMetadata;
 import space.hideaway.repositories.site.SiteMetadataRepository;
+import space.hideaway.repositories.site.SitePredicatesBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import org.json.*;
-import space.hideaway.repositories.site.SitePredicatesBuilder;
 
 import static org.mockito.Mockito.*;
 

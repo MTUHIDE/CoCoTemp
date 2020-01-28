@@ -1,7 +1,7 @@
-package space.hideaway.util;
-import javafx.scene.chart.PieChart;
-import org.junit.*;
-import org.mockito.Mock;
+package space.hideaway.util.ControllersTests;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import space.hideaway.controllers.RESTController;
 import space.hideaway.model.Device;
 import space.hideaway.model.json.InfoCardSerializer;
@@ -11,13 +11,10 @@ import space.hideaway.model.upload.UploadHistory;
 import space.hideaway.services.RESTService;
 import space.hideaway.services.site.SiteMetadataService;
 import space.hideaway.services.site.SiteService;
+import space.hideaway.util.HistoryUnit;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import space.hideaway.model.Data;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

@@ -1,19 +1,16 @@
-package space.hideaway.util;
-import org.junit.*;
+package space.hideaway.util.ServicesTests;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import space.hideaway.services.security.SecurityService;
 import space.hideaway.services.security.SecurityServiceImplementation;
 import space.hideaway.services.user.UserDetailsServiceImplementation;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class SecurityServiceTest {
 

@@ -1,4 +1,4 @@
-package space.hideaway.util;
+package space.hideaway.util.ControllersTests;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.hibernate.search.SearchFactory;
