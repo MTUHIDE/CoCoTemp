@@ -16,6 +16,8 @@
           crossorigin=""/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/station.css}"/>
+    <link rel="stylesheet" href="node_modules/spin.js/spin.css">
+
 
 </head>
 <div class="row">
@@ -74,7 +76,17 @@
 <!--                </div>-->
             </div>
             <div class="row">
-                <div id="temperature-chart"></div>
+                <div id ="plot-area">
+                    <div id="left-div" style="float: left; width: 80px; position: absolute;">
+                        <label for="temperature-select">Temperature: </label>
+                        <select id="temperature-select">
+                        <option value="F">Fahrenheit</option>
+                        <option value="C">Celsius</option>
+                        </select>
+                    </div>
+                    <div id="temperature-chart" style="padding-left: 96px;">
+                </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 solid-bar">
@@ -103,7 +115,6 @@
                                     </li>
                                     <li class="list-group-item" th:inline="text">Site ID:
                                         [[${id}]]
-
                                     </li>
                                     <li class="list-group-item"  id="LatLong" >Location:
                                     </li>
