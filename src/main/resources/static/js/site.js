@@ -1,6 +1,8 @@
 $(function () {
 
     var myMap;
+    var dates=[],temperature=[],tempF=[];
+    var previousTemp=tempStandard;
     function buildMap() {
         myMap = createMap();
         $('#basemaps').on('change', function() {
@@ -25,7 +27,6 @@ $(function () {
 
     function populateChart() {
 
-        var dates = [], temperature = [], tempF = [];
 
         $.ajax({
             method: 'get',
@@ -41,169 +42,81 @@ $(function () {
             }
         });
 
+        function changeTemperaturePreference() {
 
-        function buildChart(dates, temperature, tempF) {
-            var d3 = Plotly.d3;
 
-            var annotationsC = [{
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 42,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Ex Caution",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            },{
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 0,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Freezing",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            }];
-
-            var annotationsF = [{
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 107,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Ex Caution",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            }, {
-                visible: true,
-                xref: 'paper',
-                x: 1,
-                y: 32,
-                xanchor: 'left',
-                yanchor: 'middle',
-                text: "Freezing",
-                showarrow: false,
-                font: {
-                    family: 'Segoe UI',
-                    size: 14,
-                    color: '#7f7f7f'
-                }
-            }];
-            //Adds buttons to change from C to F and vice versa
-            if(tempStandard=='F') {
-                var updatemenus = [{
-                    y: 1,
-                    yanchor: 'top',
-                    buttons: [
-                        {
-                            method: 'update',
-                            args: [{'visible': [false, true, true, true, false, false]}, {
-                                'yaxis': {
-                                    title: 'F°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsF
-                            }],
-                            label: 'Fahrenheit'
-                        }, {
-                            method: 'update',
-                            args: [{'visible': [true, false, false, false, true, true]}, {
-                                'yaxis': {
-                                    title: 'C°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsC
-                            }],
-                            label: 'Celsius'
-                        }]
-                }];
+            if(tempStandard=='F')
+            {
+                tempStandard='C';
+                previousTemp='F';
+                buildChart();
             }
-            else if(tempStandard=='C'){
-                var updatemenus = [{
-                    y: 1,
-                    yanchor: 'top',
-                    buttons: [
-                        {
-                            method: 'update',
-                            args: [{'visible': [true, false, false, false, true, true]}, {
-                                'yaxis': {
-                                    title: 'C°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsC
-                            }],
-                            label: 'Celsius'
-                        },
-                        {
-                            method: 'update',
-                            args: [{'visible': [false, true, true, true, false, false]}, {
-                                'yaxis': {
-                                    title: 'F°',
-                                    titlefont: {
-                                        family: 'Segoe UI',
-                                        size: 16,
-                                        color: '#7f7f7f'
-                                    }
-                                }, 'annotations': annotationsF
-                            }],
-                            label: 'Fahrenheit'
-                        }]
-                }];
+            else
+            {
+                tempStandard='F';
+                previousTemp='C';
+                buildChart();
             }
+        }
 
+        function buildChart() {
 
-            var gd3 = d3.select('div[id=\'temperature-chart\']').append('div')
-                .style({
-                    width: '100%',
-                    height: '100%'
-                });
+            var innerContainer = document.querySelector('#plot-area');
+            var tempeSelect = innerContainer.querySelector('#temperature-select');
+            var tempPlot = innerContainer.querySelector('#temperature-chart');
 
-            var gd = gd3.node();
+            tempeSelect.addEventListener('change', changeTemperaturePreference, false);
 
-            //data arrays for freezing and ex caution lines
-            var yFreezeF = [] ;
-            var yCautionF = [];
-            var yFreezeC = [];
-            var yCautionC = [];
-            var i; //counter var for loops
-            for(i = 0; i < dates.length; i++) {
-                yFreezeF.push(32);
-            }
-            for (i = 0; i < dates.length; i++) {
-                    yCautionF.push(107);
-                }
-            for (i = 0; i < dates.length; i++) {
-                    yFreezeC.push(0);
-                }
-            for (i = 0; i < dates.length; i++) {
-                    yCautionC.push(42);
-                }
+            var CelsiusThresholds=[
+                {thresholdValue:"0", thresholdName:"Freezing"},
+                {thresholdValue:"35", thresholdName:"<a href='https://www.weather.gov/ama/heatindex'>NWS Heat Caution</a>"},
+                {thresholdValue:"56", thresholdName:"<a href='https://www.weather.gov/ama/heatindex'>NWS Heat Danger</a>"}
+            ];
+            var FahrenheitThresholds=[
+                {thresholdValue:"32", thresholdName:"Freezing"},
+                {thresholdValue:"95", thresholdName:"<a href='https://www.weather.gov/ama/heatindex'>NWS Heat Caution</a>"},
+                {thresholdValue:"132.8", thresholdName:"<a href='https://www.weather.gov/ama/heatindex'>NWS Heat Danger</a>"}
+            ];
 
             if(tempStandard =='F') {
+                if(previousTemp=='C')
+                {
+
+                    var stdF=(stdTemp*(9/5)+32).toFixed(1);
+                    var maxF=(maxTemp*(9/5)+32).toFixed(1);
+                    var minF=(minTemp*(9/5)+32).toFixed(1);
+                    var avgF=(avgTemp*(9/5)+32).toFixed(1);
+
+                    stdTemp=stdF;
+                    maxTemp=maxF;
+                    minTemp=minF;
+                    avgTemp=avgF;
+
+                    if(stdF==0)
+                    {
+                        stdTemp=0;
+                        stdF=0;
+                    }
+                    if(maxF==0){
+                        maxTemp=0;
+                        maxF=0;
+                    }
+                    if(minF==0)
+                    {
+                        minTemp=0;
+                        minF=0;
+                    }
+                    if(avgF==0){
+                        avgTemp=0;
+                        avgF=0;
+                    }
+
+                    document.getElementById('max-temp').innerText=maxF+' °F'
+                    document.getElementById('min-temp').innerText=minF+' °F'
+                    document.getElementById('avg-temp').innerText=avgF+' °F'
+                    document.getElementById('std-temp').innerText=stdF+' °F'
+                }
+
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: true,
@@ -226,107 +139,11 @@ $(function () {
                     type: 'scatter'
                 };
 
-                var freezeF;
-                //If no data sets freezeF default if data goes by data points
-                if (dates.length == 0) {
-                    freezeF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [32, 32, 32, 32, 32, 32],
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                } else {
-                    freezeF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: dates,
-                        y: yFreezeF,
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                }
 
-                var cautionF;
-                if (dates.length == 0) {
-                    cautionF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        dx: 0,
-                        visible: true,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [107, 107, 107, 107, 107, 107],
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                } else {
-                    cautionF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        dx: 0,
-                        visible: true,
-                        x: dates,
-                        y: yCautionF,
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                }
-
-                var freezeC;
-                if (dates.length == 0) {
-                    freezeC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [0, 0, 0, 0, 0, 0],
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                } else {
-                    freezeC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: dates,
-                        y: yFreezeC,
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                }
-
-                var cautionC;
-                if (dates.length == 0) {
-                    cautionC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [42, 42, 42, 42, 42, 42],
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                } else {
-                    cautionC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: dates,
-                        y: yCautionC,
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                }
-
-                var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC];
-
+                var data = [collectedTempsC, collectedTempF];
                 var layout = {
-                    updatemenus: updatemenus,
                     xaxis: {
-                        fixedrange: true,
+                        fixedrange: false,
                         title: 'Time (24hrs)',
                         titlefont: {
                             family: 'Segoe UI',
@@ -343,35 +160,7 @@ $(function () {
                         }
                     },
                     shapes: [],
-                    annotations: [{
-                        visible: true,
-                        xref: 'paper',
-                        x: 1,
-                        y: 107,
-                        xanchor: 'left',
-                        yanchor: 'middle',
-                        text: "Ex Caution",
-                        showarrow: false,
-                        font: {
-                            family: 'Segoe UI',
-                            size: 14,
-                            color: '#7f7f7f'
-                        }
-                    }, {
-                        visible: true,
-                        xref: 'paper',
-                        x: 1,
-                        y: 32,
-                        xanchor: 'left',
-                        yanchor: 'middle',
-                        text: "Freezing",
-                        showarrow: false,
-                        font: {
-                            family: 'Segoe UI',
-                            size: 14,
-                            color: '#7f7f7f'
-                        }
-                    }],
+                    annotations: [],
                     showlegend: true,
                     legend: {
                         x: 1.2,
@@ -379,14 +168,111 @@ $(function () {
                     },
                     margin: {r: 200}
                 };
-                Plotly.plot(gd, data, layout)
+                FahrenheitThresholds.forEach(function (threshold) {
+                    var lines;
+                  if(threshold.thresholdValue==32)
+                  {
+                       lines = {
+                          type: 'line',
+                          xref: 'paper',
+                          yref: 'y',
+                          x0: 0,
+                          y0: threshold.thresholdValue,
+                          x1: 1,
+                          y1: threshold.thresholdValue,
+                          line: {
+                              color: 'rgb(51, 175, 255)',
+                              width: 1
+                          }
+                      };
+                  }
+                  else if(threshold.thresholdValue==95)
+                  {
+                       lines = {
+                          type: 'line',
+                          xref: 'paper',
+                          yref: 'y',
+                          x0: 0,
+                          y0: threshold.thresholdValue,
+                          x1: 1,
+                          y1: threshold.thresholdValue,
+                          line: {
+                              color: 'rgb(255,102,0)',
+                              width: 1
+                          }
+                      };
+                  }
+                  else{
+                      lines = {
+                          type: 'line',
+                          xref: 'paper',
+                          yref: 'y',
+                          x0: 0,
+                          y0: threshold.thresholdValue,
+                          x1: 1,
+                          y1: threshold.thresholdValue,
+                          line: {
+                              color: 'rgb(206,0,1)',
+                              width: 1
+                          }
+                      };
+                  }
 
-                window.onresize = function() {
-                    Plotly.Plots.resize(gd);
-                };
+
+                    layout.shapes.push(lines);
+
+                    var annotations = {
+                        xref: 'paper',
+                        x: 1,
+                        y: threshold.thresholdValue,
+                        xanchor: 'left',
+                        yanchor: 'middle',
+                        text: threshold.thresholdName,
+                        showarrow: false,
+                        font: {
+                            family: 'Segoe UI',
+                            size: 14,
+                            color: '#7f7f7f'
+                        }
+                    };
+                    layout.annotations.push(annotations);
+                });
+                Plotly.newPlot('temperature-chart', data, layout,{responsive:true});
             }
-            else if(tempStandard =='C')
-            {
+            else if(tempStandard =='C') {
+                var stdC=((stdTemp-32)*5/9).toFixed(1);
+                var maxC=((maxTemp-32)*5/9).toFixed(1);
+                var minC=((minTemp-32)*5/9).toFixed(1);
+                var avgC=((avgTemp-32)*5/9).toFixed(1);
+
+                stdTemp=stdC;
+                maxTemp=maxC;
+                minTemp=minC;
+                avgTemp=avgC;
+                if(stdC==0)
+                {
+                    stdTemp=0;
+                    stdC=0;
+                }
+                if(maxC==0){
+                    maxTemp=0;
+                    maxC=0;
+                }
+                if(minC==0)
+                {
+                    minTemp=0;
+                    minC=0;
+                }
+                if(avgC==0){
+                    avgTemp=0;
+                    avgC=0;
+                }
+
+
+                document.getElementById('max-temp').innerText=maxC+' °C'
+                document.getElementById('min-temp').innerText=minC+' °C'
+                document.getElementById('avg-temp').innerText=avgC+' °C'
+                document.getElementById('std-temp').innerText=stdC+' °C'
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: false,
@@ -409,107 +295,12 @@ $(function () {
                     type: 'scatter'
                 };
 
-                var freezeF;
-                //If no data sets freezeF default if data goes by data points
-                if (dates.length == 0) {
-                    freezeF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [32, 32, 32, 32, 32, 32],
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                } else {
-                    freezeF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: false,
-                        x: dates,
-                        y: yFreezeF,
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                }
 
-                var cautionF;
-                if (dates.length == 0) {
-                    cautionF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        dx: 0,
-                        visible: false,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [107, 107, 107, 107, 107, 107],
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                } else {
-                    cautionF = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        dx: 0,
-                        visible: false,
-                        x: dates,
-                        y: yCautionF,
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                }
-
-                var freezeC;
-                if (dates.length == 0) {
-                    freezeC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [0, 0, 0, 0, 0, 0],
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                } else {
-                    freezeC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: dates,
-                        y: yFreezeC,
-                        mode: 'lines',
-                        marker: {color: '#0000FF'}
-                    }
-                }
-
-                var cautionC;
-                if (dates.length == 0) {
-                    cautionC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: [0, 1, 2, 3, 4, 5],
-                        y: [42, 42, 42, 42, 42, 42],
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                } else {
-                    cautionC = {
-                        showlegend: false,
-                        hoverinfo: "none",
-                        visible: true,
-                        x: dates,
-                        y: yCautionC,
-                        mode: 'lines',
-                        marker: {color: '#FF0000'}
-                    }
-                }
-
-                var data = [collectedTempsC, collectedTempF, freezeF, cautionF, freezeC, cautionC];
+                var data = [collectedTempsC, collectedTempF];
 
                 var layout = {
-                    updatemenus: updatemenus,
                     xaxis: {
-                        fixedrange: true,
+                        fixedrange: false,
                         title: 'Time (24hrs)',
                         titlefont: {
                             family: 'Segoe UI',
@@ -526,35 +317,7 @@ $(function () {
                         }
                     },
                     shapes: [],
-                    annotations: [{
-                        visible: true,
-                        xref: 'paper',
-                        x: 1,
-                        y: 42,
-                        xanchor: 'left',
-                        yanchor: 'middle',
-                        text: "Ex Caution",
-                        showarrow: false,
-                        font: {
-                            family: 'Segoe UI',
-                            size: 14,
-                            color: '#7f7f7f'
-                        }
-                    }, {
-                        visible: true,
-                        xref: 'paper',
-                        x: 1,
-                        y: 0,
-                        xanchor: 'left',
-                        yanchor: 'middle',
-                        text: "Freezing",
-                        showarrow: false,
-                        font: {
-                            family: 'Segoe UI',
-                            size: 14,
-                            color: '#7f7f7f'
-                        }
-                    }],
+                    annotations: [],
                     showlegend: true,
                     legend: {
                         x: 1.2,
@@ -562,11 +325,76 @@ $(function () {
                     },
                     margin: {r: 200}
                 };
-                Plotly.plot(gd, data, layout)
 
-                window.onresize = function() {
-                    Plotly.Plots.resize(gd);
-                };
+                CelsiusThresholds.forEach(function (threshold) {
+                    var lines;
+                    if(threshold.thresholdValue==0)
+                    {
+                        lines = {
+                            type: 'line',
+                            xref: 'paper',
+                            yref: 'y',
+                            x0: 0,
+                            y0: threshold.thresholdValue,
+                            x1: 1,
+                            y1: threshold.thresholdValue,
+                            line: {
+                                color: 'rgb(51, 175, 255)',
+                                width: 1
+                            }
+                        };
+                    }
+                    else if(threshold.thresholdValue==35)
+                    {
+                        lines = {
+                            type: 'line',
+                            xref: 'paper',
+                            yref: 'y',
+                            x0: 0,
+                            y0: threshold.thresholdValue,
+                            x1: 1,
+                            y1: threshold.thresholdValue,
+                            line: {
+                                color: 'rgb(255,102,0)',
+                                width: 1
+                            }
+                        };
+                    }
+                    else{
+                        lines = {
+                            type: 'line',
+                            xref: 'paper',
+                            yref: 'y',
+                            x0: 0,
+                            y0: threshold.thresholdValue,
+                            x1: 1,
+                            y1: threshold.thresholdValue,
+                            line: {
+                                color: 'rgb(206,0,1)',
+                                width: 1
+                            }
+                        };
+                    }
+                    layout.shapes.push(lines);
+
+                    var annotations = {
+                        xref: 'paper',
+                        x: 1,
+                        y: threshold.thresholdValue,
+                        xanchor: 'left',
+                        yanchor: 'middle',
+                        text: threshold.thresholdName,
+                        showarrow: false,
+                        font: {
+                            family: 'Segoe UI',
+                            size: 14,
+                            color: '#7f7f7f'
+                        }
+                    };
+                    layout.annotations.push(annotations);
+                });
+                Plotly.newPlot('temperature-chart', data, layout,{responsive:true});
+
             }
 
         }
