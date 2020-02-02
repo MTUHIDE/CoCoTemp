@@ -56,9 +56,5 @@ public class RouteControllerTest {
         Assert.assertEquals("external_resources",routeController.external_resources());
 
     }
-    @Test
-    public void TestMicroClimate(){
-        Assert.assertEquals("microclimate",routeController.microclimate());
 
-    }
 }

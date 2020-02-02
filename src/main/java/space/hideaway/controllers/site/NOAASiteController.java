@@ -48,11 +48,8 @@ public class NOAASiteController {
         if(user!=null)
         {
             tempStandard=user.getTempStandard();
-            model.addAttribute("tempstandard",tempStandard);
         }
-        else{
             model.addAttribute("tempstandard",tempStandard);
-        }
         return "NOAAStation";
     }
 
