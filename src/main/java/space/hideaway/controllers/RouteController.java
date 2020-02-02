@@ -83,10 +83,4 @@ public class RouteController
         return "external_resources";
     }
 
-    @GetMapping("/microclimate")
-    public String microclimate()
-    {
-        return "microclimate";
-    }
-
 }

@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/MTUHIDE/CoCoTemp#readme",
   "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.0",
     "gulp-clean": "^0.4.0",
@@ -26,5 +28,10 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "leaflet": "^0.7.3",
+    "leaflet-spin": "^1.1.0",
+    "spin.js": "^4.1.0"
   }
 }

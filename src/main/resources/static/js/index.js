@@ -18,7 +18,7 @@ $(function () {
     });
     markersGroup.addTo(myMap);
 
-    populateSites(myMap,markersGroup);
+    populateSites(myMap,markersGroup,1);
 });
 
 

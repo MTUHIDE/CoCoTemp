@@ -170,53 +170,53 @@ $(function () {
                 };
                 FahrenheitThresholds.forEach(function (threshold) {
                     var lines;
-                  if(threshold.thresholdValue==32)
-                  {
-                       lines = {
-                          type: 'line',
-                          xref: 'paper',
-                          yref: 'y',
-                          x0: 0,
-                          y0: threshold.thresholdValue,
-                          x1: 1,
-                          y1: threshold.thresholdValue,
-                          line: {
-                              color: 'rgb(51, 175, 255)',
-                              width: 1
-                          }
-                      };
-                  }
-                  else if(threshold.thresholdValue==95)
-                  {
-                       lines = {
-                          type: 'line',
-                          xref: 'paper',
-                          yref: 'y',
-                          x0: 0,
-                          y0: threshold.thresholdValue,
-                          x1: 1,
-                          y1: threshold.thresholdValue,
-                          line: {
-                              color: 'rgb(255,102,0)',
-                              width: 1
-                          }
-                      };
-                  }
-                  else{
-                      lines = {
-                          type: 'line',
-                          xref: 'paper',
-                          yref: 'y',
-                          x0: 0,
-                          y0: threshold.thresholdValue,
-                          x1: 1,
-                          y1: threshold.thresholdValue,
-                          line: {
-                              color: 'rgb(206,0,1)',
-                              width: 1
-                          }
-                      };
-                  }
+                    if(threshold.thresholdValue==32)
+                    {
+                        lines = {
+                            type: 'line',
+                            xref: 'paper',
+                            yref: 'y',
+                            x0: 0,
+                            y0: threshold.thresholdValue,
+                            x1: 1,
+                            y1: threshold.thresholdValue,
+                            line: {
+                                color: 'rgb(51, 175, 255)',
+                                width: 1
+                            }
+                        };
+                    }
+                    else if(threshold.thresholdValue==95)
+                    {
+                        lines = {
+                            type: 'line',
+                            xref: 'paper',
+                            yref: 'y',
+                            x0: 0,
+                            y0: threshold.thresholdValue,
+                            x1: 1,
+                            y1: threshold.thresholdValue,
+                            line: {
+                                color: 'rgb(255,102,0)',
+                                width: 1
+                            }
+                        };
+                    }
+                    else{
+                        lines = {
+                            type: 'line',
+                            xref: 'paper',
+                            yref: 'y',
+                            x0: 0,
+                            y0: threshold.thresholdValue,
+                            x1: 1,
+                            y1: threshold.thresholdValue,
+                            line: {
+                                color: 'rgb(206,0,1)',
+                                width: 1
+                            }
+                        };
+                    }
 
 
                     layout.shapes.push(lines);

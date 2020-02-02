@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Site</title>
+    <link rel="icon" type="image/png" href="/cocotemp/images/CoCoIcon.png"/>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
+    <link href="//cdn.datatables.net/responsive/2.1.0/css/dataTables.responsive.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/station.css}"/>
+
+
+</head>
+<div class="row">
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var siteID = [[${id}]];
+        /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+        var tempStandard=[[${tempstandard}]]
+    </script>
+
+    <!--Sidebar Partial-->
+    <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="infocard-container">
+                    <div class="col-lg-3 infocard">
+                        <div class="inner primary">
+                            <p class="infocard-body">
+                                <!--/*@thymesVar id="stationStatistics" type="space.hideaway.model.site.SiteStatistics"*/-->
+                                <span id="Max" class="infocard-number" >93&deg; F</span>
+                                Max
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner secondary">
+                            <p class="infocard-body">
+                                <span id="Min" class="infocard-number" >12&deg;F</span>
+                                Min
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner tertiary">
+                            <p class="infocard-body">
+                                <span id="Avg" class="infocard-number" >80&deg;F</span>
+                                Avg
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 infocard">
+                        <div class="inner quaternary">
+                            <p class="infocard-body">
+                                <span id="Std" class="infocard-number" >12&deg; F</span>
+                                Standard Deviation
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id ="plot-area">
+                    <div id="left-div" style="float: left; width: 80px; position: absolute;">
+                        <select id="temperature-select" style= "margin-top: 112px; margin-left: 14px">
+                        <option value="F">Fahrenheit</option>
+                        <option value="C">Celsius</option>
+                        </select>
+                    </div>
+                    <div id="temperature-chart" style="padding-left: 110px; width:90%;">
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 solid-bar">
+                    <h1>Site Information</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 information-container">
+
+                    <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
+                    <h1 id ="siteName"></h1>
+
+
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#siteMeta">View CoCoTemp Metadata</a>
+                                </h4>
+                            </div>
+                            <div id="siteMeta" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
+                                    <li class="list-group-item">Site managed by
+                                        <a href="https://www.noaa.gov/">NOAA</a>
+                                    </li>
+                                    <li class="list-group-item" th:inline="text">Site ID:
+                                        [[${id}]]
+                                    </li>
+                                    <li class="list-group-item"  id="LatLong" >Location:
+                                    </li>
+                                    <li class="list-group-item" id="elevation" >Elevation:
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6 map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="//code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script th:src="@{//cdn.datatables.net/plug-ins/1.10.12/api/fnSetFilteringDelay.js}"></script>
+<script src="//cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
+        integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
+        crossorigin=""></script>
+<script th:src="@{/js/spring-friendly-datatables.js}"></script>
+<script th:src="@{/js/map.js}"></script>
+<script th:src="@{/js/NOAAsite.js}"></script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-89087341-2', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</body>
+</html>
