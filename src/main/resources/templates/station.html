@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Site</title>
     <link rel="icon" type="image/png" href="/cocotemp/images/CoCoIcon.png"/>
@@ -45,6 +45,7 @@
     <script th:inline="javascript">
         var stdTemp=[[${deviation}]];
     </script>
+
 
 
 
@@ -230,9 +231,11 @@
             </div>
         </div>
     </div>
+</div>
 
 
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="//code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
@@ -273,5 +276,5 @@
         ga('send', 'pageview');
     </script>
 
-    </body>
+</body>
 </html>

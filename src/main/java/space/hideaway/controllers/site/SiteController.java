@@ -1,6 +1,7 @@
 package space.hideaway.controllers.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class SiteController
     private final SiteService siteService;
     private final SiteStatisticsService siteStatisticsService;
     private final UserService userService;
+
 
     @Autowired
     public SiteController(
@@ -63,6 +65,7 @@ public class SiteController
         model.addAttribute("site", site);
         model.addAttribute("siteID", site.getId());
         model.addAttribute("user", site.getUser());
+
 
         // Values for the site page title card.
         SiteStatistics siteStatistics = siteStatisticsService.getMostRecent(site);
