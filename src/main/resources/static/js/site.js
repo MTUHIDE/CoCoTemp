@@ -3,6 +3,10 @@ $(function () {
     var myMap;
     var dates=[],temperature=[],tempF=[];
     var previousTemp=tempStandard;
+
+
+
+
     function buildMap() {
         myMap = createMap();
         $('#basemaps').on('change', function() {
@@ -64,6 +68,14 @@ $(function () {
             var innerContainer = document.querySelector('#plot-area');
             var tempeSelect = innerContainer.querySelector('#temperature-select');
             var tempPlot = innerContainer.querySelector('#temperature-chart');
+
+           var select = $('#temperature-select');
+
+            if(tempStandard=='C'){
+                select.empty();
+                select.append('<option value="C">Celsius</option>');
+                select.append('<option value="F">Fahrenheit</option>');
+            }
 
             tempeSelect.addEventListener('change', changeTemperaturePreference, false);
 

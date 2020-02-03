@@ -156,7 +156,13 @@ $(function () {
     }
 
         function buildChart() {
+            var select = $('#temperature-select');
 
+            if(tempStandard=='C'){
+                select.empty();
+                select.append('<option value="C">Celsius</option>');
+                select.append('<option value="F">Fahrenheit</option>');
+            }
 
             var innerContainer = document.querySelector('#plot-area');
             var tempeSelect = innerContainer.querySelector('#temperature-select');
@@ -208,61 +214,6 @@ $(function () {
                 position: 'absolute' // Element positioning
             };
             var spinner = new Spinner(opts).spin(target);
-            //
-            // var layout = {
-            //     xaxis: {
-            //         title: 'Time (24hrs)',
-            //         titlefont: {
-            //             family: 'Segoe UI',
-            //             size: 12,
-            //             color: '#7f7f7f'
-            //         }
-            //     },
-            //     yaxis: {
-            //         title: 'F°',
-            //         titlefont: {
-            //             family: 'Segoe UI',
-            //             size: 16,
-            //             color: '#7f7f7f'
-            //         }
-            //     },
-            //     shapes: [],
-            //     annotations: [{
-            //         visible: true,
-            //         xref: 'paper',
-            //         x: 1,
-            //         y: 107,
-            //         xanchor: 'left',
-            //         yanchor: 'middle',
-            //         text: "Ex Caution",
-            //         showarrow: false,
-            //         font: {
-            //             family: 'Segoe UI',
-            //             size: 14,
-            //             color: '#7f7f7f'
-            //         }
-            //     }, {
-            //         visible: true,
-            //         xref: 'paper',
-            //         x: 1,
-            //         y: 32,
-            //         xanchor: 'left',
-            //         yanchor: 'middle',
-            //         text: "Freezing",
-            //         showarrow: false,
-            //         font: {
-            //             family: 'Segoe UI',
-            //             size: 14,
-            //             color: '#7f7f7f'
-            //         }
-            //     }],
-            //     showlegend: false,
-            //     legend: {
-            //         x: 1.2,
-            //         y: 1
-            //     },
-            //     margin: {r: 200}
-            // };
 
 
             if (tempStandard == 'F') {

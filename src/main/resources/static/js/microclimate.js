@@ -14,7 +14,13 @@ microclimateMapNameSpace = function(){
     ];
 
     function init(){
+        var select = $('#temperature-select');
 
+        if(tempStandard=='C'){
+            select.empty();
+            select.append('<option value="C">Celsius</option>');
+            select.append('<option value="F">Fahrenheit</option>');
+        }
         // Create map of sites
         myMap = createMap();
         $('#basemaps').on('change', function() {
