@@ -28,6 +28,7 @@ nbdist/
 *.log
 node_modules/
 *.properties
+application-local.properties
 ### application password and config files that should not be committed
 
 -# Ignore built CSS sourcemaps
