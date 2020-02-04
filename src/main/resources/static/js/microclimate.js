@@ -512,7 +512,7 @@ microclimateMapNameSpace = function(){
                         site:data.results[i].stations[0].id,
                         environment: "Natural",
                         nearestWater: null,
-                        waterDistance: 'no Data ',
+                        waterDistance: 'no Datu',
                         waterDirection: 'no Data ',
                         maxNightTime: null,
                         minNightTime: null,
@@ -629,6 +629,18 @@ microclimateMapNameSpace = function(){
 
 
         var help;
+        var iconMarker = microclimateMapNameSpace.getAvailableMarker();
+        if (iconMarker === null) {
+            // Warn user that you can't add more sites to graph
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-top-center"
+            };
+            toastr.warning("Sorry, you cannot add more than 5 sites");
+            spinner.stop();
+            return;
+        }
+
 
         $.ajax({
             method: 'get',
@@ -655,16 +667,6 @@ microclimateMapNameSpace = function(){
                         temperature.push(parseFloat(convertedTemp.toFixed(1)));
                         tempF.push(parseFloat((convertedTemp * (9 / 5) + 32).toFixed(1)));
                     }
-                }
-                var iconMarker = microclimateMapNameSpace.getAvailableMarker();
-                if (iconMarker === null) {
-                    // Warn user that you can't add more sites to graph
-                    toastr.options = {
-                        "closeButton": true,
-                        "positionClass": "toast-top-center"
-                    };
-                    toastr.warning("Sorry, you cannot add more than 5 sites");
-                    return;
                 }
 
 
@@ -750,9 +752,9 @@ microclimateMapNameSpace = function(){
 
                 Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
                 spinner.stop();
+                popupText.text = "Remove from Graph";
             }
         });
-        popupText.text = "Remove from Graph";
 
 
     }
