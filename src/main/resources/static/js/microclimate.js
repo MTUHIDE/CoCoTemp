@@ -682,6 +682,17 @@ microclimateMapNameSpace = function(){
                 microclimateMapNameSpace.addMarkerToMainMap(marker);
                 marker.options.options.onChart=true;
 
+                for(var i=0;i<dates.length-2;i++){
+                    var diff= differenceHours(dates[i],dates[i+1]);
+                    if(diff>1){
+                        temperature.splice(i+1,0,null);
+                        temperature.join();
+                        tempF.splice(i+1,0,null);
+                        tempF.join();
+                    }
+
+                }
+
                 var collectedTemps=null;
                 var otherTemps=null;
                 if(tempStandard=="C") {
@@ -693,7 +704,9 @@ microclimateMapNameSpace = function(){
                         marker: {
                             color: iconMarker[0]
                         },
-                        hoverinfo: "y+x"
+                        hoverinfo: "y+x",
+                        connectgaps: false
+
                     };
                     otherTemps = {
                         x: dates,
@@ -703,7 +716,8 @@ microclimateMapNameSpace = function(){
                         marker: {
                             color: iconMarker[0]
                         },
-                        hoverinfo: "y+x"
+                        hoverinfo: "y+x",
+                        connectgaps: false
                     };
                 }
                 else
@@ -716,7 +730,8 @@ microclimateMapNameSpace = function(){
                         marker: {
                             color: iconMarker[0]
                         },
-                        hoverinfo: "y+x"
+                        hoverinfo: "y+x",
+                        connectgaps: false
                     };
                     otherTemps = {
                         x: dates,
@@ -726,7 +741,8 @@ microclimateMapNameSpace = function(){
                         marker: {
                             color: iconMarker[0]
                         },
-                        hoverinfo: "y+x"
+                        hoverinfo: "y+x",
+                        connectgaps: false
                     };
                 }
                 microclimateGraphNameSpace.addTemperatureData(marker.options.options.siteID,collectedTemps,otherTemps);
@@ -740,6 +756,13 @@ microclimateMapNameSpace = function(){
 
 
     }
+
+    function differenceHours(date1,date2) {
+        var diff =(date2.getTime() - date1.getTime()) / 1000;
+        diff /= (60 * 60);
+        return Math.abs(Math.round(diff));
+    }
+
 
     function clearMapOfMarkers() {
         markersGroup.clearLayers();
@@ -769,7 +792,8 @@ microclimateMapNameSpace = function(){
         resizeMap:resizeMap,
         addMarkerToMainMap:addMarkerToMainMap,
         removeMarkerFromMainMap:removeMarkerFromMainMap,
-        populateNOAASites:populateNOAASites
+        populateNOAASites:populateNOAASites,
+        differenceHours:differenceHours
 
     }
 }();
@@ -876,7 +900,8 @@ microclimateGraphNameSpace = function(){
             y: temperature,
             name: 'site\'s temperature',
             type: 'scatter',
-            hoverinfo:"y"
+            hoverinfo:"y",
+            connectgaps: false
         };
         var data = [collectedTemps];
 
@@ -1580,6 +1605,17 @@ function markerClick(marker, popupText) {
             }
             marker.options.options.color = iconMarker[0];
 
+            for(var i=0;i<dates.length-2;i++){
+                var diff= microclimateMapNameSpace.differenceHours(dates[i],dates[i+1]);
+                if(diff>1){
+                    temperature.splice(i+1,0,null);
+                    temperature.join();
+                    tempF.splice(i+1,0,null);
+                    tempF.join();
+                }
+
+            }
+
             var collectedTemps=null;
             var otherTemps=null
             if(tempStandard=='C'){
@@ -1591,7 +1627,8 @@ function markerClick(marker, popupText) {
                     marker: {
                         color: iconMarker[0]
                     },
-                    hoverinfo: "y+x"
+                    hoverinfo: "y+x",
+                    connectgaps: false
                 };
                 otherTemps = {
                     x: dates,
@@ -1601,7 +1638,8 @@ function markerClick(marker, popupText) {
                     marker: {
                         color: iconMarker[0]
                     },
-                    hoverinfo: "y+x"
+                    hoverinfo: "y+x",
+                    connectgaps: false
                 };
             }
             else{
@@ -1613,7 +1651,8 @@ function markerClick(marker, popupText) {
                     marker: {
                         color: iconMarker[0]
                     },
-                    hoverinfo: "y+x"
+                    hoverinfo: "y+x",
+                    connectgaps: false
                 };
                 otherTemps = {
                     x: dates,
@@ -1623,7 +1662,8 @@ function markerClick(marker, popupText) {
                     marker: {
                         color: iconMarker[0]
                     },
-                    hoverinfo: "y+x"
+                    hoverinfo: "y+x",
+                    connectgaps: false
                 };
             }
 

@@ -150,14 +150,33 @@ $(function () {
                 avgF=findAvg(tempF);
                 stdC=findStd(temperature);
                 stdF=findStd(tempF);
-
+                findDiscontinuity();
                 buildChart();
             }
         });
         buildChart();
     }
 
+    function findDiscontinuity() {
+        for(var i=0;i<dates.length-2;i++){
+            var diff= differenceHours(dates[i],dates[i+1]);
+            if(diff>1){
+                temperature.splice(i+1,0,null);
+                temperature.join();
+                tempF.splice(i+1,0,null);
+                tempF.join();
+            }
 
+        }
+
+
+    }
+
+    function differenceHours(date1,date2) {
+        var diff =(date2.getTime() - date1.getTime()) / 1000;
+        diff /= (60 * 60);
+        return Math.abs(Math.round(diff));
+    }
 
 
 
@@ -236,7 +255,7 @@ $(function () {
                     y: tempF,
                     name: 'site\'s temperature F',
                     mode: 'lines+markers',
-                    type: 'scatter'
+                    connectgaps: false
                 }
 
                 var collectedTempsC = {
@@ -246,7 +265,7 @@ $(function () {
                     y: temperature,
                     name: 'site\'s temperature C',
                     mode: 'lines+markers',
-                    type: 'scatter'
+                    connectgaps: false
                 };
 
 
@@ -357,7 +376,7 @@ $(function () {
                     y: tempF,
                     name: 'site\'s temperature F',
                     mode: 'lines+markers',
-                    type: 'scatter'
+                    connectgaps: false
                 }
 
                 var collectedTempsC = {
@@ -367,8 +386,8 @@ $(function () {
                     y: temperature,
                     name: 'site\'s temperature C',
                     mode: 'lines+markers',
-                    type: 'scatter'
-                };
+                    connectgaps: false
+            };
 
 
                 var data = [collectedTempsC, collectedTempF];
