@@ -160,7 +160,7 @@ $(function () {
     function findDiscontinuity() {
         for(var i=0;i<dates.length-2;i++){
             var diff= differenceHours(dates[i],dates[i+1]);
-            if(diff>=1){
+            if(diff>1){
                 temperature.splice(i+1,0,null);
                 temperature.join();
                 tempF.splice(i+1,0,null);
