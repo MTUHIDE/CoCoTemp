@@ -155,22 +155,22 @@ $(function () {
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: true,
-                    type: 'temp',
                     x: dates,
                     y: tempF,
                     name: 'site\'s temperature F',
                     mode: 'lines+markers',
+                    type:'scattergl',
                     connectgaps: false
                 }
 
                 var collectedTempsC = {
                     hoverinfo: "y+x",
                     visible: false,
-                    type: 'temp',
                     x: dates,
                     y: temperature,
                     name: 'site\'s temperature C',
                     mode: 'lines+markers',
+                    type:'scattergl',
                     connectgaps: false
                 };
 
@@ -311,22 +311,22 @@ $(function () {
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: false,
-                    type: 'temp',
                     x: dates,
                     y: tempF,
                     name: 'site\'s temperature F',
                     mode: 'lines+markers',
+                    type:'scattergl',
                     connectgaps: false
                 }
 
                 var collectedTempsC = {
                     hoverinfo: "y+x",
                     visible: true,
-                    type: 'temp',
                     x: dates,
                     y: temperature,
                     name: 'site\'s temperature C',
                     mode: 'lines+markers',
+                    type:'scattergl',
                     connectgaps: false
                 };
 

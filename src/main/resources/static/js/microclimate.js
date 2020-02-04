@@ -702,7 +702,7 @@ microclimateMapNameSpace = function(){
                         x: dates,
                         y: temperature,
                         name: marker.options.options.siteName,
-                        type: 'scatter',
+                        type:'scattergl',
                         marker: {
                             color: iconMarker[0]
                         },
@@ -714,7 +714,7 @@ microclimateMapNameSpace = function(){
                         x: dates,
                         y: tempF,
                         name: marker.options.options.siteName,
-                        type: 'scatter',
+                        type:'scattergl',
                         marker: {
                             color: iconMarker[0]
                         },
@@ -728,7 +728,7 @@ microclimateMapNameSpace = function(){
                         x: dates,
                         y: tempF,
                         name: marker.options.options.siteName,
-                        type: 'scatter',
+                        type:'scattergl',
                         marker: {
                             color: iconMarker[0]
                         },
@@ -739,7 +739,7 @@ microclimateMapNameSpace = function(){
                         x: dates,
                         y: temperature,
                         name: marker.options.options.siteName,
-                        type: 'scatter',
+                        type:'scattergl',
                         marker: {
                             color: iconMarker[0]
                         },
@@ -901,7 +901,7 @@ microclimateGraphNameSpace = function(){
             x: dates,
             y: temperature,
             name: 'site\'s temperature',
-            type: 'scatter',
+            type:'scattergl',
             hoverinfo:"y",
             connectgaps: false
         };
@@ -1625,7 +1625,7 @@ function markerClick(marker, popupText) {
                     x: dates,
                     y: temperature,
                     name: marker.options.options.siteName,
-                    type: 'scatter',
+                    type:'scattergl',
                     marker: {
                         color: iconMarker[0]
                     },
@@ -1636,7 +1636,7 @@ function markerClick(marker, popupText) {
                     x: dates,
                     y: tempF,
                     name: marker.options.options.siteName,
-                    type: 'scatter',
+                    type:'scattergl',
                     marker: {
                         color: iconMarker[0]
                     },
@@ -1649,7 +1649,7 @@ function markerClick(marker, popupText) {
                     x: dates,
                     y: tempF,
                     name: marker.options.options.siteName,
-                    type: 'scatter',
+                    type:'scattergl',
                     marker: {
                         color: iconMarker[0]
                     },
@@ -1660,7 +1660,7 @@ function markerClick(marker, popupText) {
                     x: dates,
                     y: temperature,
                     name: marker.options.options.siteName,
-                    type: 'scatter',
+                    type:'scattergl',
                     marker: {
                         color: iconMarker[0]
                     },
