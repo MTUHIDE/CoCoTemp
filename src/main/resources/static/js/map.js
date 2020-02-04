@@ -1,10 +1,9 @@
 
-
     /*
      * Creates the default leaflet map
      * @return {Leaflet Map}
      */
-function createMap() {
+    function createMap() {
 
     /* Limit map view to the USA */
     var maxBounds = L.latLngBounds(

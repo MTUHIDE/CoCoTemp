@@ -13,6 +13,55 @@ $(function () {
 
 
 
+      function findMax(tempArr) {
+        var newmax = (tempArr[0]);
+        for(var i=0;i<tempArr.length;i++)
+        {
+            if((tempArr[i])>newmax)
+            {
+                newmax=(tempArr[i]);
+            }
+        }
+        return newmax;
+    }
+
+    function findMin(tempArr) {
+        var min = (tempArr[0]);
+        for(var index=0;index<tempArr.length;index++)
+        {
+            if((tempArr[index])<min)
+            {
+                min=(tempArr[index]);
+            }
+        }
+        return min;
+    }
+
+     function findAvg(tempArr) {
+        var sum =0;
+        var avg;
+        for(var i=0;i<tempArr.length;i++)
+        {
+            sum = sum+tempArr[i];
+        }
+        avg=sum/tempArr.length;
+        return avg.toFixed(1);
+    }
+
+     function findStd(tempArr) {
+        var avg = findAvg(tempArr);
+        var newArr = [];
+        for(var i=0;i<tempArr.length;i++)
+        {
+            var value=Math.pow((tempArr[i]-avg),2);
+            newArr.push(value);
+        }
+        var newAvg = findAvg(newArr);
+        var sqrtVal= Math.sqrt(newAvg);
+        return sqrtVal.toFixed(1);
+
+    }
+
     function populateSiteandPopulateChart() {
         var target= document.getElementById("temperature-chart");
         var opts={
@@ -58,7 +107,7 @@ $(function () {
             method: 'get',
             datatype: 'json',
             async:true,
-            headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
+            headers: {"Token": NOAAToken},
             url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
             success: function (data) {
                 if (data.length === 0) {
@@ -107,53 +156,11 @@ $(function () {
         });
         buildChart();
     }
-    function findAvg(tempArr) {
-        var sum =0;
-        var avg;
-        for(var i=0;i<tempArr.length;i++)
-        {
-            sum = sum+tempArr[i];
-        }
-        avg=sum/tempArr.length;
-        return avg.toFixed(1);
-    }
 
-    function findStd(tempArr) {
-        var avg = findAvg(tempArr);
-        var newArr = [];
-        for(var i=0;i<tempArr.length;i++)
-        {
-            var value=Math.pow((tempArr[i]-avg),2);
-            newArr.push(value);
-        }
-        var newAvg = findAvg(newArr);
-        var sqrtVal= Math.sqrt(newAvg);
-        return sqrtVal.toFixed(1);
 
-    }
 
-    function findMax(tempArr) {
-        var newmax = (tempArr[0]);
-        for(var i=0;i<tempArr.length;i++)
-            {
-                if((tempArr[i])>newmax)
-                {
-                    newmax=(tempArr[i]);
-                }
-            }
-        return newmax;
-    }
-    function findMin(tempArr) {
-        var min = (tempArr[0]);
-        for(var index=0;index<tempArr.length;index++)
-        {
-            if((tempArr[index])<min)
-            {
-                min=(tempArr[index]);
-            }
-        }
-        return min;
-    }
+
+
 
         function buildChart() {
             var select = $('#temperature-select');
@@ -225,7 +232,6 @@ $(function () {
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: true,
-                    type: 'temp',
                     x: dates,
                     y: tempF,
                     name: 'site\'s temperature F',
@@ -236,7 +242,6 @@ $(function () {
                 var collectedTempsC = {
                     hoverinfo: "y+x",
                     visible: false,
-                    type: 'temp',
                     x: dates,
                     y: temperature,
                     name: 'site\'s temperature C',
@@ -348,7 +353,6 @@ $(function () {
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: false,
-                    type: 'temp',
                     x: dates,
                     y: tempF,
                     name: 'site\'s temperature F',
@@ -359,7 +363,6 @@ $(function () {
                 var collectedTempsC = {
                     hoverinfo: "y+x",
                     visible: true,
-                    type: 'temp',
                     x: dates,
                     y: temperature,
                     name: 'site\'s temperature C',
@@ -483,7 +486,8 @@ $(function () {
                         buildChart();
                     }
         }
-
     _.defer(buildMap);
     _.defer(populateSiteandPopulateChart);
 });
+
+

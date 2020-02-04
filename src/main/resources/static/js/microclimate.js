@@ -461,7 +461,7 @@ microclimateMapNameSpace = function(){
         $.ajax({
             method: 'get',
             datatype: 'json',
-            headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
+            headers: {"Token": NOAAToken},
             url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
             success: function (data) {
                 if (data.count == 0) {
@@ -634,7 +634,7 @@ microclimateMapNameSpace = function(){
             method: 'get',
             datatype: 'json',
             async:true,
-            headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
+            headers: {"Token": NOAAToken},
             url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
             success: function (data) {
                 if (data.length === 0) {

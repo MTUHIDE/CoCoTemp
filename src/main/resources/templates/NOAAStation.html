@@ -32,6 +32,10 @@
         var tempStandard=[[${tempstandard}]]
     </script>
 
+    <script th:inline="javascript">
+        var NOAAToken=[[${NOAAToken}]]
+    </script>
+
     <!--Sidebar Partial-->
     <div th:replace="sidebar/sidebar-partial :: sidebar(active='my dashboard')"></div>
 
