@@ -99,13 +99,16 @@ h2 {
     padding: 20px; }
     .infocard-container .infocard .inner .infocard-header {
       text-transform: uppercase;
-      font-family: 'Open Sans Light', sans-serif;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: lighter;
       font-size: 1em; }
     .infocard-container .infocard .inner .infocard-body {
-      font-family: 'Open Sans Light', sans-serif;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: lighter;
       font-size: 1em; }
     .infocard-container .infocard .inner .infocard-number {
-      font-family: "Open San Light", serif;
+      font-family: "Open Sans", sans-serif;
+      font-weight: lighter;
       font-size: 2em; }
 
 .infocard-container .primary {
