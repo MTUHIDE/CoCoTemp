@@ -99,13 +99,13 @@ h2 {
     padding: 20px; }
     .infocard-container .infocard .inner .infocard-header {
       text-transform: uppercase;
-      font-family: "Segoe UI", serif;
+      font-family: 'Open Sans Light', sans-serif;
       font-size: 1em; }
     .infocard-container .infocard .inner .infocard-body {
-      font-family: "Segoe UI Light", serif;
+      font-family: 'Open Sans Light', sans-serif;
       font-size: 1em; }
     .infocard-container .infocard .inner .infocard-number {
-      font-family: "Segoe UI Light", serif;
+      font-family: "Open San Light", serif;
       font-size: 2em; }
 
 .infocard-container .primary {
@@ -140,7 +140,7 @@ h2 {
     font-size: 1em;
     font-weight: 500;
     text-transform: uppercase;
-    font-family: "Segoe UI", serif; }
+    font-family: 'Open Sans', sans-serif; }
 
 .sub-seperator-header {
   height: 50px;
@@ -161,7 +161,7 @@ h2 {
     margin: 0;
     font-size: 1em;
     font-weight: 500;
-    font-family: "Segoe UI", serif; }
+    font-family: 'Open Sans', sans-serif; }
 
 /*# sourceMappingURL=global.css.map */
 

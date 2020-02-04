@@ -158,7 +158,7 @@ $(function () {
                         fixedrange: false,
                         title: 'Time (24hrs)',
                         titlefont: {
-                            family: 'Segoe UI',
+                            family: 'Open Sans',
                             size: 12,
                             color: '#7f7f7f'
                         }
@@ -166,7 +166,7 @@ $(function () {
                     yaxis: {
                         title: 'F°',
                         titlefont: {
-                            family: 'Segoe UI',
+                            family: 'Open Sans',
                             size: 16,
                             color: '#7f7f7f'
                         }
@@ -242,7 +242,7 @@ $(function () {
                         text: threshold.thresholdName,
                         showarrow: false,
                         font: {
-                            family: 'Segoe UI',
+                            family: 'Open Sans',
                             size: 14,
                             color: '#7f7f7f'
                         }
@@ -315,7 +315,7 @@ $(function () {
                         fixedrange: false,
                         title: 'Time (24hrs)',
                         titlefont: {
-                            family: 'Segoe UI',
+                            family: 'Open Sans',
                             size: 12,
                             color: '#7f7f7f'
                         }
@@ -323,7 +323,7 @@ $(function () {
                     yaxis: {
                         title: 'C°',
                         titlefont: {
-                            family: 'Segoe UI',
+                            family: 'Open Sans',
                             size: 16,
                             color: '#7f7f7f'
                         }
@@ -398,7 +398,7 @@ $(function () {
                         text: threshold.thresholdName,
                         showarrow: false,
                         font: {
-                            family: 'Segoe UI',
+                            family: 'Open Sans',
                             size: 14,
                             color: '#7f7f7f'
                         }
