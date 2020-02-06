@@ -1,8 +1,8 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" th:href="@{/css/error.css}"/>
+
+
 <head>
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="//images/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
@@ -25,10 +25,19 @@
     <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/error.css}"/>
+
+
     <meta charset="UTF-8"/>
     <title>Error</title>
 </head>
 <body>
+<script th:inline="javascript">
+    var error = [[${error}]];
+</script>
+
+
 <video  autoplay="autoplay" muted="muted" loop="loop" id="Video">
     <source src="/cocotemp/images/Rain.mp4" type="video/mp4"/>
     Your browser does not support HTML5 video.>
@@ -36,6 +45,7 @@
 
 <div class="content">
     <h2>You have encountered an issue.</h2>
+    <p th:if="${error}!='None'"> [[${error}]]</p>
     <p>Please report this to issue to us so we can fix it!</p>
     <p>Would you like to head back to the home page?</p>
     <button  onclick="location.href= '/cocotemp/';" class="button">Go Back Home</button>
@@ -51,6 +61,7 @@
         document.getElementById('Video').src=buttonLink;
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </body>
 </html>

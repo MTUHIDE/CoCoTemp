@@ -33,12 +33,14 @@ public class EmailVerificationController {
     public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
         VerificationToken verificationToken = userToolsService.getVerificationToken(token);
         if (verificationToken == null) {
-            return "redirect:/error.html";
+            model.addAttribute("error","Error 404: Resource Not Found");
+            return "error";
         }
         User user = verificationToken.getUser();
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "redirect:/error.html";
+            model.addAttribute("error","Error 500: Link Expired");
+            return "error";
         }
         user.setEnabled(true);
         userToolsService.deleteVerificationToken(verificationToken);
