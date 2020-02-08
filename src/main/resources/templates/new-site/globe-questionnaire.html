@@ -30,18 +30,11 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/forms.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/globe-questionnaire.css}"/>
-    <script>
-        function enableTextBox(checkbox, textbox) {
-            if ($("#" + checkbox).prop('checked')) {
-                $("#" + textbox).prop("readonly", false);
-            } else {
-                $("#" + textbox).val('');
-                $("#" + textbox).prop("readonly", true);
-            }
-        }
-    </script>
+
 </head>
 <body>
+
+
 <div class="container-fluid">
     <div class="col-lg-5 col-lg-offset-4">
 
@@ -49,285 +42,31 @@
             <div class="form-header">
                 <h1>Globe Site Survey</h1>
                 <p>This section is optional, but provides valuable information about your site if completed.</p>
-                <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
-                <form th:action="@{/settings/new?_finish}" method="post" th:object="${site}">
+                <form id ="skipForm" th:action="@{/settings/new?_finish}" method="post" th:object="${site}">
                     <div class="form-group">
-                        <button class="btn btn-success">Skip and Save</button>
+                        <button id ="skip" class="btn btn-success">Skip and Continue</button>
                     </div>
                 </form>
+                <form  hidden="true" id ="saveForm" th:action="@{/settings/new?_save}" method="post" th:object="${site}">
+                    <div class="form-group">
+                        <button id ="save" class="btn btn-success">Save and Continue</button>
+                    </div>
+                </form>
+                <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
             </div>
 
             <hr/>
 
-            <div class="form-body">
+            <div id = "surveyContainer" class="form-body">
                 <!--/*@thymesVar id="metadata" type="space.hideaway.model.site.SiteMetadata"*/-->
-                <form th:action="@{/settings/new?_finish_globe}" method="post" th:object="${metadata}">
-
-                    <div class="form-group">
-                        <label>1. Natural or Urban Context? (check one).</label><br/>
-                        <div th:each="item : ${environments}">
-                            <input type="radio" th:field="*{environment}" th:value="${item}" />
-                            <label th:text="${item}"></label><br/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>2. If urban, what is the primary purpose of this site? (check all that apply).</label>
-
-                        <div th:each="item : ${purposes}">
-                            <input type="checkbox" th:field="*{purpose}" th:value="${item}" />
-                            <label th:text="${item}"></label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>3. What is the height of the sensor above the ground surface in meters (NOT the floor)?</label><br/>
-                        <input th:field="*{heightAboveGround}" type="number" required="required"   width="100" min="0" max="100"/>
-                        <label>meters</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>4. If the sensor is on a porch or in a building what is the height of the sensor above the floor surface in meters?</label>
-                        <input th:field="*{heightAboveFloor}" type="number" required="required"  width="100" min="0" max="100"/>
-                        <label>meters</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>5. What percent of the site is enclosed?</label><br/>
-                        <input th:field="*{enclosurePercentage}" type="number" required="required"  width="100" min="0" max="100"/>
-                        <label>%</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>6. If the sensor is outdoors, how far is the sensor from the nearest airflow obstacle
-                            (for example a wall, hedgerow,or building that is taller than the sensor's height)?</label>
-                        <input th:field="*{nearestAirflowObstacle}" type="number" required="required"  width="100" min="0" max="100"/>
-                        <label>meters</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>7. In what direction is the nearest obstacle located from the sensor
-                            (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)?</label><br/>
-                        <input th:field="*{nearestObstacleDegrees}" type="number"  required="required"  width="100" min="0" max="360"/>
-                        <label>meters</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>8. What is the obstacle?</label>
-                        <div th:each="item : ${obstacles}">
-                            <input type="radio" th:field="*{obstacleType}" th:value="${item}" />
-                            <label th:text="${item}"></label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>9. Roughly how large/wide is the area (in meters) in which the sensor is located,
-                            before walls or obstacles are encountered?</label>
-                        <input th:field="*{areaAroundSensor}" type="number" name="areaSize"  required="required" min="0" max="100"/>
-                        <label>meters</label><br/>
-                    </div>
-                    <div class="form-group">
-                        <label>10. Is the sensor located in a depression or riparian area where water can collect?</label> <br/>
-                        <input type="radio" id="yesWaterCollection" value="1" th:field="*{riparianArea}"/>
-                        <label for="yesWaterCollection">Yes</label><br/>
-                        <input type="radio" id="noWaterCollection" value="0" th:field="*{riparianArea}"/>
-                        <label for="noWaterCollection">No</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>11. On the longest day of the year (late June in N. Hemisphere), during what hours is the
-                            sensor unshaded and exposed to the sun?</label>
-                        <div class="row">
-                            <div class="column">
-                                <label class="columnLabels"> From:</label>
-                                <select id="longestDayHoursColumnone" onchange="enableSaveButton();checkLongestDayHours()">
-                                    <option value="0" selected="selected">00:00</option>
-                                    <option value="1">01:00</option>
-                                    <option value="2">02:00</option>
-                                    <option value="3">03:00</option>
-                                    <option value="4">04:00</option>
-                                    <option value="5">05:00</option>
-                                    <option value="6">06:00</option>
-                                    <option value="7">07:00</option>
-                                    <option value="8">08:00</option>
-                                    <option value="9">09:00</option>
-                                    <option value="10">10:00</option>
-                                    <option value="11">11:00</option>
-                                    <option value="12">12:00</option>
-                                    <option value="13">13:00</option>
-                                    <option value="14">14:00</option>
-                                    <option value="15">15:00</option>
-                                    <option value="16">16:00</option>
-                                    <option value="17">17:00</option>
-                                    <option value="18">18:00</option>
-                                    <option value="19">19:00</option>
-                                    <option value="20">20:00</option>
-                                    <option value="21">21:00</option>
-                                    <option value="22">22:00</option>
-                                    <option value="23">23:00</option>
-                                </select>
-                            </div>
-                            <div class="column">
-                                <label class="columnLabels"> To:</label>
-                                <select id ="longestDayHoursColumntwo"  onchange="enableSaveButton();checkLongestDayHours()">
-                                    <option value="0" selected="selected">00:00</option>
-                                    <option value="1">01:00</option>
-                                    <option value="2">02:00</option>
-                                    <option value="3">03:00</option>
-                                    <option value="4">04:00</option>
-                                    <option value="5">05:00</option>
-                                    <option value="6">06:00</option>
-                                    <option value="7">07:00</option>
-                                    <option value="8">08:00</option>
-                                    <option value="9">09:00</option>
-                                    <option value="10">10:00</option>
-                                    <option value="11">11:00</option>
-                                    <option value="12">12:00</option>
-                                    <option value="13">13:00</option>
-                                    <option value="14">14:00</option>
-                                    <option value="15">15:00</option>
-                                    <option value="16">16:00</option>
-                                    <option value="17">17:00</option>
-                                    <option value="18">18:00</option>
-                                    <option value="19">19:00</option>
-                                    <option value="20">20:00</option>
-                                    <option value="21">21:00</option>
-                                    <option value="22">22:00</option>
-                                    <option value="23">23:00</option>
-                                </select>
-                            </div>
-                            <input id="MaxNightTime" th:field ="*{maxNightTime}" hidden="true"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>12. On the shortest day of the year (late December in N. Hemisphere), during what hours is
-                            the sensor unshaded and exposed to the sun?</label>
-                        <div class="row">
-                            <div class="column">
-                                <label class="columnLabels"> From:</label>
-                                <select id="shortestDayHoursColumnone"  onchange="enableSaveButton();checkShortestDayHours()">
-                                    <option value="0" selected="selected">00:00</option>
-                                    <option value="1">01:00</option>
-                                    <option value="2">02:00</option>
-                                    <option value="3">03:00</option>
-                                    <option value="4">04:00</option>
-                                    <option value="5">05:00</option>
-                                    <option value="6">06:00</option>
-                                    <option value="7">07:00</option>
-                                    <option value="8">08:00</option>
-                                    <option value="9">09:00</option>
-                                    <option value="10">10:00</option>
-                                    <option value="11">11:00</option>
-                                    <option value="12">12:00</option>
-                                    <option value="13">13:00</option>
-                                    <option value="14">14:00</option>
-                                    <option value="15">15:00</option>
-                                    <option value="16">16:00</option>
-                                    <option value="17">17:00</option>
-                                    <option value="18">18:00</option>
-                                    <option value="19">19:00</option>
-                                    <option value="20">20:00</option>
-                                    <option value="21">21:00</option>
-                                    <option value="22">22:00</option>
-                                    <option value="23">23:00</option>
-                                </select>
-                            </div>
-                            <div class="column">
-                                <label class="columnLabels"> To:</label>
-                                <select id ="shortestDayHoursColumntwo"  onchange="enableSaveButton();checkShortestDayHours()">
-                                    <option value="0" selected="selected">00:00</option>
-                                    <option value="1">01:00</option>
-                                    <option value="2">02:00</option>
-                                    <option value="3">03:00</option>
-                                    <option value="4">04:00</option>
-                                    <option value="5">05:00</option>
-                                    <option value="6">06:00</option>
-                                    <option value="7">07:00</option>
-                                    <option value="8">08:00</option>
-                                    <option value="9">09:00</option>
-                                    <option value="10">10:00</option>
-                                    <option value="11">11:00</option>
-                                    <option value="12">12:00</option>
-                                    <option value="13">13:00</option>
-                                    <option value="14">14:00</option>
-                                    <option value="15">15:00</option>
-                                    <option value="16">16:00</option>
-                                    <option value="17">17:00</option>
-                                    <option value="18">18:00</option>
-                                    <option value="19">19:00</option>
-                                    <option value="20">20:00</option>
-                                    <option value="21">21:00</option>
-                                    <option value="22">22:00</option>
-                                    <option value="23">23:00</option>
-                                </select>
-                            </div>
-                            <input id="MinNightTime" th:field="*{minNightTime}" hidden="true"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>13. Canopy type above the sensor (near enough to be captured in an upward photo)</label>
-                        <div th:each="item : ${canopyTypes}">
-                            <input type="radio" th:field="*{canopyType}" th:value="${item}" />
-                            <label th:text="${item}"></label><br/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>14. If you stand in the location of the sensor and look straight up, roughly what percentage
-                            of the sky is visible (i.e. the Sky View Factor, for example 75%):</label>
-                        <input th:field="*{skyViewFactor}" type="number"  min="0" max="100.0" />
-                        <label>%</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>15. What is the slope on this site, measured as the ratio of rise over run (for example one
-                            meter of rise in fifteen meters of run is 1/15 or 6.7%.</label>
-                        <input th:field="*{slope}" type="number" id="slopeNumber"   step = ".1" name="q16" min="0" max="100.0"/>
-                        <label>%</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>16. What is the compass direction of the slope, uphill? (degrees east of
-                            north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
-                        <input th:field="*{slopeDirection}" type="number" min="0" max="360.0"/>
-                        <label>Degrees</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label>17. What is the nearest body of open water?</label>
-                        <div th:each="item : ${nearestWaterTypes}">
-                            <input type="radio" th:field="*{nearestWater}" th:value="${item}"
-                                   onclick="enableTextBox('nearestWater5', 'otherWaterInput')" />
-                            <label th:text="${item}"></label>
-                        </div>
-                        <textarea th:field="*{nearestWater}" type="textarea" id="otherWaterInput" value="" readonly="readonly"></textarea>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>18. How far away is this water from the sensor? (meters)</label><br/>
-                        <input th:field="*{waterDistance}" type="number"   min="0" max="160935" />
-                        <label>meters</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <label>19. What is the compass direction of the water from this sensor? (degrees
-                            east of north, 0 = north, 90 = east, 180 = south, 270 = west)</label>
-                        <input th:field="*{waterDirection}" type="number" min="0"   max="360" />
-                        <label>Degrees</label><br/>
-                    </div>
-
-                    <div class="form-group">
-                        <button  id = "save-btn" class="btn btn-success">Save</button>
-                    </div>
-                </form>
             </div>
+
 
         </div>
     </div>
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -335,6 +74,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script src="https://surveyjs.azureedge.net/1.5.5/survey.jquery.min.js"></script>
 <script th:src="@{/js/globe-questionnaire.js}"></script>
 <script>
     (function (i, s, o, g, r, a, m) {
@@ -352,39 +92,5 @@
     ga('create', 'UA-89087341-2', 'auto');
     ga('send', 'pageview');
 </script>
-<script type="text/javascript" language="JavaScript">
-    function checkLongestDayHours(){
-        var e= document.getElementById('longestDayHoursColumnone');
-        var longestDayHoursColumnOneValue=e.options[e.selectedIndex].value;
-        e= document.getElementById('longestDayHoursColumntwo');
-        var longestDayHoursColumnTwoValue=e.options[e.selectedIndex].value;
-        if(parseInt(longestDayHoursColumnOneValue,10)>parseInt(longestDayHoursColumnTwoValue,10)) {
-            alert("Your TO time for longest day hour must be greater than your From time for longest day hour");
-            var columnone = document.getElementById(longestDayHoursColumnone);
-            document.getElementById("save-btn").disabled=true;
-        }
-        else {
-            document.getElementById("MaxNightTime").value = (longestDayHoursColumnTwoValue - longestDayHoursColumnOneValue);
-        }
-        };</script>
-<script type="text/javascript" language="JavaScript">
-    function enableSaveButton(){
-        document.getElementById("save-btn").disabled=false;
-    }
-</script>
-<script type="text/javascript" language="JavaScript" >
-    function checkShortestDayHours(){
-        var e= document.getElementById('shortestDayHoursColumnone');
-        var shortestDayHoursColumnOneValue=e.options[e.selectedIndex].value;
-        e= document.getElementById('shortestDayHoursColumntwo');
-        var shortestDayHoursColumnTwoValue=e.options[e.selectedIndex].value;
-        if(parseInt(shortestDayHoursColumnOneValue,10)>parseInt(shortestDayHoursColumnTwoValue,10)) {
-            alert("Your TO time for shortest day hour must be greater than your From time for shortest day hour");
-            document.getElementById("save-btn").disabled = true;
-        }
-        else {
-            document.getElementById("MinNightTime").value = (shortestDayHoursColumnTwoValue - shortestDayHoursColumnOneValue);
-        }
-    };</script>
 </body>
 </html>

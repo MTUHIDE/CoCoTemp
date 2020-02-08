@@ -51,7 +51,6 @@ public class ResetPasswordController {
             return "redirect:/error.html";
         }
         PasswordResetToken passwordResetToken = passwordTokenRepository.findByToken(token);
-        System.out.println(passwordResetToken.getToken());
         if(passwordResetToken == null){
             modelMap.addAttribute("error","Error 404: Resource Not Found");
             return "redirect:/error.html";

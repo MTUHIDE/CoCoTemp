@@ -158,10 +158,10 @@ public class NewSiteController
     public String createGlobeSite(
             @ModelAttribute("site") Site site,
             @ModelAttribute("metadata") SiteMetadata metadata,
+            BindingResult result,
             SessionStatus sessionStatus,
             RedirectAttributes ra)
     {
-
         // Persist the site and metadata
         siteService.save(site);
         metadata.setSiteID(site.getId());
@@ -171,7 +171,12 @@ public class NewSiteController
         sessionStatus.setComplete();
 
         // Redirect to the dashboard.
-        return "redirect:/dashboard";
+        return "/dashboard";
+    }
+
+    @RequestMapping(params = "_save",method = RequestMethod.POST)
+    public String saveGlobeSite(){
+      return "redirect:/dashboard";
     }
 
     @ModelAttribute("allPurposes")

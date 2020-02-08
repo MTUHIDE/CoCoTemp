@@ -114,6 +114,7 @@ public class NewSiteControllerTest {
         long expectedLong = (long)435 ;
         UUID expectedUUID = new UUID(expectedLong,expectedLong);
         SiteMetadata MockSiteMetaData = mock(SiteMetadata.class);
+        BindingResult MockBindingResult = mock(BindingResult.class);
         SessionStatus MockSessionStatus = mock(SessionStatus.class);
         RedirectAttributes MockRedirectAttributes = mock(RedirectAttributes.class);
         when(MockSiteService.save(MockSite)).thenReturn(MockSite);
@@ -121,7 +122,7 @@ public class NewSiteControllerTest {
         doNothing().when(MockSiteMetaData).setSiteID(expectedUUID);
         when(MockSiteMetadataService.save(MockSiteMetaData)).thenReturn(MockSiteMetaData);
         when(MockSessionStatus.isComplete()).thenReturn(true);
-        Assert.assertEquals("redirect:/dashboard",newSiteController.createGlobeSite(MockSite,MockSiteMetaData,MockSessionStatus,MockRedirectAttributes));
+        Assert.assertEquals("/dashboard",newSiteController.createGlobeSite(MockSite,MockSiteMetaData,MockBindingResult,MockSessionStatus,MockRedirectAttributes));
         verify(MockSiteService).save(MockSite);
         verify(MockSiteMetaData).setSiteID(expectedUUID);
         verify(MockSiteMetadataService).save(MockSiteMetaData);
