@@ -3,6 +3,7 @@ $(function () {
     var myMap;
     var dates=[],temperature=[],tempF=[];
     var previousTemp=tempStandard;
+    var dataLength=0;
 
 
 
@@ -20,9 +21,9 @@ $(function () {
             url: "/cocotemp/site/" + siteID + "/info.json",
             success: function (data) {
                 if (data.length === 0) {
+                    dataLength=0;
                     return;
                 }
-
                 var myMarker = L.marker([data.siteLatitude, data.siteLongitude]).addTo(myMap);
                 myMap.setView([data.siteLatitude, data.siteLongitude], 6);
             }
@@ -42,6 +43,8 @@ $(function () {
                     temperature.push(datum['temperature'].toFixed(1));
                     tempF.push((datum['temperature']*(9/5)+32).toFixed(1));
                 });
+                dataLength=data.length;
+
 
                 findDiscontinuity();
                 buildChart(dates, temperature, tempF);
@@ -114,9 +117,16 @@ $(function () {
             ];
 
             if(tempStandard =='F') {
-                if(previousTemp=='C')
+                if(dataLength==0||dataLength==undefined){
+                    console.log(dataLength);
+                    document.getElementById('max-temp').innerText='0 °F';
+                    document.getElementById('min-temp').innerText='0 °F';
+                    document.getElementById('avg-temp').innerText='0 °F';
+                    document.getElementById('std-temp').innerText='0 °F';
+                }
+                else if(previousTemp=='C')
                 {
-
+                    console.log(maxTemp);
                     var stdF=(stdTemp*(9/5)+32).toFixed(1);
                     var maxF=(maxTemp*(9/5)+32).toFixed(1);
                     var minF=(minTemp*(9/5)+32).toFixed(1);
@@ -275,39 +285,51 @@ $(function () {
                 Plotly.newPlot('temperature-chart', data, layout,{responsive:true});
             }
             else if(tempStandard =='C') {
-                var stdC=((stdTemp-32)*5/9).toFixed(1);
-                var maxC=((maxTemp-32)*5/9).toFixed(1);
-                var minC=((minTemp-32)*5/9).toFixed(1);
-                var avgC=((avgTemp-32)*5/9).toFixed(1);
-
-                stdTemp=stdC;
-                maxTemp=maxC;
-                minTemp=minC;
-                avgTemp=avgC;
-                if(stdC==0)
-                {
-                    stdTemp=0;
-                    stdC=0;
-                }
-                if(maxC==0){
-                    maxTemp=0;
-                    maxC=0;
-                }
-                if(minC==0)
-                {
-                    minTemp=0;
-                    minC=0;
-                }
-                if(avgC==0){
-                    avgTemp=0;
-                    avgC=0;
-                }
 
 
-                document.getElementById('max-temp').innerText=maxC+' °C'
-                document.getElementById('min-temp').innerText=minC+' °C'
-                document.getElementById('avg-temp').innerText=avgC+' °C'
-                document.getElementById('std-temp').innerText=stdC+' °C'
+                if(dataLength==0||dataLength==undefined){
+                    console.log(dataLength);
+                    document.getElementById('max-temp').innerText='0 °C';
+                    document.getElementById('min-temp').innerText='0 °C';
+                    document.getElementById('avg-temp').innerText='0 °C';
+                    document.getElementById('std-temp').innerText='0 °C';
+                }
+                else if(previousTemp=='F'){
+
+                    console.log(maxTemp);
+
+                    var stdC = ((stdTemp - 32) * 5 / 9).toFixed(1);
+                    var maxC = ((maxTemp - 32) * 5 / 9).toFixed(1);
+                    var minC = ((minTemp - 32) * 5 / 9).toFixed(1);
+                    var avgC = ((avgTemp - 32) * 5 / 9).toFixed(1);
+
+                    stdTemp = stdC;
+                    maxTemp = maxC;
+                    minTemp = minC;
+                    avgTemp = avgC;
+                    if (stdC == 0) {
+                        stdTemp = 0;
+                        stdC = 0;
+                    }
+                    if (maxC == 0) {
+                        maxTemp = 0;
+                        maxC = 0;
+                    }
+                    if (minC == 0) {
+                        minTemp = 0;
+                        minC = 0;
+                    }
+                    if (avgC == 0) {
+                        avgTemp = 0;
+                        avgC = 0;
+                    }
+                    document.getElementById('max-temp').innerText=maxC+' °C'
+                    document.getElementById('min-temp').innerText=minC+' °C'
+                    document.getElementById('avg-temp').innerText=avgC+' °C'
+                    document.getElementById('std-temp').innerText=stdC+' °C'
+                }
+
+
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: false,
