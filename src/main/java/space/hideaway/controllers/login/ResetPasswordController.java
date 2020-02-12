@@ -30,6 +30,7 @@ public class ResetPasswordController {
 
     @Autowired
     PasswordTokenRepository passwordTokenRepository;
+
     @Autowired
     public ResetPasswordController(
             BCryptPasswordEncoder bCryptPasswordEncoder,
