@@ -7,12 +7,15 @@ import org.springframework.web.context.request.WebRequest;
 import space.hideaway.model.User;
 import space.hideaway.model.security.PasswordResetToken;
 import space.hideaway.repositories.PasswordTokenRepository;
+import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.UserRepository;
 import space.hideaway.services.PasswordResetService;
 import space.hideaway.services.security.SecurityService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import space.hideaway.services.user.UserService;
 import space.hideaway.services.user.UserToolsService;
 
+import javax.management.relation.Role;
 import java.util.Calendar;
 
 
@@ -21,27 +24,21 @@ import java.util.Calendar;
 @SessionAttributes("user")
 public class ResetPasswordController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
-    private final PasswordResetService passwordResetService;
-    private final UserToolsService userToolsService;
     private final SecurityService securityService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     PasswordTokenRepository passwordTokenRepository;
     @Autowired
     public ResetPasswordController(
+            BCryptPasswordEncoder bCryptPasswordEncoder,
             SecurityService securityService,
-            UserRepository userRepository,
-            PasswordResetService passwordResetService,
-            UserService userService,
-            UserToolsService userToolsService)
+            UserService userService)
     {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.securityService = securityService;
-        this.userRepository = userRepository;
-        this.passwordResetService = passwordResetService;
         this.userService = userService;
-        this.userToolsService = userToolsService;
     }
 
     @RequestMapping
@@ -74,8 +71,8 @@ public class ResetPasswordController {
 
 
         User user = passwordTokenRepository.findByToken(token).getUser();
-            user.setPassword(password);
-            userService.save(user);
+            user.setPassword(bCryptPasswordEncoder.encode(password));
+            userService.update(user);
             securityService.autoLogin(user.getUsername(), user.getPassword());
             passwordTokenRepository.delete(passwordTokenRepository.findByToken(token));
             return "redirect:/home";
