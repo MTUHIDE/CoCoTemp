@@ -10,6 +10,10 @@ li.odd:after {
     content: "\a";
     white-space: pre; }
 
+.progress-bar > span {
+    display: none;
+}
+
 input[type=number] {
     width: 200px; }
 .column{
