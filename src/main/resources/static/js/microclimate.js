@@ -512,8 +512,8 @@ microclimateMapNameSpace = function(){
                         site:data.results[i].stations[0].id,
                         environment: "Natural",
                         nearestWater: null,
-                        waterDistance: 'no Datu',
-                        waterDirection: 'no Data ',
+                        waterDistance: 'no Data',
+                        waterDirection: 'no Data',
                         maxNightTime: null,
                         minNightTime: null,
                         purpose: "Park or Greenbelt",
@@ -528,7 +528,8 @@ microclimateMapNameSpace = function(){
                         canopyType: "No canopy",
                         slope: 0,
                         slopeDirection: 0,
-                        skyViewFactor: 100
+                        skyViewFactor: 100,
+                        elevation: 'no Data'
                     }
 
                     var myMarker = new siteMarker([data.results[i].boundingPoints[0].point[1], data.results[i].boundingPoints[0].point[0]],{options:{siteID:data.results[i].stations[0].id,siteName:data.results[i].stations[0].name,onChart:false,metadata:metadata}});
@@ -1201,6 +1202,7 @@ microclimateComparisonNameSpace = function () {
             addToSiteTable("Site Purpose", "purpose", table, sites, '');
             addToSiteTable("Sky View Factor", "skyViewFactor", table, sites, '%');
             addToSiteTable("Slope Of Site", "slope", table, sites, '%');
+            addToSiteTable("Site Elevation", "elevation", table, sites, 'm');
 
             comparisonToolDiv.html(table);
         }
@@ -1452,6 +1454,18 @@ $(document).ready(function() {
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, for example 75%)',
             data: "%"
+        }, {
+            id: 'elevation',
+            label: 'Elevation',
+            type: 'integer',
+            validation: {
+                min: -1500,
+                max: 9000,
+                step: 1
+            },
+            operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
+            description: 'What is the elevation of this site, measured as the number of meters above or below sea level?',
+            data: "meters"
         }
 
 

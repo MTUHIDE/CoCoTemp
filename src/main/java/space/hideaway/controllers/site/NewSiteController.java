@@ -115,6 +115,7 @@ public class NewSiteController
 
         model.addAttribute("metadata", new SiteMetadata());
 
+        model.addAttribute("elevation",site.getSiteElevation());
         model.addAttribute("environments", getAllEnvironments());
         model.addAttribute("purposes", getAllPurposes());
         model.addAttribute("obstacles", getAllObstacles());
@@ -136,10 +137,14 @@ public class NewSiteController
     @RequestMapping(params = "_finish", method = RequestMethod.POST)
     public String createSite(
             @ModelAttribute("site") Site site,
+            @ModelAttribute("metadata") SiteMetadata metadata,
             SessionStatus sessionStatus)
     {
         // Persist the site.
         siteService.save(site);
+        metadata.setSiteID(site.getId());
+        metadata.setElevation(site.getSiteElevation());
+        siteMetadataService.save(metadata);
         // Set the session complete, as the site has been safely persisted.
         sessionStatus.setComplete();
         // Redirect to the dashboard.

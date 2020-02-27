@@ -102,10 +102,11 @@ public class NewSiteControllerTest {
     @Test
         public void TestCreateSite(){
         Site MockSite= mock(Site.class);
+        SiteMetadata MockSiteMetaData = mock(SiteMetadata.class);
         SessionStatus MockSessionStatus = mock(SessionStatus.class);
         when(MockSiteService.save(MockSite)).thenReturn(MockSite);
         doNothing().when(MockSessionStatus).setComplete();
-        Assert.assertEquals("redirect:/dashboard",newSiteController.createSite(MockSite,MockSessionStatus));
+        Assert.assertEquals("redirect:/dashboard",newSiteController.createSite(MockSite,MockSiteMetaData,MockSessionStatus));
     }
 
     @Test

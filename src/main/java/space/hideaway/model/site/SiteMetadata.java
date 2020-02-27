@@ -24,6 +24,7 @@ public class SiteMetadata {
     private String purpose;
     private int heightAboveGround;
     private int heightAboveFloor;
+    private double elevation;
     private int enclosurePercentage;
     private int nearestAirflowObstacle;
     private int nearestObstacleDegrees;
@@ -188,6 +189,14 @@ public class SiteMetadata {
     }
     public void setSkyViewFactor(double skyViewFactor) {
         this.skyViewFactor = skyViewFactor;
+    }
+
+    @Column(name = "elevation")
+    public double getElevation() {
+        return elevation;
+    }
+    public void setElevation(double elevation) {
+        this.elevation = elevation;
     }
 }
 

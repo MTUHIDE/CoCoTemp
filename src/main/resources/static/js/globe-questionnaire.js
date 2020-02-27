@@ -850,7 +850,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: "/cocotemp/settings/new?_finish_globe",
-            data: "environment=" + context + "&purpose=" + purpose+"&heightAboveGround="+heightGround+"&heightAboveFloor="+heightFloor+"&enclosurePercentage="+enclosed+"&nearestAirflowObstacle="+airflow+"&nearestObstacleDegrees="+airflowDirection+"&obstacleType="+obstacle+"&areaAroundSensor="+areaAround+"&riparianArea="+riparian+"&maxNightTime="+longestTime+"&minNightTime="+shortestTime+"&canopyType="+canopy+"&skyViewFactor="+skyview+"&slope="+slope+"&slopeDirection="+slopeDirection+"&nearestWater="+water+"&waterDistance="+waterDistance+"&waterDirection="+waterDirection,
+            data: "environment=" + context + "&purpose=" + purpose+"&heightAboveGround="+heightGround+"&heightAboveFloor="+heightFloor+"&enclosurePercentage="+enclosed+"&nearestAirflowObstacle="+airflow+"&nearestObstacleDegrees="+airflowDirection+"&obstacleType="+obstacle+"&areaAroundSensor="+areaAround+"&riparianArea="+riparian+"&maxNightTime="+longestTime+"&minNightTime="+shortestTime+"&canopyType="+canopy+"&skyViewFactor="+skyview+"&slope="+slope+"&slopeDirection="+slopeDirection+"&nearestWater="+water+"&waterDistance="+waterDistance+"&waterDirection="+waterDirection+"&elevation="+elevation,
             success: function(response,data){
 
             },
