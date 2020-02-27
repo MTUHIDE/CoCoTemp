@@ -46,7 +46,7 @@
 
                 <div class="col-lg-9 ">
                     <div class="settings-header">
-                        <h1 th:inline="text">[[${device.getType()} + ':' + ${device.getManufacture_num()}]]</h1>
+                        <h1 th:inline="text">[[${device.getDeviceType()} + ':' + ${device.getManufacture_num()}]]</h1>
                     </div>
 
                     <div class="row">
@@ -72,16 +72,29 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="deviceType" class="col-sm-2 control-label">Type</label>
+                                    <label for="deviceType" class="col-sm-2 control-label">Device Type</label>
                                     <div class="col-sm-10">
                                         <select name="deviceType" class="selectpicker" id="deviceType"
-                                                th:field="*{type}">
+                                                th:field="*{deviceType}">
                                             <option value="iButton">iButton</option>
                                             <option value="Other">Other</option>
                                         </select>
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="shelterType" class="col-sm-2 control-label"> Shelter Type</label>
+                                    <div class="col-sm-10">
+                                        <select name="deviceType" class="selectpicker" id="shelterType" th:field="*{shelterType}"
+                                                onchange="showField(this.options[this.selectedIndex].value)">
+                                            <option value="No Shield">No Shield</option>
+                                            <option value="Sheltered From Rain">Sheltered From Rain</option>
+                                            <option value="CoCoTemp Shield V1">CoCoTemp Shield V1</option>
+                                            <option value="Improvised">Improvised Shield (Styrofoam cup, etc.)</option>
+                                            <option value="Professional">Professional Radiation Shield</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="manufacture_num" class="col-sm-2 control-label">Manufacture number</label>
                                     <div class="col-sm-10">

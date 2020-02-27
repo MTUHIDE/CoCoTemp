@@ -47,9 +47,9 @@ public class DeviceModelTest {
     public void TestGetAndSetTypr(){
         String expectedType ="type";
 
-        device.setType(expectedType);
+        device.setDeviceType(expectedType);
 
-        Assert.assertEquals(expectedType,device.getType());
+        Assert.assertEquals(expectedType,device.getDeviceType());
     }
 
     @Test
@@ -88,6 +88,13 @@ public class DeviceModelTest {
         device.setDataSet(dataSet);
 
         Assert.assertEquals(dataSet,device.getDataSet());
+    }
+    @Test
+    public void TestGetAndSetShelterType(){
+        String expectedText = "Improvised";
+        device.setShelterType(expectedText);
+
+        Assert.assertEquals(expectedText,device.getShelterType());
     }
 
     @Test

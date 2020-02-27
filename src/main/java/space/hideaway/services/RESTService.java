@@ -11,16 +11,15 @@ import org.hibernate.search.query.dsl.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
-import space.hideaway.model.site.Site;
-import space.hideaway.model.upload.UploadHistory;
 import space.hideaway.model.User;
 import space.hideaway.model.json.InfoCardSerializer;
+import space.hideaway.model.site.Site;
+import space.hideaway.model.upload.UploadHistory;
 import space.hideaway.services.data.DataServiceImplementation;
 import space.hideaway.services.site.SiteServiceImplementation;
 import space.hideaway.services.upload.UploadHistoryService;
 import space.hideaway.services.user.UserServiceImplementation;
 import space.hideaway.util.HistoryUnit;
-import space.hideaway.util.StatisticsUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -95,7 +94,7 @@ public class RESTService
     public List<Device> populateDevices(){
         User currentLoggedInUser = userServiceImplementation.getCurrentLoggedInUser();
         ArrayList<Device> deviceList = new ArrayList<>(currentLoggedInUser.getDeviceSet());
-        return deviceList.stream().sorted(Comparator.comparing(Device::getType)).collect(Collectors.toList());
+        return deviceList.stream().sorted(Comparator.comparing(Device::getDeviceType)).collect(Collectors.toList());
     }
 
     /**

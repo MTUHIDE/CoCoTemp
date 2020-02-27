@@ -131,7 +131,7 @@
                         <li th:each="device : ${devices}">
                             <div class="row item">
                                 <div class="col-lg-12">
-                                    <a th:text="*{device.getType()} + ':' + *{device.getManufacture_num()}"
+                                    <a th:text="*{device.getDeviceType()} + ':' + *{device.getManufacture_num()}"
                                        th:href="*{'/cocotemp/settings/device?deviceID=' + device.getId()}">
                                     </a>
                                     <h2 th:text="*{device.getSite() != null} ? *{device.getSite().getSiteName()} : 'None!'"></h2>

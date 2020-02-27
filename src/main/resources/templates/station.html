@@ -163,7 +163,7 @@
                                         </li>
                                         <li class="list-group-item" >Devices
                                             <ul th:each="device : ${site.getDeviceSet()}">
-                                                <li th:inline="text">[[*{device.getType()} + ':' + *{device.getManufacture_num()}]]</li>
+                                                <li th:inline="text">[[*{device.getDeviceType()} + ':' + *{device.getManufacture_num()}]]</li>
                                             </ul>
                                             <p th:text="${site.getDeviceSet().isEmpty()} ? '• None'"></p>
                                         </li>

@@ -55,12 +55,26 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="deviceType">Type</label>
+                        <label for="deviceType">Device Type</label>
                         <div class="col-sm">
-                            <select name="deviceType" class="selectpicker" id="deviceType" th:field="*{type}"
+                            <select name="deviceType" class="selectpicker" id="deviceType" th:field="*{deviceType}"
                                     onchange="showField(this.options[this.selectedIndex].value)">
                                 <option value="iButton">iButton</option>
                                 <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shelterType"> Shelter Type</label>
+                        <div class="col-sm">
+                            <select name="deviceType" class="selectpicker" id="shelterType" th:field="*{shelterType}"
+                                    onchange="showField(this.options[this.selectedIndex].value)">
+                                <option value="No Shield">No Shield</option>
+                                <option value="Sheltered From Rain">Sheltered From Rain</option>
+                                <option value="CoCoTemp Shield V1">CoCoTemp Shield V1</option>
+                                <option value="Improvised">Improvised Shield (Styrofoam cup, etc.)</option>
+                                <option value="Professional">Professional Radiation Shield</option>
                             </select>
                         </div>
                     </div>

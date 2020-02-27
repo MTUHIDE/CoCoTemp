@@ -20,12 +20,12 @@ import java.util.UUID;
 public class Device {
 
     private UUID id;
-
+    private String shelterType;
     private Long user_id;
     private User user;
 
     private String manufacture_num;
-    private String type;
+    private String deviceType;
 
     private UUID siteID;
     private Site site;
@@ -61,13 +61,13 @@ public class Device {
 
     //---------------------------------type--------------------------------------
 
-    @Column(name = "type")
-    public String getType() {
-        return type;
+    @Column(name = "deviceType")
+    public String getDeviceType() {
+        return deviceType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 
     //-------------------------------user_id-------------------------------------
@@ -82,6 +82,10 @@ public class Device {
         this.user_id = user_id;
     }
 
+    @Column(name = "shelter_type")
+    public String getShelterType(){return shelterType;}
+
+    public void setShelterType(String shelterType){this.shelterType=shelterType;}
 
     //-------------------------------site_id-------------------------------------
 
