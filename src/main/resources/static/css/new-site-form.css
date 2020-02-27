@@ -17,6 +17,8 @@ div#search input {
 
 #siteLatitude {
   margin-bottom: 5px; }
+#siteLongitude {
+  margin-bottom: 5px; }
 
 div#results {
   color: black;
