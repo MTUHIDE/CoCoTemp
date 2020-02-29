@@ -643,6 +643,7 @@ microclimateMapNameSpace = function(){
         }
 
         var elevation =0;
+        var length = 0;
 
         $.ajax({
             method: 'get',
@@ -652,9 +653,11 @@ microclimateMapNameSpace = function(){
             url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
             success: function (data) {
                 if (data.length === 0) {
+                    length=0;
                     return;
                 }
                 var numberOfDataPoints = Object.keys(data).length;
+                length =  Object.keys(data).length;
                 var temperature=[];
                 var dates=[];
                 var tempF=[];
@@ -671,7 +674,16 @@ microclimateMapNameSpace = function(){
                         tempF.push(parseFloat((convertedTemp * (9 / 5) + 32).toFixed(1)));
                     }
                 }
-
+                if (temperature.length==0)
+                {
+                    toastr.options = {
+                        "closeButton": true,
+                        "positionClass": "toast-top-center"
+                    };
+                    toastr.warning("Sorry, this site does not currently have any data");
+                    spinner.stop();
+                    return;
+                }
 
                 var customIcon = new L.Icon({
                     iconUrl: iconMarker[1],
