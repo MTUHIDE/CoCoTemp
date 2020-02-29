@@ -642,6 +642,7 @@ microclimateMapNameSpace = function(){
             return;
         }
 
+        var elevation =0;
 
         $.ajax({
             method: 'get',
@@ -663,6 +664,7 @@ microclimateMapNameSpace = function(){
                     var nonconvertedtemp = tempSplit[0];
                     var convertedTemp = nonconvertedtemp / 10;
                     help = convertedTemp;
+                    elevation =  data[0].ELEVATION;
                     if (convertedTemp != 999.9) {
                         dates.push(new Date(data[i].DATE));
                         temperature.push(parseFloat(convertedTemp.toFixed(1)));
@@ -748,6 +750,7 @@ microclimateMapNameSpace = function(){
                         connectgaps: false
                     };
                 }
+                marker.options.options.metadata['elevation'] = elevation;
                 microclimateGraphNameSpace.addTemperatureData(marker.options.options.siteID,collectedTemps,otherTemps);
                 microclimateComparisonNameSpace.addSiteToComparisonTool([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
 
