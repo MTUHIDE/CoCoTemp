@@ -1622,7 +1622,16 @@ function markerClick(marker, popupText) {
                 temperature.push(datum['temperature'].toFixed(1));
                 tempF.push(parseFloat((datum['temperature'] * (9 / 5) + 32).toFixed(1)));
             });
-
+            if (temperature.length==0)
+            {
+                toastr.options = {
+                    "closeButton": true,
+                    "positionClass": "toast-top-center"
+                };
+                toastr.warning("Sorry, this site does not currently have any data");
+                spinner.stop();
+                return;
+            }
             // Get available icon color/url. Return if none available
             var iconMarker = microclimateMapNameSpace.getAvailableMarker();
             if (iconMarker === null) {
@@ -1632,6 +1641,7 @@ function markerClick(marker, popupText) {
                     "positionClass": "toast-top-center"
                 };
                 toastr.warning("Sorry, you cannot add more than 5 sites");
+                spinner.stop();
                 return;
             }
             marker.options.options.color = iconMarker[0];
