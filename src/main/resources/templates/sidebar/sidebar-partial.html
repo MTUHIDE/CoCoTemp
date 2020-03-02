@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<div class="side-menu" th:fragment="sidebar (active)">
+<div id = "sidebar-partial" class="side-menu" th:fragment="sidebar (active)" style=" overflow-y:auto">
 
     <!--Partial CSS-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/partial/sidebar-partial.css}"/>
@@ -67,26 +67,21 @@
                 <li th:classappend="${#strings.equals(active, 'external resources')} ? active">
                     <a th:href="@{/external_resources}"><span class="glyphicon glyphicon-share-alt"></span> External Resources</a>
                 </li>
+                <li sec:authorize="isAuthenticated()&&hasRole('PUBLIC')">
+                    <a th:href="@{/settings}"><span class="glyphicon glyphicon-cog"></span> User Settings</a>
+                </li>
+                <li sec:authorize="isAuthenticated()&&hasRole('ADMIN')">
+                    <a th:href="@{/settings}"><span class="glyphicon glyphicon-cog"></span> User Settings</a>
+                    <a th:href="@{/adminsettings}"><span class="glyphicon glyphicon-wrench"></span> Admin Settings</a>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <div class="welcome" sec:authorize="isAuthenticated()">
-        <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
-        Hello, <b><span sec:authentication="name"></span></b>
-        <a th:href="@{/settings}"><span class="glyphicon glyphicon-cog"></span></a>
-    </div>
 
-
-    <div class="welcome" sec:authorize="hasRole('ADMIN')">
-        Hello, <b><span sec:authentication="name"></span></b>
-        <a th:href="@{/settings}"><span class="glyphicon glyphicon-cog"></span></a>
-        <br/>
-        <b>ADMIN SETTINGS</b>
-        <a th:href="@{/adminsettings}"><span class="glyphicon glyphicon-wrench"></span> </a>
-    </div>
 
 
 </div>
+
 </body>
 </html>

@@ -23,6 +23,16 @@
     position: absolute;}
   }
 
+#sidebar-partial::-webkit-scrollbar{
+  width:0 !important;
+}
+#sidebar-partial{
+  overflow: -moz-scrollbars-none;
+}
+
+#sidebar-partial{
+  -ms-overflow-style: none;
+}
 
 .side-menu .btn-default {
   color: white !important; }
@@ -83,18 +93,19 @@
 
 .welcome {
   text-align: center;
-  bottom: 0px;
+  bottom: 0;
   background-color: #00629a;
   width: 100%;
   color: white;
   padding-top: 5px;
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+}
   .welcome span {
     color: white; }
 
 .admin {
   text-align: center;
-  bottom: 0px;
+  bottom: 0%;
   background-color: #00629a;
   width: 100%;
   color: white;
