@@ -18,12 +18,13 @@
         minZoom: 4
     });
     map.setView([38.240804, -100.692784], 4);
-    map.setMaxBounds(maxBounds);
+        map.setMaxBounds(maxBounds);
 
-    //Zoom buttons
-    L.control.zoom({
-        position: 'topleft'
-    }).addTo(map);
+        //Zoom buttons
+        L.control.zoom({
+            position: 'bottomright'
+        }).addTo(map);
+
 
     var layer = L.esri.basemapLayer('Streets').addTo(map);
     return map;
@@ -424,13 +425,35 @@ function populateNOAASites(myMap,markerCluster,offset,sitesLeft,firstTime,FIPS)
 
     today = yyyy+'-'+mm+'-'+dd;
     year_ago = oldyyyy+'-'+oldmm+'-'+olddd;
+    var target = document.getElementById("map");
 
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 38, // The length of each line
+        width: 17, // The line thickness
+        radius: 45, // The radius of the inner circle
+        scale: 1, // Scales overall size of the spinner
+        corners: 1, // Corner roundness (0..1)
+        color: '#000000', // CSS color or array of colors
+        fadeColor: 'transparent', // CSS color or array of colors
+        speed: 1, // Rounds per second
+        rotate: 0, // The rotation offset
+        animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        className: 'spinner', // The CSS class to assign to the spinner
+        top: '50%', // Top position relative to parent
+        left: '50%', // Left position relative to parent
+        shadow: '0 0 1px transparent', // Box-shadow for the lines
+        position: 'absolute' // Element positioning
+    };
+    var spinner = new Spinner(opts).spin(target);
 
         $.ajax({
             method: 'get',
             datatype: 'json',
             headers: {"Token": "uZqEMqAJLHUBrZwgzdJvIdLodhoGWMKJ"},
-            url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
+            url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
             success: function (data) {
                 if (data.count == 0) {
                     return;
@@ -470,6 +493,7 @@ function populateNOAASites(myMap,markerCluster,offset,sitesLeft,firstTime,FIPS)
                 {
                     populateNOAASites(myMap,markerCluster,offset,sitesLeft,0,FIPS);
                 }
+                spinner.stop();
             },
         });
 }
@@ -483,62 +507,7 @@ function populateSites(myMap,markerCluster,init) {
     var siteMarkers = [];
 
     if(init) {
-        L.control.slideMenu('<div style="color: white; background-color:#00395E"><h1><b>NOAA Sites By state</b></h1>' +
-            '<select style="color:black" id="state-select">'+
-            '<option value="00"></option>'+
-           '<option value="01">Alabama</option>'+
-           '<option value="02">Alaska</option>'+
-           '<option value="04">Arizona</option>'+
-           '<option value="05">Arkansas</option>'+
-           '<option value="06">California</option>'+
-           '<option value="08">Colorado</option>'+
-           '<option value="09">Connecticut</option>'+
-           '<option value="10">Delaware</option>'+
-           '<option value="11">District of Columbia</option>'+
-           '<option value="12">Florida</option>'+
-           '<option value="13">Georgia</option>'+
-           '<option value="15">Hawaii</option>'+
-           '<option value="16">Idaho</option>'+
-           '<option value="17">Illinois</option>'+
-           '<option value="18">Indiana</option>'+
-           '<option value="19">Iowa</option>'+
-           '<option value="20">Kansas</option>"'+
-           '<option value="21">Kentucky</option>'+
-           '<option value="22">Louisiana</option>'+
-           '<option value="23">Maine</option>'+
-           '<option value="24">Maryland</option>'+
-           '<option value="25">Massachusetts</option>'+
-           '<option value="26">Michigan</option>'+
-           '<option value="27">Minnesota</option>'+
-           '<option value="28">Mississippi</option>'+
-           '<option value="29">Missouri</option>'+
-           '<option value="30">Montana</option>'+
-           '<option value="31">Nebraska</option>'+
-           '<option value="32">Nevada</option>'+
-           '<option value="33">New Hampshire</option>'+
-           '<option value="34">New Jersey</option>'+
-           '<option value="35">New Mexico</option>'+
-           '<option value="36">New York</option>'+
-           '<option value="37">North Carolina</option>'+
-           '<option value="38">North Dakota</option>'+
-           '<option value="39">Ohio</option>'+
-           '<option value="40">Oklahoma</option>'+
-           '<option value="41">Oregon</option>'+
-           '<option value="42">Pennsylvania</option>'+
-           '<option value="44">Rhode Island</option>'+
-           '<option value="45">South Carolina</option>'+
-           '<option value="46">South Dakota</option>'+
-           '<option value="47">Tennessee</option>'+
-           '<option value="48">Texas</option>'+
-           '<option value="49">Utah</option>'+
-           '<option value="50">Vermont</option>'+
-           '<option value="51">Virginia</option>'+
-           '<option value="53">Washington</option>'+
-           '<option value="54">West Virginia</option>'+
-           '<option value="55">Wisconsin</option>'+
-           '<option value="56">Wyoming</option>'+
-            '</select>'+
-            '</div>', {width: '150px',height:'40%'}).addTo(myMap);
+
         document.getElementById("state-select").onchange = function(){populateNOAASites(myMap, markerCluster, 1, 0, 1, document.getElementById("state-select").value);}
 
     }
@@ -561,6 +530,13 @@ function populateSites(myMap,markerCluster,init) {
             markerCluster.addTo(myMap)
         },
     });
+    var sidebar = L.control.sidebar({
+        autopan: false,       // whether to maintain the centered map point when opening the sidebar
+        closeButton: true,    // whether t add a close button to the panes
+        container: 'sidebar',
+        position: 'left'
+    }).addTo(myMap);
+
 }
 
 

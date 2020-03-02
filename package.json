@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "leaflet": "^0.7.3",
+    "leaflet-sidebar-v2": "^3.2.2",
     "leaflet-spin": "^1.1.0",
     "spin.js": "^4.1.0"
   }

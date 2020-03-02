@@ -37,7 +37,7 @@
     <link type="text/css" rel="stylesheet" th:href="@{/css/global.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/index.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/modal.css}"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/css/Control.Loading.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/leaflet-sidebar.css}"/>
 
 </head>
 <body>
@@ -94,16 +94,94 @@
                 <div class="map-container">
                     <div id="map"></div>
                     <div id="basemaps-wrapper" class="leaflet-bar">
-                        <select name="basemaps" id="basemaps">
-                            <option value="Streets">Streets</option>
-                            <option value="Imagery">Satellite</option>
-                        </select>
+                    <select name="basemaps" id="basemaps">
+                        <option value="Streets">Streets</option>
+                        <option value="Imagery">Satellite</option>
+                    </select>
                     </div>
+                    <div id="sidebar" class="leaflet-sidebar collapsed">
+                        <!-- Nav tabs -->
+                        <div class="leaflet-sidebar-tabs">
+                            <ul role="tablist"> <!-- top aligned tabs -->
+                                <li><a href="#home" role="tab"><i class="fa fa-map-marker"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Tab panes -->
+                        <div class="leaflet-sidebar-content">
+                            <div class="leaflet-sidebar-pane" id="home">
+                                <h1 class="leaflet-sidebar-header">
+                                    NOAA Sites
+                                    <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+                                </h1>
+                                <img style="width: 50%; height:10%; margin-left:19%; align-content: center;" src="images/NOAA.png">
+                                <label for="state-select">Select a state to display NOAA weather sites from that state </label>
+                                <select id = "state-select" style="color:black">
+                                    <option value="00"></option>
+                                    <option value="01">Alabama</option>
+                                    <option value="02">Alaska</option>
+                                    <option value="04">Arizona</option>
+                                    <option value="05">Arkansas</option>
+                                    <option value="06">California</option>
+                                    <option value="08">Colorado</option>
+                                    <option value="09">Connecticut</option>
+                                    <option value="10">Delaware</option>
+                                    <option value="11">District of Columbia</option>
+                                    <option value="12">Florida</option>
+                                    <option value="13">Georgia</option>
+                                    <option value="15">Hawaii</option>
+                                    <option value="16">Idaho</option>
+                                    <option value="17">Illinois</option>
+                                    <option value="18">Indiana</option>
+                                    <option value="19">Iowa</option>
+                                    <option value="20">Kansas</option>
+                                    <option value="21">Kentucky</option>
+                                    <option value="22">Louisiana</option>
+                                    <option value="23">Maine</option>
+                                    <option value="24">Maryland</option>
+                                    <option value="25">Massachusetts</option>
+                                    <option value="26">Michigan</option>
+                                    <option value="27">Minnesota</option>
+                                    <option value="28">Mississippi</option>
+                                    <option value="29">Missouri</option>
+                                    <option value="30">Montana</option>
+                                    <option value="31">Nebraska</option>
+                                    <option value="32">Nevada</option>
+                                    <option value="33">New Hampshire</option>
+                                    <option value="34">New Jersey</option>
+                                    <option value="35">New Mexico</option>
+                                    <option value="36">New York</option>
+                                    <option value="37">North Carolina</option>
+                                    <option value="38">North Dakota</option>
+                                    <option value="39">Ohio</option>
+                                    <option value="40">Oklahoma</option>
+                                    <option value="41">Oregon</option>
+                                    <option value="42">Pennsylvania</option>
+                                    <option value="44">Rhode Island</option>
+                                    <option value="45">South Carolina</option>
+                                    <option value="46">South Dakota</option>
+                                    <option value="47">Tennessee</option>
+                                    <option value="48">Texas</option>
+                                    <option value="49">Utah</option>
+                                    <option value="50">Vermont</option>
+                                    <option value="51">Virginia</option>
+                                    <option value="53">Washington</option>
+                                    <option value="54">West Virginia</option>
+                                    <option value="55">Wisconsin</option>
+                                    <option value="56">Wyoming</option>
+                                </select>
+                                <p>The National Oceanic and Atmospheric Administration (NOAA) is a global organization focused on daily weather forecasts, severe storm warnings, and climate monitoring as well as fisheries management, coastal restoration and supporting marine commerce</p>
+                                <p> You can go to their <a href="https://www.noaa.gov/" target="_blank">website</a> to find out more about NOAA</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 
 
-            </div>
+
+        </div>
 
             <div class="row">
                 <div class="seperator-header">
@@ -149,8 +227,9 @@
 <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
         integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
         crossorigin=""></script>
-<script th:src="@{/js/L.Control.SlideMenu.js}"></script>
+<script th:src="@{/js/leaflet-sidebar.js}"></script>
 <script th:src="@{/js/Control.Loading.js}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 <script th:src="@{/js/map.js}"></script>
 <script th:src="@{/js/index.js}"></script>
 <script>
