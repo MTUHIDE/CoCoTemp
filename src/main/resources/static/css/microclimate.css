@@ -53,7 +53,18 @@
   right: 0px;
   z-index: 1001;
   height: 100%;
-  background-color: #0A5175; }
+  background-color: #0A5175;
+}
+#sidebar-popup::-webkit-scrollbar{
+  width:0 !important;
+}
+#sidebar-popup{
+  overflow: -moz-scrollbars-none;
+}
+
+#sidebar-popup{
+  -ms-overflow-style: none;
+}
 
 #sidemenu-popup-bar {
   padding-top: 10px;
