@@ -3,8 +3,6 @@ microclimateMapNameSpace = function(){
     var markersGroup = null;
     var siteMarkers = [];
 
-
-
     var mapMarkerUrls = [
         ["black", "/cocotemp/images/marker-icon-2x-black.png", 0],
         ["green", "/cocotemp/images/marker-icon-2x-green.png", 0],
@@ -12,6 +10,29 @@ microclimateMapNameSpace = function(){
         ["violet", "/cocotemp/images/marker-icon-2x-violet.png", 0],
         ["yellow", "/cocotemp/images/marker-icon-2x-yellow.png", 0]
     ];
+
+    var target= document.getElementById("temperature-chart");
+
+    var opts={
+        lines: 13, // The number of lines to draw
+        length: 38, // The length of each line
+        width: 17, // The line thickness
+        radius: 45, // The radius of the inner circle
+        scale: 1, // Scales overall size of the spinner
+        corners: 1, // Corner roundness (0..1)
+        color: '#000000', // CSS color or array of colors
+        fadeColor: 'transparent', // CSS color or array of colors
+        speed: 1, // Rounds per second
+        rotate: 0, // The rotation offset
+        animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        className: 'spinner', // The CSS class to assign to the spinner
+        top: '50%', // Top position relative to parent
+        left: '50%', // Left position relative to parent
+        shadow: '0 0 1px transparent', // Box-shadow for the lines
+        position: 'absolute' // Element positioning
+    };
 
     function init(){
         var select = $('#temperature-select');
@@ -31,11 +52,175 @@ microclimateMapNameSpace = function(){
             maxClusterRadius: function(zoom) { return 50; }
         });
         markersGroup.addTo(myMap);
+        if(userID!=0){
+            AddRecentSites();
+        }
+    }
+    function removeMapPopup() {
+            $("#map-popup").remove();
+            $("#map-mask").remove();
+    }
+
+    function addRecentSitesToMap(sites)
+    {
+        clearMapOfMarkers();
+
+        siteMarker = L.Marker.extend({
+            options: {
+                siteID: 'Site ID',
+                siteName: 'Site Name',
+                onChart: false,
+                color: null,
+                metadata: null
+            }
+        });
+
+        for(var i = 0; i < sites.length; i++) {
+
+            var site = sites[i][0];
+
+            //Don't readd sites already on graph and map
+            var sitesOnGraph = microclimateGraphNameSpace.getSitesOnGraph();
+            if(sitesOnGraph.indexOf(site.id) >= 0) {
+                continue;
+            }
+            var metadata = sites[i][1];
+            var point = L.latLng([site.siteLatitude, site.siteLongitude]);
+            var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false, metadata: metadata} });
+
+            // Create container with site details and ability to add site data to graph
+            var container = $('<div />');
+            container.html('<a href="site/' + site.id + '" target="_blank">View Site: ' + site.siteName + '</a><br/>');
+            var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function(event) {
+                markerClick(event.data.marker, event.target,2);
+                $('.nav-tabs a[href="#graph-filters"]').tab("show");
+            })[0];
+            container.append(link);
+
+            // Insert the container into the popup
+            myMarker.bindPopup(container[0]);
+            markersGroup.addLayer(myMarker);
+            siteMarkers.push(myMarker);
+            markerClick(myMarker,link,1);
+        }
+        markersGroup.addTo(myMap);
+        removeMapPopup();
+    }
+
+    function addRecentNOAASitesToMap(sites)
+    {
+
+        var sitesArr = sites.split(";");
+
+        for(var i=0;i<sitesArr.length;i++) {
+            var siteDataArr = sitesArr[i].split(":");
+
+            var NOAAIcon = L.icon({
+                iconUrl: '/cocotemp/images/NOAA-map-marker.png',
+
+                iconSize: [25, 41], // size of the icon
+                iconAnchor: [25, 41], // point of the icon which will correspond to marker's location
+                popupAnchor: [-25, -41] // point from which the popup should open relative to the iconAnchor
+            });
+            siteMarker = L.Marker.extend({
+                options: {
+                    siteID: 'Site ID',
+                    siteName: 'Site Name',
+                    onChart: false,
+                    color: null,
+                    metadata: null
+                }
+            });
+                //Add the station locations to the map.
+
+                var metadata = {
+                    metadataId: siteDataArr[0],
+                    siteID: siteDataArr[0],
+                    site: siteDataArr[0],
+                    environment: "Natural",
+                    nearestWater: null,
+                    waterDistance: 'no Data',
+                    waterDirection: 'no Data',
+                    maxNightTime: null,
+                    minNightTime: null,
+                    purpose: "Park or Greenbelt",
+                    heightAboveGround: 1.8288,
+                    heightAboveFloor: 0,
+                    enclosurePercentage: 0,
+                    nearestAirflowObstacle: 200,
+                    nearestObstacleDegrees: 11,
+                    obstacleType: null,
+                    areaAroundSensor: 200,
+                    riparianArea: false,
+                    canopyType: "No canopy",
+                    slope: 0,
+                    slopeDirection: 0,
+                    skyViewFactor: 100,
+                    elevation: 'no Data'
+                }
+
+                var myMarker = new siteMarker([siteDataArr[2],siteDataArr[1]], {
+                    options: {
+                        siteID: siteDataArr[0],
+                        siteName: siteDataArr[3],
+                        siteLat: siteDataArr[2],
+                        siteLon: siteDataArr[1],
+                        onChart: false,
+                        metadata: metadata
+                    }
+                });
+                myMarker.setIcon(NOAAIcon);
+
+                var container = $('<div />');
+                container.html('<a href="NOAASite/' + myMarker.options.options.siteID + '" target="_blank">View Site: ' + myMarker.options.options.siteName + '</a><br/>');
+                var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function (event) {
+                    populateGraphWithNOAAData(event.data.marker, event.target, 2);
+                    $('.nav-tabs a[href="#graph-filters"]').tab("show");
+                })[0];
+                container.append(link);
+
+                // Insert the container into the popup
+                myMarker.bindPopup(container[0]);
+
+                container.append(link);
+                siteMarkers.push(myMarker);
+                markersGroup.addLayer(myMarker);
+                populateGraphWithNOAAData(myMarker,link,1);
+
+        }
+        markersGroup.addTo(myMap);
+        removeMapPopup();
+    }
+
+
+    function AddRecentSites(){
+
+        $.ajax({
+            method: 'get',
+            url: "/cocotemp/microclimate/recentSites/"+userID,
+            success: function (z) {
+                if(z.length>0){
+                    addRecentSitesToMap(z);
+                }
+            }
+        });
+        $.ajax({
+            method: 'get',
+            url: "/cocotemp/microclimate/NOAArecentSites/"+userID,
+            success: function (z) {
+                if(z!=""){
+                    addRecentNOAASitesToMap(z);
+                }
+            }
+        });
+
     }
 
     function getAvailableMarker() {
+
         for (var i = 0; i < mapMarkerUrls.length; i++) {
             if (mapMarkerUrls[i][2] === 0) {
+                mapMarkerUrls[i][2]=1;
                 return mapMarkerUrls[i];
             }
         }
@@ -85,7 +270,7 @@ microclimateMapNameSpace = function(){
             var container = $('<div />');
             container.html('<a href="site/' + site.id + '" target="_blank">View Site: ' + site.siteName + '</a><br/>');
             var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function(event) {
-                markerClick(event.data.marker, event.target);
+                markerClick(event.data.marker, event.target,0);
                 $('.nav-tabs a[href="#graph-filters"]').tab("show");
             })[0];
             container.append(link);
@@ -101,27 +286,7 @@ microclimateMapNameSpace = function(){
     function populateNOAASites(offset,sitesLeft,firstTime,FIPS)
     {
         clearMapOfMarkers();
-        var target= document.getElementById("temperature-chart");
-        var opts={
-            lines: 13, // The number of lines to draw
-            length: 38, // The length of each line
-            width: 17, // The line thickness
-            radius: 45, // The radius of the inner circle
-            scale: 1, // Scales overall size of the spinner
-            corners: 1, // Corner roundness (0..1)
-            color: '#000000', // CSS color or array of colors
-            fadeColor: 'transparent', // CSS color or array of colors
-            speed: 1, // Rounds per second
-            rotate: 0, // The rotation offset
-            animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
-            direction: 1, // 1: clockwise, -1: counterclockwise
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            className: 'spinner', // The CSS class to assign to the spinner
-            top: '50%', // Top position relative to parent
-            left: '50%', // Left position relative to parent
-            shadow: '0 0 1px transparent', // Box-shadow for the lines
-            position: 'absolute' // Element positioning
-        };
+
         var spinner = new Spinner(opts).spin(target);
 
         var siteMarkers=[];
@@ -134,312 +299,57 @@ microclimateMapNameSpace = function(){
 
 
         switch(FIPS) {
-            case "01":
-                north=35;
-                west=-88.46;
-                south=30.225797;
-                east=-84.906629;
-                break;
-            case "02":
-                north=71.386475;
-                west=-176.903822;
-                south=51.351493;
-                east=-130.009071;
-                break;
-            case "04":
-                north=37.001310;
-                west=-114.808007;
-                south=31.333953;
-                east=-109.046028;
-                break;
-            case "05":
-                north=36.497909;
-                west=-94.617911;
-                south=33.013336;
-                east=-89.647367;
-                break;
-            case "06":
-                north=42.005747;
-                west=-124.399836;
-                south=32.536733;
-                east=-114.133203;
-                break;
-            case "08":
-                north=41.003444;
-                west=-109.060253;
-                south=36.992426;
-                east=-102.041524;
-                break;
-            case "09":
-                north=42.050587;
-                west=-73.727775;
-                south=40.980144;
-                east=-71.786994;
-                break;
-            case "10":
-                north=39.839007;
-                west=-75.788658;
-                south=38.451013;
-                east=-75.048939;
-                break;
-            case "11":
-                north=38.99511;
-                west=-77.119759;
-                south=38.791645;
-                east=-76.909395;
-                break;
-            case "12":
-                north=31.000888;
-                west=-87.634938;
-                south=24.523096;
-                east=-80.031362;
-                break;
-            case "13":
-                north=35.000659;
-                west=-85.605165;
-                south=30.357851;
-                east=-80.839729;
-                break;
-            case "15":
-                north=28.402123;
-                west=-178.334698;
-                south=18.910361;
-                east=-154.806773;
-                break;
-            case "16":
-                north=49.001146;
-                west=-117.243027;
-                south=41.988057;
-                east=-111.043564;
-                break;
-            case "17":
-                north=42.508481;
-                west=-91.513079;
-                south=36.970298;
-                east=-87.494756;
-                break;
-            case "18":
-                north=41.760592;
-                west=-88.09776;
-                south=37.771742;
-                east=-84.784579;
-                break;
-            case "19":
-                north=43.501196;
-                west=-96.639704;
-                south=40.375501;
-                east=-90.140061;
-                break;
-            case "20":
-                north=40.003162;
-                west=-102.051744;
-                south=36.993016;
-                east=-94.588413;
-                break;
-            case "21":
-                north=39.147458;
-                west=-89.571509;
-                south=36.497129;
-                east=-81.964971;
-                break;
-            case "22":
-                north=33.019457;
-                west=-94.043147;
-                south=28.928609;
-                east=-88.817017;
-                break;
-            case "23":
-                north=47.459686;
-                west=-71.083924;
-                south=42.977764;
-                east=-66.949895;
-                break;
-            case "24":
-                north=39.723043;
-                west=-79.487651;
-                south=37.911717;
-                east=-75.048939;
-                break;
-            case "25":
-                north=42.886589;
-                west=-73.508142;
-                south=41.237964;
-                east=-69.928393;
-                break;
-            case "26":
-                north=48.2388;
-                west=-90.418136;
-                south=41.696118;
-                east=-82.413474;
-                break;
-            case "27":
-                north=49.384358;
-                west=-97.239209;
-                south=43.499356;
-                east=-89.491739;
-                break;
-            case "28":
-                north=34.996052;
-                west=-91.655009;
-                south=30.173943;
-                east=-88.097888;
-                break;
-            case "29":
-                north=40.61364;
-                west=-95.774704;
-                south=35.995683;
-                east=-89.098843;
-                break;
-            case "30":
-                north=49.00139;
-                west=-116.050003;
-                south=44.358221	;
-                east=-104.039138;
-                break;
-            case "31":
-                north=43.001708;
-                west=-104.053514;
-                south=39.999998;
-                east=-95.30829;
-                break;
-            case "32":
-                north=42.002207;
-                west=-120.005746;
-                south=35.001857;
-                east=-114.039648;
-                break;
-            case "33":
-                north=45.305476;
-                west=-72.557247;
-                south=42.69699;
-                east=-70.610621;
-                break;
-            case "34":
-                north=41.357423;
-                west=-75.559614;
-                south=38.928519;
-                east=-73.893979;
-                break;
-            case "35":
-                north=37.000232;
-                west=-109.050173;
-                south=31.332301;
-                east=-103.001964;
-                break;
-            case "36":
-                north=45.01585;
-                west=-79.762152;
-                south=40.496103;
-                east=-71.856214;
-                break;
-            case "37":
-                north=36.588117;
-                west=-84.321869;
-                south=33.842316;
-                east=-75.460621;
-                break;
-            case "38":
-                north=49.000574;
-                west=-104.0489;
-                south=45.935054;
-                east=-96.554507;
-                break;
-            case "39":
-                north=41.977523;
-                west=-84.820159;
-                south=38.403202;
-                east=-80.518693;
-                break;
-            case "40":
-                north=37.002206;
-                west=-103.002565;
-                south=33.615833;
-                east=-94.430662;
-                break;
-            case "41":
-                north=46.292035;
-                west=-124.566244;
-                south=41.991794;
-                east=-116.463504;
-                break;
-            case "42":
-                north=42.26986;
-                west=-80.519891;
-                south=39.7198;
-                east=-74.689516;
-                break;
-            case "44":
-                north=42.018798;
-                west=-71.862772;
-                south=41.146339;
-                east=-71.12057;
-                break;
-            case "45":
-                north=35.215402;
-                west=-83.35391;
-                south=32.0346;
-                east=-78.54203;
-                break;
-            case "46":
-                north=45.94545;
-                west=-104.057698;
-                south=42.479635;
-                east=-96.436589;
-                break;
-            case "47":
-                north=36.678118;
-                west=-90.310298;
-                south=34.982972;
-                east=-81.6469;
-                break;
-            case "48":
-                north=36.500704;
-                west=-106.645646;
-                south=25.837377;
-                east=-93.508292;
-                break;
-            case "49":
-                north=42.001567;
-                west=-114.052962;
-                south=36.997968;
-                east=-109.041058;
-                break;
-            case "50":
-                north=45.016659;
-                west=-73.43774;
-                south=42.726853;
-                east=-71.464555;
-                break;
-            case "51":
-                north=39.466012;
-                west=-83.675395;
-                south=36.540738;
-                east=-75.242266;
-                break;
-            case "53":
-                north=49.002494;
-                west=-124.763068;
-                south=45.543541;
-                east=-116.915989;
-                break;
-            case "54":
-                north=40.638801;
-                west=-82.644739;
-                south=37.201483;
-                east=-77.719519;
-                break;
-            case "55":
-                north=47.080621;
-                west=-92.888114;
-                south=42.491983;
-                east=-86.805415;
-                break;
-            case "56":
-                north=45.005904;
-                west=-111.056888;
-                south=40.994746;
-                east=-104.05216;
-                break;
+            case "01":north=35;west=-88.46;south=30.225797;east=-84.906629;break;
+            case "02":north=71.386475;west=-176.903822;south=51.351493;east=-130.009071;break;
+            case "04":north=37.001310;west=-114.808007;south=31.333953;east=-109.046028;break;
+            case "05":north=36.497909;west=-94.617911;south=33.013336;east=-89.647367;break;
+            case "06":north=42.005747;west=-124.399836;south=32.536733;east=-114.133203;break;
+            case "08":north=41.003444;west=-109.060253;south=36.992426;east=-102.041524;break;
+            case "09":north=42.050587;west=-73.727775;south=40.980144;east=-71.786994;break;
+            case "10":north=39.839007;west=-75.788658;south=38.451013;east=-75.048939;break;
+            case "11":north=38.99511;west=-77.119759;south=38.791645;east=-76.909395;break;
+            case "12":north=31.000888;west=-87.634938;south=24.523096;east=-80.031362;break;
+            case "13":north=35.000659;west=-85.605165;south=30.357851;east=-80.839729;break;
+            case "15":north=28.402123;west=-178.334698;south=18.910361;east=-154.806773;break;
+            case "16":north=49.001146;west=-117.243027;south=41.988057;east=-111.043564;break;
+            case "17":north=42.508481;west=-91.513079;south=36.970298;east=-87.494756;break;
+            case "18":north=41.760592;west=-88.09776;south=37.771742;east=-84.784579;break;
+            case "19":north=43.501196;west=-96.639704;south=40.375501;east=-90.140061;break;
+            case "20":north=40.003162;west=-102.051744;south=36.993016;east=-94.588413;break;
+            case "21":north=39.147458;west=-89.571509;south=36.497129;east=-81.964971;break;
+            case "22":north=33.019457;west=-94.043147;south=28.928609;east=-88.817017;break;
+            case "23":north=47.459686;west=-71.083924;south=42.977764;east=-66.949895;break;
+            case "24":north=39.723043;west=-79.487651;south=37.911717;east=-75.048939;break;
+            case "25":north=42.886589;west=-73.508142;south=41.237964;east=-69.928393;break;
+            case "26":north=48.2388;west=-90.418136;south=41.696118;east=-82.413474;break;
+            case "27":north=49.384358;west=-97.239209;south=43.499356;east=-89.491739;break;
+            case "28":north=34.996052;west=-91.655009;south=30.173943;east=-88.097888;break;
+            case "29":north=40.61364;west=-95.774704;south=35.995683;east=-89.098843;break;
+            case "30":north=49.00139;west=-116.050003;south=44.358221;east=-104.039138;break;
+            case "31":north=43.001708;west=-104.053514;south=39.999998;east=-95.30829;break;
+            case "32":north=42.002207;west=-120.005746;south=35.001857;east=-114.039648;break;
+            case "33":north=45.305476;west=-72.557247;south=42.69699;east=-70.610621;break;
+            case "34":north=41.357423;west=-75.559614;south=38.928519;east=-73.893979;break;
+            case "35":north=37.000232;west=-109.050173;south=31.332301;east=-103.001964;break;
+            case "36":north=45.01585;west=-79.762152;south=40.496103;east=-71.856214;break;
+            case "37":north=36.588117;west=-84.321869;south=33.842316;east=-75.460621;break;
+            case "38":north=49.000574;west=-104.0489;south=45.935054;east=-96.554507;break;
+            case "39":north=41.977523;west=-84.820159;south=38.403202;east=-80.518693;break;
+            case "40":north=37.002206;west=-103.002565;south=33.615833;east=-94.430662;break;
+            case "41":north=46.292035;west=-124.566244;south=41.991794;east=-116.463504;break;
+            case "42":north=42.26986;west=-80.519891;south=39.7198;east=-74.689516;break;
+            case "44":north=42.018798;west=-71.862772;south=41.146339;east=-71.12057;break;
+            case "45":north=35.215402;west=-83.35391;south=32.0346;east=-78.54203;break;
+            case "46":north=45.94545;west=-104.057698;south=42.479635;east=-96.436589;break;
+            case "47":north=36.678118;west=-90.310298;south=34.982972;east=-81.6469;break;
+            case "48":north=36.500704;west=-106.645646;south=25.837377;east=-93.508292;break;
+            case "49":north=42.001567;west=-114.052962;south=36.997968;east=-109.041058;break;
+            case "50":north=45.016659;west=-73.43774;south=42.726853;east=-71.464555;break;
+            case "51":north=39.466012;west=-83.675395;south=36.540738;east=-75.242266;break;
+            case "53":north=49.002494;west=-124.763068;south=45.543541;east=-116.915989;break;
+            case "54":north=40.638801;west=-82.644739;south=37.201483;east=-77.719519;break;
+            case "55":north=47.080621;west=-92.888114;south=42.491983;east=-86.805415;break;
+            case "56":north=45.005904;west=-111.056888;south=40.994746;east=-104.05216;break;
             default:
                 return;
         }
@@ -462,7 +372,7 @@ microclimateMapNameSpace = function(){
             method: 'get',
             datatype: 'json',
             headers: {"Token": NOAAToken},
-            url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
+            url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
             success: function (data) {
                 if (data.count == 0) {
                     return;
@@ -498,6 +408,8 @@ microclimateMapNameSpace = function(){
                     options: {
                         siteID: 'Site ID',
                         siteName: 'Site Name',
+                        siteLon:null,
+                        siteLat:null,
                         onChart: false,
                         color:null,
                         metadata:null
@@ -533,13 +445,15 @@ microclimateMapNameSpace = function(){
                     }
 
                     var myMarker = new siteMarker([data.results[i].boundingPoints[0].point[1], data.results[i].boundingPoints[0].point[0]],{options:{siteID:data.results[i].stations[0].id,siteName:data.results[i].stations[0].name,onChart:false,metadata:metadata}});
+                    myMarker.options.options.siteLon=data.results[i].boundingPoints[0].point[0];
+                    myMarker.options.options.siteLat=data.results[i].boundingPoints[0].point[1];
+
                     myMarker.setIcon(NOAAIcon);
                     // var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false, metadata: metadata} });
-
                     var container = $('<div />');
                     container.html('<a href="NOAASite/' + myMarker.options.options.siteID + '" target="_blank">View Site: ' +  myMarker.options.options.siteName + '</a><br/>');
                     var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function(event) {
-                        populateGraphWithNOAAData(event.data.marker, event.target);
+                        populateGraphWithNOAAData(event.data.marker, event.target,0);
                         $('.nav-tabs a[href="#graph-filters"]').tab("show");
                     })[0];
                     container.append(link);
@@ -561,32 +475,22 @@ microclimateMapNameSpace = function(){
         });
     }
 
-    function populateGraphWithNOAAData(marker,popupText) {
-        var target= document.getElementById("temperature-chart");
-        var opts={
-            lines: 13, // The number of lines to draw
-            length: 38, // The length of each line
-            width: 17, // The line thickness
-            radius: 45, // The radius of the inner circle
-            scale: 1, // Scales overall size of the spinner
-            corners: 1, // Corner roundness (0..1)
-            color: '#000000', // CSS color or array of colors
-            fadeColor: 'transparent', // CSS color or array of colors
-            speed: 1, // Rounds per second
-            rotate: 0, // The rotation offset
-            animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
-            direction: 1, // 1: clockwise, -1: counterclockwise
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            className: 'spinner', // The CSS class to assign to the spinner
-            top: '50%', // Top position relative to parent
-            left: '50%', // Left position relative to parent
-            shadow: '0 0 1px transparent', // Box-shadow for the lines
-            position: 'absolute' // Element positioning
-        };
+    function populateGraphWithNOAAData(marker,popupText,recent) {
+
         var spinner = new Spinner(opts).spin(target);
 
         if(marker.options.options.onChart==true){
+            console.log("On chart");
 
+            if(recent==2||recent==0)
+            {
+                console.log("removed");
+                $.ajax({
+                    method: 'get',
+                    url: "/cocotemp/microclimate/NOAASites",
+                    data:{id:userID,siteid:marker.options.options.siteID,lat:marker.options.options.siteLat,lon:marker.options.options.siteLon,name:marker.options.options.siteName,func:2}
+                });
+            }
             var NOAAIcon = L.icon({
                 iconUrl: '/cocotemp/images/NOAA-map-marker.png',
 
@@ -644,13 +548,16 @@ microclimateMapNameSpace = function(){
 
         var elevation =0;
         var length = 0;
+        var lat =0;
+        var long =0;
+        var name =0;
 
         $.ajax({
             method: 'get',
             datatype: 'json',
             async:true,
             headers: {"Token": NOAAToken},
-            url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
+            url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+year_ago+'&endDate='+today+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
             success: function (data) {
                 if (data.length === 0) {
                     length=0;
@@ -668,6 +575,9 @@ microclimateMapNameSpace = function(){
                     var convertedTemp = nonconvertedtemp / 10;
                     help = convertedTemp;
                     elevation =  data[0].ELEVATION;
+                    lat = data[0].LATITUDE;
+                    long=data[0].LONGITUDE;
+                    name = data[0].NAME;
                     if (convertedTemp != 999.9) {
                         dates.push(new Date(data[i].DATE));
                         temperature.push(parseFloat(convertedTemp.toFixed(1)));
@@ -694,6 +604,7 @@ microclimateMapNameSpace = function(){
                     shadowSize: [41, 41]
                 });
                 iconMarker[2] = 1;
+
                 marker.options.options.color = iconMarker[0];
                 marker.setIcon(customIcon);
                 microclimateMapNameSpace.addMarkerToMainMap(marker);
@@ -768,6 +679,16 @@ microclimateMapNameSpace = function(){
 
                 Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
                 spinner.stop();
+
+                if(userID!=0&&(recent==2||recent==0)){
+                    console.log("Adding")
+                    $.ajax({
+                        method: 'get',
+                        url: "/cocotemp/microclimate/NOAASites",
+                        data:{id:userID,siteid:marker.options.options.siteID,lat:lat,lon:long,name:marker.options.options.siteName,func:1}
+                    });
+
+                }
                 popupText.text = "Remove from Graph";
             }
         });
@@ -1513,7 +1434,7 @@ $(document).ready(function() {
                 method: 'post',
                 url: "/cocotemp/sitefilter.json",
                 contentType: "application/json; charset=utf-8",
-                async:false,
+                async:true,
                 data: JSON.stringify(result),
                 success: function (z) {
                     // Notify user if there are no sites with given filters
@@ -1587,11 +1508,43 @@ function updateTempStandard(temp) {
 /*
  * Action upon click of map marker. Adds and removes data/line to line chart.
  */
-function markerClick(marker, popupText) {
+function markerClick(marker, popupText,recent) {
+
+
+    var opts={
+        lines: 13, // The number of lines to draw
+        length: 38, // The length of each line
+        width: 17, // The line thickness
+        radius: 45, // The radius of the inner circle
+        scale: 1, // Scales overall size of the spinner
+        corners: 1, // Corner roundness (0..1)
+        color: '#000000', // CSS color or array of colors
+        fadeColor: 'transparent', // CSS color or array of colors
+        speed: 1, // Rounds per second
+        rotate: 0, // The rotation offset
+        animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        className: 'spinner', // The CSS class to assign to the spinner
+        top: '50%', // Top position relative to parent
+        left: '50%', // Left position relative to parent
+        shadow: '0 0 1px transparent', // Box-shadow for the lines
+        position: 'absolute' // Element positioning
+    };
+
+    var target= document.getElementById("temperature-chart");
 
     // Marker is already on map. Remove it from chart and map.
     if (marker.options.options.onChart === true) {
 
+        if(recent==2||recent==0)
+        {
+            console.log("removed");
+            $.ajax({
+                method: 'get',
+                url: "/cocotemp/microclimate/recentSites/"+userID+"/"+marker.options.options.siteID+"/"+2,
+            });
+        }
         // Set to default icon and mark as not on map
         microclimateMapNameSpace.makeMarkerAvailable(marker.options.options.color);
         marker.setIcon(new L.Icon.Default());
@@ -1612,6 +1565,9 @@ function markerClick(marker, popupText) {
 
         return;
     }
+
+    var spinner = new Spinner(opts).spin(target);
+
     $.ajax({
         method: 'get',
         url: "/cocotemp/site/" + marker.options.options.siteID + "/temperature.json",
@@ -1730,10 +1686,19 @@ function markerClick(marker, popupText) {
             iconMarker[2] = 1;
             marker.setIcon(customIcon);
             microclimateMapNameSpace.addMarkerToMainMap(marker);
+            if(userID!=0&&(recent==2||recent==0)){
+                $.ajax({
+                    method: 'get',
+                    url: "/cocotemp/microclimate/recentSites/"+userID+"/"+marker.options.options.siteID+"/"+1,
+                });
 
+            }
 
             // Change text on popup
             popupText.text = "Remove from Graph";
+            spinner.stop();
         }
     });
+
+
 }

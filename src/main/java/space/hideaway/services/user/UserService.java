@@ -22,6 +22,15 @@ public interface UserService {
      */
     void update(User user);
 
+    void updateCoCoSites(long userID, String siteID, int func);
+
+    void updateNOAASites(long userID, String siteID, int func,double lat, double lon,String name);
+
+
+    String getCoCoSites(long userID);
+
+    String getNOAASites(long userID);
+
     /**
      * Obtain the user that is currently logged in.
      *
@@ -53,4 +62,6 @@ public interface UserService {
      * @return the user with the associated email
      */
     User findByEmail(String email);
+
+
 }

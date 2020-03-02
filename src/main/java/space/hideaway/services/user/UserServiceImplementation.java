@@ -1,20 +1,17 @@
 package space.hideaway.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.Role;
-import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
+import space.hideaway.model.site.Site;
 import space.hideaway.repositories.RoleRepository;
 import space.hideaway.repositories.UserRepository;
 import space.hideaway.services.security.SecurityServiceImplementation;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -127,6 +124,19 @@ public class UserServiceImplementation implements UserService
         }
     }
 
+    public User findById(long userId)
+    {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isPresent())
+        {
+            User actualUser= user.get();
+            return actualUser;
+        }
+        else{
+            return null;
+        }
+    }
+
     /**
      * Obtain a list of sites for a user.
      *
@@ -140,6 +150,90 @@ public class UserServiceImplementation implements UserService
         return findByUsername(username).getSiteSet();
     }
 
+    public String getNOAASites(long userID)
+    {
+        User user = findById(userID);
+        return user.getNOAARecentSites();
+    }
+
+    public String getCoCoSites(long userID)
+    {
+        User user = findById(userID);
+        return user.getCoCoTempRecentSites();
+    }
+
+    public void updateNOAASites(long userID, String siteID, int func,double lon,double lat,String name) {
+        User user = findById(userID);
+
+        String NOAASitesString = getNOAASites(userID);
+        if (NOAASitesString != null) {
+            String[] NOAASiteArr = NOAASitesString.split(";");
+            List<String> updatedSites= new ArrayList<>(Arrays.asList(NOAASiteArr));
+            if(func==1)
+            {
+                updatedSites.add(siteID+":"+lat+":"+lon+":"+name);
+            }
+            else if(func==2){
+                updatedSites.remove(siteID+":"+lat+":"+lon+":"+name);
+            }
+            String finalString = "";
+            for (int i = 0; i < updatedSites.size(); i++) {
+                if(i==0)
+                {
+                    finalString = finalString+updatedSites.get(i);
+
+                }
+                else{
+                    finalString = finalString + ";" + updatedSites.get(i);
+                }
+            }
+            user.setNOAARecentSites(finalString);
+            this.update(user);
+        } else {
+            if(func==1) {
+                NOAASitesString = siteID+":"+lat+":"+lon+":"+name;
+                user.setNOAARecentSites(NOAASitesString);
+                this.update(user);
+            }
+        }
+    }
+
+    public void updateCoCoSites(long userID, String siteID, int func) {
+        User user = findById(userID);
+
+
+        String cocoSitesString = getCoCoSites(userID);
+        if (cocoSitesString != null) {
+            String[] cocoSiteArr = cocoSitesString.split(",");
+            List<String> updatedSites= new ArrayList<>(Arrays.asList(cocoSiteArr));
+            if(func==1)
+            {
+                updatedSites.add(siteID);
+            }
+            else if(func==2){
+                updatedSites.remove(siteID);
+            }
+            String finalString = "";
+            for (int i = 0; i < updatedSites.size(); i++) {
+                if(i==0)
+                {
+                    finalString = finalString+updatedSites.get(i);
+
+                }
+                else{
+                    finalString = finalString + "," + updatedSites.get(i);
+                }
+            }
+            user.setCoCoTempRecentSites(finalString);
+            this.update(user);
+        } else {
+            if(func==1) {
+                cocoSitesString = siteID;
+                user.setCoCoTempRecentSites(cocoSitesString);
+                this.update(user);
+            }
+        }
+    }
     /**
      * Finds a user based on their email.
      *

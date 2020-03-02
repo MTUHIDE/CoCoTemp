@@ -34,6 +34,8 @@ public class User
     private String middleInitial;
     private String lastName;
     private char tempStandard='F';
+    private String CoCoTempRecentSites=null;
+    private String NOAARecentSites=null;
 
     private Set<Role> roleSet;
 
@@ -73,6 +75,16 @@ public class User
     public char  getTempStandard(){return tempStandard;}
 
     public void setTempStandard(char tempStandard){this.tempStandard=tempStandard;}
+
+    @Column(name = "CoCoTemp_recent_sites")
+public String getCoCoTempRecentSites(){return CoCoTempRecentSites;}
+
+    public void setCoCoTempRecentSites(String recentSites){this.CoCoTempRecentSites=recentSites;}
+
+    @Column(name = "NOAA_recent_sites", columnDefinition = "LONGTEXT")
+    public String getNOAARecentSites(){return NOAARecentSites;}
+
+    public void setNOAARecentSites(String recentSites){this.NOAARecentSites=recentSites;}
 
     /**
      * Gets email.
