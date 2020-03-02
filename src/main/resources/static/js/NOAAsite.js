@@ -133,7 +133,7 @@ $(function () {
             datatype: 'json',
             async: true,
             headers: {"Token": NOAAToken},
-            url: 'https://cors-anywhere.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate=' + year_ago + '&endDate=' + today + '&dataset=global-hourly&dataTypes=TMP&stations=' + station + '&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
+            url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate=' + year_ago + '&endDate=' + today + '&dataset=global-hourly&dataTypes=TMP&stations=' + station + '&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
             success: function (data) {
                 if (data.length === 0) {
                     return;
