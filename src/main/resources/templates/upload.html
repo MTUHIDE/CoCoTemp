@@ -38,10 +38,10 @@
             <div class="form-header">
                 <h1>Upload data from a site</h1>
             </div>
-
             <div class="form-body">
+                <a class="btn btn-default" th:href="@{/settings/new}" style="background-color: #2588b1; color: white"  th:if="${#lists.isEmpty(sites)}">You have no sites! Click here to make your first one.</a>
                 <!--/*@thymesVar id="uploadformwrapper" type="space.hideaway.model.upload.UploadFormWrapper"*/-->
-                <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+                <form th:if="${not #lists.isEmpty(sites)}" th:action="@{/upload}" method="post" enctype="multipart/form-data">
                     <label for="selectPicker">Site</label>
                     <div class="form-group" id="selectPicker">
                         <select name="siteID" class="selectpicker" th:if="${not #lists.isEmpty(sites)}">
@@ -49,7 +49,6 @@
                             <option th:each="site : ${sites}" th:value="*{site.getId()}"
                                     th:text="*{site.getSiteName()}"></option>
                         </select>
-                        <a th:href="@{/settings/new}" th:if="${#lists.isEmpty(sites)}">You have no sites! Click here to make your first one.</a>
                     </div>
                     <div class="form-group">
                         <label for="fileChooser">Upload File</label>
