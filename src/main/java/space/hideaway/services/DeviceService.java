@@ -1,6 +1,7 @@
 package space.hideaway.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.Device;
 import space.hideaway.model.User;
@@ -19,6 +20,10 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final UserService userService;
+
+    @Autowired
+    private Environment env;
+
 
     @Autowired
     public DeviceService(
@@ -43,6 +48,33 @@ public class DeviceService {
         return device;
     }
 
+
+    public void update(Device device)
+    {
+        Device oldDevice = deviceRepository.getOne(device.getId());
+
+        if (oldDevice != null)
+        {
+            if (device.getDeviceType() == null)
+                device.setDeviceType(oldDevice.getDeviceType());
+            if (device.getDataSet() == null)
+                device.setDataSet(oldDevice.getDataSet());
+            if (device.getManufacture_num() == null)
+                device.setManufacture_num(oldDevice.getManufacture_num());
+            if (device.getId() == null)
+                device.setId(oldDevice.getId());
+            if (device.getUploadHistories() == null)
+                device.setUploadHistories(oldDevice.getUploadHistories());
+            if (device.getSiteID() == null)
+                device.setSiteID(oldDevice.getSiteID());
+            if (device.getShelterType() == null)
+                device.setShelterType(oldDevice.getShelterType());
+            if (device.getSite() == null)
+                device.setSite(oldDevice.getSite());
+        }
+
+        deviceRepository.save(device);
+    }
     /**
      * Deletes a device from the database.
      *
@@ -50,7 +82,9 @@ public class DeviceService {
      */
     public void delete(Device device)
     {
-        deviceRepository.deleteById(device.getId());
+        device.setUserID((long)Integer.parseInt(env.getProperty("spring.admin.id")));
+        device.setUser(null);
+        this.update(device);
     }
 
     /**

@@ -65,25 +65,27 @@ public class ScheduleService {
     @Scheduled(fixedRate = Long.MAX_VALUE)
     private void insertData()
     {
+        User admin = createUser(
+                "ADMINACC","password",
+                "Admin@TEST.com","John",
+                "Doe","P", 1);
+        admin.setEnabled(true);
+        admin.setTempStandard('F');
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
+        userRepository.save(admin);
+
         User user = createUser(
                 "TESTACC","password",
                 "Test@TEST.com","John",
-                "Doe","P", 1);
+                "Doe","P", 2);
         user.setEnabled(true);
         user.setTempStandard('F');
         Role userRole = roleRepository.findByName("ROLE_PUBLIC");
         user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
 
-        User admin = createUser(
-                "ADMINACC","password",
-                "Admin@TEST.com","John",
-                "Doe","P", 2);
-        admin.setEnabled(true);
-        admin.setTempStandard('F');
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        admin.setRoleSet(new HashSet<Role>(Arrays.asList(adminRole)));
-        userRepository.save(admin);
+
 
         User hiddenAcc = createUser(
                 "HIDDENACC", "password",
