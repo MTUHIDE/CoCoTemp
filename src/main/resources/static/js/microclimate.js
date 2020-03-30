@@ -3,6 +3,7 @@ microclimateMapNameSpace = function(){
     var markersGroup = null;
     var siteMarkers = [];
 
+
     var mapMarkerUrls = [
         ["black", "/cocotemp/images/marker-icon-2x-black.png", 0],
         ["green", "/cocotemp/images/marker-icon-2x-green.png", 0],
@@ -57,8 +58,8 @@ microclimateMapNameSpace = function(){
         }
     }
     function removeMapPopup() {
-            $("#map-popup").remove();
-            $("#map-mask").remove();
+        $("#map-popup").remove();
+        $("#map-mask").remove();
     }
 
     function addRecentSitesToMap(sites)
@@ -131,61 +132,61 @@ microclimateMapNameSpace = function(){
                     metadata: null
                 }
             });
-                //Add the station locations to the map.
+            //Add the station locations to the map.
 
-                var metadata = {
-                    metadataId: siteDataArr[0],
+            var metadata = {
+                metadataId: siteDataArr[0],
+                siteID: siteDataArr[0],
+                site: siteDataArr[0],
+                environment: "Natural",
+                nearestWater: null,
+                waterDistance: 'no Data',
+                waterDirection: 'no Data',
+                maxNightTime: null,
+                minNightTime: null,
+                purpose: "Park or Greenbelt",
+                heightAboveGround: 1.8288,
+                heightAboveFloor: 0,
+                enclosurePercentage: 0,
+                nearestAirflowObstacle: 200,
+                nearestObstacleDegrees: 11,
+                obstacleType: null,
+                areaAroundSensor: 200,
+                riparianArea: false,
+                canopyType: "No canopy",
+                slope: 0,
+                slopeDirection: 0,
+                skyViewFactor: 100,
+                elevation: 'no Data'
+            }
+
+            var myMarker = new siteMarker([siteDataArr[2],siteDataArr[1]], {
+                options: {
                     siteID: siteDataArr[0],
-                    site: siteDataArr[0],
-                    environment: "Natural",
-                    nearestWater: null,
-                    waterDistance: 'no Data',
-                    waterDirection: 'no Data',
-                    maxNightTime: null,
-                    minNightTime: null,
-                    purpose: "Park or Greenbelt",
-                    heightAboveGround: 1.8288,
-                    heightAboveFloor: 0,
-                    enclosurePercentage: 0,
-                    nearestAirflowObstacle: 200,
-                    nearestObstacleDegrees: 11,
-                    obstacleType: null,
-                    areaAroundSensor: 200,
-                    riparianArea: false,
-                    canopyType: "No canopy",
-                    slope: 0,
-                    slopeDirection: 0,
-                    skyViewFactor: 100,
-                    elevation: 'no Data'
+                    siteName: siteDataArr[3],
+                    siteLat: siteDataArr[2],
+                    siteLon: siteDataArr[1],
+                    onChart: false,
+                    metadata: metadata
                 }
+            });
+            myMarker.setIcon(NOAAIcon);
 
-                var myMarker = new siteMarker([siteDataArr[2],siteDataArr[1]], {
-                    options: {
-                        siteID: siteDataArr[0],
-                        siteName: siteDataArr[3],
-                        siteLat: siteDataArr[2],
-                        siteLon: siteDataArr[1],
-                        onChart: false,
-                        metadata: metadata
-                    }
-                });
-                myMarker.setIcon(NOAAIcon);
+            var container = $('<div />');
+            container.html('<a href="NOAASite/' + myMarker.options.options.siteID + '" target="_blank">View Site: ' + myMarker.options.options.siteName + '</a><br/>');
+            var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function (event) {
+                populateGraphWithNOAAData(event.data.marker, event.target, 2);
+                $('.nav-tabs a[href="#graph-filters"]').tab("show");
+            })[0];
+            container.append(link);
 
-                var container = $('<div />');
-                container.html('<a href="NOAASite/' + myMarker.options.options.siteID + '" target="_blank">View Site: ' + myMarker.options.options.siteName + '</a><br/>');
-                var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function (event) {
-                    populateGraphWithNOAAData(event.data.marker, event.target, 2);
-                    $('.nav-tabs a[href="#graph-filters"]').tab("show");
-                })[0];
-                container.append(link);
+            // Insert the container into the popup
+            myMarker.bindPopup(container[0]);
 
-                // Insert the container into the popup
-                myMarker.bindPopup(container[0]);
-
-                container.append(link);
-                siteMarkers.push(myMarker);
-                markersGroup.addLayer(myMarker);
-                populateGraphWithNOAAData(myMarker,link,1);
+            container.append(link);
+            siteMarkers.push(myMarker);
+            markersGroup.addLayer(myMarker);
+            populateGraphWithNOAAData(myMarker,link,1);
 
         }
         markersGroup.addTo(myMap);
@@ -859,7 +860,7 @@ microclimateGraphNameSpace = function(){
     function addThresholdsToGraph(threshold) {
         celsisusThresholds.push(threshold);
 
-       fahrenheitThresholds.push({thresholdValue: threshold.thresholdValue*(9 / 5) + 32,thresholdName: threshold.thresholdName});
+        fahrenheitThresholds.push({thresholdValue: threshold.thresholdValue*(9 / 5) + 32,thresholdName: threshold.thresholdName});
 
         updateThresholds();
     }
@@ -1040,11 +1041,11 @@ microclimateGraphNameSpace = function(){
             });
             return temperatureData;
         } else {
-                var keys = Object.keys(dataC);
-                var temperatureData = keys.map(function (v) {
-                    return dataC[v];
-                });
-                return temperatureData;
+            var keys = Object.keys(dataC);
+            var temperatureData = keys.map(function (v) {
+                return dataC[v];
+            });
+            return temperatureData;
         }
     }
     function addTemperatureData(siteId, collectedTemps,otherTemps) {
@@ -1161,6 +1162,14 @@ microclimateComparisonNameSpace = function () {
 }();
 
 $(document).ready(function() {
+    const ELEVATION_VALIDATION_MIN = -1500;
+    const ELEVATION_VALIDATION_MAX = 9000;
+    const HEIGHT_VALIDATION_MIN = 0;
+    const HEIGHT_VALIDATION_MAX = 10000;
+    const DEGREE_VALIDATION_MIN = 0;
+    const DEGREE_VALIDATION_MAX = 360;
+    const PERCENTAGE_VALIDATION_MIN = 0;
+    const PERCENTAGE_VALIDATION_MAX = 360;
 
     microclimateMapNameSpace.init();
     microclimateGraphNameSpace.init();
@@ -1179,7 +1188,7 @@ $(document).ready(function() {
         microclimateMapNameSpace.populateNOAASites(1, 1, 1, document.getElementById("state-select").value);
     }
     document.getElementById('temperature-select').onchange=function(){
-            updateTempStandard(document.getElementById('temperature-select').value);
+        updateTempStandard(document.getElementById('temperature-select').value);
     }
 
     // Expand/close side menu
@@ -1260,9 +1269,12 @@ $(document).ready(function() {
             label: 'Height Above Ground Surface',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 10000,
-                step: 1
+                min: HEIGHT_VALIDATION_MIN,
+                max: HEIGHT_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, HEIGHT_VALIDATION_MIN, HEIGHT_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'What is the height of the sensor above the ground surface (NOT the floor)?',
@@ -1272,9 +1284,12 @@ $(document).ready(function() {
             label: 'Height Above Floor Surface',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 10000,
-                step: 1
+                min: HEIGHT_VALIDATION_MIN,
+                max: HEIGHT_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, HEIGHT_VALIDATION_MIN, HEIGHT_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'If the sensor is on a porch or in a building, what is the height of the sensor above the floor surface?',
@@ -1284,9 +1299,12 @@ $(document).ready(function() {
             label: 'Percent Enclosed',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 10000,
-                step: 1
+                min: PERCENTAGE_VALIDATION_MIN,
+                max: PERCENTAGE_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, PERCENTAGE_VALIDATION_MIN, PERCENTAGE_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'What is the percentage this sites is enclosed? (ie Indoors/full-enclosed=100%)',
@@ -1296,9 +1314,12 @@ $(document).ready(function() {
             label: 'Nearest Airflow Obstacle',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 10000,
-                step: 1
+                min: HEIGHT_VALIDATION_MIN,
+                max: HEIGHT_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, HEIGHT_VALIDATION_MIN, HEIGHT_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'If the sensor is outdoors, how far is the sensor from the nearest major airflow obstacle in meters (for example a wall, hedgerow, or building that is taller than the sensor’s height)?',
@@ -1308,9 +1329,12 @@ $(document).ready(function() {
             label: 'Nearest Obstacle Direction',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 360,
-                step: 1
+                min: DEGREE_VALIDATION_MIN,
+                max: DEGREE_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, DEGREE_VALIDATION_MIN, DEGREE_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'In what direction is the nearest obstacle located, from the sensor? (degrees east of north, 0 = north, 90 = east, 180 = south, 270 = west)',
@@ -1320,13 +1344,16 @@ $(document).ready(function() {
             label: 'Flat Area Around Sensor',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 360,
-                step: 1
+                min: DEGREE_VALIDATION_MIN,
+                max: DEGREE_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, DEGREE_VALIDATION_MIN, DEGREE_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'Roughly how large/wide is the area in which the sensor is located, before walls or\n' +
-            'obstacles are encountered? (meters)',
+                'obstacles are encountered? (meters)',
             data: "°"
         }, {
             id: 'riparianArea',
@@ -1359,9 +1386,12 @@ $(document).ready(function() {
             label: 'Distance To Water',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 10000,
-                step: 1
+                min: HEIGHT_VALIDATION_MIN,
+                max: HEIGHT_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, HEIGHT_VALIDATION_MIN, HEIGHT_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'How far away is this water from the sensor?',
@@ -1371,9 +1401,12 @@ $(document).ready(function() {
             label: 'Slope Of Site',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 100,
-                step: 1
+                min: PERCENTAGE_VALIDATION_MIN,
+                max: PERCENTAGE_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, PERCENTAGE_VALIDATION_MIN, PERCENTAGE_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'What is the slope % on this site, measured as the ratio of rise over run (for example one meter of rise in fifteen meters of run is 6.7%)',
@@ -1383,9 +1416,12 @@ $(document).ready(function() {
             label: 'Sky View Factor',
             type: 'integer',
             validation: {
-                min: 0,
-                max: 100,
-                step: 1
+                min: PERCENTAGE_VALIDATION_MIN,
+                max: PERCENTAGE_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, PERCENTAGE_VALIDATION_MIN, PERCENTAGE_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, for example 75%)',
@@ -1395,9 +1431,12 @@ $(document).ready(function() {
             label: 'Elevation',
             type: 'integer',
             validation: {
-                min: -1500,
-                max: 9000,
-                step: 1
+                min: ELEVATION_VALIDATION_MIN,
+                max: ELEVATION_VALIDATION_MAX,
+                step: 1,
+                callback: function(value, rule){
+                    return customValidation(value, rule, ELEVATION_VALIDATION_MIN, ELEVATION_VALIDATION_MAX);
+                }
             },
             operators: ['equal', 'not_equal', 'less', 'greater', 'between'],
             description: 'What is the elevation of this site, measured as the number of meters above or below sea level?',
@@ -1409,6 +1448,7 @@ $(document).ready(function() {
 
         rules: rules_basic
     });
+
     $('#builder-basic').on('afterUpdateRuleFilter.queryBuilder', function(e, rule) {
         rule.$el.children("label").remove();
         if (rule.filter.data != null) {
@@ -1489,6 +1529,22 @@ $(document).ready(function() {
 
 });
 
+function customValidation(value, rule, min, max){
+    if(rule.operator.type == 'between'){
+        if(parseInt(value[0]) <= parseInt(value[1])){
+            return true;
+        } else{
+            return value[0] + " is not less than " + value[1];
+        }
+    }
+    else{
+        if(value < min || value > max) {
+            return value + " is not between " + min + " and " + max;
+        } else {
+            return true;
+        }
+    }
+}
 
 function updateTempStandard(temp) {
 
