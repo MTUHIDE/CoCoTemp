@@ -13,15 +13,16 @@ import org.supercsv.prefs.CsvPreference;
 import space.hideaway.model.Data;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.upload.UploadHistory;
-import space.hideaway.services.user.UserServiceImplementation;
 import space.hideaway.services.data.DataServiceImplementation;
 import space.hideaway.services.site.SiteServiceImplementation;
+import space.hideaway.services.user.UserServiceImplementation;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -157,29 +158,61 @@ public class UploadService
                 iCsvBeanReader = new CsvBeanReader(new FileReader(file), CsvPreference.STANDARD_PREFERENCE);
 
                 // Format settings
-                final CellProcessor[] cellProcessors = new CellProcessor[]{
-                        new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
-                        new ParseChar(),
-                        new ParseDouble()
+                final CellProcessor[][] standardCellProcessors = new CellProcessor[][]{
+                        {
+                                new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
+                                new ParseChar(),
+                                new ParseDouble()
+                        },
+                        {
+                                new ParseDate("yyyy-MM-dd HH:mm:ss", true, Locale.ENGLISH),
+                                new ParseDouble()
+                        }
+
                 };
 
+                int format = -1 ;
+
+                final String formats[][]={{"dateTime","temp_standard","temperature"},{"dateTime","temperature"}};
                 // Gets the header of the csv (i.e. dateTime, temperature)
                 final String[] header = iCsvBeanReader.getHeader(true);
+
+                for(int i=0;i<formats.length;i++) {
+                   if(Arrays.equals(formats[i],header))
+                   {
+                       format = i ;
+                   }
+
+                }
+
+
+
+
                 // A data object to contain the temperature and time.
                 Data dataBean;
+                if(format ==-1){
+                    throw new Exception("Format not supported");
+                }
 
                 // Parse each row in the csv file into a data object
-                while ((dataBean = iCsvBeanReader.read(Data.class, header, cellProcessors)) != null)
+                while ((dataBean = iCsvBeanReader.read(Data.class, header, standardCellProcessors[format])) != null)
                 {
-                    if(dataBean.getTemp_Standard()=='F'){
-                        double fahrenTemp = dataBean.getTemperature();
-                        double celsiusTemp = (fahrenTemp-32)*5/9;
+                    if(format == 0 ) {
+                        if (dataBean.getTemp_Standard() == 'F') {
+                            double fahrenTemp = dataBean.getTemperature();
+                            double celsiusTemp = (fahrenTemp - 32) * 5 / 9;
 
-                        dataBean.setTemperature(celsiusTemp);
+                            dataBean.setTemperature(celsiusTemp);
+                            dataBean.setTemp_Standard('C');
+                        }
+                    }
+                    else if(format == 1)
+                    {
                         dataBean.setTemp_Standard('C');
                     }
                     dataBean.setSiteID(siteId);
                     dataBean.setUserID(userId.intValue());
+
                     if(dataServiceImplementation.findIfDataExistsAlready(siteId,dataBean.getDateTime(),userId.intValue(),dataBean.getTemperature())==null) {
                         dataList.add(dataBean);
                     }
@@ -202,7 +235,12 @@ public class UploadService
                     // Create a record that the file was parsed and saved correctly. Over writes pendingHistory.
                     uploadHistoryService.saveFinished(pendingHistory, false, end - start, dataList.size(), description);
                 }
+                else{
+                    throw new Exception("No data in file provided");
+                }
+
             } catch (Exception e) {
+
                 uploadHistoryService.saveFinished(pendingHistory, true, 0, 0,
                         "Upload failed: " + String.format("%s%n %s", e.getMessage(), description));
             }

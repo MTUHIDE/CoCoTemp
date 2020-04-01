@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="fileChooser">Upload File</label>
-                        <input type="file" name="csvData" id="fileChooser"/>
+                        <input type="file" name="csvData" id="fileChooser" accept=".csv" onchange="validateFile(this)"/>
                     </div>
                     <div class="form-group">
                         <label for="locationDescription">Upload Notes</label>
@@ -79,7 +79,16 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+<script>
+    var regex = new RegExp("(.*?)\.(csv)$");
 
+    function validateFile(el) {
+        if (!(regex.test(el.value.toLowerCase()))) {
+            el.value = '';
+            alert('Please select a csv(comma separated file) ');
+        }
+    }
+</script>
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
