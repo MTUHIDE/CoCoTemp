@@ -185,9 +185,6 @@ public class UploadService
 
                 }
 
-
-
-
                 // A data object to contain the temperature and time.
                 Data dataBean;
                 if(format ==-1){

@@ -5,12 +5,14 @@ $(function () {
 
     var $location = document.getElementById('location-query');
     var autocomplete = new google.maps.places.Autocomplete($location);
+    autocomplete.setFields(["geometry","formatted_address"])
 
     autocomplete.addListener("place_changed", function () {
-        var location = autocomplete.getPlace().geometry.location;
+        var place = autocomplete.getPlace();
+        var location = place.geometry.location
         $("#latitude-query").val(location.lat());
         $("#longitude-query").val(location.lng());
-        $("#human-readable").val(autocomplete.getPlace().formatted_address);
+        $("#human-readable").val(autocomplete.place.formatted_address);
     });
 
     var getUrlParameter = function getUrlParameter(sParam) {
