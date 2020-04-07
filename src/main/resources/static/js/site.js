@@ -64,12 +64,9 @@ $(function () {
                 var x = 0;//Used for count
 
                 if(Math.abs(dates[curIndex].getHours() - dates[lastIndex].getHours()) >= 1 ){
-                    console.log(tempF[curIndex]);
-                    console.log(tempF[lastIndex]);
                     if(Math.abs(tempF[curIndex] - tempF[lastIndex]) > 40){
                         x  = lastIndex;
                         while( x <= curIndex){ //If there is a spike will add corresponding temperature points to the spike arrays
-                            console.log(x);
                             if(spikeTemps[x] != null){
                                 x++
                             } else {
@@ -108,7 +105,6 @@ $(function () {
                 if(spikeTemps[z] != null){//if not null check if next is null
                     if(spikeTemps[z+1] != null){//If both are not null verify they are apart by 40 degrees if not add null gap
                         if(Math.abs(spikeTemps[z]-spikeTemps[z+1]) < 40){
-                            console.log(z);
                             finalSpikeF.push(spikeTemps[z]);
                             finalSpikeC.push(spikeTempsC[z])
                             finalSpikeDates.push(spikeDateTemp[z]);
@@ -203,7 +199,6 @@ $(function () {
 
             if(tempStandard =='F') {
                 if(dataLength==0||dataLength==undefined){
-                    console.log(dataLength);
                     document.getElementById('max-temp').innerText='0 °F';
                     document.getElementById('min-temp').innerText='0 °F';
                     document.getElementById('avg-temp').innerText='0 °F';
@@ -211,7 +206,6 @@ $(function () {
                 }
                 else if(previousTemp=='C')
                 {
-                    console.log(maxTemp);
                     var stdF=(stdTemp*(9/5)+32).toFixed(1);
                     var maxF=(maxTemp*(9/5)+32).toFixed(1);
                     var minF=(minTemp*(9/5)+32).toFixed(1);
@@ -384,7 +378,6 @@ $(function () {
 
 
                 if(dataLength==0||dataLength==undefined){
-                    console.log(dataLength);
                     document.getElementById('max-temp').innerText='0 °C';
                     document.getElementById('min-temp').innerText='0 °C';
                     document.getElementById('avg-temp').innerText='0 °C';
@@ -392,7 +385,6 @@ $(function () {
                 }
                 else if(previousTemp=='F'){
 
-                    console.log(maxTemp);
 
                     var stdC = ((stdTemp - 32) * 5 / 9).toFixed(1);
                     var maxC = ((maxTemp - 32) * 5 / 9).toFixed(1);

@@ -481,11 +481,9 @@ microclimateMapNameSpace = function(){
         var spinner = new Spinner(opts).spin(target);
 
         if(marker.options.options.onChart==true){
-            console.log("On chart");
 
             if(recent==2||recent==0)
             {
-                console.log("removed");
                 $.ajax({
                     method: 'get',
                     url: "/cocotemp/microclimate/NOAASites",
@@ -682,7 +680,6 @@ microclimateMapNameSpace = function(){
                 spinner.stop();
 
                 if(userID!=0&&(recent==2||recent==0)){
-                    console.log("Adding")
                     $.ajax({
                         method: 'get',
                         url: "/cocotemp/microclimate/NOAASites",

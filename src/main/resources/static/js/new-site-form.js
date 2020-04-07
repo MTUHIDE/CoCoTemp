@@ -49,7 +49,6 @@ $(function () {
         /* User entered autocomplete results */
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();
-            console.log(place);
             if (!place.geometry) {
                 /* User entered the name of a Place that was not suggested and pressed the Enter key, or the Place Details request failed. */
                 window.alert("No details available for input: '" + place.name + "'");

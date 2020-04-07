@@ -753,7 +753,6 @@ $(function () {
         document.getElementById("skipForm").hidden=true;
         var json = JSON.parse(JSON.stringify(survey.data));
 
-        console.log(json);
         var context= json["question1"];
         var purpose = json["question2"];
         var heightGround = json["question3"];

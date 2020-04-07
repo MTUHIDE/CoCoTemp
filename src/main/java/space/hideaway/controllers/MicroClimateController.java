@@ -69,7 +69,6 @@ public class MicroClimateController {
         double latit = Double.valueOf(Latitude);
         double longit = Double.valueOf(longitude);
         int function = Integer.valueOf(func);
-        System.out.println("NAME:"+name);
         userService.updateNOAASites(userId,siteKey,function,latit,longit,name);
         return "microclimate";
     }
@@ -80,7 +79,6 @@ public class MicroClimateController {
     {
         long userId = (long) Integer.valueOf(userID);
         String userString = userService.getNOAASites(userId);
-        System.out.println("USER: "+userString);
         return userString;
     }
 
