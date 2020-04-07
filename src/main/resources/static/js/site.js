@@ -1,7 +1,7 @@
 $(function () {
 
     var myMap;
-    var dates=[],temperature=[],tempF=[];
+    var dates=[],temperature=[],tempF=[], spikes=[], spikesC=[],spikeDates = [];
     var previousTemp=tempStandard;
     var dataLength=0;
 
@@ -45,14 +45,99 @@ $(function () {
                 });
                 dataLength=data.length;
 
-
+                findSuspectSpike();
                 findDiscontinuity();
-                buildChart(dates, temperature, tempF);
+                buildChart(dates, spikes, temperature, tempF);
             }
         });
 
+        /*Finds temperature spikes to be used on the graph*/
+        function findSuspectSpike(){
+            var lastIndex = 0;
+            var curIndex = 0;
+            var spikeDateTemp = [];
+            var spikeTemps = [];
+            var spikeTempsC = [];
+            //Finds temperature spikes
+            for(var i = 0; i < dates.length; i++){
+                curIndex = i;
+                var x = 0;//Used for count
+
+                if(Math.abs(dates[curIndex].getHours() - dates[lastIndex].getHours()) >= 1 ){
+                    console.log(tempF[curIndex]);
+                    console.log(tempF[lastIndex]);
+                    if(Math.abs(tempF[curIndex] - tempF[lastIndex]) > 40){
+                        x  = lastIndex;
+                        while( x <= curIndex){ //If there is a spike will add corresponding temperature points to the spike arrays
+                            console.log(x);
+                            if(spikeTemps[x] != null){
+                                x++
+                            } else {
+                                spikeDateTemp[x] = dates[x];
+                                spikeTemps[x] = tempF[x];
+                                spikeTempsC[x] = temperature[x];
+                                x++;
+                            }
+                        }
+                    } else {
+                        x = lastIndex; //If there is no spike will fill in spots with null data
+                        while (x <= curIndex){
+                            if(spikeTemps[x] != null){
+                                x++
+                            } else {
+                                spikeDateTemp[x] = dates[x];
+                                spikeTemps[x] = null;
+                                spikeTempsC[x] = null;
+                                x++;
+                            }
+
+                        }
+                    }
+                lastIndex = curIndex;
+                }
+            }
+
+
+
+            var finalSpikeF = [];
+            var finalSpikeDates = [];
+            var finalSpikeC = [];
+            var z = 0;
+            //Loops through the gathered spike data an inserts null values to make gaps on the graph where needed
+            while(z < spikeTemps.length){
+                if(spikeTemps[z] != null){//if not null check if next is null
+                    if(spikeTemps[z+1] != null){//If both are not null verify they are apart by 40 degrees if not add null gap
+                        if(Math.abs(spikeTemps[z]-spikeTemps[z+1]) < 40){
+                            console.log(z);
+                            finalSpikeF.push(spikeTemps[z]);
+                            finalSpikeC.push(spikeTempsC[z])
+                            finalSpikeDates.push(spikeDateTemp[z]);
+                            finalSpikeF.push(null);
+                            finalSpikeC.push(null);
+                            finalSpikeDates.push(null);
+                            z++;
+                        }
+                    }
+                }
+                finalSpikeF.push(spikeTemps[z]);
+                finalSpikeC.push(spikeTempsC[z]);
+                finalSpikeDates.push(spikeDateTemp[z]);
+                z++;
+            }
+
+
+            var count = 0;
+            while(count < finalSpikeF.length){
+                spikes.push(finalSpikeF[count]);
+                spikesC.push(finalSpikeC[count]);
+                spikeDates.push(finalSpikeDates[count]);
+                count++;
+            }
+
+
+        }
         function findDiscontinuity() {
-            for(var i=0;i<dates.length-2;i++){
+            for(var i=0; i <dates.length-2;i++){
                 var diff= differenceHours(dates[i],dates[i+1]);
                 if(diff>1){
                     temperature.splice(i+1,0,null);
@@ -162,6 +247,17 @@ $(function () {
                     document.getElementById('std-temp').innerText=stdF+' °F'
                 }
 
+                var spikesLine = {
+                    hoverinfo: "none",
+                    visible: true,
+                    x: spikeDates,
+                    y: spikes,
+                    name: 'site\'s temperature spikes',
+                    mode: 'lines+markers',
+                    type:'scattergl',
+                    connectgaps: false
+                }
+
                 var collectedTempF = {
                     hoverinfo: "y+x",
                     visible: true,
@@ -185,7 +281,7 @@ $(function () {
                 };
 
 
-                var data = [collectedTempsC, collectedTempF];
+                var data = [collectedTempsC, collectedTempF, spikesLine];
                 var layout = {
                     xaxis: {
                         fixedrange: false,
@@ -329,6 +425,16 @@ $(function () {
                     document.getElementById('std-temp').innerText=stdC+' °C'
                 }
 
+                var spikeLineC = {
+                    hoverinfo: "none",
+                    visible: true,
+                    x: spikeDates,
+                    y: spikesC,
+                    name: 'site\'s temperature spikes',
+                    mode: 'lines+markers',
+                    type:'scattergl',
+                    connectgaps: false
+                }
 
                 var collectedTempF = {
                     hoverinfo: "y+x",
@@ -353,7 +459,7 @@ $(function () {
                 };
 
 
-                var data = [collectedTempsC, collectedTempF];
+                var data = [collectedTempsC, collectedTempF, spikeLineC];
 
                 var layout = {
                     xaxis: {
