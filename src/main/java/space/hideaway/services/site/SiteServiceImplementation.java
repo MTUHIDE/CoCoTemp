@@ -1,6 +1,7 @@
 package space.hideaway.services.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
@@ -19,6 +20,10 @@ public class SiteServiceImplementation implements SiteService
 
     private final UserService userService;
     private final SiteRepository siteRepository;
+
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     public SiteServiceImplementation(
@@ -118,4 +123,11 @@ public class SiteServiceImplementation implements SiteService
     {
         return siteRepository.countByUserID(currentLoggedInUser.getId());
     }
+
+    public void deleteSite(Site site){
+        site.setUserID((long)Integer.parseInt(env.getProperty("spring.admin.id")));
+        site.setUser(null);
+        siteRepository.save(site);
+    }
+
 }
