@@ -5,6 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.User;
+import space.hideaway.repositories.UserRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.services.user.UserService;
 
@@ -20,6 +21,7 @@ public class SiteServiceImplementation implements SiteService
 
     private final UserService userService;
     private final SiteRepository siteRepository;
+    private final UserRepository userRepository;
 
 
     @Autowired
@@ -28,10 +30,12 @@ public class SiteServiceImplementation implements SiteService
     @Autowired
     public SiteServiceImplementation(
             UserService userService,
-            SiteRepository siteRepository)
+            SiteRepository siteRepository,
+            UserRepository userRepository)
     {
         this.userService = userService;
         this.siteRepository = siteRepository;
+        this.userRepository=userRepository;
     }
 
     /**
@@ -126,7 +130,12 @@ public class SiteServiceImplementation implements SiteService
 
     public void deleteSite(Site site){
         site.setUserID((long)Integer.parseInt(env.getProperty("spring.admin.id")));
-        site.setUser(null);
+        Optional<User> user = userRepository.findById((long)Integer.parseInt(env.getProperty("spring.admin.id")));
+        User userNormal =null;
+        if(user.isPresent()){
+            userNormal = user.get();
+        }
+        site.setUser(userNormal);
         siteRepository.save(site);
     }
 
