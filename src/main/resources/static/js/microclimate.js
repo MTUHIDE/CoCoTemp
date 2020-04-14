@@ -284,6 +284,23 @@ microclimateMapNameSpace = function(){
         markersGroup.addTo(myMap);
     }
 
+    function getDateRange() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        var year_ago = new Date();
+        year_ago.setFullYear(today.getFullYear() - 1)
+        var olddd = String(year_ago.getDate()).padStart(2, '0');
+        var oldmm = String(year_ago.getMonth() + 1).padStart(2, '0');
+        var oldyyyy = year_ago.getFullYear();
+
+
+        today = yyyy + '-' + mm + '-' + dd;
+        year_ago = oldyyyy + '-' + oldmm + '-' + olddd;
+        return {today, year_ago};
+    }
+
     function populateNOAASites(offset,sitesLeft,firstTime,FIPS)
     {
         clearMapOfMarkers();
@@ -354,20 +371,8 @@ microclimateMapNameSpace = function(){
             default:
                 return;
         }
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0');
-        var yyyy = today.getFullYear();
-        var year_ago = new Date();
-        year_ago.setFullYear(today.getFullYear()-1)
-        var olddd = String(year_ago.getDate()).padStart(2, '0');
-        var oldmm = String(year_ago.getMonth() + 1).padStart(2, '0');
-        var oldyyyy = year_ago.getFullYear();
 
-
-        today = yyyy+'-'+mm+'-'+dd;
-        year_ago = oldyyyy+'-'+oldmm+'-'+olddd;
-
+        var {today, year_ago} = getDateRange();
 
         $.ajax({
             method: 'get',
@@ -474,6 +479,151 @@ microclimateMapNameSpace = function(){
                 spinner.stop();
             },
         });
+    }
+
+    function populateMapWithRecommendedNOAA(site) {
+        const SiteLon= site._latlng.lng;
+        const SiteLat= site._latlng.lat;
+
+
+        let north = SiteLat + 2;
+        let south = SiteLat - 2;
+        let east = SiteLon + 2;
+        let west = SiteLon - 2;
+
+        var {today, year_ago} = getDateRange();
+
+        let offset = 0;
+
+        $.ajax({
+            method: 'get',
+            datatype: 'json',
+            headers: {"Token": NOAAToken},
+            async:false,
+            url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
+            success: function (data) {
+                if (data.count == 0) {
+                    return;
+                }
+
+                actualStations=data.count;
+
+                var NOAAIcon = L.icon({
+                    iconUrl: '/cocotemp/images/NOAA-map-marker.png',
+
+                    iconSize: [25, 41], // size of the icon
+                    iconAnchor: [25, 41], // point of the icon which will correspond to marker's location
+                    popupAnchor: [-25, -41] // point from which the popup should open relative to the iconAnchor
+                });
+                siteMarker = L.Marker.extend({
+                    options: {
+                        siteID: 'Site ID',
+                        siteName: 'Site Name',
+                        siteLon:null,
+                        siteLat:null,
+                        onChart: false,
+                        color:null,
+                        metadata:null
+                    }
+                });
+                let {index1, index2} = findClosestSites(data.results, actualStations, SiteLon, SiteLat);
+                let stationIndex = [index1,index2];
+                for(let i=0;i<stationIndex.length;i++) {
+                    var metadata = {
+                        metadataId: data.results[stationIndex[i]].stations[0].id,
+                        siteID: data.results[stationIndex[i]].stations[0].id,
+                        site: data.results[stationIndex[i]].stations[0].id,
+                        environment: "Natural",
+                        nearestWater: null,
+                        waterDistance: 'no Data',
+                        waterDirection: 'no Data',
+                        maxNightTime: null,
+                        minNightTime: null,
+                        purpose: "Park or Greenbelt",
+                        heightAboveGround: 1.8288,
+                        heightAboveFloor: 0,
+                        enclosurePercentage: 0,
+                        nearestAirflowObstacle: 200,
+                        nearestObstacleDegrees: 11,
+                        obstacleType: null,
+                        areaAroundSensor: 200,
+                        riparianArea: false,
+                        canopyType: "No canopy",
+                        slope: 0,
+                        slopeDirection: 0,
+                        skyViewFactor: 100,
+                        elevation: 'no Data'
+                    }
+
+                    var myMarker = new siteMarker([data.results[stationIndex[i]].boundingPoints[0].point[1], data.results[stationIndex[i]].boundingPoints[0].point[0]], {
+                        options: {
+                            siteID: data.results[stationIndex[i]].stations[0].id,
+                            siteName: data.results[stationIndex[i]].stations[0].name,
+                            onChart: false,
+                            metadata: metadata
+                        }
+                    });
+                    myMarker.options.options.siteLon = data.results[stationIndex[i]].boundingPoints[0].point[0];
+                    myMarker.options.options.siteLat = data.results[stationIndex[i]].boundingPoints[0].point[1];
+
+                    myMarker.setIcon(NOAAIcon);
+                    // var myMarker = new siteMarker(point,{options: {siteID: site.id, siteName: site.siteName, onChart: false, metadata: metadata} });
+                    var container = $('<div />');
+                    container.html('<a href="NOAASite/' + myMarker.options.options.siteID + '" target="_blank">View Site: ' + myMarker.options.options.siteName + '</a><br/>');
+                    var link = $('<a href="#"">Add to Graph</a>').click({marker: myMarker}, function (event) {
+                        populateGraphWithNOAAData(event.data.marker, event.target, 0);
+                        $('.nav-tabs a[href="#graph-filters"]').tab("show");
+                    })[0];
+                    container.append(link);
+
+                    // Insert the container into the popup
+                    myMarker.bindPopup(container[0]);
+
+                    container.append(link);
+                    siteMarkers.push(myMarker);
+                    markersGroup.addLayer(myMarker);
+
+                    markersGroup.addTo(myMap);
+
+
+                    populateGraphWithNOAAData(myMarker, link, 0);
+                }
+            },
+        });
+    }
+
+    function findClosestSites(sites, length, long, lati) {
+        let smallest = {
+            index: 0,
+            distance: 99999
+        };
+        let smaller = {
+            index: 0,
+            distance: 99998
+        };
+
+        for(let i = 0; i < length; i++){
+            let lon = sites[i].boundingPoints[0].point[0];
+            let lat = sites[i].boundingPoints[0].point[1];
+
+            let distance = Math.sqrt(Math.pow((lon - long),2) + Math.pow((lat - lati),2));
+
+            if(distance < smallest.distance) {
+                smaller.distance = smallest.distance;
+                smaller.index = smallest.index;
+                smallest.distance = distance;
+                smallest.index = i;
+            }
+            else if(distance < smaller.distance) {
+                smaller.distance = distance;
+                smaller.index = i;
+            }
+        }
+
+        let index1 = smallest.index;
+        let index2 = smaller.index;
+
+        return {index1, index2};
     }
 
     function populateGraphWithNOAAData(marker,popupText,recent) {
@@ -730,8 +880,8 @@ microclimateMapNameSpace = function(){
         addMarkerToMainMap:addMarkerToMainMap,
         removeMarkerFromMainMap:removeMarkerFromMainMap,
         populateNOAASites:populateNOAASites,
-        differenceHours:differenceHours
-
+        differenceHours:differenceHours,
+        populateMapWithRecommendedNOAA:populateMapWithRecommendedNOAA
     }
 }();
 
@@ -1592,7 +1742,6 @@ function markerClick(marker, popupText,recent) {
 
         if(recent==2||recent==0)
         {
-            console.log("removed");
             $.ajax({
                 method: 'get',
                 url: "/cocotemp/microclimate/recentSites/"+userID+"/"+marker.options.options.siteID+"/"+2,
@@ -1752,6 +1901,7 @@ function markerClick(marker, popupText,recent) {
             spinner.stop();
         }
     });
-
+     microclimateMapNameSpace.populateMapWithRecommendedNOAA(marker);
+     spinner.stop();
 
 }
