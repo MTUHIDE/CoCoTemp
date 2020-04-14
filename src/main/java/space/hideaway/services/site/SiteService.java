@@ -57,4 +57,7 @@ public interface SiteService
      * @return The number of sites.
      */
     Long countByUserID(User currentLoggedInUser);
+
+
+    void deleteSite(Site site);
 }

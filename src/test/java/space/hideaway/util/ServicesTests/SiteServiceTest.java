@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
+import space.hideaway.repositories.UserRepository;
 import space.hideaway.repositories.site.SiteRepository;
 import space.hideaway.services.site.SiteService;
 import space.hideaway.services.site.SiteServiceImplementation;
@@ -18,12 +19,14 @@ public class SiteServiceTest {
     SiteService siteService;
     UserService mockUserService;
     SiteRepository mockSiteRepository;
+    UserRepository mockuserRepository;
 
     @Before
     public void setUp(){
     mockUserService = mock(UserService.class);
     mockSiteRepository = mock(SiteRepository.class);
-    siteService = new SiteServiceImplementation(mockUserService,mockSiteRepository);
+    mockuserRepository = mock(UserRepository.class);
+    siteService = new SiteServiceImplementation(mockUserService,mockSiteRepository,mockuserRepository);
     }
 
     @Test

@@ -41,7 +41,7 @@ $(function () {
         }
         else if(people[i][3]=='MTU')
         {
-            text += '<div class="col-lg-4"> <div class="panel-panel-default"> <div class="panel-body"> <div class="about"> <h2>' + people[i][0] + '<br/><small> ' + people[i][1] + '</small><br/> <small> ' + 'Institution: ' + people[i][2] + '</small>  </h2> <img style = "height: 100px; width:200px" src="/cocotemp/images/MTU.png"> <hr /> </div> </div> </div> </div>';
+            text += '<div class="col-lg-4"> <div class="panel-panel-default"> <div class="panel-body"> <div class="about"> <h2>' + people[i][0] + '<br/><small> ' + people[i][1] + '</small><br/> <small> ' + 'Institution: ' + people[i][2] + '</small>  </h2> <img style = "height: auto; width:200px" src="/cocotemp/images/MTU.png"> <hr /> </div> </div> </div> </div>';
         }
     }
     document.getElementById('acknowledgeStart').innerHTML = text;

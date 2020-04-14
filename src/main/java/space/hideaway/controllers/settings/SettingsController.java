@@ -163,6 +163,13 @@ public class SettingsController
         return "redirect:/settings/site?siteID=" + site.getId().toString();
     }
 
+
+    @RequestMapping(value = "/settings/site/update", params = {"delete"}, method = RequestMethod.POST)
+    public String deleteSite(@ModelAttribute("site") Site site)
+    {
+            siteService.deleteSite(site);
+            return "redirect:/settings/";
+    }
     /**
      *
      * The controller method for the device settings page.
