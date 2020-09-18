@@ -369,6 +369,7 @@ microclimateMapNameSpace = function(){
             case "55":north=47.080621;west=-92.888114;south=42.491983;east=-86.805415;break;
             case "56":north=45.005904;west=-111.056888;south=40.994746;east=-104.05216;break;
             default:
+                spinner.stop();
                 return;
         }
 
