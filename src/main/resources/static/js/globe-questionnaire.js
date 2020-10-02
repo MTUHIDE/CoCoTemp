@@ -174,12 +174,12 @@ $(function () {
                             {
                                 type:"text",
                                 name:"question5",
-                                title:"What percent of the site is enclosed?",
+                                title:"What percent of the site is enclosed? (Do not include a percent sign)",
                                 validators:
                                     [
                                         {
                                             type:"numeric",
-                                            text:"Must be a numeric value",
+                                            text:"Must be a numeric value. No percent sign",
                                             minValue:0,
                                             maxValue:100
                                         }
@@ -608,12 +608,12 @@ $(function () {
                             {
                                 type:"text",
                                 name:"question14",
-                                title:"If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, for example 75%):",
+                                title:"If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, do not use a percent. For example 75):",
                                 validators:
                                     [
                                         {
                                             type:"numeric",
-                                            text:"Must be a numeric value",
+                                            text:"Must be a numeric value, do not use a percent",
                                             minValue:0,
                                             maxValue:100
                                         },

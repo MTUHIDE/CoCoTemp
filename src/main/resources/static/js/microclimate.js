@@ -80,7 +80,7 @@ microclimateMapNameSpace = function(){
 
             var site = sites[i][0];
 
-            //Don't readd sites already on graph and map
+            //Don't re-add sites already on graph and map
             var sitesOnGraph = microclimateGraphNameSpace.getSitesOnGraph();
             if(sitesOnGraph.indexOf(site.id) >= 0) {
                 continue;
