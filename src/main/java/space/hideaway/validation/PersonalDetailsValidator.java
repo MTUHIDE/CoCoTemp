@@ -11,7 +11,7 @@ import space.hideaway.model.User;
  * Created by dough
  * 1/19/2017
  *
- * Validates a user's first, middle, and last names are not empty.
+ * Validates a user's first and last names are not empty.
  */
 @Component
 public class PersonalDetailsValidator implements Validator
@@ -23,7 +23,7 @@ public class PersonalDetailsValidator implements Validator
     }
 
     /**
-     * Validates a user's first, middle, and last names are not empty.
+     * Validates a user's first and last names are not empty.
      *
      * @param target the user
      * @param errors the bindingResult
@@ -32,7 +32,6 @@ public class PersonalDetailsValidator implements Validator
     public void validate(Object target, Errors errors)
     {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "NotEmpty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "middleInitial", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"tempStandard","NotEmpty");
     }
