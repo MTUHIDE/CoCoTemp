@@ -1,7 +1,7 @@
 $(function () {
 
     var myMap;
-    var dates=[],temperature=[],tempF=[], spikes=[], spikesC=[],spikeDates = [];
+    var dates=[],temperature=[],tempF=[], anomalyDates=[], anomaliesF=[], anomaliesC=[]
     var previousTemp=tempStandard;
     var dataLength=0;
 
@@ -30,121 +30,252 @@ $(function () {
         });
     }
 
+    function getDateRange() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        var year_ago = new Date();
+        year_ago.setFullYear(today.getFullYear() - 1)
+        var olddd = String(year_ago.getDate()).padStart(2, '0');
+        var oldmm = String(year_ago.getMonth() + 1).padStart(2, '0');
+        var oldyyyy = year_ago.getFullYear();
+
+
+        today = yyyy + '-' + mm + '-' + dd;
+        year_ago = oldyyyy + '-' + oldmm + '-' + olddd;
+        return {today, year_ago};
+    }
+
+
+
     function populateChart() {
 
+        getSiteData();
 
-        $.ajax({
-            method: 'get',
-            url: "/cocotemp/site/" + siteID + "/temperature.json",
-            success: function (data) {
+        //NOTE NOAA DOES NOT CONTAIN DATA UP TO CURRENT DAY
+        function compareNOAA(NOAAdates,NOAAtemp, NOAAtempF) {
+            let siteDates = dates;
+            let siteTemp = temperature;
+            let siteTempF = tempF;
 
-                data.forEach(function (datum) {
-                    dates.push(new Date(datum['dateTime']));
-                    temperature.push(datum['temperature'].toFixed(1));
-                    tempF.push((datum['temperature']*(9/5)+32).toFixed(1));
-                });
-                dataLength=data.length;
+            let anomalyDate = [];
+            let anomalyTemp = [];
+            let anomalyTempF = [];
 
-                findSuspectSpike();
-                findDiscontinuity();
-                buildChart(dates, spikes, temperature, tempF);
+            //let NOAALength = NOAAdates.length;
+            ///hour in ms = 3600000
+            let NOAATestTemps = [];
+            for(let i = 0; i < siteDates.length; i++){
+                //Find a NOAA temperature value within an hour of this value
+                //Binary search through NOAA temp to find index value for comparison
+                let x = findCloseVal(NOAAdates,0, NOAAdates.length, siteDates[i].getTime())
+                NOAATestTemps.push(NOAAtempF[x]);
+
+                if(Math.abs(NOAAtempF[x] - siteTempF[i]) > 30 ){ //if more than 30 degree difference count as anamolies
+                    anomalyDate.push(siteDates[i]);
+                    anomalyTemp.push(siteTemp[i]);
+                    anomalyTempF.push(siteTempF[i]);
+                } else {
+                    anomalyDate.push(siteDates[i]);
+                    anomalyTemp.push(null);
+                    anomalyTempF.push(null);
+                }
             }
-        });
 
-        /*Finds temperature spikes to be used on the graph*/
-        function findSuspectSpike(){
-            var lastIndex = 0;
-            var curIndex = 0;
-            var spikeDateTemp = [];
-            var spikeTemps = [];
-            var spikeTempsC = [];
-            //Finds temperature spikes
-            for(var i = 0; i < dates.length; i++){
-                curIndex = i;
-                var x = 0;//Used for count
-
-                if(Math.abs(dates[curIndex].getHours() - dates[lastIndex].getHours()) >= 1 ){
-                    if(Math.abs(tempF[curIndex] - tempF[lastIndex]) > 40){
-                        x  = lastIndex;
-                        while( x <= curIndex){ //If there is a spike will add corresponding temperature points to the spike arrays
-                            if(spikeTemps[x] != null){
-                                x++
-                            } else {
-                                spikeDateTemp[x] = dates[x];
-                                spikeTemps[x] = tempF[x];
-                                spikeTempsC[x] = temperature[x];
-                                x++;
-                            }
-                        }
+            function findCloseVal(NOAAdates, l, r, time){
+                let start = l;
+                let end = r;
+                while (start < end) {
+                    let mid = Math.floor(((start + (end - 1)) / 2));
+                    if(Math.abs(NOAAdates[mid].getTime() - time) < 3600000)//If within an hour use this value
+                        return mid;
+                    if(NOAAdates[mid].getTime() < time){
+                        start = mid + 1;
                     } else {
-                        x = lastIndex; //If there is no spike will fill in spots with null data
-                        while (x <= curIndex){
-                            if(spikeTemps[x] != null){
-                                x++
-                            } else {
-                                spikeDateTemp[x] = dates[x];
-                                spikeTemps[x] = null;
-                                spikeTempsC[x] = null;
-                                x++;
-                            }
-
-                        }
+                        end = mid - 1;
                     }
-                lastIndex = curIndex;
+                }
+            }
+
+            anomalyDates = anomalyDate;
+            anomaliesF = anomalyTempF;
+            anomaliesC = anomalyTemp;
+            buildChart()
+        }
+
+
+
+        function getSiteData(NOAAdata) {
+            $.ajax({
+                method: 'get',
+                url: "/cocotemp/site/" + siteID + "/temperature.json",
+                success: function (data) {
+
+                    data.forEach(function (datum) {
+                        dates.push(new Date(datum['dateTime']));
+                        temperature.push(datum['temperature'].toFixed(1));
+                        tempF.push((datum['temperature']*(9/5)+32).toFixed(1));
+                    });
+                 getNOAATemp();
+                }
+            });
+        };
+
+
+
+
+        function getNOAATemp(){
+            /*Check to see if site has any data to begin with. If site has no data don't
+             begin comparison*/
+            if(dates.length == 0){
+                buildChart();
+            }
+            $.ajax({
+                 method: 'post',
+                  url: "/cocotemp/site/"+siteID+"/info.json",
+                success: function (data) {
+                    siteData = data;
+                    return getClosestNOAA(data);
+                }
+            });
+        }
+
+        function getNOAATemperatureHelper(site) {
+
+            let station = site.stations[0].id;
+
+            let startDateTemp = dates[dates.length-1].toString().split(' ');
+            let endDateTemp = dates[0].toString().split( ' ');
+
+
+            function monthToNum(month){
+                switch (month) {
+                    case "Jan":
+                        return "01";
+                    case "Feb":
+                        return "02";
+                    case "Mar":
+                        return "03";
+                    case "Apr":
+                        return "04";
+                    case "May":
+                        return "05";
+                    case "Jun":
+                        return "06";
+                    case "Jul":
+                        return "07";
+                    case "Aug":
+                        return "08";
+                    case "Sep":
+                        return "09";
+                    case "Oct":
+                        return "10";
+                    case "Nov":
+                        return "11";
+                    case "Dec":
+                        return "12";
                 }
             }
 
+            let startDate = startDateTemp[3]+"-"
+                +monthToNum(startDateTemp[1])+"-"
+                +startDateTemp[2].padStart(2,"0")
+                // +"T"+startDateTemp[4]
+                // +encodeURIComponent("-")
+                // +"04:00";
 
 
-            var finalSpikeF = [];
-            var finalSpikeDates = [];
-            var finalSpikeC = [];
-            var z = 0;
-            //Loops through the gathered spike data an inserts null values to make gaps on the graph where needed
-            while(z < spikeTemps.length){
-                if(spikeTemps[z] != null){//if not null check if next is null
-                    if(spikeTemps[z+1] != null){//If both are not null verify they are apart by 40 degrees if not add null gap
-                        if(Math.abs(spikeTemps[z]-spikeTemps[z+1]) < 40){
-                            finalSpikeF.push(spikeTemps[z]);
-                            finalSpikeC.push(spikeTempsC[z])
-                            finalSpikeDates.push(spikeDateTemp[z]);
-                            finalSpikeF.push(null);
-                            finalSpikeC.push(null);
-                            finalSpikeDates.push(null);
-                            z++;
+            let endDate = endDateTemp[3]+"-"
+                +monthToNum(endDateTemp[1])+"-"
+                +endDateTemp[2].padStart(2,"0");
+                // +"T"+endDateTemp[4]
+                // + encodeURIComponent("-")
+                // +"04:00";
+
+            //Check if there is only data for one day if start on previous date if so add 1
+            if(endDate === startDate){
+                let monthNum = parseInt(monthToNum(startDateTemp[1])) - 1;
+                let month = monthNum.toString().padStart(2,"0");
+                startDate = startDateTemp[3]+"-"
+                    +month+"-"
+                    +startDateTemp[2];
+            }
+
+
+            $.ajax({
+                method: 'get',
+                datatype: 'json',
+                headers: {"Token": NOAAToken},
+
+                url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/data/v1?startDate='+startDate+'&endDate='+endDate+'&dataset=global-hourly&dataTypes=TMP&stations='+station+'&format=json&units=metric&includeStationName=1&includeStationLocation=1&includeAttributes=1',
+                success: function (data) {
+                    if (data.length === 0) {
+                        length = 0;
+                        return;
+                    }
+                    var numberOfDataPoints = Object.keys(data).length;
+                    length = Object.keys(data).length;
+                    let temperature = [];
+                    let dates = [];
+                    let tempF = [];
+                    for (var i = 0; i < numberOfDataPoints; i++) {
+                        var tmp = data[i].TMP;
+                        var tempSplit = tmp.split(',');
+                        var nonconvertedtemp = tempSplit[0];
+                        var convertedTemp = nonconvertedtemp / 10;
+                        if (convertedTemp != 999.9) {
+                            dates.push(new Date(data[i].DATE));
+                            temperature.push(parseFloat(convertedTemp.toFixed(1)));
+                            tempF.push(parseFloat((convertedTemp * (9 / 5) + 32).toFixed(1)));
                         }
                     }
+
+                    compareNOAA(dates,temperature,tempF);
                 }
-                finalSpikeF.push(spikeTemps[z]);
-                finalSpikeC.push(spikeTempsC[z]);
-                finalSpikeDates.push(spikeDateTemp[z]);
-                z++;
-            }
-
-
-            var count = 0;
-            while(count < finalSpikeF.length){
-                spikes.push(finalSpikeF[count]);
-                spikesC.push(finalSpikeC[count]);
-                spikeDates.push(finalSpikeDates[count]);
-                count++;
-            }
-
+            });
 
         }
-        function findDiscontinuity() {
-            for(var i=0; i <dates.length-2;i++){
-                var diff= differenceHours(dates[i],dates[i+1]);
-                if(diff>1){
-                    temperature.splice(i+1,0,null);
-                    temperature.join();
-                    tempF.splice(i+1,0,null);
-                    tempF.join();
+
+        /*Uses the nearest NOAA site as comparison to check for anomolous data*/
+        function getClosestNOAA(site){
+            let siteLong = site.siteLongitude;
+            let siteLat = site.siteLatitude
+
+            let {today, year_ago} = getDateRange();
+
+            let north = siteLat + 2;
+            let south = siteLat - 2;
+            let east = siteLong + 2;
+            let west = siteLong - 2;
+            let offset = 0;
+
+            $.ajax({
+                method: 'get',
+                datatype: 'json',
+                headers: {"Token": NOAAToken},
+                async: true,
+                url: 'https://cocotemp-proxy.herokuapp.com/https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=global-hourly&startDate='+year_ago+'&endDate='+today+'&dataTypes=TMP&limit=1000&offset='+offset+'&bbox='+north+','+west+','+south+','+east,
+                success: function (data) {
+                    let closest = {
+                        index: 0,
+                        distance: 99999,
+                    }
+                    for( let i = 0; i < data.count;i++){
+                        let lat = data.results[i].location.coordinates[0];
+                        let long = data.results[i].location.coordinates[1];
+
+                        let distance = Math.sqrt(Math.pow((siteLong-long),2)- Math.pow((siteLat-lat),2) );
+
+                        if (distance < closest.distance){
+                            closest.index = i;
+                            closest.distance = distance;
+                        }
+                    }
+                    //return data.results[closest.index];
+                    return getNOAATemperatureHelper(data.results[closest.index])
                 }
-
-            }
-
-
+            });
         }
 
         function differenceHours(date1,date2) {
@@ -171,6 +302,17 @@ $(function () {
         }
 
         function buildChart() {
+
+            if(anomalyDates.length != 0){//Check if anamolies were detected and if so display a message explaining it
+                let p = document.createElement("P");
+                let text = document.createTextNode("The anomalies shown on the graph were found by comparing" +
+                    " the data from this site to that of the nearest NOAA site and found a discrepancy of at least 30 degrees Fahrenheit.");
+                p.appendChild(text);
+                let x = document.getElementById("plot-area")
+                x.appendChild(p);
+                console.log("appended");
+             }
+
 
             var innerContainer = document.querySelector('#plot-area');
             var tempeSelect = innerContainer.querySelector('#temperature-select');
@@ -241,12 +383,23 @@ $(function () {
                     document.getElementById('std-temp').innerText=stdF+' °F'
                 }
 
-                var spikesLine = {
+                var anomaliesFLine = {
+                        hoverinfo: "y+x",
+                        visible: true,
+                        x: anomalyDates,
+                        y: anomaliesF,
+                        name: 'site\'s anomalies F',
+                        mode: 'lines+markers',
+                        type:'scattergl',
+                        connectgaps: false
+                }
+
+                var anomaliesCLine = {
                     hoverinfo: "none",
-                    visible: true,
-                    x: spikeDates,
-                    y: spikes,
-                    name: 'site\'s temperature spikes',
+                    visible: false,
+                    x: anomalyDates,
+                    y: anomaliesC,
+                    name: 'site\'s anomalies C',
                     mode: 'lines+markers',
                     type:'scattergl',
                     connectgaps: false
@@ -275,7 +428,7 @@ $(function () {
                 };
 
 
-                var data = [collectedTempsC, collectedTempF, spikesLine];
+                var data = [collectedTempsC, collectedTempF, anomaliesCLine, anomaliesFLine];
                 var layout = {
                     xaxis: {
                         fixedrange: false,
@@ -417,12 +570,24 @@ $(function () {
                     document.getElementById('std-temp').innerText=stdC+' °C'
                 }
 
-                var spikeLineC = {
+
+                var anomaliesFLine = {
+                    hoverinfo: "y+x",
+                    visible: false,
+                    x: anomalyDates,
+                    y: anomaliesF,
+                    name: 'site\'s anomalies F',
+                    mode: 'lines+markers',
+                    type:'scattergl',
+                    connectgaps: false
+                }
+
+                var anomaliesCLine = {
                     hoverinfo: "none",
                     visible: true,
-                    x: spikeDates,
-                    y: spikesC,
-                    name: 'site\'s temperature spikes',
+                    x: anomalyDates,
+                    y: anomaliesC,
+                    name: 'site\'s anomalies C',
                     mode: 'lines+markers',
                     type:'scattergl',
                     connectgaps: false
@@ -451,7 +616,7 @@ $(function () {
                 };
 
 
-                var data = [collectedTempsC, collectedTempF, spikeLineC];
+                var data = [collectedTempsC, collectedTempF, anomaliesCLine];
 
                 var layout = {
                     xaxis: {
