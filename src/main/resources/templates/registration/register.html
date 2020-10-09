@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Registration</title>
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="//images/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
@@ -23,10 +23,10 @@
     <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/forms.css}"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <label for="emailField">Email</label>
                         <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
-                               placeholder="Enter an email address." required="required"/>
+                               placeholder="Email" required="required"/>
                         <ul>
                             <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
                         </ul>
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label for="usernameField">Username</label>
                         <input th:field="*{username}" type="text" autocomplete="username" name="usernameField" class="form-control"
-                               id="usernameField" placeholder="Enter a username." required="required"/>
+                               id="usernameField" placeholder="Username" required="required"/>
                         <ul>
                             <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
                         </ul>
@@ -61,18 +61,20 @@
                     <div class="form-group">
                         <label for="passwordField">Password</label>
                         <input th:field="*{password}" type="password" autocomplete="new-password" name="passwordField" class="form-control"
-                               id="passwordField" placeholder="Enter your password." required="required"/>
+                               id="passwordField" placeholder="Password" required="required"/>
                         <p th:each="err : ${#fields.errors('password')}" th:text="${err}"></p>
                     </div>
                     <div class="form-group">
                         <label for="confirmField">Confirm Password</label>
                         <input th:field="*{confirmationPassword}" type="password" autocomplete="new-password" name="confirmField"
                                class="form-control" id="confirmField"
-                               placeholder="Enter your password again." required="required"/>
+                               placeholder="Confirm Password" required="required"/>
                         <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>
                     </div>
                       <form action="?" method="POST">
-                            <div class="g-recaptcha" data-size="compact" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                          <div class="text-center">
+                            <div class="g-recaptcha" data-size="normal" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                          </div>
                             <div class="form-group">
                                 <button id="submit" class="btn btn-success" type="submit" disabled="true">Next</button>
                             </div>

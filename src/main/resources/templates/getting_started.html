@@ -3,7 +3,7 @@
 <head>
     <title>Getting Started</title>
 
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="//images/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
@@ -44,33 +44,40 @@
             <div id="row" style="padding-top: 0px; padding-left: 10px">
                 <h1><b>Step 1: Create Account</b></h1>
                 <hr />
-                <h4 style="margin-left: 30px; margin-right: 200px"> To start you will need to create an account. To do this click <a href="/cocotemp/login" target="_self">"Login"</a>.
-                    From here you will click on <a href="/cocotemp/register.html" target="_self">"Create one now!"</a> in order to take you to the account creation
-                    page. </h4>
-                <br />
-                <h4> <img th:src="@{/images/loginScreen.jpg}" width="40%" height="auto" hspace="100"> </h4>
-                <br />
-                <h4 style="margin-left: 30px; margin-right: 200px"> Once you have entered your email, username, and password you will need to verify your email by clicking the
-                    link sent to your email. This link should bring you back to the site and log you into your account.
+                <h4 style="margin-left: 30px; margin-right: 200px;">
+                    Once you have entered your email, username, and password you will need to verify your email address by clicking the link in the confirmation email you were sent.
                 </h4>
-                <h4 style="margin-left: 30px; margin-right: 200px"> Congratulations, your account has been made and is ready for use! </h4>
-                <br />
+                    <h4 style="margin-left: 30px; margin-right: 200px;">This link should then bring you back to the site and log you into your account.
+                </h4>
                 <h1><b>Step 2: Construct iButton Sensor System</b></h1>
                 <hr />
-                <h4 style="margin-left: 30px; margin-right: 200px"> Now that you have made your account with CoCoTemp you will need to construct your iButton sensor.</h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> Now that you have made your account with CoCoTemp you will need to obtain your iButton sensor.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> In order to do this you will need to get an iButton, a reader, and a shield for the iButton.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> The shield is needed to protect the iButton from the weather itself. At the same time making sure that the
                     button is getting consistent are temperature by keeping it from the sun, but also giving it access to the air.</h4>
-                <h4> <b style="margin-left: 11%; margin-right: 350px; text-decoration: underline">iButton</b>
-                    <b style="margin-left: 100px; text-decoration: underline">iButton Adapter</b>
-                    <b style="margin-left: 350px; text-decoration: underline">Shield Example</b>
-                </h4>
                 <br />
-                <h4>
-                    <img th:src="@{/images/iButton.png}" width="10%" height="auto" hspace="150">
-                    <img th:src="@{/images/iAdapter.jpg}" width="20%" height="auto" hspace="150">
-                    <img th:src="@{/images/shield.jpg}" width="20%" height="auto">
-                </h4>
+
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-4">
+                            <figure>
+                                <img th:src="@{/images/iButton.png}" class="img-responsive" style="height: 25vh">
+                                <figcaption>Fig.1 - iButton</figcaption>
+                            </figure>
+                    </div>
+                    <div class="col-md-4">
+                        <figure>
+                            <img th:src="@{/images/iAdapter.jpg}" class="img-responsive" style="height: 25vh">
+                            <figcaption>Fig.2 - iButton Adapter</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-md-4">
+                        <figure>
+                            <img th:src="@{/images/shield.jpg}" class="img-responsive" style="height: 25vh">
+                            <figcaption>Fig.3 - Example Shield</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
                 <br />
                 <h4 style="margin-left: 30px; margin-right: 200px"> If you are creating your own shield for your iButton make sure that it is made out of a material that is water resistant.
                     An easy shield that can be used for example is a plastic/styrofoam cup that is upside down.</h4>
