@@ -36,7 +36,10 @@
         <div class="form-container">
 
             <div class="form-header">
-                <h1>Login</h1>
+                <h2>Login</h2>
+                <div class="form-group">
+                    <p>New to CoCo Temp? <a th:href="@{/register.html}">Create account</a></p>
+                </div>
             </div>
 
             <hr/>
@@ -46,24 +49,18 @@
                     <p th:if="${loginError}" class="error">Wrong username or password.</p>
                     <div class="form-group">
                         <label for="usernameField">Username</label>
-                        <input id="usernameField" class="form-control" autocomplete="username" type="text" name="username"/>
+                        <input id="usernameField" class="form-control" autocomplete="username" placeholder="Username" type="text" name="username"/>
                     </div>
                     <div class="form-group">
                         <label for="passwordField">Password</label>
-                        <input id="passwordField" class="form-control" autocomplete="current-password" type="password" name="password"/>
-                    </div>
-                    <div class="form-group">
-                        <!--th:text="#{message.resetPassword}"-->
-                        <p>Forgot your password? <a th:href="@{/forgotPassword}" > Reset it here.</a></p>
-                    </div>
-                    <div class="form-group">
-                        <p>Don't have an account? <a th:href="@{/register.html}">Create one now!</a></p>
-                    </div>
-                    <div class="form-group">
-                        <p>Want to head back to the home page? <a th:href="@{/}">Click here!</a></p>
+                        <input id="passwordField" class="form-control" autocomplete="current-password" placeholder="Password" type="password" name="password"/>
+                        <span class="help-block"><a th:href="@{/forgotPassword}" >Forgot password?</a></span>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit">Login</button>
+                    </div>
+                    <div class="form-group">
+                        <p>Want to head back to the home page? <a th:href="@{/}">Click here!</a></p>
                     </div>
                 </form>
             </div>
