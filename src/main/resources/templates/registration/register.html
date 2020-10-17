@@ -30,8 +30,8 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="col-lg-2 col-lg-offset-5">
-        <div class="form-container">
+    <div class="center">
+        <div class="form-container" id="myForm">
             <div class="form-header">
                 <h1>Registration</h1>
             </div>
@@ -42,34 +42,39 @@
                 <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
 
                 <form th:action="@{/register?_question}" method="post" th:object="${user}">
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('email'))} ? has-error : '' ">
                         <label for="emailField">Email</label>
                         <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
                                placeholder="Email" required="required"/>
-                        <ul>
+                        <span class="help-block">
                             <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
-                        </ul>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('username'))} ? has-error : '' ">
                         <label for="usernameField">Username</label>
                         <input th:field="*{username}" type="text" autocomplete="username" name="usernameField" class="form-control"
                                id="usernameField" placeholder="Username" required="required"/>
-                        <ul>
+                        <span class="help-block">
                             <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
-                        </ul>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('password'))} ? has-error : '' ">
                         <label for="passwordField">Password</label>
                         <input th:field="*{password}" type="password" autocomplete="new-password" name="passwordField" class="form-control"
                                id="passwordField" placeholder="Password" required="required"/>
-                        <p th:each="err : ${#fields.errors('password')}" th:text="${err}"></p>
+                        <span class="help-block">
+                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                        </span>
+
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('confirmationPassword'))} ? has-error : '' ">
                         <label for="confirmField">Confirm Password</label>
                         <input th:field="*{confirmationPassword}" type="password" autocomplete="new-password" name="confirmField"
                                class="form-control" id="confirmField"
                                placeholder="Confirm Password" required="required"/>
-                        <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>
+                        <span class="help-block">
+                            <li th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></li>
+                        </span>
                     </div>
                       <form action="?" method="POST">
                           <div class="text-center">
@@ -159,6 +164,18 @@
                     colorClasses:["danger","danger","danger","warning","warning","success"],
                     bootstrap3:true}
         });
+        $('.progress').hide();
+        $("#passwordField").focusin(function() {
+            $('.progress').show();
+        })
+        $('#passwordField').blur(function() {
+            if( $.trim(this.value).length) {
+                $('.progress').show();
+            } else {
+                $('.progress').hide();
+            }
+        });
+
     });
 </script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
