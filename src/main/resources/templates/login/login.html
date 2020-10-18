@@ -47,7 +47,7 @@
             <div class="form-body">
                 <form th:action="@{/login}" method="post">
 
-                        <div class="alert alert-danger error alert-dismissable" role="alert">
+                        <div class="alert alert-danger error alert-dismissable" role="alert" th:if="${loginError}">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong th:if="${loginError}">Incorrect username or password.</strong>
                         </div>
