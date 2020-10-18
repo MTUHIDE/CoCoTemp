@@ -8,6 +8,11 @@ p {
   text-align:center;
 }
 
+.form-container a.close {
+  font-size: 21px !important;
+  width: initial !important;
+}
+
 .center {
   margin: 0;
   position: absolute;
