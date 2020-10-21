@@ -303,8 +303,9 @@ $(function () {
 
         function buildChart() {
 
-            if(anomalyDates.length != 0){//Check if anamolies were detected and if so display a message explaining it
+            if(anomalyDates.length != 0 && document.getElementById("anomalyMessage") == null){//Check if anamolies were detected and if so display a message explaining it
                 let p = document.createElement("P");
+                p.id = "anomalyMessage";
                 let text = document.createTextNode("The anomalies shown on the graph were found by comparing" +
                     " the data from this site to that of the nearest NOAA site and found a discrepancy of at least 30 degrees Fahrenheit.");
                 p.appendChild(text);
