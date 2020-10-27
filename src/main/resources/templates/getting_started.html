@@ -3,7 +3,7 @@
 <head>
     <title>Getting Started</title>
 
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="//images/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
@@ -41,48 +41,77 @@
                     <div class="seperator-header">
                         <h1>Getting Started</h1>
             </div>
-            <div id="row" style="padding-top: 0px; padding-left: 10px">
+            <div class="row" id="row" style="padding-top: 0px; padding-left: 10px">
                 <h1><b>Step 1: Create Account</b></h1>
                 <hr />
-                <h4 style="margin-left: 30px; margin-right: 200px"> To start you will need to create an account. To do this click <a href="/cocotemp/login" target="_self">"Login"</a>.
-                    From here you will click on <a href="/cocotemp/register.html" target="_self">"Create one now!"</a> in order to take you to the account creation
-                    page. </h4>
-                <br />
-                <h4> <img th:src="@{/images/loginScreen.jpg}" width="40%" height="auto" hspace="100"> </h4>
-                <br />
-                <h4 style="margin-left: 30px; margin-right: 200px"> Once you have entered your email, username, and password you will need to verify your email by clicking the
-                    link sent to your email. This link should bring you back to the site and log you into your account.
+                <h4 style="margin-left: 30px; margin-right: 200px;">
+                    First you will need to create an account. To do this click <a href="/cocotemp/register" target="_self">Register</a> and enter your email, a username, and password.
+                <h4 style="margin-left: 30px; margin-right: 200px;">
+                    Once you have created your account you will need to verify your email address by clicking the link in the confirmation email you were sent.
                 </h4>
-                <h4 style="margin-left: 30px; margin-right: 200px"> Congratulations, your account has been made and is ready for use! </h4>
-                <br />
+                    <h4 style="margin-left: 30px; margin-right: 200px;">This link should then bring you back to the site and log you into your account.
+                </h4>
                 <h1><b>Step 2: Construct iButton Sensor System</b></h1>
                 <hr />
                 <h4 style="margin-left: 30px; margin-right: 200px"> Now that you have made your account with CoCoTemp you will need to construct your iButton sensor.</h4>
-                <h4 style="margin-left: 30px; margin-right: 200px"> In order to do this you will need to get an iButton, a reader, and a shield for the iButton.</h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> In order to do this you will need to get an iButton, a reader or iButton keyfob, and a shield for the iButton.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> The shield is needed to protect the iButton from the weather itself. At the same time making sure that the
-                    button is getting consistent are temperature by keeping it from the sun, but also giving it access to the air.</h4>
-                <h4> <b style="margin-left: 11%; margin-right: 350px; text-decoration: underline">iButton</b>
-                    <b style="margin-left: 100px; text-decoration: underline">iButton Adapter</b>
-                    <b style="margin-left: 350px; text-decoration: underline">Shield Example</b>
-                </h4>
+                    button is consistent temperature by protecting it from the sun, but also giving it access to the air.</h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> You have multiple options for the shield. You can purchase your shield online or you could create your own shield at home. If you opt to build your own you can refer to our tutorial video below on how to do so, you will just need your iButton, a disposable cup(styrofoam or plastic), some string, an adhesive, and either your reader or keyfob to hold the iButton.</h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> Here are some links to purchase some of the items you may need.</h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> <a href="https://ibuttonsource.com/iButtons/keyfobs.html">-Keyfob-</a></h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> <a href="https://www.embeddeddatasystems.com/DS9490B--USB-1-Wire-iButton-Adapter_p_130.html">-Usb Reader-</a></h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> <a href="https://www.embeddeddatasystems.com/DS1921G-F5--Thermochron-iButton-40C-thru-85C_p_5.html?gclid=EAIaIQobChMI_sbt_sDm6wIVQdbACh0jbQ4hEAAYASAAEgKIfvD_BwE">-iButtons-</a></h4>
+
+                <h4 style="margin-left: 30px; margin-right: 200px">Note: iButton’s are not waterproof and when you set up your iButton you must make sure it is adequately protected from the rain.</h4>
                 <br />
-                <h4>
-                    <img th:src="@{/images/iButton.png}" width="10%" height="auto" hspace="150">
-                    <img th:src="@{/images/iAdapter.jpg}" width="20%" height="auto" hspace="150">
-                    <img th:src="@{/images/shield.jpg}" width="20%" height="auto">
-                </h4>
+
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-4">
+                            <figure>
+                                <img th:src="@{/images/iButton.png}" class="img-responsive" style="height: 25vh">
+                                <figcaption>Fig.1 - iButton</figcaption>
+                            </figure>
+                    </div>
+                    <div class="col-md-4">
+                        <figure>
+                            <img th:src="@{/images/iAdapter.jpg}" class="img-responsive" style="height: 25vh">
+                            <figcaption>Fig.2 - iButton Adapter</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-md-4">
+                        <figure>
+                            <img th:src="@{/images/shield.jpg}" class="img-responsive" style="height: 25vh">
+                            <figcaption>Fig.3 - Example Shield</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
                 <br />
-                <h4 style="margin-left: 30px; margin-right: 200px"> If you are creating your own shield for your iButton make sure that it is made out of a material that is water resistant.
-                    An easy shield that can be used for example is a plastic/styrofoam cup that is upside down.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> If you do not wish to create your own shield or need something more durable than a plastic cup then you
-                    can contact CoCoTemp for one of our experimental flat-mailable shields.</h4>
-                <h4 style="margin-left: 30px; margin-right: 200px"><a href="/cocotemp/contact" target="_self">Contact</a></h4>
+                    can <a href="/cocotemp/contact" target="_self">contact</a> CoCoTemp for one of our experimental flat-mailable shields.</h4>
+
+                <br />
+                <h1><b>Step 2.5: Shield Tutorial</b></h1>
+                <hr />
+                    <h4 style="margin-left: 30px; margin-right: 200px"><iframe width="420" height="315"
+                        src="https://www.youtube.com/embed/z6mWOcfeC5o" allowfullscreen>
+                </iframe></h4>
+                    <h4 style="margin-left: 30px; margin-right: 200px">If you are planning to build your own shield you can refer to this tutorial video.</h4>
+
                 <br />
                 <h1><b>Step 3: Creating Sites and Adding Metadata</b></h1>
                 <hr />
                 <h4 style="margin-left: 30px; margin-right: 200px"> In order to create and manage sites make sure that you are signed into your account. When you are ready to create a site
-                    go to <a href="/cocotemp/dashboard" target="_self">"My Sites"</a>.</h4>
-                <h4 style="margin-left: 30px; margin-right: 200px"> Next you will want to click on <a href="/cocotemp/dashboard" target="_self">"Create a new site"</a>.</h4>
+                    go to <a href="/cocotemp/dashboard" target="_self">My Sites</a>.</h4>
+                <h4 style="margin-left: 30px; margin-right: 200px"> Next you will want to click on <a href="/cocotemp/dashboard" target="_self">Create a new site</a>.</h4>
+                <br />
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/createSite2.gif}" class="img-responsive" height = "100%" width="auto">
+                    </div>
+                </div>
+                <br />
                 <h4 style="margin-left: 30px; margin-right: 200px"> From here you will need to give your site a name along with its location. You can set your site's location by
                     using the clicking on the interactive map, or by using entering in the latitude, longitude, and elevation.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> The next step is to give it a quick description. This way you will be able to tell which site it is in case you have
@@ -92,25 +121,31 @@
                     You are not required to put all of this information in, but if you do then it can possibly help others when
                     comparing weather data.</h4>
                 <br />
-                <h4> <img th:src="@{/images/createSite2.gif}" width="35%" height="auto" hspace="75"> <img th:src="@{/images/survey2.gif}" width="35%" height="auto" > </h4>
+
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/survey2.gif}" class="img-responsive" height = "100%" width="auto" >
+                    </div>
+                </div>
+
                 <br />
                 <h4 style="margin-left: 30px; margin-right: 200px"> Now that you have created a site you will be able to assign devices to it. This is done by clicking
-                    <a href="/cocotemp/dashboard" target="_self">"Add a device"</a>.</h4>
+                    <a href="/cocotemp/dashboard" target="_self">Add a device</a>.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> This will take you to a new page where you will be able to select a site and type of device via a drop down menu. You will
                     also want to put in the manufacturer/serial number so that you can tell the devices apart.</h4>
                 <h4 style="margin-left: 30px; margin-right: 200px"> Note: the default device type is iButton so if you have a different type of temperature recording device make sure to change this.</h4>
                 <br />
-                <h4 style="margin-left: 30px; margin-right: 200px"> Once you have created a site and a device you can select them from <a href="/cocotemp/dashboard" target="_self">"My Sites"</a>
+                <h4 style="margin-left: 30px; margin-right: 200px"> Once you have created a site and a device you can select them from <a href="/cocotemp/dashboard" target="_self">My Sites</a>
                      to view information about them such as the metadata and what devices are assigned to the site. When viewing a site
-                    it will also display a graph above of all of its current data that you have put in so far, and to the side it will
+                    it will also display a graph above of all of its current data that has been uploaded. On the side of the page it will
                     display the site's location on the map. In order to delete a device all you need to do is select the device and select delete.
                     </h4>
                 <br />
-                <h1><b>Step 4: iButton and CoCoITemp Application Usage</b></h1>
+                <h1><b>Step 4: iButton and CoCo iTemp Application Usage</b></h1>
                 <hr />
-                <h4 style="margin-left: 30px; margin-right: 200px"> To use the iButton you will need to plug it into your computers usb port. Next start up the CoCoITemp application and log into your account.
+                <h4 style="margin-left: 30px; margin-right: 200px"> To obtain iButton data you will need to plug it into your computers usb port via the reader. Next start up the CoCo iTemp application and log into your account.
                      Select the iButton from the selection screen. Once selected you can have your iButton start collecting data by clicking on the
-                    <b>'Mission'</b> button. Next you can start a new mission by clicking on 'Start Mission' and you can stop a mission
+                    <b>'Mission'</b> button. Next you can start a new mission by clicking on the 'Start Mission' button. You can stop a mission
                     by clicking on <b>'Stop Mission'</b>. On the mission page you can also click on <b>'Read Data'</b> to download the data
                     from your iButton to a local file.
                     </h4>
@@ -118,43 +153,89 @@
                 <h4 style="margin-left: 30px; margin-right: 200px"> To upload data make sure that you have your iButton selected and on the selection screen there is a button that you can click on called
                     <b>'Edit Site'</b>. This allows you to assign the iButton to a site. This way when you click on the <b>'Upload'</b>
                     Button it will upload your data to the desired site. Another way to upload data to a site is to go to the
-                    <a href="/cocotemp/upload" target="_self">"Upload Data"</a> page. Here you can select the file that you pulled from the iButton and the
+                    <a href="/cocotemp/upload" target="_self">Upload Data</a> page. Here you can select the file that you pulled from the iButton and the
                     specific site that you would like to upload it to. You can also add notes to your upload.
                 </h4>
-                <h4> <img th:src="@{/images/iButtonReadData.gif}" width="36%" height="auto" hspace="100"> </h4>
+                <br />
+
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/iButtonReadData.gif}" class="img-responsive" height = "100%" width="auto">
+                    </div>
+                </div>
+
                 <br />
                 <h4 style="margin-left: 30px; margin-right: 200px"> If you are using a different kind of software to obtain your data then make sure that the file you
                     are using to upload is formatted as shown below. A good way to easily make sure of this is to open up your file in Microsoft Excel or a similar software,
-                    and make sure that it is formatted the also as shown below. If you have a file that is not a csv file that you wish to use make sure that you create an Excel file
+                    and make sure that it is formatted as shown below. If you have a file that is not a csv file that you wish to use make sure that you create an Excel file
                     like the example and then you can save the file as a CSV by going to 'save file as' and then changing the file extension type to .csv rather than .xlsx.
                 </h4>
-                <br />
+
                 <h4>
-                    <img th:src="@{/images/csvEx.jpg}" width="30%" height="auto" hspace="100">
-                    <img th:src="@{/images/csvExcelEx.jpg}" width="30%" height="auto" hspace="100">
+
+
                 </h4>
+
                 <br />
-                <h4 style="margin-left: 30px; margin-right: 200px"> NOTE: Currently an internet connection is needed in order to use the CoCoITemp Application.</h4>
+
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-6">
+                        <figure>
+                            <img th:src="@{/images/csvEx.jpg}" class="img-responsive" style="height: 25vh">
+                            <figcaption>Fig.3 - Example CSV</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-md-6">
+                        <figure>
+                            <img th:src="@{/images/csvExcelEx.jpg}" class="img-responsive" style="height: 25vh">
+                            <figcaption>Fig.4 - Example CSV 2</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <br />
+
+
+                <h4 style="margin-left: 30px; margin-right: 200px"> Note: Currently an internet connection is needed in order to use the CoCoITemp Application.</h4>
                 <br />
                 <h1><b>Step 5: Comparing Data using NOAA Sites</b></h1>
                 <hr />
-                <h4 style="margin-left: 30px; margin-right: 200px"> If you want to compare different sites data you will want to go to the <a href="/cocotemp/microclimate#" target="_self">"Microclimate Data"</a>
+                <h4 style="margin-left: 30px; margin-right: 200px"> If you want to compare different sites data you will want to go to the <a href="/cocotemp/microclimate#" target="_self">Microclimate Data</a>
                      page. Once here you can load NOAA sites based off of custom filters using the filters tab on the right side of the screen. Once you have all
                      of the desired sites loaded you can click on them and then click on <b>'Add to Graph'</b>. If you want to remove something from the graph
-                     then re-click them on the graph and click <b>'Remove from Graph'</b>. Once you select a site the data will appear on the graph below and also
+                     then re-click them on the map and click <b>'Remove from Graph'</b>. Once you select a site the data will appear on the graph below and also
                      in tables in the filter tab on the right.
                 </h4>
                 <br />
-                <h4> <img th:src="@{/images/ComparisonTool2.gif}" width="36%" height="auto" hspace="100">
-                     <img th:src="@{/images/NOAAsiteFilter.gif}" width="36%" height="auto" hspace="100">
-                    <img th:src="@{/images/NOAAsiteSelection2.gif}" width="36%" height="auto" hspace="500"> </h4>
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/ComparisonTool2.gif}" class="img-responsive" height = "100%" width="auto">
+                    </div>
+                </div>
+                <br />
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/NOAAsiteFilter.gif}" class="img-responsive" height = "100%" width="auto">
+                    </div>
+                </div>
+                <br />
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/NOAAsiteSelection2.gif}" class="img-responsive" height = "100%" width="auto">
+                    </div>
+                </div>
                 <br />
                 <h4 style="margin-left: 30px; margin-right: 200px"> When using the graphs some helpful tips can include being able to temporarily hide the data by clicking on the data's name in the legend on the right side.
-                    Another thing to note is that the yellow lines on the graph are there to indicate large drops or rises in temperature which could help locate any suspect data.
+                    Note: The yellow lines on the graph are there to indicate large drops or rises in temperature which could help locate any suspect data.
                 </h4>
                 <br />
-                <h4> <img th:src="@{/images/graphUsage.gif}" width="36%" height="auto" hspace="100"> </h4>
+                <div class="row" style="display: flex; flex-wrap: wrap; margin-left: 30px;">
+                    <div class="col-md-12">
+                        <img th:src="@{/images/graphUsage.gif}" class="img-responsive" height = "100%" width="auto">
+                    </div>
+                </div>
                 <br />
+
             </div>
         </div>
     </div>

@@ -1,6 +1,27 @@
 body {
   background-color: #00416A; }
 
+.progress {
+  margin-bottom: 0;
+}
+p {
+  text-align:center;
+}
+
+.form-container a.close {
+  font-size: 21px !important;
+  width: initial !important;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -mx-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .container-fluid {
   margin-top: 100px; }
 

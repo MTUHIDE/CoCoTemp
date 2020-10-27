@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Registration</title>
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="//images/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
@@ -23,15 +23,15 @@
     <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/forms.css}"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
-    <div class="col-lg-2 col-lg-offset-5">
-        <div class="form-container">
+    <div class="center">
+        <div class="form-container" id="myForm">
             <div class="form-header">
                 <h1>Registration</h1>
             </div>
@@ -42,37 +42,44 @@
                 <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
 
                 <form th:action="@{/register?_question}" method="post" th:object="${user}">
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('email'))} ? has-error : '' ">
                         <label for="emailField">Email</label>
                         <input th:field="*{email}" type="email" name="emailField" class="form-control" id="emailField"
-                               placeholder="Enter an email address." required="required"/>
-                        <ul>
+                               placeholder="Email" required="required"/>
+                        <span class="help-block">
                             <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
-                        </ul>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('username'))} ? has-error : '' ">
                         <label for="usernameField">Username</label>
                         <input th:field="*{username}" type="text" autocomplete="username" name="usernameField" class="form-control"
-                               id="usernameField" placeholder="Enter a username." required="required"/>
-                        <ul>
+                               id="usernameField" placeholder="Username" required="required"/>
+                        <span class="help-block">
                             <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
-                        </ul>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('password'))} ? has-error : '' ">
                         <label for="passwordField">Password</label>
                         <input th:field="*{password}" type="password" autocomplete="new-password" name="passwordField" class="form-control"
-                               id="passwordField" placeholder="Enter your password." required="required"/>
-                        <p th:each="err : ${#fields.errors('password')}" th:text="${err}"></p>
+                               id="passwordField" placeholder="Password" required="required"/>
+                        <span class="help-block">
+                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                        </span>
+
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${! #lists.isEmpty(#fields.errors('confirmationPassword'))} ? has-error : '' ">
                         <label for="confirmField">Confirm Password</label>
                         <input th:field="*{confirmationPassword}" type="password" autocomplete="new-password" name="confirmField"
                                class="form-control" id="confirmField"
-                               placeholder="Enter your password again." required="required"/>
-                        <p th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></p>
+                               placeholder="Confirm Password" required="required"/>
+                        <span class="help-block">
+                            <li th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></li>
+                        </span>
                     </div>
                       <form action="?" method="POST">
-                            <div class="g-recaptcha" data-size="compact" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                          <div class="text-center">
+                            <div class="g-recaptcha" data-size="normal" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
+                          </div>
                             <div class="form-group">
                                 <button id="submit" class="btn btn-success" type="submit" disabled="true">Next</button>
                             </div>
@@ -157,6 +164,18 @@
                     colorClasses:["danger","danger","danger","warning","warning","success"],
                     bootstrap3:true}
         });
+        $('.progress').hide();
+        $("#passwordField").focusin(function() {
+            $('.progress').show();
+        })
+        $('#passwordField').blur(function() {
+            if( $.trim(this.value).length) {
+                $('.progress').show();
+            } else {
+                $('.progress').hide();
+            }
+        });
+
     });
 </script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
