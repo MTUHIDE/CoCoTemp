@@ -73,7 +73,7 @@ public class EmailVerificationService {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientEmail);
         email.setSubject(subject);
-        email.setText("Click the Link to confirm your email"+"\r\n"+env.getProperty("spring.mail.url")+confirmationUrl);
+        email.setText("Hello," + "\r\n\n" + "Thank you for registering with CoCoTemp. If you did not expect this message, please ignore it." + "\n" + "Click the Link to confirm your email:"+"\r\n"+env.getProperty("spring.mail.url")+confirmationUrl + "\r\n\n" + "Have a nice day!" + "\n\n" + "The CoCo Temp Team");
         javaMailSender.send(email);
     }
 

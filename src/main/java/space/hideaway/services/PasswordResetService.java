@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import space.hideaway.model.User;
 import space.hideaway.services.user.UserToolsService;
 
+import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -61,7 +62,8 @@ public class PasswordResetService {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientEmail);
         email.setSubject(subject);
-        email.setText("Click the Link to reset your password"+"\r\n"+env.getProperty("spring.mail.url")+passwordResetUrl);
+        email.setText("Hello," + "\r\n\n" + "You have requested to reset your password. If you did not request a password reset, please ignore this message." + "\n" + "Click the link to reset your password:"+"\r\n"+env.getProperty("spring.mail.url")+passwordResetUrl + "\r\n\n" + "Have a nice day!" + "\n\n" + "The CoCo Temp Team");
         javaMailSender.send(email);
     }
 }
+

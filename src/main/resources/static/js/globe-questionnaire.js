@@ -609,12 +609,12 @@ $(function () {
                             {
                                 type:"text",
                                 name:"question14",
-                                title:"If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, do not use a percent. For example 75):",
+                                title:"If you stand in the location of the sensor and look straight up, roughly what percentage of the sky is visible (i.e. the Sky View Factor, do not use a percent sign. For example, 75 means 75% of sky is visible):",
                                 validators:
                                     [
                                         {
                                             type:"numeric",
-                                            text:"Must be a numeric value, do not use a percent",
+                                            text:"Must be a numeric value, do not use a percent sign",
                                             minValue:0,
                                             maxValue:100
                                         },
