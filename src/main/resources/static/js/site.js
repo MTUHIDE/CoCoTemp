@@ -409,7 +409,7 @@ $(function () {
 
                 var anomaliesFLine = {
                         hoverinfo: "none",
-                        visible: true,
+                        visible: false,
                         x: anomalyDates,
                         y: anomaliesF,
                         name: 'site\'s anomalies F',
