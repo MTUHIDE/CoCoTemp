@@ -43,19 +43,22 @@
     Your browser does not support HTML5 video.>
 </video>
 
-<div class="content">
-    <h2>You have encountered an issue.</h2>
-    <p th:if="${error}!='None'"> [[${error}]]</p>
-    <p>Please report this to issue to us so we can fix it!</p>
-    <p>Would you like to head back to the home page?</p>
-    <button  onclick="location.href= '/cocotemp/';" class="button">Go Back Home</button>
-    <p>You can also stay around to look at the beautiful nature landscapes.</p>
-    <div id ="outer">
-        <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Sunny.mp4')">Warm</button>
-        <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Cold.mp4')">Cold</button>
-        <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Rain.mp4')">Rainy</button>
+    <div class="center">
+        <div class="content">
+            <h2>You have encountered an issue.</h2>
+            <p th:if="${error}!='None'"> [[${error}]]</p>
+            <p>Please <a href="/cocotemp/contact" target="_self">report</a> this issue to us so we can fix it!</p>
+            <p>Would you like to head back to the home page?</p>
+            <button  onclick="location.href= '/cocotemp/';" class="button">Go Back Home</button>
+            <p>You can also stay around to look at the beautiful nature landscapes.</p>
+            <div id ="outer">
+                <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Sunny.mp4')">Warm</button>
+                <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Cold.mp4')">Cold</button>
+                <button class = "changeButtons" onclick="changeVid('/cocotemp/images/Rain.mp4')">Rainy</button>
+            </div>
+        </div>
     </div>
-</div>
+
 <script>
     function changeVid(buttonLink){
         document.getElementById('Video').src=buttonLink;
