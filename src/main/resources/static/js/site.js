@@ -4,7 +4,7 @@ $(function () {
     var dates=[],temperature=[],tempF=[], anomalyDates=[], anomaliesF=[], anomaliesC=[]
     var previousTemp=tempStandard;
     var dataLength=0;
-
+    var anomaliesDetected = false;
 
 
 
@@ -51,6 +51,31 @@ $(function () {
 
     function populateChart() {
 
+        let target= document.getElementById("temperature-chart");
+
+        let opts={
+            lines: 13, // The number of lines to draw
+            length: 38, // The length of each line
+            width: 17, // The line thickness
+            radius: 45, // The radius of the inner circle
+            scale: 1, // Scales overall size of the spinner
+            corners: 1, // Corner roundness (0..1)
+            color: '#000000', // CSS color or array of colors
+            fadeColor: 'transparent', // CSS color or array of colors
+            speed: 1, // Rounds per second
+            rotate: 0, // The rotation offset
+            animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            className: 'spinner', // The CSS class to assign to the spinner
+            top: '50%', // Top position relative to parent
+            left: '50%', // Left position relative to parent
+            shadow: '0 0 1px transparent', // Box-shadow for the lines
+            position: 'absolute' // Element positioning
+        };
+
+        let spinner = new Spinner(opts).spin(target);
+
         getSiteData();
 
         //NOTE NOAA DOES NOT CONTAIN DATA UP TO CURRENT DAY
@@ -76,6 +101,7 @@ $(function () {
                     anomalyDate.push(siteDates[i]);
                     anomalyTemp.push(siteTemp[i]);
                     anomalyTempF.push(siteTempF[i]);
+                    anomaliesDetected = true;
                 } else {
                     anomalyDate.push(siteDates[i]);
                     anomalyTemp.push(null);
@@ -96,17 +122,20 @@ $(function () {
                         end = mid - 1;
                     }
                 }
+                console.log("END CLOSEST VAL");
             }
 
             anomalyDates = anomalyDate;
             anomaliesF = anomalyTempF;
             anomaliesC = anomalyTemp;
+            console.log("Build call");
             buildChart()
+            spinner.stop();
         }
 
 
 
-        function getSiteData(NOAAdata) {
+        function getSiteData() {
             $.ajax({
                 method: 'get',
                 url: "/cocotemp/site/" + siteID + "/temperature.json",
@@ -180,18 +209,11 @@ $(function () {
 
             let startDate = startDateTemp[3]+"-"
                 +monthToNum(startDateTemp[1])+"-"
-                +startDateTemp[2].padStart(2,"0")
-                // +"T"+startDateTemp[4]
-                // +encodeURIComponent("-")
-                // +"04:00";
-
+                +startDateTemp[2].padStart(2,"0");
 
             let endDate = endDateTemp[3]+"-"
                 +monthToNum(endDateTemp[1])+"-"
                 +endDateTemp[2].padStart(2,"0");
-                // +"T"+endDateTemp[4]
-                // + encodeURIComponent("-")
-                // +"04:00";
 
             //Check if there is only data for one day if start on previous date if so add 1
             if(endDate === startDate){
@@ -230,14 +252,14 @@ $(function () {
                             tempF.push(parseFloat((convertedTemp * (9 / 5) + 32).toFixed(1)));
                         }
                     }
-
+                    console.log("END temp helper");
                     compareNOAA(dates,temperature,tempF);
                 }
             });
 
         }
 
-        /*Uses the nearest NOAA site as comparison to check for anomolous data*/
+        /*Uses the nearest NOAA site as comparison to check for anomalous data*/
         function getClosestNOAA(site){
             let siteLong = site.siteLongitude;
             let siteLat = site.siteLatitude
@@ -272,6 +294,7 @@ $(function () {
                             closest.distance = distance;
                         }
                     }
+                    console.log(data.results[closest.index]);
                     //return data.results[closest.index];
                     return getNOAATemperatureHelper(data.results[closest.index])
                 }
@@ -302,8 +325,7 @@ $(function () {
         }
 
         function buildChart() {
-
-            if(anomalyDates.length != 0 && document.getElementById("anomalyMessage") == null){//Check if anamolies were detected and if so display a message explaining it
+            if(anomaliesDetected && document.getElementById("anomalyMessage") == null){//Check if anomalies were detected and if so display a message explaining it
                 let p = document.createElement("P");
                 p.id = "anomalyMessage";
                 let text = document.createTextNode("The anomalies shown on the graph were found by comparing" +
@@ -311,9 +333,10 @@ $(function () {
                 p.appendChild(text);
                 let x = document.getElementById("plot-area")
                 x.appendChild(p);
-                console.log("appended");
              }
-
+            console.log(anomaliesDetected);
+            console.log(anomalyDates);
+            console.log(anomaliesF);
 
             var innerContainer = document.querySelector('#plot-area');
             var tempeSelect = innerContainer.querySelector('#temperature-select');
@@ -385,7 +408,7 @@ $(function () {
                 }
 
                 var anomaliesFLine = {
-                        hoverinfo: "y+x",
+                        hoverinfo: "none",
                         visible: true,
                         x: anomalyDates,
                         y: anomaliesF,
@@ -428,8 +451,11 @@ $(function () {
                     connectgaps: false
                 };
 
-
-                var data = [collectedTempsC, collectedTempF, anomaliesCLine, anomaliesFLine];
+                if(anomaliesDetected) {
+                    var data = [collectedTempsC, collectedTempF, anomaliesCLine, anomaliesFLine];
+                } else{
+                    var data = [collectedTempsC, collectedTempF];
+                }
                 var layout = {
                     xaxis: {
                         fixedrange: false,
@@ -570,11 +596,9 @@ $(function () {
                     document.getElementById('avg-temp').innerText=avgC+' °C'
                     document.getElementById('std-temp').innerText=stdC+' °C'
                 }
-
-
                 var anomaliesFLine = {
-                    hoverinfo: "y+x",
-                    visible: false,
+                    hoverinfo: "none",
+                    visible: true,
                     x: anomalyDates,
                     y: anomaliesF,
                     name: 'site\'s anomalies F',
@@ -616,9 +640,11 @@ $(function () {
                     connectgaps: false
                 };
 
-
-                var data = [collectedTempsC, collectedTempF, anomaliesCLine];
-
+                if(anomaliesDetected) {
+                    var data = [collectedTempsC, collectedTempF, anomaliesCLine, anomaliesFLine];
+                } else {
+                    var data = [collectedTempsC, collectedTempF];
+                }
                 var layout = {
                     xaxis: {
                         fixedrange: false,
