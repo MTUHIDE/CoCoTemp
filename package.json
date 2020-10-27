@@ -18,21 +18,21 @@
   },
   "homepage": "https://github.com/MTUHIDE/CoCoTemp#readme",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.0",
+    "gulp-autoprefixer": "^7.0.1",
     "gulp-clean": "^0.4.0",
-    "gulp-load-plugins": "^2.0.1",
+    "gulp-load-plugins": "^2.0.5",
     "gulp-plumber": "^1.2.1",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^24.9.0"
+    "jest": "^26.6.1"
   },
   "dependencies": {
     "leaflet": "^1.7.1",
-    "leaflet-sidebar-v2": "^3.2.2",
-    "leaflet-spin": "^1.1.0",
+    "leaflet-sidebar-v2": "^3.2.3",
+    "leaflet-spin": "^1.1.2",
     "spin.js": "^4.1.0"
   }
 }
