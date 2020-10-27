@@ -602,6 +602,7 @@ $(function () {
                 } else {
                     var data = [collectedTempsC];
                 }
+
                 var layout = {
                     xaxis: {
                         fixedrange: false,
