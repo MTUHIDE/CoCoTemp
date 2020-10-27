@@ -409,24 +409,13 @@ $(function () {
 
                 var anomaliesFLine = {
                         hoverinfo: "none",
-                        visible: false,
+                        visible: true,
                         x: anomalyDates,
                         y: anomaliesF,
                         name: 'site\'s anomalies F',
                         mode: 'lines+markers',
                         type:'scattergl',
                         connectgaps: false
-                }
-
-                var anomaliesCLine = {
-                    hoverinfo: "none",
-                    visible: false,
-                    x: anomalyDates,
-                    y: anomaliesC,
-                    name: 'site\'s anomalies C',
-                    mode: 'lines+markers',
-                    type:'scattergl',
-                    connectgaps: false
                 }
 
                 var collectedTempF = {
@@ -440,21 +429,10 @@ $(function () {
                     connectgaps: false
                 }
 
-                var collectedTempsC = {
-                    hoverinfo: "y+x",
-                    visible: false,
-                    x: dates,
-                    y: temperature,
-                    name: 'site\'s temperature C',
-                    mode: 'lines+markers',
-                    type:'scattergl',
-                    connectgaps: false
-                };
-
                 if(anomaliesDetected) {
-                    var data = [collectedTempsC, collectedTempF, anomaliesCLine, anomaliesFLine];
+                    var data = [collectedTempF, anomaliesFLine];
                 } else{
-                    var data = [collectedTempsC, collectedTempF];
+                    var data = [collectedTempF];
                 }
                 var layout = {
                     xaxis: {
@@ -596,16 +574,6 @@ $(function () {
                     document.getElementById('avg-temp').innerText=avgC+' °C'
                     document.getElementById('std-temp').innerText=stdC+' °C'
                 }
-                var anomaliesFLine = {
-                    hoverinfo: "none",
-                    visible: true,
-                    x: anomalyDates,
-                    y: anomaliesF,
-                    name: 'site\'s anomalies F',
-                    mode: 'lines+markers',
-                    type:'scattergl',
-                    connectgaps: false
-                }
 
                 var anomaliesCLine = {
                     hoverinfo: "none",
@@ -613,17 +581,6 @@ $(function () {
                     x: anomalyDates,
                     y: anomaliesC,
                     name: 'site\'s anomalies C',
-                    mode: 'lines+markers',
-                    type:'scattergl',
-                    connectgaps: false
-                }
-
-                var collectedTempF = {
-                    hoverinfo: "y+x",
-                    visible: false,
-                    x: dates,
-                    y: tempF,
-                    name: 'site\'s temperature F',
                     mode: 'lines+markers',
                     type:'scattergl',
                     connectgaps: false
@@ -641,9 +598,9 @@ $(function () {
                 };
 
                 if(anomaliesDetected) {
-                    var data = [collectedTempsC, collectedTempF, anomaliesCLine, anomaliesFLine];
+                    var data = [collectedTempsC, anomaliesCLine];
                 } else {
-                    var data = [collectedTempsC, collectedTempF];
+                    var data = [collectedTempsC];
                 }
                 var layout = {
                     xaxis: {
