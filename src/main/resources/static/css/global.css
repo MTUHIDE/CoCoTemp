@@ -166,6 +166,29 @@ h2 {
     font-weight: 500;
     font-family: 'Open Sans', sans-serif; }
 
+  .getting-started-text {
+    margin-left: 30px;
+    margin-right: 200px;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .getting-started-img {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 30px;"
+  }
+
+  .getting-started-row {
+    padding-top: 0px;
+    padding-left: 10px
+  }
+
+  .getting-started-img-height {
+    height: 25vh
+  }
+
 /*# sourceMappingURL=global.css.map */
 
 /*# sourceMappingURL=global.css.map */
