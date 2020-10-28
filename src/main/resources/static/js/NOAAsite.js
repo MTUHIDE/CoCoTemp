@@ -395,7 +395,7 @@ $(function () {
             };
             layout.annotations.push(annotations);
         });
-        Plotly.newPlot('temperature-chart', data, layout, {responsive: true});
+        Plotly.newPlot('temperature-chart', data, layout, {responsive: true,scrollZoom:true});
     }
 
     function addTemperature(collectedTemp,otherTemp) {
@@ -525,7 +525,7 @@ $(function () {
             };
             layout.annotations.push(annotations);
         });
-        Plotly.newPlot('temperature-chart', data, layout, {responsive: true});
+        Plotly.newPlot('temperature-chart', data, layout, {responsive: true,scrollZoom:true});
         spinner.stop();
     }
 
