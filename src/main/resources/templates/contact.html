@@ -39,31 +39,101 @@
                     <h1>Contact CoCo Temp</h1>
                 </div>
 
-                <div class="contact-text">
-                    <h2><b>Have any questions, comments or concerns?</b></h2>
-                    <p>Feel free to send us an email at cocotemp@nau.edu</p>
-                    <!--<p>cocotemp@nau.edu</p>-->
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix my-heading">
+                        <h3 class="panel-title pull-left"><span class="glyphicon glyphicon-envelope contact-ico-padding"></span>Email</h3>
+                        <button type="button" class="btn btn-default btn-copy js-tooltip js-copy pull-right my-btn" data-toggle="tooltip" data-placement="bottom" data-copy="cocotemp@nau.edu" title="Copy to clipboard">
+                            <span class="glyphicon glyphicon-copy icon"></span> Copy
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        cocotemp@nau.edu
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix my-heading">
+                        <h3 class="panel-title pull-left"><span class="glyphicon glyphicon-map-marker contact-ico-padding"></span>Address</h3>
+                        <button type="button" class="btn btn-default btn-copy js-tooltip js-copy pull-right my-btn" data-toggle="tooltip" data-placement="bottom"
+data-copy="CoCoTemp
+c/o Dr. Benjamin Ruddell
+Northern Arizona University
+1295 S. Knoles Dr. Bldg. 90, #220
+PO Box 5693
+Flagstaff, AZ 86011" title="Copy to clipboard">
+                            <span class="glyphicon glyphicon-copy icon"></span> Copy
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <p>CoCoTemp</p>
+                        <p>c/o Dr. Benjamin Ruddell</p>
+                        <p>Northern Arizona University</p>
 
-                    <h2><b>Need to mail something, just send it to the following address:</b></h2>
-                    <p>CoCoTemp</p>
-                    <p>c/o Dr. Benjamin Ruddell</p>
-                    <p>Northern Arizona University</p>
-
-                    <p>1295 S. Knoles Dr. Bldg. 90, #220</p>
-                    <p>PO Box 5693</p>
-                    <p>Flagstaff, AZ 86011</p>
+                        <p>1295 S. Knoles Dr. Bldg. 90, #220</p>
+                        <p>PO Box 5693</p>
+                        <p>Flagstaff, AZ 86011</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-  
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+
+<script>
+    // COPY TO CLIPBOARD
+    // Attempts to use .execCommand('copy') on a created text field
+    // Falls back to a selectable alert if not supported
+    // Attempts to display status in Bootstrap tooltip
+    // ------------------------------------------------------------------------------
+
+    function copyToClipboard(text, el) {
+        var copyTest = document.queryCommandSupported('copy');
+        var elOriginalText = el.attr('data-original-title');
+
+        if (copyTest === true) {
+            var copyTextArea = document.createElement("textarea");
+            copyTextArea.value = text;
+            document.body.appendChild(copyTextArea);
+            copyTextArea.select();
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Copied!' : 'Whoops, not copied!';
+                el.attr('data-original-title', msg).tooltip('show');
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+            document.body.removeChild(copyTextArea);
+            el.attr('data-original-title', elOriginalText);
+        } else {
+            // Fallback if browser doesn't support .execCommand('copy')
+            window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", text);
+        }
+    }
+
+    $(document).ready(function() {
+        // Initialize
+        // ---------------------------------------------------------------------
+
+        // Tooltips
+        // Requires Bootstrap 3 for functionality
+        $('.js-tooltip').tooltip();
+
+        // Copy to clipboard
+        // Grab any text in the attribute 'data-copy' and pass it to the
+        // copy function
+        $('.js-copy').click(function() {
+            var text = $(this).attr('data-copy');
+            var el = $(this);
+            copyToClipboard(text, el);
+        });
+    });
+</script>
 
 <script>
     (function (i, s, o, g, r, a, m) {
