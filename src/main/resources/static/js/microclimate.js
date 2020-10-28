@@ -660,7 +660,7 @@ microclimateMapNameSpace = function(){
             microclimateComparisonNameSpace.removeSiteFromComparisonTool(marker.options.options.siteID);
 
             // Replot graph
-            Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+            Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
 
             // Change text on popup
             popupText.text = "Add to Graph";
@@ -827,7 +827,7 @@ microclimateMapNameSpace = function(){
                 microclimateGraphNameSpace.addTemperatureData(marker.options.options.siteID,collectedTemps,otherTemps);
                 microclimateComparisonNameSpace.addSiteToComparisonTool([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
 
-                Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+                Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
                 spinner.stop();
 
                 if(userID!=0&&(recent==2||recent==0)){
@@ -993,7 +993,7 @@ microclimateGraphNameSpace = function(){
         };
         var data = [collectedTemps];
 
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(), {responsive: true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(), {responsive: true,scrollZoom:true});
 
     }
 
@@ -1349,7 +1349,7 @@ $(document).ready(function() {
         microclimateMapNameSpace.resizeMap();
 
         // Replot graph
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
 
     });
 
@@ -1610,7 +1610,7 @@ $(document).ready(function() {
         $('#builder-basic').queryBuilder('reset');
         microclimateMapNameSpace.clearMapOfMarkers();
         microclimateGraphNameSpace.removeAllTempData();
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
     });
 
     $('#btn-get').on('click', function() {
@@ -1654,12 +1654,12 @@ $(document).ready(function() {
     // When new threshold value added, replot graph with new threshold
     $("#thresholdTags").on('itemAdded', function(event) {
         microclimateGraphNameSpace.addThresholdsToGraph({thresholdValue:event.item.value, thresholdName:event.item.text});
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
     });
     // When threshold value removed, replot graph without threshold
     $("#thresholdTags").on('itemRemoved', function(event) {
         microclimateGraphNameSpace.removeThresholdFromGraph(event.item.value);
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
     });
     $("#addThresholdButton").on('click', function (event) {
         var thresholdTemp = $("#thresholdInput").val();
@@ -1700,12 +1700,12 @@ function updateTempStandard(temp) {
 
         tempStandard='F';
         microclimateGraphNameSpace.updateThresholds();
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
     }
     else{
         tempStandard='C';
         microclimateGraphNameSpace.updateThresholds();
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
     }
 }
 
@@ -1760,7 +1760,7 @@ function markerClick(marker, popupText,recent) {
         microclimateComparisonNameSpace.removeSiteFromComparisonTool(marker.options.options.siteID);
 
         // Replot graph
-        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+        Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
 
 
         // Change text on popup
@@ -1874,7 +1874,7 @@ function markerClick(marker, popupText,recent) {
             microclimateComparisonNameSpace.addSiteToComparisonTool([marker.options.options.siteID, marker.options.options.siteName, marker.options.options.metadata]);
 
             // Replot graph
-            Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true});
+            Plotly.newPlot('temperature-chart', microclimateGraphNameSpace.getTemperatureData(), microclimateGraphNameSpace.getLayout(),{responsive:true,scrollZoom:true});
 
             // Create custom icon with its own color
             var customIcon = new L.Icon({
