@@ -43,7 +43,7 @@
 
             <div class="form-body">
                 <!--/*@thymesVar id="site" type="space.hideaway.model.site.Site"*/-->
-                    <form th:action="@{/settings/new?_questions}" method="post" th:object="${site}">
+                    <form  id="coordinatesForm" th:action="@{/settings/new?_questions}" method="post" th:object="${site}">
 
                     <div class="form-group">
                         <label for="siteName">Site Name</label>
@@ -78,7 +78,7 @@
                         <form action="?" method="POST">
                             <div class="g-recaptcha" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
                             <div class="form-group">
-                                <button id="submit" class="btn btn-success" type="submit" disabled="true" >Continue</button>
+                                <button type="button" id="submitButton" class="btn btn-success" onclick="checkLocation()" disabled="true" >Continue</button>
                             </div>
                         </form>
                         <div class="form-group">
@@ -91,11 +91,24 @@
 </div>
 
 <script>
+    function checkLocation(){//Checks to make sure a location has been entered
+        let lat = document.getElementById("siteLatitude");
+        let long = document.getElementById("siteLongitude");
+        console.log(lat.value,long.value);
+        if(lat.value === "0.0" || long.value === "0.0"){
+            alert("Please use the map to select a location for your site.");
+        } else {
+            console.log("RAN");
+            let x = document.getElementById("coordinatesForm");
+            console.log(x);
+            x.submit();
+        }
+    }
     function expiredRecaptcha()
     {
         return new Promise(function(resolve,reject){
 
-            document.getElementById("submit").setAttribute("disabled","true");
+            document.getElementById("submitButton").setAttribute("disabled","true");
 
 
         });
@@ -123,12 +136,12 @@
                         "response":response
                     },
                     success:function () {
-                        document.getElementById("submit").removeAttribute("disabled");
+                        document.getElementById("submitButton").removeAttribute("disabled");
                     },
                     error: function () {
                         console.log("Error");
                         grecaptcha.reset();
-                        document.getElementById("submit").removeAttribute("disabled");
+                        document.getElementById("submitButton").removeAttribute("disabled");
                     }
 
                 });
