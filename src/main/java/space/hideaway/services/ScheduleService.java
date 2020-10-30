@@ -207,7 +207,7 @@ public class ScheduleService {
 
     private List<Data> createRandomData(Site site, User user) {
         List<Data> dataList = new ArrayList<Data>();
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 100; i++) {
             double random = Math.random() * 49 + 1;
             Data data = new Data();
             data.setUserID(user.getId().intValue());

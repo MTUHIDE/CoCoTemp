@@ -26,9 +26,7 @@ public class PasswordResetService {
     @Autowired
     private TaskExecutor taskExecutor;
 
-    public void EmailVerificationService(){
 
-    }
 
     public void sendPasswordRestEmail(User user, String appurl, String token){
         taskExecutor.execute(new Runnable() {

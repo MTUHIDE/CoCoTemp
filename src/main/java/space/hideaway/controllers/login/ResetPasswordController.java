@@ -46,17 +46,17 @@ public class ResetPasswordController {
     public String checkToken(WebRequest request, final Model modelMap, final @RequestParam("token") String token){
         if(token ==  null){
             modelMap.addAttribute("Error","Request Parameter token is null");
-            return "redirect:/error.html";
+            return "error";
         }
         PasswordResetToken passwordResetToken = passwordTokenRepository.findByToken(token);
         if(passwordResetToken == null){
-            modelMap.addAttribute("error","Error 404: Resource Not Found");
-            return "redirect:/error.html";
+            modelMap.addAttribute("error","Error 404: Token not found or Invalid");
+            return "error";
         }
         Calendar cal = Calendar.getInstance();
         if(passwordResetToken.getExpiryDate().getTime() - cal.getTime().getTime() <= 0){
             modelMap.addAttribute("error","Error 500: Link Expired");
-            return "redirect:/error.html";
+            return "error";
         }
         modelMap.addAttribute("user", new User());
         return "password/resetPassword";

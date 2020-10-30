@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import space.hideaway.model.User;
 import space.hideaway.model.security.VerificationToken;
+import space.hideaway.repositories.VerificationTokenRepository;
 import space.hideaway.services.security.SecurityService;
 import space.hideaway.services.user.UserService;
 import space.hideaway.services.user.UserToolsService;

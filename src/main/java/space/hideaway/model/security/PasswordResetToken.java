@@ -28,7 +28,9 @@ import java.util.*;
 public class PasswordResetToken {
 
     private static final int EXPIRATION = 60 * 24;
-
+    public PasswordResetToken() {
+        super();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,9 +43,7 @@ public class PasswordResetToken {
 
     private Date expiryDate;
 
-    public PasswordResetToken() {
-        super();
-    }
+
 
     public PasswordResetToken(final User user, final String token) {
         super();
@@ -71,7 +71,7 @@ public class PasswordResetToken {
     public User getUser(){
         return user;
     }
-    // Practically everything below should probably be put into a Controller of some sort.
+
 
 
 }
