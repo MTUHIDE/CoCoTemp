@@ -54,6 +54,8 @@ public class EmailVerificationService {
     private void sendSimpleMail(User user, String appurl){
         javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setPort(587);
+        System.out.println(env.getProperty("spring.mail.username"));
+        System.out.println(env.getProperty("spring.mail.password"));
         javaMailSender.setUsername(env.getProperty("spring.mail.username"));
         javaMailSender.setPassword(env.getProperty("spring.mail.password"));
 

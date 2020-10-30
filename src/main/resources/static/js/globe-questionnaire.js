@@ -635,7 +635,8 @@ $(function () {
                             {
                                 type:"text",
                                 name:"question15",
-                                title:"What is the slope on this site, measured as the ratio of rise over run (for example one meter of rise in fifteen meters of run is 1/15 or 6.7%.",
+                                title:"What is the slope on this site, measured as the ratio of rise over run (for example one meter of rise in fifteen meters of run is 1/15 or 6.7%.)" +
+                                    " Please enter the value as a numeric value (ie 6.7% = 6.7)",
                                 validators:
                                     [
                                         {
