@@ -409,7 +409,7 @@ $(function () {
                 }
 
                 var anomaliesFLine = {
-                        hoverinfo: "y+x",
+                        hoverinfo: "none",
                         visible: true,
                         x: anomalyDates,
                         y: anomaliesF,
@@ -597,7 +597,7 @@ $(function () {
 
 
                 var anomaliesFLine = {
-                    hoverinfo: "y+x",
+                    hoverinfo: "none",
                     visible: false,
                     x: anomalyDates,
                     y: anomaliesF,
@@ -619,7 +619,7 @@ $(function () {
                 }
 
                 var collectedTempF = {
-                    hoverinfo: "y+x",
+                    hoverinfo: "none",
                     visible: false,
                     x: dates,
                     y: tempF,

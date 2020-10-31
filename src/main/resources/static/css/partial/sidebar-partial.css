@@ -24,14 +24,22 @@
   }
 
 #sidebar-partial::-webkit-scrollbar{
-  width:0 !important;
+  width: 10px !important;
 }
-#sidebar-partial{
-  overflow: -moz-scrollbars-none;
+#sidebar-partial::-webkit-scrollbar-track{
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+#sidebar-partial::-webkit-scrollbar-thumb{
+  background: #2658bf;
+  border-radius: 10px;
+}
+#sidebar-partial::-webkit-scrollbar-thumb:hover{
+  background: #00395e;
 }
 
 #sidebar-partial{
-  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
 }
 
 .side-menu .btn-default {
