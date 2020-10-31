@@ -40,6 +40,8 @@
 
 #sidebar-partial{
   overflow: -moz-scrollbars-none;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .side-menu .btn-default {
