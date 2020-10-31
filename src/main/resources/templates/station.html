@@ -142,14 +142,19 @@
                             <p th:text="${site.getSiteDescription()}"></p>
                         </blockquote>
 
-                        <div class="panel-group">
+
+
+                        <div class="panel-group" id="accordion">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#siteMeta">View CoCoTemp Metadata</a>
+                                <div class="panel-heading clearfix my-heading">
+                                    <h4 class="panel-title pull-left">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#siteMeta">View CoCo Temp Metadata</a>
                                     </h4>
+                                    <a th:href="@{/settings/site?siteID={siteid}(siteid=${siteID})}" type="button" class="btn btn-default js-tooltip pull-right my-btn" data-toggle="tooltip" data-placement="bottom" title="Edit CoCo Temp Metadata">
+                                        <span class="glyphicon glyphicon-pencil icon"></span> Edit
+                                    </a>
                                 </div>
-                                <div id="siteMeta" class="panel-collapse collapse">
+                                <div id="siteMeta" class="panel-collapse collapse in">
                                     <ul class="list-group">
                                         <!--/*@thymesVar id="user" type="space.hideaway.model.User"*/-->
                                         <li class="list-group-item">Site managed by
@@ -176,14 +181,17 @@
                             </div>
                         </div>
 
-                        <div class="panel-group">
+                        <div class="panel-group" id="accordion2">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#globeMeta">View GLOBE Metadata</a>
+                                <div class="panel-heading  clearfix my-heading">
+                                    <h4 class="panel-title  pull-left">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#globeMeta">View GLOBE Metadata</a>
                                     </h4>
+                                    <button type="button" class="btn btn-default js-tooltip pull-right my-btn" data-toggle="tooltip" data-placement="bottom" title="Edit GLOBE Metadata">
+                                        <span class="glyphicon glyphicon-pencil icon"></span> Edit
+                                    </button>
                                 </div>
-                                <div id="globeMeta" class="panel-collapse collapse">
+                                <div id="globeMeta" class="panel-collapse collapse in">
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <p id ="Environment">N/A</p>
@@ -284,6 +292,15 @@
     <script th:src="@{/js/map.js}"></script>
     <script th:src="@{/js/station.js}"></script>
     <script th:src="@{/js/site.js}"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize
+            // ---------------------------------------------------------------------
+            // Tooltips
+            // Requires Bootstrap 3 for functionality
+            $('.js-tooltip').tooltip();
+        });
+    </script>
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;

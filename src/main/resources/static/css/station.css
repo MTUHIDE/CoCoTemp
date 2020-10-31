@@ -31,5 +31,56 @@
 .btn-link {
   padding: 0;
   border: 0; }
+.contact-ico-padding {
+  padding-right: 10px;
+}
+
+.panel.panel-default {
+  margin: 20px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.my-heading {
+  position: relative;
+}
+
+.btn.my-btn {
+  position:absolute;
+  background-color: #f5f5f5;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left-color:#fafafa;
+}
+
+.btn.my-btn:hover {
+  background-color:#fafafa;
+
+}
+
+.panel-heading .accordion-toggle:after {
+  /* symbol for "opening" panels */
+  font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+  content: "\e114";
+  float: left;
+  padding-right: 10px;
+}
+.panel-heading .accordion-toggle.collapsed:after {
+  /* symbol for "collapsed" panels */
+  content: "\e080";
+}
 
 /*# sourceMappingURL=station.css.map */

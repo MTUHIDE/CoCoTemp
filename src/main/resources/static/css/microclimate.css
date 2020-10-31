@@ -191,4 +191,12 @@ button[data-add="group"] {
   #help-tab a {
     color: #05ccff; }
 
+div#sidemenu-popup-bar {
+  cursor: pointer;
+  height:90%
+}
+div#sidemenu-popup {
+  transition: .5s;
+}
+
 /*# sourceMappingURL=microclimate.css.map */
