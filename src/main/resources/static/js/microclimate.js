@@ -1,8 +1,8 @@
+let loadingRecent = false;
 microclimateMapNameSpace = function(){
     var myMap = null;
     var markersGroup = null;
     var siteMarkers = [];
-
 
     var mapMarkerUrls = [
         ["black", "/cocotemp/images/marker-icon-2x-black.png", 0],
@@ -77,7 +77,7 @@ microclimateMapNameSpace = function(){
         });
 
         for(var i = 0; i < sites.length; i++) {
-
+            loadingRecent = true;
             var site = sites[i][0];
 
             //Don't re-add sites already on graph and map
@@ -114,6 +114,7 @@ microclimateMapNameSpace = function(){
         var sitesArr = sites.split(";");
 
         for(var i=0;i<sitesArr.length;i++) {
+            loadingRecent = true;
             var siteDataArr = sitesArr[i].split(":");
 
             var NOAAIcon = L.icon({
@@ -1919,9 +1920,13 @@ function markerClick(marker, popupText,recent) {
             spinner.stop();
         }
     });
-     if(microclimateMapNameSpace.getMarked() < 3) {
-         microclimateMapNameSpace.populateMapWithRecommendedNOAA(marker);
-     }
+    if(loadingRecent != true) {
+        if (microclimateMapNameSpace.getMarked() < 3) {
+            microclimateMapNameSpace.populateMapWithRecommendedNOAA(marker);
+        }
+    }else {
+        loadingRecent = false;
+    }
      spinner.stop();
 
 }
