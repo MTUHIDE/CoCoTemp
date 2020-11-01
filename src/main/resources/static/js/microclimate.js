@@ -217,6 +217,16 @@ microclimateMapNameSpace = function(){
 
     }
 
+    function getMarked() {
+        let x = 0;
+        for(let i = 0 ; i < mapMarkerUrls.length;i++){
+            if (mapMarkerUrls[i][2] === 1){
+                x++;
+            }
+        }
+        return x;
+    }
+
     function getAvailableMarker() {
 
         for (var i = 0; i < mapMarkerUrls.length; i++) {
@@ -258,7 +268,7 @@ microclimateMapNameSpace = function(){
 
             var site = sites[i][0];
 
-            //Don't readd sites already on graph and map
+            //Don't read sites already on graph and map
             var sitesOnGraph = microclimateGraphNameSpace.getSitesOnGraph();
             if(sitesOnGraph.indexOf(site.id) >= 0) {
                 continue;
@@ -393,7 +403,7 @@ microclimateMapNameSpace = function(){
                     sitesLeft=data.count;
                     firstTime=0;
                 }
-                var limit =1000;
+                var limit = 1000;
                 var actualStations = limit;
                 if (sitesLeft< limit) {
                     actualStations = sitesLeft;
@@ -529,7 +539,12 @@ microclimateMapNameSpace = function(){
                 });
                 let {index1, index2} = findClosestSites(data.results, actualStations, SiteLon, SiteLat);
                 let stationIndex = [index1,index2];
-                for(let i=0;i<stationIndex.length;i++) {
+                let uniqueStations = 2;
+                //Some NOAA sensors have 2 in same location if so change one's name
+                if(data.results[stationIndex[0]].stations[0].id == data.results[stationIndex[1]].stations[0].id){
+                  uniqueStations = 1;
+                }
+                for(let i=0;i<uniqueStations;i++) {
                     var metadata = {
                         metadataId: data.results[stationIndex[i]].stations[0].id,
                         siteID: data.results[stationIndex[i]].stations[0].id,
@@ -882,7 +897,8 @@ microclimateMapNameSpace = function(){
         removeMarkerFromMainMap:removeMarkerFromMainMap,
         populateNOAASites:populateNOAASites,
         differenceHours:differenceHours,
-        populateMapWithRecommendedNOAA:populateMapWithRecommendedNOAA
+        populateMapWithRecommendedNOAA:populateMapWithRecommendedNOAA,
+        getMarked:getMarked
     }
 }();
 
@@ -1196,6 +1212,7 @@ microclimateGraphNameSpace = function(){
             return temperatureData;
         }
     }
+
     function addTemperatureData(siteId, collectedTemps,otherTemps) {
         if(tempStandard=='F'){
             data[siteId] = collectedTemps;
@@ -1902,7 +1919,9 @@ function markerClick(marker, popupText,recent) {
             spinner.stop();
         }
     });
-     microclimateMapNameSpace.populateMapWithRecommendedNOAA(marker);
+     if(microclimateMapNameSpace.getMarked() < 3) {
+         microclimateMapNameSpace.populateMapWithRecommendedNOAA(marker);
+     }
      spinner.stop();
 
 }
