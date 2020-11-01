@@ -960,8 +960,8 @@ microclimateGraphNameSpace = function(){
                 annotations: [],
                 showlegend: true,
                 legend: {
-                    x: 1.2,
-                    y: 1
+                    orientation: "h",
+                    y:-.2
                 },
                 margin: {r: 200}
             };
@@ -990,8 +990,8 @@ microclimateGraphNameSpace = function(){
                 annotations: [],
                 showlegend: true,
                 legend: {
-                    x: 1.2,
-                    y: 1
+                    orientation: "h",
+                    y:-.2
                 },
                 margin: {r: 200}
             };
@@ -1151,8 +1151,8 @@ microclimateGraphNameSpace = function(){
                 annotations: layout.annotations,
                 showlegend: true,
                 legend: {
-                    x: 1.2,
-                    y: 1
+                    orientation: "h",
+                    y:-.2
                 },
                 margin: {r: 200}
             };
@@ -1181,8 +1181,8 @@ microclimateGraphNameSpace = function(){
                 annotations: layout.annotations,
                 showlegend: true,
                 legend: {
-                    x: 1.2,
-                    y: 1
+                    orientation: "h",
+                    y:-.2
                 },
                 margin: {r: 200}
             };
