@@ -179,6 +179,7 @@ public class NewSiteController
         return "/dashboard";
     }
 
+
     @RequestMapping(params = "_save",method = RequestMethod.POST)
     public String saveGlobeSite(){
       return "redirect:/dashboard";

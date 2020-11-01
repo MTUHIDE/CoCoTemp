@@ -8,6 +8,8 @@ $(function () {
         event.preventDefault();
     });
 
+
+
     var myMap = createMap();
     $('#basemaps').on('change', function() {
         changeBasemap(myMap, this.value);

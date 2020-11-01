@@ -163,6 +163,26 @@ public class SettingsController
         return "redirect:/settings/site?siteID=" + site.getId().toString();
     }
 
+    @RequestMapping(value = "/settings/site/update",params = {"GLOBE"}, method = RequestMethod.POST)
+    public String updateGLOBE(
+            @ModelAttribute("site") Site site,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes)
+    {
+        // Validates siteName and siteDescription
+        siteValidator.validate(site, bindingResult);
+        siteValidator.validateDescription(site, bindingResult);
+
+        if (bindingResult.hasErrors())
+        {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.site", bindingResult);
+            redirectAttributes.addFlashAttribute("site", site);
+            return "redirect:/settings/site?siteID=" + site.getId().toString();
+        }
+        System.out.println("\nRAN METHOD\n");
+        return "redirect:/edit_globe?siteID="+ site.getId().toString();
+    }
+
 
     @RequestMapping(value = "/settings/site/update", params = {"delete"}, method = RequestMethod.POST)
     public String deleteSite(@ModelAttribute("site") Site site)

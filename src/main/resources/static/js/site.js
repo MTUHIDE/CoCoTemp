@@ -124,7 +124,6 @@ $(function () {
             anomaliesF = anomalyTempF;
             anomaliesC = anomalyTemp;
             buildChart()
-            spinner.stop();
         }
 
 
@@ -325,7 +324,7 @@ $(function () {
         }
 
         function buildChart() {
-
+            spinner.stop();
             if(anomalyDates.length != 0 && document.getElementById("anomalyMessage") == null){//Check if anamolies were detected and if so display a message explaining it
                 let p = document.createElement("P");
                 p.id = "anomalyMessage";
@@ -335,7 +334,6 @@ $(function () {
                 p.appendChild(text);
                 let x = document.getElementById("plot-area")
                 x.appendChild(p);
-                console.log("appended");
              }
 
 
