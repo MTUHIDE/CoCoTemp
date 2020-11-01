@@ -52,7 +52,6 @@ public class EditGlobeController {
     public String start(final ModelMap modelMap, @RequestParam(value = "siteID") String id){
 
         currentMetadata = siteMetadataRepository.findBySiteID(UUID.fromString(id));
-        System.out.println(currentMetadata);
         return "edit_globe_metadata";
     }
 
@@ -82,7 +81,6 @@ public class EditGlobeController {
         currentMetadata.setWaterDirection(metadata.getWaterDirection());
 
         siteMetadataService.save(currentMetadata);
-        System.out.println("RAN UPDATE" + metadata);
         return "redirect:/settings";
     }
 

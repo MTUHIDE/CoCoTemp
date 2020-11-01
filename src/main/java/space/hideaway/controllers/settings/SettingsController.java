@@ -179,7 +179,6 @@ public class SettingsController
             redirectAttributes.addFlashAttribute("site", site);
             return "redirect:/settings/site?siteID=" + site.getId().toString();
         }
-        System.out.println("\nRAN METHOD\n");
         return "redirect:/edit_globe?siteID="+ site.getId().toString();
     }
 

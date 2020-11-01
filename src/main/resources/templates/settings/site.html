@@ -62,7 +62,7 @@
                                     <label for="stationName" class="col-sm-2 control-label">Site Name</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="stationName"
-                                               placeholder="" th:field="*{siteName}"/>
+                                               placeholder="" th:field="*{siteName}" maxlength="255"/>
                                         <p th:if="${#fields.hasErrors('siteName')}"
                                            th:errors="*{siteName}"></p>
                                     </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     <label for="stationLatitude" class="col-sm-2 control-label">Site Latitude</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="stationLatitude"
+                                        <input type="number" class="form-control" id="stationLatitude"
                                                placeholder="" th:field="*{siteLatitude}"/>
                                         <p th:if="${#fields.hasErrors('siteLatitude')}"
                                            th:errors="*{siteLatitude}"></p>
@@ -82,7 +82,7 @@
                                     <label for="stationLongitude" class="col-sm-2 control-label">Site
                                         Longitude</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="stationLongitude"
+                                        <input type="number" class="form-control" id="stationLongitude"
                                                placeholder="" th:field="*{siteLongitude}"/>
                                         <p th:if="${#fields.hasErrors('siteLongitude')}"
                                            th:errors="*{siteLongitude}"></p>
@@ -94,7 +94,7 @@
                                         Description</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" id="stationDescription"
-                                                  placeholder="" th:field="*{siteDescription}"></textarea>
+                                                  placeholder="" th:field="*{siteDescription}" maxlength="255"></textarea>
                                         <p th:if="${#fields.hasErrors('siteDescription')}"
                                            th:errors="*{siteDescription}"></p>
                                     </div>
