@@ -39,7 +39,6 @@
 
 </head>
 <div class="row">
-
     <script th:inline="javascript">
         /*<![CDATA[*/
         var siteID = [[${site.getId().toString()}]];
@@ -150,6 +149,9 @@
                                     <h4 class="panel-title pull-left">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#siteMeta">View CoCo Temp Metadata</a>
                                     </h4>
+                                    <a th:href="@{/settings/site?siteID={siteid}(siteid=${siteID})}" style="display: none" type="button" id="editSiteBtn" class="btn btn-default js-tooltip pull-right my-btn" data-toggle="tooltip" data-placement="bottom" title="Edit CoCo Temp Metadata">
+                                        <span class="glyphicon glyphicon-pencil icon"></span> Edit
+                                    </a>
                                 </div>
                                 <div id="siteMeta" class="panel-collapse collapse in">
                                     <ul class="list-group">
@@ -184,6 +186,9 @@
                                     <h4 class="panel-title  pull-left">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#globeMeta">View GLOBE Metadata</a>
                                     </h4>
+                                    <a th:href="@{/edit_globe?siteID={siteid}(siteid=${siteID})}" style="display: none" type="button" id="editMetaDataBtn" class="btn btn-default js-tooltip pull-right my-btn" data-toggle="tooltip" data-placement="bottom" title="Edit GLOBE Metadata">
+                                        <span class="glyphicon glyphicon-pencil icon"></span> Edit
+                                    </a>
                                 </div>
                                 <div id="globeMeta" class="panel-collapse collapse in">
                                     <ul class="list-group">
@@ -294,6 +299,20 @@
             // Requires Bootstrap 3 for functionality
             $('.js-tooltip').tooltip();
         });
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var siteID = [[${site.getId().toString()}]];
+        var siteUserID = [[${user.getUsername().toString()}]];
+        var curUserID = [[${curUser}]];
+        if(siteUserID === curUserID) {
+            $("a#editSiteBtn").show()
+            $("a#editMetaDataBtn").show();
+        } else {
+            $("a#editSiteBtn").hide();
+            $("a#editMetaDataBtn").hide();
+        }
+        /*]]>*/
     </script>
     <script>
         (function (i, s, o, g, r, a, m) {

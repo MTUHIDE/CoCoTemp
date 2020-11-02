@@ -1,11 +1,11 @@
 package space.hideaway.controllers.site;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import space.hideaway.exceptions.UserNotFoundException;
 import space.hideaway.model.User;
 import space.hideaway.model.site.Site;
 import space.hideaway.model.site.SiteStatistics;
@@ -65,7 +65,11 @@ public class SiteController
         model.addAttribute("site", site);
         model.addAttribute("siteID", site.getId());
         model.addAttribute("user", site.getUser());
-
+        try {
+            model.addAttribute("curUser", user.getUsername());
+        } catch (NullPointerException | UserNotFoundException e) {
+            model.addAttribute("curUser", null);
+        }
 
         // Values for the site page title card.
         SiteStatistics siteStatistics = siteStatisticsService.getMostRecent(site);
