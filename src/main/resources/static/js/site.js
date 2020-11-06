@@ -3,7 +3,7 @@ $(function () {
     var myMap;
     var dates=[],temperature=[],tempF=[], anomalyDates=[], anomaliesF=[], anomaliesC=[]
     var previousTemp=tempStandard;
-    var dataLength=0;
+    var dataLength;
 
     var target= document.getElementById("temperature-chart");
 
@@ -44,6 +44,8 @@ $(function () {
                 if (data.length === 0) {
                     dataLength=0;
                     return;
+                } else {
+                    dataLength = data.length;
                 }
                 var myMarker = L.marker([data.siteLatitude, data.siteLongitude]).addTo(myMap);
                 myMap.setView([data.siteLatitude, data.siteLongitude], 6);
@@ -133,7 +135,7 @@ $(function () {
                 method: 'get',
                 url: "/cocotemp/site/" + siteID + "/temperature.json",
                 success: function (data) {
-
+                    dataLength = data.length;
                     data.forEach(function (datum) {
                         dates.push(new Date(datum['dateTime']));
                         temperature.push(datum['temperature'].toFixed(1));
@@ -363,7 +365,7 @@ $(function () {
             ];
 
             if(tempStandard =='F') {
-                if(dataLength==0||dataLength==undefined){
+                if(dataLength===0||dataLength===undefined){
                     document.getElementById('max-temp').innerText='0 °F';
                     document.getElementById('min-temp').innerText='0 °F';
                     document.getElementById('avg-temp').innerText='0 °F';
@@ -399,7 +401,7 @@ $(function () {
                         avgTemp=0;
                         avgF=0;
                     }
-
+                    console.log(maxF,minF,avgF,stdF);
                     document.getElementById('max-temp').innerText=maxF+' °F'
                     document.getElementById('min-temp').innerText=minF+' °F'
                     document.getElementById('avg-temp').innerText=avgF+' °F'
