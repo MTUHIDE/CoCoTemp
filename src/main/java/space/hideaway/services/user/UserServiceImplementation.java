@@ -84,6 +84,8 @@ public class UserServiceImplementation implements UserService
                 user.setDeviceSet(oldUser.getDeviceSet());
             if (user.getUploadHistorySet() == null)
                 user.setUploadHistorySet(oldUser.getUploadHistorySet());
+            if(oldUser.getEnabled() == true)
+                user.setEnabled(true);
         }
 
         userRepository.save(user);

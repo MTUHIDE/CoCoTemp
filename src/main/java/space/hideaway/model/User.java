@@ -42,6 +42,7 @@ public class User
     private Set<Site> siteSet;
     private Set<UploadHistory> uploadHistorySet;
     private Set<Device> deviceSet;
+    private boolean emailOptIn;
 
     /**
      * Gets id.
@@ -236,6 +237,11 @@ public String getCoCoTempRecentSites(){return CoCoTempRecentSites;}
      */
     public void setLastName(String lastName) { this.lastName = lastName; }
 
+
+    @Column(name="emailOptIn")
+    public boolean getEmailOptIn(){return emailOptIn;}
+
+    public void setEmailOptIn(boolean e){this.emailOptIn = e;}
 
     /**
      * Gets role set.

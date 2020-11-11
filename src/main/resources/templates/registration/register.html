@@ -76,6 +76,10 @@
                             <li th:each="err : ${#fields.errors('confirmationPassword')}" th:text="${err}"></li>
                         </span>
                     </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="emailOptIn" th:field="*{emailOptIn}"/>
+                        <label for="emailOptIn">I would like to receive emails from CoCoTemp</label>
+                    </div>
                       <form action="?" method="POST">
                           <div class="text-center">
                             <div class="g-recaptcha" data-size="normal" data-sitekey="6LdNM50UAAAAAOlUpGjZ6x8_6jULJ7OBnpY-8UAA" data-expired-callback="expiredRecaptcha" data-callback="enableBtn"></div>
