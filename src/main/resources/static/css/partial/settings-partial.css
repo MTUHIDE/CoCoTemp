@@ -8,7 +8,7 @@
   padding: 0;
   list-style: none; }
   .settings-list .settings-item {
-    height: 75px;
+    height: 100%;
     width: 100%;
     border-bottom: 1px solid rgba(144, 144, 144, 0.51);
     padding: 20px; }

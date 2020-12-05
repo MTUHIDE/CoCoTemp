@@ -5,9 +5,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import space.hideaway.model.User;
 
+import java.util.List;
+
 
 public interface UserRepository extends JpaRepository<User, Long>
 {
+
+    @Query("Select email from User where emailOptIn = true")
+    List<String> getOptInEmails();
 
     /**
      * Obtain a user matching a given username.
