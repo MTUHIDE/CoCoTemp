@@ -1548,7 +1548,7 @@ $(document).ready(function() {
             description: 'Canopy type above the sensor (near enough to be captured in an upward photo)',
             operators: ['equal', 'not_equal']
         }, {
-            id: 'distanceToWater',
+            id: 'waterDistance',
             label: 'Distance To Water',
             type: 'integer',
             validation: {
